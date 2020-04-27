@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee  	http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
+    <display-name>My Servlet Application</display-name>
+
+    <context-param>
+        <param-name>nameDev</param-name>
+        <param-value>Alexandr Egorov</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>emailDev</param-name>
+        <param-value>ealex5@mail.com</param-value>
+    </context-param>
+
+    <servlet>
+        <servlet-name>AboutApp</servlet-name>
+        <servlet-class>com.github.egorovag.hotelreserv.web.servlet.AboutApp</servlet-class>
+        <init-param>
+            <param-name>nameApp</param-name>
+            <param-value>HotelReservation</param-value>
+        </init-param>
+        <init-param>
+            <param-name>DateApp</param-name>
+            <param-value>05.05.2020</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AboutApp</servlet-name>
+        <url-pattern>/about</url-pattern>
+    </servlet-mapping>
+
+
+<!--        <error-page>-->
+<!--        &lt;!&ndash;        <error-code>404</error-code>&ndash;&gt;-->
+<!--        <exception-type>javax.servlet.ServletException</exception-type>-->
+<!--        <location>/errorPage.jsp</location>-->
+<!--        </error-page>-->
+
+</web-app>
