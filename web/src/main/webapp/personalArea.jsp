@@ -23,9 +23,19 @@
     <br/>
     <br/>
     <a href="${pageContext.request.contextPath}/logout">Logout</a>
-
-
 </c:if>
+
+<%--<c:if test="${authUser.login == 'blockClient'}">--%>
+<%--    <h4 ><c:out value=" Имя пользователя: ${client.firstName} " /> </h4>--%>
+<%--    <h1 style="text-align: center"><c:out value="  Личный кабинет " /> </h1>--%>
+
+<%--    <p style="color: red">${error}</p>--%>
+
+<%--    <br/>--%>
+<%--    <br/>--%>
+<%--    <br/>--%>
+<%--    <a href="${pageContext.request.contextPath}/logout">Logout</a>--%>
+<%--</c:if>--%>
 
 <c:if test="${authUser.login == 'admin'}">
     <h4 ><c:out value=" АДМИНИСТРАТОР " /> </h4>

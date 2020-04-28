@@ -67,38 +67,7 @@ public class CheckAuthUserDao implements IcheckAuthUserDao {
 //        }
 //    }
 
-    @Override
-    public String readPasswordByLoginDao(String login) {
-        try (Connection connection = MysqlDataBase.connect();
-             PreparedStatement statement = connection.prepareStatement("select password from authuser where login = ?")) {
-            statement.setString(1, login);
-            try (ResultSet rs = statement.executeQuery()) {
-                if (rs.next()) {
-                    return rs.getString("password");
-                }
-            }
-            log.info("authuser password with login: {} readed", login);
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-            log.error("Fail to read authuser password with login: {}", login, e);
-        }
-        return null;
-    }
 
-//   + @Override
-//    public String readPasswordByLoginDao(String login) {
-//        try (Session session = SFUtil.getSession()) {
-//            session.beginTransaction();
-//            String passwordResult = (String) session.createNativeQuery("select password from authuser where login = :login")
-//                    .setParameter("login", login).getSingleResult();
-//            session.getTransaction().commit();
-//            log.info("authuser password ={} with login: {} readed", passwordResult, login);
-//            return passwordResult;
-//        } catch (NoResultException e) {
-//            log.error("Fail to read authuser password with login: {}", login, e);
-//            return null;
-//        }
-//    }
 
     @Override
     public AuthUser saveUserDao(String login, String password, Role role) {
@@ -296,3 +265,44 @@ public class CheckAuthUserDao implements IcheckAuthUserDao {
 //        return false;
 //    }
 }
+
+
+
+
+
+
+
+// лишний метод !!!!!!!
+
+//    @Override
+//    public String readPasswordByLoginDao(String login) {
+//        try (Connection connection = MysqlDataBase.connect();
+//             PreparedStatement statement = connection.prepareStatement("select password from authuser where login = ?")) {
+//            statement.setString(1, login);
+//            try (ResultSet rs = statement.executeQuery()) {
+//                if (rs.next()) {
+//                    return rs.getString("password");
+//                }
+//            }
+//            log.info("authuser password with login: {} readed", login);
+//        } catch (SQLException | ClassNotFoundException e) {
+//            e.printStackTrace();
+//            log.error("Fail to read authuser password with login: {}", login, e);
+//        }
+//        return null;
+//    }
+
+//   + @Override
+//    public String readPasswordByLoginDao(String login) {
+//        try (Session session = SFUtil.getSession()) {
+//            session.beginTransaction();
+//            String passwordResult = (String) session.createNativeQuery("select password from authuser where login = :login")
+//                    .setParameter("login", login).getSingleResult();
+//            session.getTransaction().commit();
+//            log.info("authuser password ={} with login: {} readed", passwordResult, login);
+//            return passwordResult;
+//        } catch (NoResultException e) {
+//            log.error("Fail to read authuser password with login: {}", login, e);
+//            return null;
+//        }
+//    }

@@ -14,11 +14,13 @@ public interface IOrderDao {
     List<OrderClient> readOrderByAuthUserIdDao(int id);
     boolean updateOrderListDao(int orderId, Condition condition);
     boolean deleteOrderByClientIdDao(int id);
-    int readPriceByOrderIdDao(int orderId);
     List<OrderForClient> readOrderForClientByClientIdDao(int id);
     int checkIdOrderByClientOrderDao( int orderId);
     boolean deleteOrderByOrderIdDao(int orderId);
     Condition readConditionByOrderIdDao(int orderId);
+    int readPriceByOrderIdDao(int orderId);
+
+
 
 
 

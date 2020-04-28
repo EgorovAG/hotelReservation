@@ -2,6 +2,8 @@ package com.github.egorovag.hotelreserv.web.servlet;
 
 import com.github.egorovag.hotelreserv.model.AuthUser;
 import com.github.egorovag.hotelreserv.model.Client;
+import com.github.egorovag.hotelreserv.service.BlackListUsersService;
+import com.github.egorovag.hotelreserv.service.api.IblackListUsersService;
 import com.github.egorovag.hotelreserv.service.api.IcheckUserService;
 import com.github.egorovag.hotelreserv.service.CheckUserService;
 
@@ -16,10 +18,12 @@ import java.io.IOException;
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
     private IcheckUserService icheckUserService;
+    private IblackListUsersService iblackListUsersService;
 
     @Override
     public void init() {
         icheckUserService = CheckUserService.getInstance();
+        iblackListUsersService = BlackListUsersService.getInstance();
     }
 
     @Override
@@ -37,6 +41,11 @@ public class LoginServlet extends HttpServlet {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
         AuthUser authUser = icheckUserService.checkUser(login, password);
+        int id = authUser.getId();
+
+        if (iblackListUsersService.checkBlackUserById(id)){
+            req.getRequestDispatcher("/youAreBlockClient.jsp").forward(req,resp);
+        }
 
         if (authUser == null) {
             req.setAttribute("error", "Вы ввели неверное имя или пароль либо Вам необходимо зарегистрироваться");

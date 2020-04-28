@@ -7,6 +7,7 @@ import com.github.egorovag.hotelreserv.model.AuthUserWithClient;
 import com.github.egorovag.hotelreserv.model.Client;
 import com.github.egorovag.hotelreserv.model.api.Role;
 import com.github.egorovag.hotelreserv.service.api.IcheckUserService;
+import org.h2.engine.User;
 
 import java.util.List;
 
@@ -39,9 +40,10 @@ public class CheckUserService implements IcheckUserService {
 
     @Override
     public AuthUser checkUser(String login, String password) {
+        AuthUser authUser = icheckAuthUserDao.readUserByLoginDao(login);
         if (login.equals(icheckAuthUserDao.checkLoginDao(login)) &&
-                password.equals(icheckAuthUserDao.readPasswordByLoginDao(login))) {
-            return icheckAuthUserDao.readUserByLoginDao(login);
+                password.equals(authUser.getPassword())) {
+            return authUser;
         } else {
             return null;
         }

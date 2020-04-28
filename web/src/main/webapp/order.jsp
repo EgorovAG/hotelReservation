@@ -31,9 +31,13 @@
         <input type="submit" value="Перейти в личный кабинет">
     </form>
 
-     <form action="${pageContext.request.contextPath}/statusOrderNEW.jsp">
-        <input type="submit" value="Проверить статус заказа">
-     </form>
+<%--     <form action="${pageContext.request.contextPath}/statusOrderNEW.jsp">--%>
+<%--        <input type="submit" value="Проверить статус заказа">--%>
+<%--     </form>--%>
+
+<form action="${pageContext.request.contextPath}/clientOrder" method="post">
+    <input type="submit" value="Проверить статус заказа">
+</form>
 
 
 <br/>

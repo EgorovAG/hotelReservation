@@ -10,7 +10,7 @@ import java.util.List;
 public interface IcheckAuthUserDao {
 
     String checkLoginDao(String login);
-    String readPasswordByLoginDao(String login);
+//    String readPasswordByLoginDao(String login);
     AuthUser saveUserDao(String login, String password, Role role);
     AuthUser readUserByLoginDao(String login);
     Client readClientByLoginDao(String login);
