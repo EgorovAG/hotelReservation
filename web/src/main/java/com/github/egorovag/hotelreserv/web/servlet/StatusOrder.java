@@ -1,13 +1,11 @@
 package com.github.egorovag.hotelreserv.web.servlet;
 
 import com.github.egorovag.hotelreserv.model.AuthUser;
-import com.github.egorovag.hotelreserv.model.Client;
 import com.github.egorovag.hotelreserv.model.OrderForClient;
-import com.github.egorovag.hotelreserv.model.Room;
+import com.github.egorovag.hotelreserv.service.impl.DefaultOrderService;
+import com.github.egorovag.hotelreserv.service.impl.DefaultRoomService;
 import com.github.egorovag.hotelreserv.service.OrderService;
 import com.github.egorovag.hotelreserv.service.RoomService;
-import com.github.egorovag.hotelreserv.service.api.IorderService;
-import com.github.egorovag.hotelreserv.service.api.IroomService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,13 +17,13 @@ import java.util.List;
 
 @WebServlet("/statusOrder")
 public class StatusOrder extends HttpServlet {
-    private IorderService iorderService;
-    private IroomService iroomService;
+    private OrderService iorderService;
+    private RoomService iroomService;
 
     @Override
     public void init() {
-        iorderService = OrderService.getInstance();
-        iroomService = RoomService.getInstance();
+        iorderService = DefaultOrderService.getInstance();
+        iroomService = DefaultRoomService.getInstance();
     }
 
     @Override

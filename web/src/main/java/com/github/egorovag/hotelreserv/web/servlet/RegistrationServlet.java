@@ -2,11 +2,11 @@ package com.github.egorovag.hotelreserv.web.servlet;
 
 import com.github.egorovag.hotelreserv.model.AuthUser;
 import com.github.egorovag.hotelreserv.model.Client;
-import com.github.egorovag.hotelreserv.model.api.Role;
-import com.github.egorovag.hotelreserv.service.ClientService;
-import com.github.egorovag.hotelreserv.service.api.IcheckUserService;
+import com.github.egorovag.hotelreserv.model.Role;
+import com.github.egorovag.hotelreserv.service.impl.DefaultClientService;
 import com.github.egorovag.hotelreserv.service.CheckUserService;
-import com.github.egorovag.hotelreserv.service.api.IclientService;
+import com.github.egorovag.hotelreserv.service.impl.DefaultCheckUserService;
+import com.github.egorovag.hotelreserv.service.СlientService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,13 +18,13 @@ import java.io.IOException;
 @WebServlet("/registration")
 public class RegistrationServlet extends HttpServlet {
 
-    private IcheckUserService icheckUserService;
-    private IclientService iclientService;
+    private CheckUserService icheckUserService;
+    private СlientService iclientService;
 
     @Override
     public void init() {
-        icheckUserService = CheckUserService.getInstance();
-        iclientService = ClientService.getInstance();
+        icheckUserService = DefaultCheckUserService.getInstance();
+        iclientService = DefaultClientService.getInstance();
     }
 
     @Override

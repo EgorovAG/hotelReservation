@@ -1,74 +1,18 @@
 package com.github.egorovag.hotelreserv.service;
 
-import com.github.egorovag.hotelreserv.dao.CheckAuthUserDao;
-import com.github.egorovag.hotelreserv.dao.api.IcheckAuthUserDao;
 import com.github.egorovag.hotelreserv.model.AuthUser;
 import com.github.egorovag.hotelreserv.model.AuthUserWithClient;
 import com.github.egorovag.hotelreserv.model.Client;
-import com.github.egorovag.hotelreserv.model.api.Role;
-import com.github.egorovag.hotelreserv.service.api.IcheckUserService;
-import org.h2.engine.User;
+import com.github.egorovag.hotelreserv.model.Role;
 
 import java.util.List;
 
+public interface CheckUserService {
 
-public class CheckUserService implements IcheckUserService {
-
-    private IcheckAuthUserDao icheckAuthUserDao = CheckAuthUserDao.getInstance();
-    private static volatile IcheckUserService instance;
-
-    public static IcheckUserService getInstance() {
-        IcheckUserService localInstance = instance;
-        if (localInstance == null) {
-            synchronized (IcheckUserService.class) {
-                localInstance = instance;
-                if (localInstance == null) {
-                    instance = localInstance = new CheckUserService();
-                }
-            }
-        }
-        return localInstance;
-    }
-
-    @Override
-    public boolean checkLogin(String login) {
-        if (login.equals(icheckAuthUserDao.checkLoginDao(login))) {
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public AuthUser checkUser(String login, String password) {
-        AuthUser authUser = icheckAuthUserDao.readUserByLoginDao(login);
-        if (login.equals(icheckAuthUserDao.checkLoginDao(login)) &&
-                password.equals(authUser.getPassword())) {
-            return authUser;
-        } else {
-            return null;
-        }
-    }
-
-    @Override
-    public AuthUser saveAuthUser(String login, String password, Role role) {
-        return icheckAuthUserDao.saveUserDao(login, password, role);
-    }
-
-    @Override
-    public Client readClientByLoginService(String login) {
-        return icheckAuthUserDao.readClientByLoginDao(login);
-    }
-
-    @Override
-    public List<AuthUserWithClient> readListClient() {
-        return icheckAuthUserDao.readListClientDao();
-    }
-
-    @Override
-    public boolean deleteUserByIdService(int id) {
-        if (icheckAuthUserDao.deleteUserByIdDao(id)) {
-            return true;
-        }
-        return false;
-    }
+    AuthUser checkUser(String login, String password);
+    boolean checkLogin(String login) ;
+    AuthUser saveAuthUser(String login, String password, Role role) ;
+    Client readClientByLoginService(String login);
+    List<AuthUserWithClient> readListClient();
+    boolean deleteUserByIdService( int id );
 }

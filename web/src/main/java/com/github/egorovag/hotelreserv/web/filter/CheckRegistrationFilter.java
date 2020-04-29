@@ -1,10 +1,7 @@
 package com.github.egorovag.hotelreserv.web.filter;
 
-import com.github.egorovag.hotelreserv.model.AuthUser;
-import com.github.egorovag.hotelreserv.model.Client;
-import com.github.egorovag.hotelreserv.model.api.Role;
+import com.github.egorovag.hotelreserv.service.impl.DefaultCheckUserService;
 import com.github.egorovag.hotelreserv.service.CheckUserService;
-import com.github.egorovag.hotelreserv.service.api.IcheckUserService;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -15,10 +12,10 @@ import java.io.IOException;
 @WebFilter("/registration")
 public class CheckRegistrationFilter implements Filter {
 
-    private IcheckUserService icheckUserService;
+    private CheckUserService icheckUserService;
     @Override
     public void init(FilterConfig filterConfig) {
-        icheckUserService = CheckUserService.getInstance();
+        icheckUserService = DefaultCheckUserService.getInstance();
     }
 
     @Override

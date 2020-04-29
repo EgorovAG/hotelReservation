@@ -6,7 +6,8 @@ create table IF NOT EXISTS authUser
     id       int(64) auto_increment PRIMARY KEY,
     login    varchar(50)                           not null,
     password varchar(50)                           not null,
-    role     enum ('ADMIN', 'USER') default 'USER' not null
+#     role     enum ('ADMIN', 'USER') default 'USER' not null
+    role     varchar(50)   not null
 #     constraint authUser_login_unique unique (login)
 );
 
@@ -36,7 +37,8 @@ create table IF NOT EXISTS room
 (
     id         int auto_increment PRIMARY KEY,
     numOfSeats int                                     not null,
-    classOfAp  enum ('ECONOM', 'STANDART', 'BUSINESS') not null,
+#     classOfAp  enum ('ECONOM', 'STANDART', 'BUSINESS') not null,
+    classOfAp  varchar(50) not null,
     price      int                                     not null
 );
 
@@ -73,7 +75,8 @@ create table IF NOT EXISTS orderClient
     endDate    varchar(50)                                                                 not null,
     room_id    int                                                                         not null,
     client_id  int(64)                                                                     not null,
-    conditions enum ('CONSIDERATION','APPROVED','REJECTED','PAID') default 'CONSIDERATION' not null,
+#     conditions enum ('CONSIDERATION','APPROVED','REJECTED','PAID') default 'CONSIDERATION' not null,
+    conditions varchar(50) not null,
     constraint orderClient_client_id_fk foreign key (client_id) references client (user_id),
     constraint orderClient_room_id_fk foreign key (room_id) references room (id)
 );
@@ -175,9 +178,10 @@ create table IF NOT EXISTS orderClient
 # insert into orderclient(startDate, endDate, room_id, client_id, conditions) values ('2020-10-05','2020-10-07','2','2','CONSIDERATION')
 #
 #
-select oc.id, startDate, endDate,numOfSeats, classOfAp, price from orderclient as oc join room r on oc.room_id = r.id where 2
-select oc.id, startDate, endDate,numOfSeats, classOfAp, price from orderclient as oc join room r on oc.room_id = r.id where oc.id
-select oc.id from orderclient as oc join room r on oc.room_id = r.id where oc.client_id=2
-select id from orderclient where client_id
-
-select client_id from orderclient where id=9
+# select oc.id, startDate, endDate,numOfSeats, classOfAp, price from orderclient as oc join room r on oc.room_id = r.id where 2
+# select oc.id, startDate, endDate,numOfSeats, classOfAp, price from orderclient as oc join room r on oc.room_id = r.id where oc.id
+# select oc.id from orderclient as oc join room r on oc.room_id = r.id where oc.client_id=2
+# select id from orderclient where client_id
+#
+# select client_id from orderclient where id=9
+select login from authuser where login = 'we'

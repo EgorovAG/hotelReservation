@@ -1,24 +1,24 @@
-package com.github.egorovag.hotelreserv.service;
+package com.github.egorovag.hotelreserv.service.impl;
 
 import com.github.egorovag.hotelreserv.dao.ClientDao;
-import com.github.egorovag.hotelreserv.dao.api.IclientDao;
+import com.github.egorovag.hotelreserv.dao.impl.DefaultClientDao;
 import com.github.egorovag.hotelreserv.model.Client;
-import com.github.egorovag.hotelreserv.service.api.IcheckUserService;
-import com.github.egorovag.hotelreserv.service.api.IclientService;
+import com.github.egorovag.hotelreserv.service.CheckUserService;
+import com.github.egorovag.hotelreserv.service.СlientService;
 
-public class ClientService implements IclientService {
+public class DefaultClientService implements СlientService {
 
-    IcheckUserService icheckUserService = CheckUserService.getInstance();
-    IclientDao iclientDao = ClientDao.getInstance();
-    private static volatile IclientService instance;
+    CheckUserService icheckUserService = DefaultCheckUserService.getInstance();
+    ClientDao iclientDao = DefaultClientDao.getInstance();
+    private static volatile СlientService instance;
 
-    public static IclientService getInstance() {
-        IclientService localInstance = instance;
+    public static СlientService getInstance() {
+        СlientService localInstance = instance;
         if (localInstance == null) {
-            synchronized (IclientService.class) {
+            synchronized (СlientService.class) {
                 localInstance = instance;
                 if (localInstance == null) {
-                    instance = localInstance = new ClientService();
+                    instance = localInstance = new DefaultClientService();
                 }
             }
         }

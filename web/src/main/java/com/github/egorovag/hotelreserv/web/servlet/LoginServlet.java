@@ -2,10 +2,10 @@ package com.github.egorovag.hotelreserv.web.servlet;
 
 import com.github.egorovag.hotelreserv.model.AuthUser;
 import com.github.egorovag.hotelreserv.model.Client;
+import com.github.egorovag.hotelreserv.service.impl.DefaultBlackListUsersService;
 import com.github.egorovag.hotelreserv.service.BlackListUsersService;
-import com.github.egorovag.hotelreserv.service.api.IblackListUsersService;
-import com.github.egorovag.hotelreserv.service.api.IcheckUserService;
 import com.github.egorovag.hotelreserv.service.CheckUserService;
+import com.github.egorovag.hotelreserv.service.impl.DefaultCheckUserService;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -17,13 +17,13 @@ import java.io.IOException;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
-    private IcheckUserService icheckUserService;
-    private IblackListUsersService iblackListUsersService;
+    private CheckUserService icheckUserService;
+    private BlackListUsersService iblackListUsersService;
 
     @Override
     public void init() {
-        icheckUserService = CheckUserService.getInstance();
-        iblackListUsersService = BlackListUsersService.getInstance();
+        icheckUserService = DefaultCheckUserService.getInstance();
+        iblackListUsersService = DefaultBlackListUsersService.getInstance();
     }
 
     @Override
@@ -41,20 +41,19 @@ public class LoginServlet extends HttpServlet {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
         AuthUser authUser = icheckUserService.checkUser(login, password);
-        int id = authUser.getId();
-
-        if (iblackListUsersService.checkBlackUserById(id)){
-            req.getRequestDispatcher("/youAreBlockClient.jsp").forward(req,resp);
-        }
-
         if (authUser == null) {
             req.setAttribute("error", "Вы ввели неверное имя или пароль либо Вам необходимо зарегистрироваться");
             req.getRequestDispatcher("login.jsp").forward(req, resp);
         } else {
-            req.getSession().setAttribute("authUser", authUser);
-            Client client = icheckUserService.readClientByLoginService(authUser.getLogin());
-            req.getSession().setAttribute("client", client);
-            req.getRequestDispatcher("/personalArea.jsp").forward(req, resp);
+            int id = authUser.getId();
+            if (iblackListUsersService.checkBlackUserById(id)){
+                req.getRequestDispatcher("/youAreBlockClient.jsp").forward(req,resp);
+            } else {
+                req.getSession().setAttribute("authUser", authUser);
+                Client client = icheckUserService.readClientByLoginService(authUser.getLogin());
+                req.getSession().setAttribute("client", client);
+                req.getRequestDispatcher("/personalArea.jsp").forward(req, resp);
+            }
         }
     }
 }

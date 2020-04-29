@@ -1,6 +1,6 @@
 //package com.github.egorovag.hotelreserv.dao;
 //
-//import com.github.egorovag.hotelreserv.dao.api.IroomDao;
+//import com.github.egorovag.hotelreserv.dao.IroomDao;
 //import com.github.egorovag.hotelreserv.model.Room;
 //import jdk.nashorn.internal.ir.annotations.Ignore;
 //import org.junit.jupiter.api.Assertions;

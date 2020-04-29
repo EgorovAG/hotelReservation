@@ -1,6 +1,6 @@
 //package com.github.egorovag.hotelreserv.dao;
 //
-//import com.github.egorovag.hotelreserv.dao.api.IblackListUsersDao;
+//import com.github.egorovag.hotelreserv.dao.IblackListUsersDao;
 //import org.junit.jupiter.api.Assertions;
 //import org.junit.jupiter.api.Test;
 //@Deprecated

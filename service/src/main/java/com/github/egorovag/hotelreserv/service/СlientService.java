@@ -1,10 +1,10 @@
-package com.github.egorovag.hotelreserv.service.api;
+package com.github.egorovag.hotelreserv.service;
 
 import com.github.egorovag.hotelreserv.model.Client;
 
 import java.sql.SQLException;
 
-public interface IclientService {
+public interface СlientService {
 
     boolean saveClient(Client client) ;
     boolean deleteClientSeviceById(int id);

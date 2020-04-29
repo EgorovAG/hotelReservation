@@ -1,4 +1,4 @@
-package com.github.egorovag.hotelreserv.model.api;
+package com.github.egorovag.hotelreserv.model;
 
 public enum Condition {
 //РАССМАТРИВАЕТСЯ,ОДОБРЕНО,ОТКЛОНЕН,ОПЛАЧЕНО

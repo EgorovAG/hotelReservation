@@ -1,13 +1,13 @@
-package com.github.egorovag.hotelreserv.dao.api;
+package com.github.egorovag.hotelreserv.dao;
 
 import com.github.egorovag.hotelreserv.model.AuthUser;
 import com.github.egorovag.hotelreserv.model.AuthUserWithClient;
 import com.github.egorovag.hotelreserv.model.Client;
-import com.github.egorovag.hotelreserv.model.api.Role;
+import com.github.egorovag.hotelreserv.model.Role;
 
 import java.util.List;
 
-public interface IcheckAuthUserDao {
+public interface AuthUserDao {
 
     String checkLoginDao(String login);
 //    String readPasswordByLoginDao(String login);

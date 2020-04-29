@@ -2,8 +2,8 @@ package com.github.egorovag.hotelreserv.web.servlet;
 
 
 import com.github.egorovag.hotelreserv.model.BlackListUsers;
+import com.github.egorovag.hotelreserv.service.impl.DefaultBlackListUsersService;
 import com.github.egorovag.hotelreserv.service.BlackListUsersService;
-import com.github.egorovag.hotelreserv.service.api.IblackListUsersService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,11 +15,11 @@ import java.util.List;
 
 @WebServlet("/blackListUsers")
 public class BlackListUsersServlet extends HttpServlet {
-    IblackListUsersService iblackListUsersService;
+    BlackListUsersService iblackListUsersService;
 
     @Override
     public void init() throws ServletException {
-        iblackListUsersService = BlackListUsersService.getInstance();
+        iblackListUsersService = DefaultBlackListUsersService.getInstance();
     }
 
     @Override

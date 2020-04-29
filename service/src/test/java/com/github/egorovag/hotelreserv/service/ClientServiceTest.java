@@ -1,6 +1,6 @@
 //package com.github.egorovag.hotelreserv.service;
 //
-//import com.github.egorovag.hotelreserv.dao.api.IclientDao;
+//import com.github.egorovag.hotelreserv.dao.IclientDao;
 //import com.github.egorovag.hotelreserv.model.Client;
 //import com.github.egorovag.hotelreserv.service.api.IclientService;
 //import org.junit.jupiter.api.Assertions;

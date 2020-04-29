@@ -1,8 +1,8 @@
 package com.github.egorovag.hotelreserv.web.servlet;
 
-import com.github.egorovag.hotelreserv.model.api.Condition;
+import com.github.egorovag.hotelreserv.model.Condition;
+import com.github.egorovag.hotelreserv.service.impl.DefaultOrderService;
 import com.github.egorovag.hotelreserv.service.OrderService;
-import com.github.egorovag.hotelreserv.service.api.IorderService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,10 +13,10 @@ import java.io.IOException;
 
 @WebServlet("/checkPay")
 public class CheckPayServlet extends HttpServlet {
-    IorderService iorderService;
+    OrderService iorderService;
     @Override
     public void init() throws ServletException {
-        iorderService = OrderService.getInstance();
+        iorderService = DefaultOrderService.getInstance();
 
     }
 

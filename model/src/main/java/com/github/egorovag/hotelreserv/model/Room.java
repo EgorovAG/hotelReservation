@@ -1,7 +1,5 @@
 package com.github.egorovag.hotelreserv.model;
 
-import com.github.egorovag.hotelreserv.model.api.ClassRoom;
-
 import javax.persistence.*;
 
 @Entity

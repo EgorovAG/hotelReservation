@@ -1,12 +1,5 @@
 package com.github.egorovag.hotelreserv.model;
 
-import com.github.egorovag.hotelreserv.model.api.ClassRoom;
-import com.github.egorovag.hotelreserv.model.api.Condition;
-
-import javax.persistence.Column;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-
 public class OrderForClient {
 
     private int id;

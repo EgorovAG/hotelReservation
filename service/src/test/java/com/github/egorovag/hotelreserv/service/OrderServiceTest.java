@@ -1,6 +1,6 @@
 //package com.github.egorovag.hotelreserv.service;
 //
-//import com.github.egorovag.hotelreserv.dao.api.IOrderDao;
+//import com.github.egorovag.hotelreserv.dao.IOrderDao;
 //import com.github.egorovag.hotelreserv.model.Order;
 //import com.github.egorovag.hotelreserv.model.OrderWithClient;
 //import com.github.egorovag.hotelreserv.service.api.IorderService;

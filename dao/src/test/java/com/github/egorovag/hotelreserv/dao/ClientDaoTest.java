@@ -1,10 +1,10 @@
 //package com.github.egorovag.hotelreserv.dao;
 //
-//import com.github.egorovag.hotelreserv.dao.api.IcheckAuthUserDao;
-//import com.github.egorovag.hotelreserv.dao.api.IclientDao;
+//import com.github.egorovag.hotelreserv.dao.IcheckAuthUserDao;
+//import com.github.egorovag.hotelreserv.dao.IclientDao;
 //import com.github.egorovag.hotelreserv.model.AuthUser;
 //import com.github.egorovag.hotelreserv.model.Client;
-//import com.github.egorovag.hotelreserv.model.api.Role;
+//import com.github.egorovag.hotelreserv.model.Role;
 //import org.junit.jupiter.api.Assertions;
 //import org.junit.jupiter.api.BeforeEach;
 //import org.junit.jupiter.api.Test;

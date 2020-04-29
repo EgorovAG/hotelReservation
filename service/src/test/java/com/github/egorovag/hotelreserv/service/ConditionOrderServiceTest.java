@@ -1,6 +1,6 @@
 //package com.github.egorovag.hotelreserv.service;
 //
-//import com.github.egorovag.hotelreserv.dao.api.IblackListUsersDao;
+//import com.github.egorovag.hotelreserv.dao.IblackListUsersDao;
 //import com.github.egorovag.hotelreserv.service.api.IblackListUsersService;
 //import org.junit.jupiter.api.Assertions;
 //import org.junit.jupiter.api.BeforeAll;

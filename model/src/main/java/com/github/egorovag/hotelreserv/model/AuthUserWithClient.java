@@ -1,9 +1,5 @@
 package com.github.egorovag.hotelreserv.model;
 
-import com.github.egorovag.hotelreserv.model.api.Role;
-
-import javax.persistence.*;
-
 public class AuthUserWithClient {
 
     private int id;

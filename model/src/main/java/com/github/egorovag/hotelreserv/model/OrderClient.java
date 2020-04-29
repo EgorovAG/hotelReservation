@@ -1,9 +1,6 @@
 package com.github.egorovag.hotelreserv.model;
 
-import com.github.egorovag.hotelreserv.model.api.Condition;
-
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
 @Table(name = "orderClient")

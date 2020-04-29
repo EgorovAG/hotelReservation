@@ -1,7 +1,7 @@
 //package com.github.egorovag.hotelreserv.web.servlet;
 //
 //import com.github.egorovag.hotelreserv.service.IroomService;
-//import com.github.egorovag.hotelreserv.service.DefaultRoomService;
+//import com.github.egorovag.hotelreserv.service.api.DefaultRoomService;
 //
 //import javax.servlet.ServletException;
 //import javax.servlet.http.HttpServlet;

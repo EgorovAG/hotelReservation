@@ -1,15 +1,14 @@
 package com.github.egorovag.hotelreserv.web.servlet;
 
-import com.github.egorovag.hotelreserv.dao.api.IOrderDao;
 import com.github.egorovag.hotelreserv.model.AuthUserWithClient;
+import com.github.egorovag.hotelreserv.service.impl.DefaultBlackListUsersService;
+import com.github.egorovag.hotelreserv.service.impl.DefaultCheckUserService;
+import com.github.egorovag.hotelreserv.service.impl.DefaultClientService;
+import com.github.egorovag.hotelreserv.service.impl.DefaultOrderService;
 import com.github.egorovag.hotelreserv.service.BlackListUsersService;
 import com.github.egorovag.hotelreserv.service.CheckUserService;
-import com.github.egorovag.hotelreserv.service.ClientService;
+import com.github.egorovag.hotelreserv.service.СlientService;
 import com.github.egorovag.hotelreserv.service.OrderService;
-import com.github.egorovag.hotelreserv.service.api.IblackListUsersService;
-import com.github.egorovag.hotelreserv.service.api.IcheckUserService;
-import com.github.egorovag.hotelreserv.service.api.IclientService;
-import com.github.egorovag.hotelreserv.service.api.IorderService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,17 +20,17 @@ import java.util.List;
 
 @WebServlet("/registratedUsers")
 public class RegisteredUsersServlet extends HttpServlet {
-    private IcheckUserService icheckUserService;
-    private IclientService iclientService;
-    private IblackListUsersService iblackListUsersService;
-    private IorderService iorderService;
+    private CheckUserService icheckUserService;
+    private СlientService iclientService;
+    private BlackListUsersService iblackListUsersService;
+    private OrderService iorderService;
 
     @Override
     public void init() throws ServletException {
-        icheckUserService = CheckUserService.getInstance();
-        iclientService = ClientService.getInstance();
-        iblackListUsersService = BlackListUsersService.getInstance();
-        iorderService = OrderService.getInstance();
+        icheckUserService = DefaultCheckUserService.getInstance();
+        iclientService = DefaultClientService.getInstance();
+        iblackListUsersService = DefaultBlackListUsersService.getInstance();
+        iorderService = DefaultOrderService.getInstance();
     }
 
     @Override

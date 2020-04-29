@@ -2,10 +2,9 @@ package com.github.egorovag.hotelreserv.web.servlet;
 
 import com.github.egorovag.hotelreserv.model.Client;
 import com.github.egorovag.hotelreserv.model.OrderForClient;
-import com.github.egorovag.hotelreserv.model.api.Condition;
+import com.github.egorovag.hotelreserv.model.Condition;
+import com.github.egorovag.hotelreserv.service.impl.DefaultOrderService;
 import com.github.egorovag.hotelreserv.service.OrderService;
-import com.github.egorovag.hotelreserv.service.api.IorderService;
-import sun.misc.Cleaner;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,12 +16,12 @@ import java.util.List;
 
 @WebServlet("/toPayOrder")
 public class ToPayOrderServlet extends HttpServlet {
-    private IorderService iorderService;
+    private OrderService iorderService;
     private List<OrderForClient> orderForClients;
 
     @Override
     public void init() throws ServletException {
-        iorderService = OrderService.getInstance();
+        iorderService = DefaultOrderService.getInstance();
 
     }
 

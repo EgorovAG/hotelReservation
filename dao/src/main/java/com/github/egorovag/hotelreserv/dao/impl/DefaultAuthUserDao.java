@@ -1,12 +1,12 @@
-package com.github.egorovag.hotelreserv.dao;
+package com.github.egorovag.hotelreserv.dao.impl;
 
-import com.github.egorovag.hotelreserv.dao.api.IcheckAuthUserDao;
+import com.github.egorovag.hotelreserv.dao.AuthUserDao;
 import com.github.egorovag.hotelreserv.dao.utils.MysqlDataBase;
-//import com.github.egorovag.hotelreserv.dao.utils.SFUtil;
+import com.github.egorovag.hotelreserv.dao.utils.SFUtil;
 import com.github.egorovag.hotelreserv.model.AuthUser;
 import com.github.egorovag.hotelreserv.model.AuthUserWithClient;
 import com.github.egorovag.hotelreserv.model.Client;
-import com.github.egorovag.hotelreserv.model.api.Role;
+import com.github.egorovag.hotelreserv.model.Role;
 import org.hibernate.HibernateError;
 import org.hibernate.Session;
 import org.slf4j.Logger;
@@ -17,17 +17,17 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CheckAuthUserDao implements IcheckAuthUserDao {
-    private static final Logger log = LoggerFactory.getLogger(CheckAuthUserDao.class);
-    private static volatile IcheckAuthUserDao instance;
+public class DefaultAuthUserDao implements AuthUserDao {
+    private static final Logger log = LoggerFactory.getLogger(DefaultAuthUserDao.class);
+    private static volatile AuthUserDao instance;
 
-    public static IcheckAuthUserDao getInstance() {
-        IcheckAuthUserDao localInstance = instance;
+    public static AuthUserDao getInstance() {
+        AuthUserDao localInstance = instance;
         if (localInstance == null) {
-            synchronized (IcheckAuthUserDao.class) {
+            synchronized (AuthUserDao.class) {
                 localInstance = instance;
                 if (localInstance == null) {
-                    instance = localInstance = new CheckAuthUserDao();
+                    instance = localInstance = new DefaultAuthUserDao();
                 }
             }
         }
@@ -52,21 +52,20 @@ public class CheckAuthUserDao implements IcheckAuthUserDao {
         return null;
     }
 
-//  +  @Override
+//    @Override
 //    public String checkLoginDao(String login) {
 //        try (Session session = SFUtil.getSession()) {
 //            session.beginTransaction();
-//            String loginResult = (String) session.createNativeQuery("select login from authuser where login = :login")
-//                    .setParameter("login", login).getSingleResult();
+//            String loginResult = (String) session.createNativeQuery("select login from authUser where login = :logins")
+//                    .setParameter("logins", login).getSingleResult();
 //            session.getTransaction().commit();
 //            log.info("authUser with login: {} readed", login);
 //            return loginResult;
 //        } catch (NoResultException e) {
 //            log.error("Fail to read authUser with login: {}", login, e);
-//            return null;
 //        }
+//        return null;
 //    }
-
 
 
     @Override
@@ -91,7 +90,7 @@ public class CheckAuthUserDao implements IcheckAuthUserDao {
         return new AuthUser(id, login, password, role);
     }
 
-//   + @Override
+//    @Override
 //    public AuthUser saveUserDao(String login, String password, Role role) {
 //        Session session = SFUtil.getSession();
 //        session.beginTransaction();
@@ -122,15 +121,15 @@ public class CheckAuthUserDao implements IcheckAuthUserDao {
         return authUser;
     }
 
-//   + @Override
+//    @Override
 //    public AuthUser readUserByLoginDao(String login) {
 //        try (Session session = SFUtil.getSession()) {
 //            session.beginTransaction();
-//            AuthUser authUseRes = (AuthUser) session.createQuery("select A from AuthUser A  where login = :login")
+//            AuthUser authUserRes = (AuthUser) session.createQuery("select A from AuthUser A  where login = :login")
 //                    .setParameter("login", login).getSingleResult();
 //            session.getTransaction().commit();
 //            log.info("authuser with login: {} readed", login);
-//            return authUseRes;
+//            return authUserRes;
 //        } catch (HibernateError e) {
 //            log.error("Fail to read authuser with login: {}", login, e);
 //        }
@@ -202,6 +201,18 @@ public class CheckAuthUserDao implements IcheckAuthUserDao {
     }
 
     @Override
+    public List<AuthUserWithClient> readListClientDao() {
+        Session session = SFUtil.getSession();
+        session.beginTransaction();
+        List<AuthUserWithClient> listAU = session.createNativeQuery("select id,login,password,firstName,secondName,email,phone from authuser join client c on authuser.id = c.user_id").getResultList();
+
+
+
+    }
+
+
+
+    @Override
     public boolean deleteUserByLoginDao(String login) {
         try (Connection connection = MysqlDataBase.connect();
              PreparedStatement statement = connection.prepareStatement
@@ -217,7 +228,7 @@ public class CheckAuthUserDao implements IcheckAuthUserDao {
     }
 
 
-//  +  @Override
+//    @Override
 //    public boolean deleteUserByLoginDao(String login) {
 //        try (Session session = SFUtil.getSession()) {
 //            session.beginTransaction();
@@ -249,7 +260,7 @@ public class CheckAuthUserDao implements IcheckAuthUserDao {
     }
 
 
-// +   @Override
+//    @Override
 //    public boolean deleteUserByIdDao(int id) {
 //        try (Session session = SFUtil.getSession()) {
 //            session.beginTransaction();
@@ -265,11 +276,6 @@ public class CheckAuthUserDao implements IcheckAuthUserDao {
 //        return false;
 //    }
 }
-
-
-
-
-
 
 
 // лишний метод !!!!!!!

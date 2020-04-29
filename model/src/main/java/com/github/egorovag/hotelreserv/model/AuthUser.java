@@ -1,23 +1,17 @@
 package com.github.egorovag.hotelreserv.model;
 
-import com.github.egorovag.hotelreserv.model.api.Role;
-
 import javax.persistence.*;
 
 @Entity
 @Table(name = "authUser")
 public class AuthUser {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
     @Column
     private String login;
-
     @Column
     private String password;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
     private Role role;
