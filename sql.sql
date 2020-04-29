@@ -184,4 +184,4 @@ create table IF NOT EXISTS orderClient
 # select id from orderclient where client_id
 #
 # select client_id from orderclient where id=9
-select login from authuser where login = 'we'
+# select login from authuser where login = 'we'

@@ -1,14 +1,18 @@
 package com.github.egorovag.hotelreserv.dao.impl;
 
+import com.github.egorovag.hotelreserv.dao.ClientDao;
 import com.github.egorovag.hotelreserv.dao.utils.MysqlDataBase;
 //import com.github.egorovag.hotelreserv.dao.utils.SFUtil;
+import com.github.egorovag.hotelreserv.dao.utils.SFUtil;
 import com.github.egorovag.hotelreserv.model.Client;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 
-public class DefaultClientDao implements com.github.egorovag.hotelreserv.dao.ClientDao {
+public class DefaultClientDao implements ClientDao {
     private static final Logger log = LoggerFactory.getLogger(DefaultClientDao.class);
     public static volatile com.github.egorovag.hotelreserv.dao.ClientDao instance;
 
@@ -44,14 +48,18 @@ public class DefaultClientDao implements com.github.egorovag.hotelreserv.dao.Cli
         return true;
     }
 
-//  +  @Override
+//    @Override
 //    public boolean saveClientDao(Client client) {
-//        Session session = SFUtil.getSession();
-//        session.beginTransaction();
-//        session.saveOrUpdate(client);
-//        session.getTransaction().commit();
-//        session.close();
-//        return true;
+//        try (Session session = SFUtil.getSession()) {
+//            session.beginTransaction();
+//            session.saveOrUpdate(client);
+//            session.getTransaction().commit();
+//            log.info("Client : {} saved", client);
+//            return true;
+//        } catch (HibernateException e) {
+//            log.error("Fail to save client: {}", client, e);
+//            return false;
+//        }
 //    }
 
     @Override
@@ -62,17 +70,36 @@ public class DefaultClientDao implements com.github.egorovag.hotelreserv.dao.Cli
             statement.setInt(1, id);
             statement.executeUpdate();
             log.info("Client with client_id: {} deleted", id);
+            return true;
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
-            log.error("Fail to delete client with client_id: {}", id , e);
+            log.error("Fail to delete client with client_id: {}", id, e);
+            return false;
         }
-        return true;
     }
+
+//    @Override
+//    public boolean deleteClientByClientIdDao(int id) {
+//        try (Session session = SFUtil.getSession()) {
+//            session.beginTransaction();
+//            Client client = session.createQuery("select Client from Client where userId = :id", Client.class)
+//                    .setParameter("id", id)
+//                    .getSingleResult();
+//            session.getTransaction().commit();
+//            log.info("Client with client_id: {} deleted", id);
+//            return true;
+//        } catch (HibernateException e) {
+//            log.error("Fail to delete client with client_id: {}", id, e);
+//            return false;
+//        }
+//    }
+
 }
 
 
 
 
+// ЛИШНЕЕ!!!!!
 //    @Override
 //    public boolean deleteClientByFirstNameDao(String firstName) {
 //        try (Connection connection = MysqlDataBase.connect();

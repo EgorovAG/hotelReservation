@@ -22,6 +22,11 @@ public class BlackList {
         this.userId = userId;
         this.dateBlock = dateBlock;
     }
+    public BlackList(int userId, Date dateBlock) {
+        this.userId = userId;
+        this.dateBlock = dateBlock;
+    }
+
 
     public int getId() {
         return id;

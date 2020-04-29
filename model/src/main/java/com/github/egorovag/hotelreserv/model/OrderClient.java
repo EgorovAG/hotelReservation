@@ -27,6 +27,15 @@ public class OrderClient {
         this.condition = condition;
     }
 
+    public OrderClient(String startDate, String endDate, int roomId, int userId, Condition condition) {
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.roomId = roomId;
+        this.userId = userId;
+        this.condition = condition;
+    }
+
+
     public OrderClient(int id, String startDate, String endDate, int roomId, int userId, Condition condition) {
         this.id = id;
         this.startDate = startDate;

@@ -17,13 +17,13 @@ import java.io.IOException;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
-    private CheckUserService icheckUserService;
-    private BlackListUsersService iblackListUsersService;
+    private CheckUserService checkUserService;
+    private BlackListUsersService blackListUsersService;
 
     @Override
     public void init() {
-        icheckUserService = DefaultCheckUserService.getInstance();
-        iblackListUsersService = DefaultBlackListUsersService.getInstance();
+        checkUserService = DefaultCheckUserService.getInstance();
+        blackListUsersService = DefaultBlackListUsersService.getInstance();
     }
 
     @Override
@@ -40,17 +40,17 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
-        AuthUser authUser = icheckUserService.checkUser(login, password);
+        AuthUser authUser = checkUserService.checkUser(login, password);
         if (authUser == null) {
             req.setAttribute("error", "Вы ввели неверное имя или пароль либо Вам необходимо зарегистрироваться");
             req.getRequestDispatcher("login.jsp").forward(req, resp);
         } else {
             int id = authUser.getId();
-            if (iblackListUsersService.checkBlackUserById(id)){
+            if (blackListUsersService.checkBlackUserById(id)){
                 req.getRequestDispatcher("/youAreBlockClient.jsp").forward(req,resp);
             } else {
                 req.getSession().setAttribute("authUser", authUser);
-                Client client = icheckUserService.readClientByLoginService(authUser.getLogin());
+                Client client = checkUserService.readClientByLoginService(authUser.getLogin());
                 req.getSession().setAttribute("client", client);
                 req.getRequestDispatcher("/personalArea.jsp").forward(req, resp);
             }

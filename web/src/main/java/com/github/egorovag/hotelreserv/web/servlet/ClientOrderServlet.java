@@ -26,17 +26,17 @@ import java.util.List;
 public class ClientOrderServlet extends HttpServlet {
 
     private OrderService iorderService;
-    private BlackListUsersService iconditionService;
+    private BlackListUsersService conditionService;
     private RoomService iroomService;
-    private СlientService iclientService;
+    private СlientService clientService;
     private Client client;
 
     @Override
     public void init() {
         iorderService = DefaultOrderService.getInstance();
-        iconditionService = DefaultBlackListUsersService.getInstance();
+        conditionService = DefaultBlackListUsersService.getInstance();
         iroomService = DefaultRoomService.getInstance();
-        iclientService = DefaultClientService.getInstance();
+        clientService = DefaultClientService.getInstance();
     }
 
 

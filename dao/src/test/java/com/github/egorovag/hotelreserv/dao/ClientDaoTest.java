@@ -1,7 +1,8 @@
 //package com.github.egorovag.hotelreserv.dao;
 //
-//import com.github.egorovag.hotelreserv.dao.IcheckAuthUserDao;
-//import com.github.egorovag.hotelreserv.dao.IclientDao;
+//
+//import com.github.egorovag.hotelreserv.dao.impl.DefaultAuthUserDao;
+//import com.github.egorovag.hotelreserv.dao.impl.DefaultClientDao;
 //import com.github.egorovag.hotelreserv.model.AuthUser;
 //import com.github.egorovag.hotelreserv.model.Client;
 //import com.github.egorovag.hotelreserv.model.Role;
@@ -12,8 +13,8 @@
 //
 //@Deprecated
 //class ClientDaoTest {
-//    private IclientDao iclientDao = ClientDao.getInstance();
-//    private IcheckAuthUserDao icheckAuthUserDao = CheckAuthUserDao.getInstance();
+//    private ClientDao iclientDao = DefaultClientDao.getInstance();
+//    private AuthUserDao icheckAuthUserDao = DefaultAuthUserDao.getInstance();
 //    private AuthUser authUser;
 //    private Client client;
 //
@@ -27,14 +28,14 @@
 //    void testSaveClientDao() {
 //        boolean result = iclientDao.saveClientDao(client);
 //        Assertions.assertTrue(result);
-//        iclientDao.deleteClientByClient_idDao(authUser.getId());
+//        iclientDao.deleteClientByClientIdDao(authUser.getId());
 //        icheckAuthUserDao.deleteUserByLoginDao(authUser.getLogin());
 //    }
 //
 //    @Test
 //    void testDeleteClientDao(){
 //        iclientDao.saveClientDao(client);
-//        boolean result = iclientDao.deleteClientByClient_idDao(authUser.getId());
+//        boolean result = iclientDao.deleteClientByClientIdDao(authUser.getId());
 //        icheckAuthUserDao.deleteUserByLoginDao(authUser.getLogin());
 //        Assertions.assertTrue(result);
 //    }

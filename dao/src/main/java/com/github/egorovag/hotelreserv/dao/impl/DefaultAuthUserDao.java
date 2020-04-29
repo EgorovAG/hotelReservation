@@ -8,6 +8,7 @@ import com.github.egorovag.hotelreserv.model.AuthUserWithClient;
 import com.github.egorovag.hotelreserv.model.Client;
 import com.github.egorovag.hotelreserv.model.Role;
 import org.hibernate.HibernateError;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -200,15 +201,20 @@ public class DefaultAuthUserDao implements AuthUserDao {
         return listAU;
     }
 
-    @Override
-    public List<AuthUserWithClient> readListClientDao() {
-        Session session = SFUtil.getSession();
-        session.beginTransaction();
-        List<AuthUserWithClient> listAU = session.createNativeQuery("select id,login,password,firstName,secondName,email,phone from authuser join client c on authuser.id = c.user_id").getResultList();
-
-
-
-    }
+//    @Override
+//    public List<AuthUserWithClient> readListClientDao() {
+//        List<AuthUserWithClient> listAU;
+//        try (Session session = SFUtil.getSession()) {
+//            session.beginTransaction();
+//            listAU = session.createNativeQuery("select id,login,password,firstName,secondName,email,phone from authuser join client c on authuser.id = c.user_id").getResultList();
+//            session.getTransaction().commit();
+//        log.info("List<AuthUser> readed: {}", listAU);
+//        return listAU;
+//        } catch (HibernateException e) {
+//            log.error("Fail to read List<AuthUser>", e);
+//            return null;
+//        }
+//    }
 
 
 
@@ -222,7 +228,7 @@ public class DefaultAuthUserDao implements AuthUserDao {
             log.info("authuser with login:{} deleted", login);
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
-            log.error("Fail to delete authuser with login:{}", login);
+            log.error("Fail to delete authuser with login:{}", login, e);
         }
         return true;
     }
@@ -233,13 +239,14 @@ public class DefaultAuthUserDao implements AuthUserDao {
 //        try (Session session = SFUtil.getSession()) {
 //            session.beginTransaction();
 //            AuthUser authUser = session.createQuery("select A from AuthUser A where login = :login", AuthUser.class)
-//                    .setParameter("login", login).getSingleResult();
+//                    .setParameter("login", login)
+//                    .getSingleResult();
 //            session.delete(authUser);
 //            session.getTransaction().commit();
 //            log.info("authuser with login:{} deleted", login);
 //            return true;
 //        } catch (HibernateError e) {
-//            log.error("Fail to delet authuser with login:{}", login);
+//            log.error("Fail to delete authuser with login:{}", login, e);
 //        }
 //        return false;
 //    }
@@ -254,7 +261,7 @@ public class DefaultAuthUserDao implements AuthUserDao {
             log.info("authuser with id:{} deleted", id);
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
-            log.error("Fail to delete authuser with id:{}", id);
+            log.error("Fail to delete authuser with id:{}", id, e);
         }
         return true;
     }
@@ -271,7 +278,7 @@ public class DefaultAuthUserDao implements AuthUserDao {
 //            log.info("authuser with id:{} deleted", id);
 //            return true;
 //        } catch (HibernateError e) {
-//            log.error("Fail to delet authuser with id:{}", id);
+//            log.error("Fail to delete authuser with id:{}", id, e);
 //        }
 //        return false;
 //    }

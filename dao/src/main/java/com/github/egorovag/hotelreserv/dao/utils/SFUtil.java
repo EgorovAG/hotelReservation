@@ -31,7 +31,7 @@ public class SFUtil {
         settings.put(Environment.URL, url);
         settings.put(Environment.USER, user);
         settings.put(Environment.PASS, pass);
-        settings.put(Environment.HBM2DDL_AUTO, "validate");
+        settings.put(Environment.HBM2DDL_AUTO, "create");
         settings.put(Environment.SHOW_SQL, "true");
         settings.put(Environment.USE_SQL_COMMENTS, "true");
         settings.put(Environment.FORMAT_SQL, "false");
