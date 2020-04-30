@@ -1,13 +1,14 @@
 package com.github.egorovag.hotelreserv.model;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "client")
 public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     @Column
     private String firstName;
     @Column
@@ -17,9 +18,9 @@ public class Client {
     @Column
     private String phone;
     @Column(name = "user_id")
-    private int userId;
+    private Integer userId;
 
-    public Client(String firstName, String secondName, String email, String phone, int userId) {
+    public Client(String firstName, String secondName, String email, String phone, Integer userId) {
         this.firstName = firstName;
         this.secondName = secondName;
         this.email = email;
@@ -27,7 +28,7 @@ public class Client {
         this.userId = userId;
     }
 
-    public Client(int id, String firstName, String secondName, String email, String phone, int userId) {
+    public Client(Integer id, String firstName, String secondName, String email, String phone, Integer userId) {
         this.id = id;
         this.firstName = firstName;
         this.secondName = secondName;
@@ -40,11 +41,11 @@ public class Client {
     public Client() {
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -80,11 +81,11 @@ public class Client {
         this.phone = phone;
     }
 
-    public int getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
@@ -98,5 +99,18 @@ public class Client {
                 ", phone='" + phone + '\'' +
                 ", userId=" + userId +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Client client = (Client) o;
+        return Objects.equals(id, client.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

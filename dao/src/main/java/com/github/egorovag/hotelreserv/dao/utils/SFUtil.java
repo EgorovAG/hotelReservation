@@ -31,12 +31,12 @@ public class SFUtil {
         settings.put(Environment.URL, url);
         settings.put(Environment.USER, user);
         settings.put(Environment.PASS, pass);
-        settings.put(Environment.HBM2DDL_AUTO, "create");
+        settings.put(Environment.HBM2DDL_AUTO, "validate");
         settings.put(Environment.SHOW_SQL, "true");
         settings.put(Environment.USE_SQL_COMMENTS, "true");
         settings.put(Environment.FORMAT_SQL, "false");
         settings.put(Environment.ISOLATION, "2");
-//        settings.put(Environment.STORAGE_ENGINE, "innodb");
+        settings.put(Environment.STORAGE_ENGINE, "innodb");
         // Apply settings
         serviceRegistryBuilder.applySettings(settings);
         // Create registry
@@ -50,8 +50,6 @@ public class SFUtil {
         sources.addAnnotatedClass(BlackList.class);
         // Create Metadata
         Metadata metadata = sources.getMetadataBuilder().build();
-
-
         // Create SessionFactory
         sessionFactory = metadata.getSessionFactoryBuilder().build();
     }

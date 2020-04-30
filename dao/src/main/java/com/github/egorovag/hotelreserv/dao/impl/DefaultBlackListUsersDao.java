@@ -1,5 +1,6 @@
 package com.github.egorovag.hotelreserv.dao.impl;
 
+import com.github.egorovag.hotelreserv.dao.BlackListUsersDao;
 import com.github.egorovag.hotelreserv.dao.utils.MysqlDataBase;
 import com.github.egorovag.hotelreserv.dao.utils.SFUtil;
 import com.github.egorovag.hotelreserv.model.BlackList;
@@ -20,7 +21,7 @@ public class DefaultBlackListUsersDao implements com.github.egorovag.hotelreserv
     private static final Logger log = LoggerFactory.getLogger(DefaultBlackListUsersDao.class);
     private static volatile com.github.egorovag.hotelreserv.dao.BlackListUsersDao instance;
 
-    public static com.github.egorovag.hotelreserv.dao.BlackListUsersDao getInstance() {
+    public static BlackListUsersDao getInstance() {
         com.github.egorovag.hotelreserv.dao.BlackListUsersDao localInstance = instance;
         if (localInstance == null) {
             synchronized (com.github.egorovag.hotelreserv.dao.BlackListUsersDao.class) {
@@ -58,105 +59,113 @@ public class DefaultBlackListUsersDao implements com.github.egorovag.hotelreserv
         return listBL;
     }
 
-    @Override
-    public boolean deleteBlackListUserByIdDao(int id) {
-        try (Connection connection = MysqlDataBase.connect();
-             PreparedStatement statement = connection.prepareStatement
-                     ("delete from blacklist where user_id =?")) {
-            statement.setInt(1, id);
-            statement.executeUpdate();
-            log.info("user with id:{} deleted from blackList", id);
-            return true;
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-            log.error("Fail to delete user from blackList with id:{}", id);
-            return false;
-        }
-    }
+//    @Override
+//    public List<BlackListUsers> readBlackListUsersListsDao() {
+//        try (Session session = SFUtil.getSession()) {
+//            session.beginTransaction();
+//
+//        }
+//    }
 
 //    @Override
 //    public boolean deleteBlackListUserByIdDao(int id) {
-//        try (Session session = SFUtil.getSession()) {
-//            session.beginTransaction();
-//            Query query = session.createQuery("DELETE BlackList where userId = :id");
-//            query.setParameter("id", id);
-//            query.executeUpdate();
-//            session.getTransaction().commit();
+//        try (Connection connection = MysqlDataBase.connect();
+//             PreparedStatement statement = connection.prepareStatement
+//                     ("delete from blacklist where user_id =?")) {
+//            statement.setInt(1, id);
+//            statement.executeUpdate();
+//            log.info("user with id:{} deleted from blackList", id);
 //            return true;
-//        } catch (HibernateException e) {
+//        } catch (SQLException | ClassNotFoundException e) {
+//            e.printStackTrace();
 //            log.error("Fail to delete user from blackList with id:{}", id);
 //            return false;
 //        }
 //    }
 
-
     @Override
-    public boolean saveBlackListUserDao(int id) {
-        try (Connection connection = MysqlDataBase.connect();
-             PreparedStatement statement = connection.prepareStatement
-                     ("insert into blacklist(user_id, date_block) values (?,?)", Statement.RETURN_GENERATED_KEYS)) {
-            statement.setInt(1, id);
-            statement.setDate(2, Date.valueOf(LocalDate.now()));
-            statement.executeUpdate();
-            log.info("Client with id:{} saved in blackList", id);
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-            log.error("Fail to save client:{} in blackList", id, e);
+    public boolean deleteBlackListUserByIdDao(int id) {
+        try (Session session = SFUtil.getSession()) {
+            session.beginTransaction();
+            Query query = session.createQuery("DELETE BlackList where userId = :id");
+            query.setParameter("id", id);
+            query.executeUpdate();
+            session.getTransaction().commit();
+            return true;
+        } catch (HibernateException e) {
+            log.error("Fail to delete user from blackList with id:{}", id);
+            return false;
         }
-        return true;
     }
+
 
 //    @Override
 //    public boolean saveBlackListUserDao(int id) {
-//        BlackList blackList = new BlackList(id, Date.valueOf(LocalDate.now()));
-//        try (Session session = SFUtil.getSession()) {
-//            session.beginTransaction();
-//            session.saveOrUpdate(blackList);
-//            session.getTransaction().commit();
+//        try (Connection connection = MysqlDataBase.connect();
+//             PreparedStatement statement = connection.prepareStatement
+//                     ("insert into blacklist(user_id, date_block) values (?,?)", Statement.RETURN_GENERATED_KEYS)) {
+//            statement.setInt(1, id);
+//            statement.setDate(2, Date.valueOf(LocalDate.now()));
+//            statement.executeUpdate();
 //            log.info("Client with id:{} saved in blackList", id);
-//            return true;
-//        } catch (HibernateException e) {
+//        } catch (SQLException | ClassNotFoundException e) {
+//            e.printStackTrace();
 //            log.error("Fail to save client:{} in blackList", id, e);
-//            return false;
 //        }
+//        return true;
 //    }
 
+    @Override
+    public boolean saveBlackListUserDao(int id) {
+        BlackList blackList = new BlackList(id, Date.valueOf(LocalDate.now()));
+        try (Session session = SFUtil.getSession()) {
+            session.beginTransaction();
+            session.saveOrUpdate(blackList);
+            session.getTransaction().commit();
+            log.info("Client with id:{} saved in blackList", id);
+            return true;
+        } catch (HibernateException e) {
+            log.error("Fail to save client:{} in blackList", id, e);
+            return false;
+        }
+    }
 
 
+
+
+//    @Override
+//    public Integer checkBlackUserByIdDao(int id) {
+//        Integer res = null;
+//        try (Connection connection = MysqlDataBase.connect();
+//             PreparedStatement statement = connection.prepareStatement
+//                     ("select count(*) as count from blacklist where user_id=?")) {
+//            statement.setInt(1, id);
+//            ResultSet rs = statement.executeQuery();
+//            if (rs.next()) {
+//                res = rs.getInt(1);
+//               return res;
+//            }
+//            log.info("Client with id:{} saved in blackList", id);
+//        } catch (SQLException | ClassNotFoundException e) {
+//            e.printStackTrace();
+//            log.error("Fail to save client:{} in blackList", id, e);
+//        }
+//        return res;
+//    }
 
     @Override
     public int checkBlackUserByIdDao(int id) {
-        int res = 0;
-        try (Connection connection = MysqlDataBase.connect();
-             PreparedStatement statement = connection.prepareStatement
-                     ("select count(*) as count from blacklist where user_id=?")) {
-            statement.setInt(1, id);
-            ResultSet rs = statement.executeQuery();
-            if (rs.next()) {
-                res = rs.getInt(1);
-               return res;
-            }
+        try (Session session = SFUtil.getSession()) {
+            session.beginTransaction();
+            int res = (int) session.createQuery("select count (*) from BlackList where userId = :id").setParameter("id",id).getSingleResult();
+            session.getTransaction().commit();
             log.info("Client with id:{} saved in blackList", id);
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
+            return res;
+        } catch (HibernateException e) {
             log.error("Fail to save client:{} in blackList", id, e);
+            return 0;
         }
-        return res;
     }
-
-//    @Override
-//    public int checkBlackUserByIdDao(int id) {
-//        try (Session session = SFUtil.getSession()) {
-//            session.beginTransaction();
-//            int res = (int) session.createQuery("select count (*) from BlackList where userId = :id").setParameter("id",id).getSingleResult();
-//            session.getTransaction().commit();
-//            log.info("Client with id:{} saved in blackList", id);
-//            return res;
-//        } catch (HibernateException e) {
-//            log.error("Fail to save client:{} in blackList", id, e);
-//            return 0;
-//        }
-//    }
 }
 
 

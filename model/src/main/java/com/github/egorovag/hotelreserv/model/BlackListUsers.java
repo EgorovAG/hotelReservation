@@ -2,6 +2,7 @@ package com.github.egorovag.hotelreserv.model;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 @Table(name = "blacklist")
@@ -9,9 +10,9 @@ public class BlackListUsers {
 
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     @Column (name = "user_id")
-    private int userId;
+    private Integer userId;
     @Column
     private String firstName;
     @Column
@@ -19,7 +20,7 @@ public class BlackListUsers {
     @Column
     private Date dateBlock;
 
-    public BlackListUsers(int id, int userId, String firstName, String secondName, Date dateBlock) {
+    public BlackListUsers(Integer id, int userId, String firstName, String secondName, Date dateBlock) {
         this.id = id;
         this.userId = userId;
         this.firstName = firstName;
@@ -30,19 +31,19 @@ public class BlackListUsers {
     public BlackListUsers() {
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public int getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
@@ -79,5 +80,18 @@ public class BlackListUsers {
                 ", secondName='" + secondName + '\'' +
                 ", dateBlock=" + dateBlock +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BlackListUsers that = (BlackListUsers) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

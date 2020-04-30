@@ -24,8 +24,8 @@ public class DefaultRoomService implements RoomService {
     }
 
     @Override
-    public int readRoomIdService(int numOfSeats, String classOfApp) {
-        return iroomDao.readRoom_IdDao(numOfSeats, classOfApp);
+    public Integer readRoomIdService(int numOfSeats, String classOfApp) {
+        return iroomDao.readRoomIdDao(numOfSeats, classOfApp);
     }
 
     @Override

@@ -1,22 +1,22 @@
 package com.github.egorovag.hotelreserv.model;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "room")
 public class Room {
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private int id;
-    @Column(name = "numOfSeats")
-    private int numOfSeats;
+    private Integer id;
+    @Column
+    private Integer numOfSeats;
     @Enumerated(EnumType.STRING)
-    @Column(name = "classOfAp")
+    @Column
     private ClassRoom classOfAp;
     @Column
-    private int price;
+    private Integer price;
 
-    public Room(int id, int numOfSeats, ClassRoom classOfAp, int price) {
+    public Room(Integer id, Integer numOfSeats, ClassRoom classOfAp, Integer price) {
         this.id = id;
         this.numOfSeats = numOfSeats;
         this.classOfAp = classOfAp;
@@ -26,19 +26,19 @@ public class Room {
     public Room() {
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public int getNumOfSeats() {
+    public Integer getNumOfSeats() {
         return numOfSeats;
     }
 
-    public void setNumOfSeats(int numOfSeats) {
+    public void setNumOfSeats(Integer numOfSeats) {
         this.numOfSeats = numOfSeats;
     }
 
@@ -50,11 +50,11 @@ public class Room {
         this.classOfAp = classOfAp;
     }
 
-    public int getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 
@@ -66,6 +66,19 @@ public class Room {
                 ", classOfAp=" + classOfAp +
                 ", price=" + price +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Room room = (Room) o;
+        return Objects.equals(id, room.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
 

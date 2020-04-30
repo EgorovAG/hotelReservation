@@ -1,17 +1,19 @@
 package com.github.egorovag.hotelreserv.model;
 
+import java.util.Objects;
+
 public class OrderForClient {
 
-    private int id;
+    private Integer id;
     private String startDate;
     private String endDate;
-    private int numOfSeats;
+    private Integer numOfSeats;
     private ClassRoom classOfAp;
-    private int price;
+    private Integer price;
     private Condition condition;
 
 
-    public OrderForClient(int id, String startDate, String endDate, int numOfSeats, ClassRoom classOfAp, int price, Condition condition) {
+    public OrderForClient(Integer id, String startDate, String endDate, Integer numOfSeats, ClassRoom classOfAp, Integer price, Condition condition) {
         this.id = id;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -21,7 +23,7 @@ public class OrderForClient {
         this.condition = condition;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -33,7 +35,7 @@ public class OrderForClient {
         return endDate;
     }
 
-    public int getNumOfSeats() {
+    public Integer getNumOfSeats() {
         return numOfSeats;
     }
 
@@ -41,7 +43,7 @@ public class OrderForClient {
         return classOfAp;
     }
 
-    public int getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
@@ -60,5 +62,18 @@ public class OrderForClient {
                 ", price=" + price +
                 ", condition=" + condition +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OrderForClient that = (OrderForClient) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

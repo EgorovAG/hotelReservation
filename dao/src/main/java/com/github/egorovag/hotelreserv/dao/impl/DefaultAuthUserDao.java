@@ -35,107 +35,113 @@ public class DefaultAuthUserDao implements AuthUserDao {
         return localInstance;
     }
 
-    @Override
-    public String checkLoginDao(String login) {
-        try (Connection connection = MysqlDataBase.connect();
-             PreparedStatement statement = connection.prepareStatement("select login from authuser where login = ?")) {
-            statement.setString(1, login);
-            try (ResultSet rs = statement.executeQuery()) {
-                if (rs.next()) {
-                    return rs.getString(1);
-                }
-            }
-            log.info("authUser with login: {} readed", login);
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-            log.error("Fail to read authUser with login: {}", login, e);
-        }
-        return null;
-    }
-
 //    @Override
 //    public String checkLoginDao(String login) {
-//        try (Session session = SFUtil.getSession()) {
-//            session.beginTransaction();
-//            String loginResult = (String) session.createNativeQuery("select login from authUser where login = :logins")
-//                    .setParameter("logins", login).getSingleResult();
-//            session.getTransaction().commit();
+//        try (Connection connection = MysqlDataBase.connect();
+//             PreparedStatement statement = connection.prepareStatement("select login from authuser where login = ?")) {
+//            statement.setString(1, login);
+//            try (ResultSet rs = statement.executeQuery()) {
+//                if (rs.next()) {
+//                    return rs.getString(1);
+//                }
+//            }
 //            log.info("authUser with login: {} readed", login);
-//            return loginResult;
-//        } catch (NoResultException e) {
+//        } catch (SQLException | ClassNotFoundException e) {
+//            e.printStackTrace();
 //            log.error("Fail to read authUser with login: {}", login, e);
 //        }
 //        return null;
 //    }
 
-
     @Override
-    public AuthUser saveUserDao(String login, String password, Role role) {
-        int id = 0;
-        try (Connection connection = MysqlDataBase.connect();
-             PreparedStatement statement = connection.prepareStatement
-                     ("insert into authuser(login,password,role) values (?,?,?)", Statement.RETURN_GENERATED_KEYS)) {
-            statement.setString(1, login);
-            statement.setString(2, password);
-            statement.setString(3, String.valueOf(role));
-            statement.executeUpdate();
-            ResultSet rs = statement.getGeneratedKeys();
-            if (rs.next()) {
-                id = rs.getInt(1);
-            }
-            log.info("authuser with login:{}, password:{}, role{} saved", login, password, role);
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-            log.error("Fail to save authuser with login:{}, password:{}, role{}", login, password, role, e);
+    public String checkLoginDao(String login) {
+        try (Session session = SFUtil.getSession()) {
+            session.beginTransaction();
+            String loginResult = (String) session.createNativeQuery("select login from authUser where login = :login")
+                    .setParameter("login", login)
+                    .getSingleResult();
+            session.getTransaction().commit();
+            log.info("authUser with login: {} readed", login);
+            return loginResult;
+        } catch (NoResultException e) {
+            log.error("Fail to read authUser with login: {}", login, e);
         }
-        return new AuthUser(id, login, password, role);
+        return null;
     }
+
 
 //    @Override
 //    public AuthUser saveUserDao(String login, String password, Role role) {
-//        Session session = SFUtil.getSession();
-//        session.beginTransaction();
-//        int id = (int) session.save(new AuthUser(login, password, role));
-//        session.getTransaction().commit();
-//        session.close();
+//        int id = 0;
+//        try (Connection connection = MysqlDataBase.connect();
+//             PreparedStatement statement = connection.prepareStatement
+//                     ("insert into authuser(login,password,role) values (?,?,?)", Statement.RETURN_GENERATED_KEYS)) {
+//            statement.setString(1, login);
+//            statement.setString(2, password);
+//            statement.setString(3, String.valueOf(role));
+//            statement.executeUpdate();
+//            ResultSet rs = statement.getGeneratedKeys();
+//            if (rs.next()) {
+//                id = rs.getInt(1);
+//            }
+//            log.info("authuser with login:{}, password:{}, role{} saved", login, password, role);
+//        } catch (SQLException | ClassNotFoundException e) {
+//            e.printStackTrace();
+//            log.error("Fail to save authuser with login:{}, password:{}, role{}", login, password, role, e);
+//        }
 //        return new AuthUser(id, login, password, role);
 //    }
 
     @Override
-    public AuthUser readUserByLoginDao(String login) {
-        AuthUser authUser = null;
-        try (Connection connection = MysqlDataBase.connect();
-             PreparedStatement statement = connection.prepareStatement
-                     ("select * from authuser where login=? ")) {
-            statement.setString(1, login);
-            ResultSet rs = statement.executeQuery();
-            if (rs.next()) {
-                Role role = Role.valueOf(rs.getString("role"));
-                authUser = new AuthUser(rs.getInt("id"), rs.getString("login"),
-                        rs.getString("password"), role);
-            }
-            log.info("authuser with login: {} readed", login);
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-            log.error("Fail to read authuser with login: {}", login, e);
+    public AuthUser saveUserDao(String login, String password, Role role) {
+        int id;
+        try (Session session = SFUtil.getSession()) {
+            session.beginTransaction();
+            id = (int) session.save(new AuthUser(login, password, role));
+            session.getTransaction().commit();
+            log.info("authuser with login:{}, password:{}, role{} saved", login, password, role);
+            return new AuthUser(id, login, password, role);
+        } catch (HibernateException e) {
+            log.error("Fail to save authuser with login:{}, password:{}, role{}", login, password, role, e);
+            return null;
         }
-        return authUser;
     }
 
 //    @Override
 //    public AuthUser readUserByLoginDao(String login) {
-//        try (Session session = SFUtil.getSession()) {
-//            session.beginTransaction();
-//            AuthUser authUserRes = (AuthUser) session.createQuery("select A from AuthUser A  where login = :login")
-//                    .setParameter("login", login).getSingleResult();
-//            session.getTransaction().commit();
+//        AuthUser authUser = null;
+//        try (Connection connection = MysqlDataBase.connect();
+//             PreparedStatement statement = connection.prepareStatement
+//                     ("select * from authuser where login=? ")) {
+//            statement.setString(1, login);
+//            ResultSet rs = statement.executeQuery();
+//            if (rs.next()) {
+//                Role role = Role.valueOf(rs.getString("role"));
+//                authUser = new AuthUser(rs.getInt("id"), rs.getString("login"),
+//                        rs.getString("password"), role);
+//            }
 //            log.info("authuser with login: {} readed", login);
-//            return authUserRes;
-//        } catch (HibernateError e) {
+//        } catch (SQLException | ClassNotFoundException e) {
+//            e.printStackTrace();
 //            log.error("Fail to read authuser with login: {}", login, e);
 //        }
-//        return null;
+//        return authUser;
 //    }
+
+    @Override
+    public AuthUser readUserByLoginDao(String login) {
+        try (Session session = SFUtil.getSession()) {
+            session.beginTransaction();
+            AuthUser authUserRes = (AuthUser) session.createQuery("select A from AuthUser A  where login = :login")
+                    .setParameter("login", login).getSingleResult();
+            session.getTransaction().commit();
+            log.info("authuser with login: {} readed", login);
+            return authUserRes;
+        } catch (HibernateError e) {
+            log.error("Fail to read authuser with login: {}", login, e);
+        }
+        return null;
+    }
 
     @Override
     public Client readClientByLoginDao(String login) {
@@ -170,8 +176,8 @@ public class DefaultAuthUserDao implements AuthUserDao {
 //            return client;
 //        } catch (HibernateError e) {
 //            log.error("Fail to read client with login:{}", login, e);
+//            return null;
 //        }
-//        return null;
 //    }
 
     @Override
@@ -218,70 +224,70 @@ public class DefaultAuthUserDao implements AuthUserDao {
 
 
 
-    @Override
-    public boolean deleteUserByLoginDao(String login) {
-        try (Connection connection = MysqlDataBase.connect();
-             PreparedStatement statement = connection.prepareStatement
-                     ("delete from authuser where login =?")) {
-            statement.setString(1, login);
-            statement.executeUpdate();
-            log.info("authuser with login:{} deleted", login);
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-            log.error("Fail to delete authuser with login:{}", login, e);
-        }
-        return true;
-    }
-
-
 //    @Override
 //    public boolean deleteUserByLoginDao(String login) {
-//        try (Session session = SFUtil.getSession()) {
-//            session.beginTransaction();
-//            AuthUser authUser = session.createQuery("select A from AuthUser A where login = :login", AuthUser.class)
-//                    .setParameter("login", login)
-//                    .getSingleResult();
-//            session.delete(authUser);
-//            session.getTransaction().commit();
+//        try (Connection connection = MysqlDataBase.connect();
+//             PreparedStatement statement = connection.prepareStatement
+//                     ("delete from authuser where login =?")) {
+//            statement.setString(1, login);
+//            statement.executeUpdate();
 //            log.info("authuser with login:{} deleted", login);
-//            return true;
-//        } catch (HibernateError e) {
+//        } catch (SQLException | ClassNotFoundException e) {
+//            e.printStackTrace();
 //            log.error("Fail to delete authuser with login:{}", login, e);
 //        }
-//        return false;
+//        return true;
 //    }
 
-    @Override
-    public boolean deleteUserByIdDao(int id) {
-        try (Connection connection = MysqlDataBase.connect();
-             PreparedStatement statement = connection.prepareStatement
-                     ("delete from authuser where id =?")) {
-            statement.setInt(1, id);
-            statement.executeUpdate();
-            log.info("authuser with id:{} deleted", id);
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-            log.error("Fail to delete authuser with id:{}", id, e);
-        }
-        return true;
-    }
 
+    @Override
+    public boolean deleteUserByLoginDao(String login) {
+        try (Session session = SFUtil.getSession()) {
+            session.beginTransaction();
+            AuthUser authUser = session.createQuery("select A from AuthUser A where login = :login", AuthUser.class)
+                    .setParameter("login", login)
+                    .getSingleResult();
+            session.delete(authUser);
+            session.getTransaction().commit();
+            log.info("authuser with login:{} deleted", login);
+            return true;
+        } catch (HibernateError e) {
+            log.error("Fail to delete authuser with login:{}", login, e);
+        }
+        return false;
+    }
 
 //    @Override
 //    public boolean deleteUserByIdDao(int id) {
-//        try (Session session = SFUtil.getSession()) {
-//            session.beginTransaction();
-//            AuthUser authUser = session.createQuery("select A from AuthUser A where id = :id", AuthUser.class)
-//                    .setParameter("id", id).getSingleResult();
-//            session.delete(authUser);
-//            session.getTransaction().commit();
+//        try (Connection connection = MysqlDataBase.connect();
+//             PreparedStatement statement = connection.prepareStatement
+//                     ("delete from authuser where id =?")) {
+//            statement.setInt(1, id);
+//            statement.executeUpdate();
 //            log.info("authuser with id:{} deleted", id);
-//            return true;
-//        } catch (HibernateError e) {
+//        } catch (SQLException | ClassNotFoundException e) {
+//            e.printStackTrace();
 //            log.error("Fail to delete authuser with id:{}", id, e);
 //        }
-//        return false;
+//        return true;
 //    }
+
+
+    @Override
+    public boolean deleteUserByIdDao(int id) {
+        try (Session session = SFUtil.getSession()) {
+            session.beginTransaction();
+            AuthUser authUser = session.createQuery("select A from AuthUser A where id = :id", AuthUser.class)
+                    .setParameter("id", id).getSingleResult();
+            session.delete(authUser);
+            session.getTransaction().commit();
+            log.info("authuser with id:{} deleted", id);
+            return true;
+        } catch (HibernateError e) {
+            log.error("Fail to delete authuser with id:{}", id, e);
+        }
+        return false;
+    }
 }
 
 

@@ -25,17 +25,17 @@ import java.util.List;
 @WebServlet("/clientOrder")
 public class ClientOrderServlet extends HttpServlet {
 
-    private OrderService iorderService;
+    private OrderService orderService;
     private BlackListUsersService conditionService;
-    private RoomService iroomService;
+    private RoomService roomService;
     private СlientService clientService;
     private Client client;
 
     @Override
     public void init() {
-        iorderService = DefaultOrderService.getInstance();
+        orderService = DefaultOrderService.getInstance();
         conditionService = DefaultBlackListUsersService.getInstance();
-        iroomService = DefaultRoomService.getInstance();
+        roomService = DefaultRoomService.getInstance();
         clientService = DefaultClientService.getInstance();
     }
 
@@ -49,11 +49,11 @@ public class ClientOrderServlet extends HttpServlet {
         String endDate = req.getParameter("endDate");
         client = (Client) req.getSession().getAttribute("client");
         int clientId = client.getUserId();
-        int roomId = iroomService.readRoomIdService(numOfSeats, classOfAp);
+        int roomId = roomService.readRoomIdService(numOfSeats, classOfAp);
         OrderClient orderWithoutId = new OrderClient(startDate, endDate, roomId, Condition.CONSIDERATION);
-        OrderClient order = iorderService.saveOrder(orderWithoutId, clientId);
+        OrderClient order = orderService.saveOrder(orderWithoutId, clientId);
         req.getSession().setAttribute("order", order);
-        Room room = iroomService.readRoomByIdService(roomId);
+        Room room = roomService.readRoomByIdService(roomId);
         req.getSession().setAttribute("room", room);
         req.getRequestDispatcher("/order.jsp").forward(req, resp);
     }
@@ -62,7 +62,7 @@ public class ClientOrderServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         client = (Client) req.getSession().getAttribute("client");
         int clientId = client.getUserId();
-        List<OrderForClient> orderForClients = iorderService.readOrderForClientByClient_Id(clientId);
+        List<OrderForClient> orderForClients = orderService.readOrderForClientByClient_Id(clientId);
         req.setAttribute("orderForClients", orderForClients);
         req.getRequestDispatcher("/statusOrderNEW.jsp").forward(req, resp);
     }

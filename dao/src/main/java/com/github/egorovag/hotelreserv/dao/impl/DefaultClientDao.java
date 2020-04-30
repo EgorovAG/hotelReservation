@@ -29,70 +29,71 @@ public class DefaultClientDao implements ClientDao {
         return localInstance;
     }
 
-    @Override
-    public boolean saveClientDao(Client client) {
-        try (Connection connection = MysqlDataBase.connect();
-             PreparedStatement statement = connection.prepareStatement
-                     ("insert into client(firstName,secondName,email,phone,user_id) values (?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS)) {
-            statement.setString(1, client.getFirstName());
-            statement.setString(2, client.getSecondName());
-            statement.setString(3, client.getEmail());
-            statement.setString(4, client.getPhone());
-            statement.setInt(5, client.getUserId());
-            statement.executeUpdate();
-            log.info("Client : {} saved", client);
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-            log.error("Fail to save client: {}", client, e);
-        }
-        return true;
-    }
-
 //    @Override
 //    public boolean saveClientDao(Client client) {
-//        try (Session session = SFUtil.getSession()) {
-//            session.beginTransaction();
-//            session.saveOrUpdate(client);
-//            session.getTransaction().commit();
+//        try (Connection connection = MysqlDataBase.connect();
+//             PreparedStatement statement = connection.prepareStatement
+//                     ("insert into client(firstName,secondName,email,phone,user_id) values (?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS)) {
+//            statement.setString(1, client.getFirstName());
+//            statement.setString(2, client.getSecondName());
+//            statement.setString(3, client.getEmail());
+//            statement.setString(4, client.getPhone());
+//            statement.setInt(5, client.getUserId());
+//            statement.executeUpdate();
 //            log.info("Client : {} saved", client);
-//            return true;
-//        } catch (HibernateException e) {
+//        } catch (SQLException | ClassNotFoundException e) {
+//            e.printStackTrace();
 //            log.error("Fail to save client: {}", client, e);
-//            return false;
 //        }
+//        return true;
 //    }
 
     @Override
-    public boolean deleteClientByClientIdDao(int id) {
-        try (Connection connection = MysqlDataBase.connect();
-             PreparedStatement statement = connection.prepareStatement
-                     ("delete from client where user_id =?")) {
-            statement.setInt(1, id);
-            statement.executeUpdate();
-            log.info("Client with client_id: {} deleted", id);
+    public boolean saveClientDao(Client client) {
+        try (Session session = SFUtil.getSession()) {
+            session.beginTransaction();
+            session.saveOrUpdate(client);
+            session.getTransaction().commit();
+            log.info("Client : {} saved", client);
             return true;
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-            log.error("Fail to delete client with client_id: {}", id, e);
+        } catch (HibernateException e) {
+            log.error("Fail to save client: {}", client, e);
             return false;
         }
     }
 
 //    @Override
 //    public boolean deleteClientByClientIdDao(int id) {
-//        try (Session session = SFUtil.getSession()) {
-//            session.beginTransaction();
-//            Client client = session.createQuery("select Client from Client where userId = :id", Client.class)
-//                    .setParameter("id", id)
-//                    .getSingleResult();
-//            session.getTransaction().commit();
+//        try (Connection connection = MysqlDataBase.connect();
+//             PreparedStatement statement = connection.prepareStatement
+//                     ("delete from client where user_id =?")) {
+//            statement.setInt(1, id);
+//            statement.executeUpdate();
 //            log.info("Client with client_id: {} deleted", id);
 //            return true;
-//        } catch (HibernateException e) {
+//        } catch (SQLException | ClassNotFoundException e) {
+//            e.printStackTrace();
 //            log.error("Fail to delete client with client_id: {}", id, e);
 //            return false;
 //        }
 //    }
+
+    @Override
+    public boolean deleteClientByClientIdDao(int id) {
+        try (Session session = SFUtil.getSession()) {
+            session.beginTransaction();
+            Client client = session.createQuery("select C from Client C where userId = :id", Client.class)
+                    .setParameter("id", id)
+                    .getSingleResult();
+            session.delete(client);
+            session.getTransaction().commit();
+            log.info("Client with client_id: {} deleted", id);
+            return true;
+        } catch (HibernateException e) {
+            log.error("Fail to delete client with client_id: {}", id, e);
+            return false;
+        }
+    }
 
 }
 

@@ -1,18 +1,21 @@
-package com.github.egorovag.hotelreserv.dao;
-
+//package com.github.egorovag.hotelreserv.dao;
+//
+//import com.github.egorovag.hotelreserv.dao.impl.DefaultBlackListUsersDao;
+//import org.junit.jupiter.api.Test;
+//
 //class BlackListUsersDaoTest {
-//    IblackListUsersDao iblackListUsersDao = BlackListUsersDao.getInstance();
-
+//    BlackListUsersDao blackListUsersDao = DefaultBlackListUsersDao.getInstance();
+//
 //    @Test
-//    void readBlackListUsersListsDao() {
+//    void testReadBlackListUsersListsDao() {
 //    }
 //
 //    @Test
 //    void deleteBlackListUserByIdDao() {
 //    }
-
+//
 //    @Test
 //    void testSaveBlackListUserDao() {
-//        iblackListUsersDao.saveBlackListUserDao(4);
+//        blackListUsersDao.saveBlackListUserDao(4);
 //    }
 //}

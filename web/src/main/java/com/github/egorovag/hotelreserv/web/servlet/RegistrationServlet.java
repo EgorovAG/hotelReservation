@@ -37,9 +37,7 @@ public class RegistrationServlet extends HttpServlet {
         String email = req.getParameter("email");
         String phone = req.getParameter("phone");
         AuthUser authUser = icheckUserService.saveAuthUser(login, password, Role.USER);
-        System.out.println(authUser);
         Client client = new Client(firstName, secondName, email, phone, authUser.getId());
-        System.out.println(client);
         iclientService.saveClient(client);
         req.getSession().setAttribute("authUser", authUser);
         req.getSession().setAttribute("client", client);

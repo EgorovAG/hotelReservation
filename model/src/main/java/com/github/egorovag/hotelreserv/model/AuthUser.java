@@ -1,13 +1,14 @@
 package com.github.egorovag.hotelreserv.model;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "authUser")
 public class AuthUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     @Column
     private String login;
     @Column
@@ -16,7 +17,7 @@ public class AuthUser {
     @Column(name = "role")
     private Role role;
 
-    public AuthUser(int id, String login, String password, Role role) {
+    public AuthUser(Integer id, String login, String password, Role role) {
         this.id = id;
         this.login = login;
         this.password = password;
@@ -32,11 +33,11 @@ public class AuthUser {
     public AuthUser() {
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -72,5 +73,18 @@ public class AuthUser {
                 ", password='" + password + '\'' +
                 ", role=" + role +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AuthUser authUser = (AuthUser) o;
+        return Objects.equals(id, authUser.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

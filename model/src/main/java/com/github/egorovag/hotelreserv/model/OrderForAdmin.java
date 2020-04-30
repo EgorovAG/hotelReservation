@@ -1,18 +1,20 @@
 package com.github.egorovag.hotelreserv.model;
 
+import java.util.Objects;
+
 public class OrderForAdmin {
 
-    private int id;
+    private Integer id;
     private String firstName;
     private String secondName;
     private String email;
     private String phone;
-    private int clientId;
+    private Integer clientId;
     private String startDate;
     private String endDate;
     private Condition condition;
 
-    public OrderForAdmin(int id, String firstName, String secondName, String email, String phone, int clientId, String startDate, String endDate, Condition condition) {
+    public OrderForAdmin(Integer id, String firstName, String secondName, String email, String phone, Integer clientId, String startDate, String endDate, Condition condition) {
         this.id = id;
         this.firstName = firstName;
         this.secondName = secondName;
@@ -25,11 +27,11 @@ public class OrderForAdmin {
     }
 
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -65,11 +67,11 @@ public class OrderForAdmin {
         this.phone = phone;
     }
 
-    public int getClientId() {
+    public Integer getClientId() {
         return clientId;
     }
 
-    public void setClientId(int clientId) {
+    public void setClientId(Integer clientId) {
         this.clientId = clientId;
     }
 
@@ -108,6 +110,19 @@ public class OrderForAdmin {
                 ", startDate='" + startDate +
                 ", endDate='" + endDate +
                 ", condition=" + condition;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OrderForAdmin that = (OrderForAdmin) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
 

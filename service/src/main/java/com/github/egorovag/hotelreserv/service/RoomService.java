@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public interface RoomService {
 
-    int readRoomIdService(int numOfSeats, String classOfApp);
+    Integer readRoomIdService(int numOfSeats, String classOfApp);
     Room readRoomByIdService(int id);
 //    Room getRoomDao();
 }

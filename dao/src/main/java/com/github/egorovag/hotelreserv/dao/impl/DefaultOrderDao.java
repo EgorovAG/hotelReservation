@@ -39,48 +39,49 @@ public class DefaultOrderDao implements com.github.egorovag.hotelreserv.dao.Orde
         return localInstance;
     }
 
-    @Override
-    public OrderClient saveOrderDao(OrderClient orderWithoutId, int clientId) {
-        int orderId = 0;
-        try (Connection connection = MysqlDataBase.connect();
-             PreparedStatement statement = connection.prepareStatement
-                     ("insert into orderClient(startDate, endDate, room_id, client_id, conditions) values (?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS)) {
-            statement.setString(1, orderWithoutId.getStartDate());
-            statement.setString(2, orderWithoutId.getEndDate());
-            statement.setInt(3, orderWithoutId.getRoomId());
-            statement.setInt(4, clientId);
-            statement.setString(5, String.valueOf(orderWithoutId.getCondition()));
-            statement.executeUpdate();
-            ResultSet rs = statement.getGeneratedKeys();
-            if (rs.next()) {
-                orderId = rs.getInt(1);
-            }
-            log.info("Order with startDate: {}, endDate: {}, room_id: {}, client_id: {}, cond_id: {} saved",
-                    orderWithoutId.getStartDate(), orderWithoutId.getEndDate(), orderWithoutId.getRoomId(), clientId, orderWithoutId.getCondition());
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-            log.error("Fail to save Order with startDate: {}, endDate: {}, room_id: {}, client_id: {}, cond_id: {}",
-                    orderWithoutId.getStartDate(), orderWithoutId.getEndDate(), orderWithoutId.getRoomId(), clientId, orderWithoutId.getCondition(), e);
-        }
-        return new OrderClient(orderId, orderWithoutId.getStartDate(), orderWithoutId.getEndDate(), orderWithoutId.getRoomId(), clientId, orderWithoutId.getCondition());
-    }
-
 //    @Override
 //    public OrderClient saveOrderDao(OrderClient orderWithoutId, int clientId) {
-//        OrderClient orderClient = new OrderClient(orderWithoutId.getStartDate(), orderWithoutId.getEndDate(), orderWithoutId.getRoomId(), clientId, orderWithoutId.getCondition());
-//        try (Session session = SFUtil.getSession()) {
-//            session.beginTransaction();
-//            int idRes = (int) session.save(orderClient);
-//            session.getTransaction().commit();
+//        int orderId = 0;
+//        try (Connection connection = MysqlDataBase.connect();
+//             PreparedStatement statement = connection.prepareStatement
+//                     ("insert into orderclient(startDate, endDate, room_id, client_id, conditions) values (?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS)) {
+//            statement.setString(1, orderWithoutId.getStartDate());
+//            statement.setString(2, orderWithoutId.getEndDate());
+//            statement.setInt(3, orderWithoutId.getRoomId());
+//            statement.setInt(4, clientId);
+//            statement.setString(5, String.valueOf(orderWithoutId.getCondition()));
+//            statement.executeUpdate();
+//            ResultSet rs = statement.getGeneratedKeys();
+//            if (rs.next()) {
+//               orderId = rs.getInt(1);
+//            }
 //            log.info("Order with startDate: {}, endDate: {}, room_id: {}, client_id: {}, cond_id: {} saved",
 //                    orderWithoutId.getStartDate(), orderWithoutId.getEndDate(), orderWithoutId.getRoomId(), clientId, orderWithoutId.getCondition());
-//            return new OrderClient(idRes, orderWithoutId.getStartDate(), orderWithoutId.getEndDate(), orderWithoutId.getRoomId(), clientId, orderWithoutId.getCondition());
-//        } catch ( HibernateException e) {
+//            return new OrderClient(orderId, orderWithoutId.getStartDate(), orderWithoutId.getEndDate(), orderWithoutId.getRoomId(), clientId, orderWithoutId.getCondition());
+//        } catch (SQLException | ClassNotFoundException e) {
+//            e.printStackTrace();
 //            log.error("Fail to save Order with startDate: {}, endDate: {}, room_id: {}, client_id: {}, cond_id: {}",
 //                    orderWithoutId.getStartDate(), orderWithoutId.getEndDate(), orderWithoutId.getRoomId(), clientId, orderWithoutId.getCondition(), e);
 //            return null;
 //        }
 //    }
+
+    @Override
+    public OrderClient saveOrderDao(OrderClient orderWithoutId, int clientId) {
+        OrderClient orderClient = new OrderClient(orderWithoutId.getStartDate(), orderWithoutId.getEndDate(), orderWithoutId.getRoomId(), clientId, orderWithoutId.getCondition());
+        try (Session session = SFUtil.getSession()) {
+            session.beginTransaction();
+            int idRes = (int) session.save(orderClient);
+            session.getTransaction().commit();
+            log.info("Order with startDate: {}, endDate: {}, room_id: {}, client_id: {}, cond_id: {} saved",
+                    orderWithoutId.getStartDate(), orderWithoutId.getEndDate(), orderWithoutId.getRoomId(), clientId, orderWithoutId.getCondition());
+            return new OrderClient(idRes, orderWithoutId.getStartDate(), orderWithoutId.getEndDate(), orderWithoutId.getRoomId(), clientId, orderWithoutId.getCondition());
+        } catch ( HibernateException e) {
+            log.error("Fail to save Order with startDate: {}, endDate: {}, room_id: {}, client_id: {}, cond_id: {}",
+                    orderWithoutId.getStartDate(), orderWithoutId.getEndDate(), orderWithoutId.getRoomId(), clientId, orderWithoutId.getCondition(), e);
+            return null;
+        }
+    }
 
 
     @Override
@@ -115,17 +116,16 @@ public class DefaultOrderDao implements com.github.egorovag.hotelreserv.dao.Orde
 //    public List<OrderForAdmin> readOrderListDao() {
 //        try (Session session = SFUtil.getSession()) {
 //            session.beginTransaction().commit();
-//            List<OrderForAdmin> orderForAdmins = session.createNativeQuery("select oC.id, firstName, secondName, email, " +
-//                    "phone, client_id, startDate, endDate, conditions from client join orderClient oC on client.user_id = oC.client_id")
+//            List<OrderForAdmin> orderForAdmins = session.createNativeQuery("select oC.id, c.firstName, c.secondName, c.email, c.phone, oC.client_id, oC.startDate, oC.endDate, oC.conditions from client c join orderClient oC on c.user_id = oC.client_id")
 //                    .addScalar("id", StandardBasicTypes.INTEGER)
 //                    .addScalar("firstName", StandardBasicTypes.STRING)
 //                    .addScalar("secondName", StandardBasicTypes.STRING)
 //                    .addScalar("email", StandardBasicTypes.STRING)
 //                    .addScalar("phone", StandardBasicTypes.STRING)
-//                    .addScalar("client_id", StandardBasicTypes.INTEGER)
+//                    .addScalar("clientId", StandardBasicTypes.INTEGER)
 //                    .addScalar("startDate", StandardBasicTypes.STRING)
 //                    .addScalar("endDate", StandardBasicTypes.STRING)
-//                    .addScalar("conditions", StandardBasicTypes.STRING)
+//                    .addScalar("condition", StandardBasicTypes.STRING)
 //                    .setResultTransformer(Transformers.aliasToBean(OrderForAdmin.class))
 //                    .list();
 //            session.getTransaction().commit();
@@ -138,47 +138,47 @@ public class DefaultOrderDao implements com.github.egorovag.hotelreserv.dao.Orde
 //    }
 
 
-    @Override
-    public List<OrderClient> readOrderByAuthUserIdDao(int id) {
-        List<OrderClient> orderList = new ArrayList<>();
-        try (Connection connection = MysqlDataBase.connect()) {
-            try (PreparedStatement statement = connection.prepareStatement("select * from orderClient where client_id =?")) {
-                statement.setInt(1, id);
-                ResultSet rs = statement.executeQuery();
-                while (rs.next()) {
-                    int orderId = rs.getInt("id");
-                    String startDate = rs.getString("startDate");
-                    String endDate = rs.getString("endDate");
-                    int roomId = rs.getInt("room_id");
-                    int clientId = rs.getInt("client_id");
-                    String condition = rs.getString("conditions");
-                    OrderClient order = new OrderClient(orderId, startDate, endDate, roomId, clientId, Condition.valueOf(condition));
-                    orderList.add(order);
-                }
-            }
-            log.info("List<OrderClient> with id: {} readed", id);
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-            log.error("Fail read List<OrderClient> with id: {}", id, e);
-        }
-        return orderList;
-    }
-
 //    @Override
 //    public List<OrderClient> readOrderByAuthUserIdDao(int id) {
-//        try (Session session = SFUtil.getSession()) {
-//            session.beginTransaction();
-//            List<OrderClient> orderClients = session.createQuery("select OC FROM OrderClient WHERE userId = :userId ")
-//                    .setParameter("userId", id)
-//                    .getResultList();
-//            session.getTransaction().commit();
+//        List<OrderClient> orderList = new ArrayList<>();
+//        try (Connection connection = MysqlDataBase.connect()) {
+//            try (PreparedStatement statement = connection.prepareStatement("select * from orderClient where client_id =?")) {
+//                statement.setInt(1, id);
+//                ResultSet rs = statement.executeQuery();
+//                while (rs.next()) {
+//                    int orderId = rs.getInt("id");
+//                    String startDate = rs.getString("startDate");
+//                    String endDate = rs.getString("endDate");
+//                    int roomId = rs.getInt("room_id");
+//                    int clientId = rs.getInt("client_id");
+//                    String condition = rs.getString("conditions");
+//                    OrderClient order = new OrderClient(orderId, startDate, endDate, roomId, clientId, Condition.valueOf(condition));
+//                    orderList.add(order);
+//                }
+//            }
 //            log.info("List<OrderClient> with id: {} readed", id);
-//            return orderClients;
-//        } catch (HibernateException e) {
+//        } catch (SQLException | ClassNotFoundException e) {
+//            e.printStackTrace();
 //            log.error("Fail read List<OrderClient> with id: {}", id, e);
-//            return null;
 //        }
+//        return orderList;
 //    }
+
+    @Override
+    public List<OrderClient> readOrderByAuthUserIdDao(int id) {
+        try (Session session = SFUtil.getSession()) {
+            session.beginTransaction();
+            List<OrderClient> orderClients = session.createQuery("select OC FROM OrderClient OC WHERE userId = :userId ")
+                    .setParameter("userId", id)
+                    .getResultList();
+            session.getTransaction().commit();
+            log.info("List<OrderClient> with id: {} readed", id);
+            return orderClients;
+        } catch (HibernateException e) {
+            log.error("Fail read List<OrderClient> with id: {}", id, e);
+            return null;
+        }
+    }
 
     @Override
     public List<OrderForClient> readOrderForClientByClientIdDao(int id) {
@@ -219,7 +219,7 @@ public class DefaultOrderDao implements com.github.egorovag.hotelreserv.dao.Orde
 //                    .addScalar("numOfSeats", StandardBasicTypes.INTEGER)
 //                    .addScalar("classOfAp", StandardBasicTypes.INTEGER)
 //                    .addScalar("price", StandardBasicTypes.INTEGER)
-//                    .addScalar("conditions", StandardBasicTypes.STRING)
+//                    .addScalar("condition", StandardBasicTypes.STRING)
 //                    .setResultTransformer(Transformers.aliasToBean(OrderForAdmin.class))
 //                    .list();
 //            session.getTransaction().commit();
@@ -232,209 +232,210 @@ public class DefaultOrderDao implements com.github.egorovag.hotelreserv.dao.Orde
 //    }
 
 
+//    @Override
+//    public boolean updateOrderListDao(int orderId, Condition condition) {
+//        try (Connection connection = MysqlDataBase.connect();
+//             PreparedStatement statement = connection.prepareStatement
+//                     ("update orderclient set conditions=? where id=?")) {
+//            statement.setString(1, String.valueOf(condition));
+//            statement.setInt(2, orderId);
+//            statement.executeUpdate();
+//            log.info("cond_id: {} orderclient with order_id: {} updated", orderId, condition);
+//        } catch (SQLException | ClassNotFoundException e) {
+//            e.printStackTrace();
+//            log.error("Fail to update cond_id: {} orderclient with order_id: {}", orderId, condition, e);
+//        }
+//        return true;
+//    }
+
     @Override
     public boolean updateOrderListDao(int orderId, Condition condition) {
-        try (Connection connection = MysqlDataBase.connect();
-             PreparedStatement statement = connection.prepareStatement
-                     ("update orderclient set conditions=? where id=?")) {
-            statement.setString(1, String.valueOf(condition));
-            statement.setInt(2, orderId);
-            statement.executeUpdate();
+        try (Session session = SFUtil.getSession()) {
+            session.beginTransaction();
+            session.createNativeQuery("update orderclient set conditions = :condition where id = :id")
+                    .setParameter("condition", String.valueOf(condition))
+                    .setParameter("id", orderId)
+                    .executeUpdate();
+            session.getTransaction().commit();
             log.info("cond_id: {} orderclient with order_id: {} updated", orderId, condition);
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
+            return true;
+        } catch (HibernateException e) {
             log.error("Fail to update cond_id: {} orderclient with order_id: {}", orderId, condition, e);
+            return false;
         }
-        return true;
     }
 
 //    @Override
-//    public boolean updateOrderListDao(int orderId, Condition condition) {
-//        try (Session session = SFUtil.getSession()) {
-//            session.beginTransaction();
-//            session.createNativeQuery("update orderclient set conditions = :condition where id =:id")
-//                    .setParameter("condition", condition)
-//                    .setParameter("id", orderId)
-//                    .executeUpdate();
-//            log.info("cond_id: {} orderclient with order_id: {} updated", orderId, condition);
+//    public boolean deleteOrderByClientIdDao(int id) {
+//        try (Connection connection = MysqlDataBase.connect();
+//             PreparedStatement statement = connection.prepareStatement
+//                     ("delete from orderclient where client_id=?")) {
+//            statement.setInt(1, id);
+//            statement.executeUpdate();
+//            log.info("orderclient with client_id:{} deleted", id);
 //            return true;
-//        } catch (HibernateException e) {
-//            log.error("Fail to update cond_id: {} orderclient with order_id: {}", orderId, condition, e);
+//        } catch (SQLException | ClassNotFoundException e) {
+//            e.printStackTrace();
+//            log.error("Fail to delete orderclient with client_id:{}", id, e);
 //            return false;
 //        }
 //    }
 
     @Override
     public boolean deleteOrderByClientIdDao(int id) {
-        try (Connection connection = MysqlDataBase.connect();
-             PreparedStatement statement = connection.prepareStatement
-                     ("delete from orderclient where client_id=?")) {
-            statement.setInt(1, id);
-            statement.executeUpdate();
+        try (Session session = SFUtil.getSession()){
+            session.beginTransaction();
+            OrderClient orderClient = session.createQuery("select OC from OrderClient OC where userId = :id", OrderClient.class)
+                    .setParameter("id", id)
+                    .getSingleResult();
+            session.delete(orderClient);
+            session.getTransaction().commit();
             log.info("orderclient with client_id:{} deleted", id);
             return true;
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
+            } catch (HibernateException e) {
             log.error("Fail to delete orderclient with client_id:{}", id, e);
+            return false;
         }
-        return false;
     }
 
-//    @Override
-//    public boolean deleteOrderByClientIdDao(int id) {
-//        try (Session session = SFUtil.getSession()){
-//            session.beginTransaction();
-//            OrderClient orderClient = session.createQuery("delete OrderClient where userId = :id", OrderClient.class)
-//                    .setParameter("id", id)
-//                    .getSingleResult();
-//            session.delete(orderClient);
-//            session.beginTransaction().commit();
-//            log.info("orderclient with client_id:{} deleted", id);
-//            return true;
-//            } catch (HibernateException e) {
-//            log.error("Fail to delete orderclient with client_id:{}", id, e);
-//            return false;
-//        }
-//    }
-
-
-    @Override
-    public int readPriceByOrderIdDao(int orderId) {
-        int price = 0;
-        try (Connection connection = MysqlDataBase.connect()) {
-            try (PreparedStatement statement = connection.prepareStatement("select price from room join orderClient oC on room.id = oC.room_id where oC.id =?")) {
-                statement.setInt(1, orderId);
-                ResultSet rs = statement.executeQuery();
-                if (rs.next()) {
-                    price = rs.getInt("price");
-                }
-            }
-            log.info("Price with orderId: {} readed", orderId);
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-            log.error("Fail read price with orderId: {}", orderId, e);
-        }
-        return price;
-    }
 
 //    @Override
 //    public int readPriceByOrderIdDao(int orderId) {
 //        int price = 0;
-//        try (Session session = SFUtil.getSession()) {
-//            session.beginTransaction();
-//            price = (int) session.createNativeQuery("select r.price  from room r join orderClient oC on r.id = oC.room_id where oC.id = :orderId")
-//                    .setParameter("orderId", orderId)
-//                    .getSingleResult();
-//            session.beginTransaction().commit();
+//        try (Connection connection = MysqlDataBase.connect()) {
+//            try (PreparedStatement statement = connection.prepareStatement("select price from room join orderClient oC on room.id = oC.room_id where oC.id =?")) {
+//                statement.setInt(1, orderId);
+//                ResultSet rs = statement.executeQuery();
+//                if (rs.next()) {
+//                    price = rs.getInt("price");
+//                }
+//            }
 //            log.info("Price with orderId: {} readed", orderId);
-//            return price;
-//        } catch (HibernateException e) {
-//            //  разобраться что возвращает price или ОШИБКУ!!!!!
+//        } catch (SQLException | ClassNotFoundException e) {
+//            e.printStackTrace();
 //            log.error("Fail read price with orderId: {}", orderId, e);
-//            return price;
 //        }
+//        return price;
 //    }
 
     @Override
-    public boolean deleteOrderByOrderIdDao(int orderId) {
-        try (Connection connection = MysqlDataBase.connect();
-             PreparedStatement statement = connection.prepareStatement
-                     ("delete from orderclient where id=?")) {
-            statement.setInt(1, orderId);
-            statement.executeUpdate();
-            log.info("orderclient with client_id:{} deleted", orderId);
-            return true;
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-            log.error("Fail to delete orderclient with client_id:{}", orderId, e);
+    public int readPriceByOrderIdDao(int orderId) {
+        int price = 0;
+        try (Session session = SFUtil.getSession()) {
+            session.beginTransaction();
+            price = (int) session.createNativeQuery("select r.price  from room r join orderClient oC on r.id = oC.room_id where oC.id = :orderId")
+                    .setParameter("orderId", orderId)
+                    .getSingleResult();
+            session.getTransaction().commit();
+            log.info("Price with orderId: {} readed", orderId);
+            return price;
+        } catch (HibernateException e) {
+            //  разобраться что возвращает price или ОШИБКУ!!!!!
+            log.error("Fail read price with orderId: {}", orderId, e);
+            return price;
         }
-        return false;
     }
 
 //    @Override
 //    public boolean deleteOrderByOrderIdDao(int orderId) {
-//        try (Session session = SFUtil.getSession()) {
-//            session.beginTransaction();
-//            OrderClient orderClient = session.createQuery("select oC from OrderClient oC where id = :id", OrderClient.class)
-//                    .setParameter("id", orderId)
-//                    .getSingleResult();
-//            session.delete(orderClient);
-//            session.beginTransaction().commit();
+//        try (Connection connection = MysqlDataBase.connect();
+//             PreparedStatement statement = connection.prepareStatement
+//                     ("delete from orderclient where id=?")) {
+//            statement.setInt(1, orderId);
+//            statement.executeUpdate();
 //            log.info("orderclient with client_id:{} deleted", orderId);
 //            return true;
-//        } catch (HibernateException e) {
+//        } catch (SQLException | ClassNotFoundException e) {
+//            e.printStackTrace();
 //            log.error("Fail to delete orderclient with client_id:{}", orderId, e);
-//            return false;
 //        }
+//        return false;
 //    }
 
     @Override
-    public int checkIdOrderByClientOrderDao(int orderId) {
-        int id = 0;
-        try (Connection connection = MysqlDataBase.connect()) {
-            try (PreparedStatement statement = connection.prepareStatement("select client_id from orderclient where id=?")) {
-                statement.setInt(1, orderId);
-                ResultSet rs = statement.executeQuery();
-                if (rs.next()) {
-                    id = rs.getInt("client_id");
-                }
-            }
-            log.info("ClientId with orderId:{} readed ", orderId);
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-            log.error("Fail read ClientId with orderId:{} ", orderId, e);
+    public boolean deleteOrderByOrderIdDao(int orderId) {
+        try (Session session = SFUtil.getSession()) {
+            session.beginTransaction();
+            OrderClient orderClient = session.createQuery("select oC from OrderClient oC where id = :id", OrderClient.class)
+                    .setParameter("id", orderId)
+                    .getSingleResult();
+            session.delete(orderClient);
+            session.getTransaction().commit();
+            log.info("orderclient with client_id:{} deleted", orderId);
+            return true;
+        } catch (HibernateException e) {
+            log.error("Fail to delete orderclient with client_id:{}", orderId, e);
+            return false;
         }
-        return id;
     }
 
 //    @Override
 //    public int checkIdOrderByClientOrderDao(int orderId) {
 //        int id = 0;
-//        try (Session session = SFUtil.getSession()) {
-//            session.beginTransaction();
-//            id = (int) session.createQuery("select OrderClient.userId from OrderClient where id = :id")
-//                    .setParameter("id", orderId)
-//                    .getSingleResult();
-//            session.beginTransaction().commit();
+//        try (Connection connection = MysqlDataBase.connect()) {
+//            try (PreparedStatement statement = connection.prepareStatement("select client_id from orderclient where id=?")) {
+//                statement.setInt(1, orderId);
+//                ResultSet rs = statement.executeQuery();
+//                if (rs.next()) {
+//                    id = rs.getInt("client_id");
+//                }
+//            }
 //            log.info("ClientId with orderId:{} readed ", orderId);
-//            return id;
-//        } catch (HibernateException e) {
+//        } catch (SQLException | ClassNotFoundException e) {
+//            e.printStackTrace();
 //            log.error("Fail read ClientId with orderId:{} ", orderId, e);
-//            return id;
 //        }
+//        return id;
 //    }
 
     @Override
-    public Condition readConditionByOrderIdDao(int orderId) {
-        try (Connection connection = MysqlDataBase.connect()) {
-            try (PreparedStatement statement = connection.prepareStatement("select conditions from orderclient where id =?")) {
-                statement.setInt(1, orderId);
-                ResultSet rs = statement.executeQuery();
-                if (rs.next()) {
-                    return Condition.valueOf(rs.getString("conditions"));
-                }
-            }
-            log.info("Condition with orderId: {} readed", orderId);
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-            log.error("Fail read condition with orderId: {}", orderId, e);
+    public int checkIdOrderByClientOrderDao(int orderId) {
+        int id = 0;
+        try (Session session = SFUtil.getSession()) {
+            session.beginTransaction();
+            id = (int) session.createQuery("select OC.userId from OrderClient OC where id = :id")
+                    .setParameter("id", orderId)
+                    .getSingleResult();
+            session.getTransaction().commit();
+            log.info("ClientId with orderId:{} readed ", orderId);
+            return id;
+        } catch (HibernateException e) {
+            log.error("Fail read ClientId with orderId:{} ", orderId, e);
+            return id;
         }
-        return null;
     }
 
 //    @Override
 //    public Condition readConditionByOrderIdDao(int orderId) {
-//        try (Session session = SFUtil.getSession()) {
-//            session.beginTransaction();
-//            String condition = (String) session.createQuery("select condition from OrderClient where id = :id")
-//                    .setParameter("id", orderId)
-//                    .getSingleResult();
-//            session.beginTransaction().commit();
+//        try (Connection connection = MysqlDataBase.connect()) {
+//            try (PreparedStatement statement = connection.prepareStatement("select conditions from orderclient where id =?")) {
+//                statement.setInt(1, orderId);
+//                ResultSet rs = statement.executeQuery();
+//                if (rs.next()) {
+//                    return Condition.valueOf(rs.getString("conditions"));
+//                }
+//            }
 //            log.info("Condition with orderId: {} readed", orderId);
-//            return Condition.valueOf(condition);
-//        } catch (HibernateException e) {
+//        } catch (SQLException | ClassNotFoundException e) {
+//            e.printStackTrace();
 //            log.error("Fail read condition with orderId: {}", orderId, e);
-//            return null;
 //        }
+//        return null;
 //    }
+
+    @Override
+    public Condition readConditionByOrderIdDao(int orderId) {
+        try (Session session = SFUtil.getSession()) {
+            session.beginTransaction();
+            Condition condition = (Condition) session.createQuery("select OC.condition from OrderClient OC where id = :id")
+                    .setParameter("id", orderId)
+                    .getSingleResult();
+            session.getTransaction().commit();
+            log.info("Condition with orderId: {} readed", orderId);
+            return condition;
+        } catch (HibernateException e) {
+            log.error("Fail read condition with orderId: {}", orderId, e);
+            return null;
+        }
+    }
 }

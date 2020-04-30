@@ -1,8 +1,10 @@
 package com.github.egorovag.hotelreserv.model;
 
+import java.util.Objects;
+
 public class AuthUserWithClient {
 
-    private int id;
+    private Integer id;
     private String login;
     private String password;
     private String firstName;
@@ -10,7 +12,7 @@ public class AuthUserWithClient {
     private String email;
     private String phone;
 
-    public AuthUserWithClient(int id, String login, String password, String firstName, String secondName, String email, String phone) {
+    public AuthUserWithClient(Integer id, String login, String password, String firstName, String secondName, String email, String phone) {
         this.id = id;
         this.login = login;
         this.password = password;
@@ -20,7 +22,7 @@ public class AuthUserWithClient {
         this.phone = phone;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -57,5 +59,18 @@ public class AuthUserWithClient {
                 ", Фамилия=" + secondName +
                 ", email=" + email +
                 ", phone=" + phone ;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AuthUserWithClient that = (AuthUserWithClient) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

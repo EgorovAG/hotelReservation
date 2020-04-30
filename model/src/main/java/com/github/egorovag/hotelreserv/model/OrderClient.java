@@ -1,33 +1,34 @@
 package com.github.egorovag.hotelreserv.model;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "orderClient")
 public class OrderClient {
     @Id
-    @GeneratedValue
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     @Column
     private String startDate;
     @Column
     private String endDate;
     @Column(name = "room_id")
-    private int roomId;
+    private Integer roomId;
     @Column (name = "client_id")
-    private int userId;
+    private Integer userId;
     @Enumerated(EnumType.STRING)
     @Column(name = "conditions")
     private Condition condition;
 
-    public OrderClient(String startDate, String endDate, int roomId, Condition condition) {
+    public OrderClient(String startDate, String endDate, Integer roomId, Condition condition) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.roomId = roomId;
         this.condition = condition;
     }
 
-    public OrderClient(String startDate, String endDate, int roomId, int userId, Condition condition) {
+    public OrderClient(String startDate, String endDate, Integer roomId, Integer userId, Condition condition) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.roomId = roomId;
@@ -36,7 +37,7 @@ public class OrderClient {
     }
 
 
-    public OrderClient(int id, String startDate, String endDate, int roomId, int userId, Condition condition) {
+    public OrderClient(Integer id, String startDate, String endDate, Integer roomId, Integer userId, Condition condition) {
         this.id = id;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -48,23 +49,11 @@ public class OrderClient {
     public OrderClient() {
     }
 
-    @Override
-    public String toString() {
-        return "Order{" +
-                "order_id=" + id +
-                ", startDate='" + startDate + '\'' +
-                ", endDate='" + endDate + '\'' +
-                ", room_id=" + roomId +
-                ", user_id=" + userId +
-                ", cond_id=" + condition +
-                '}';
-    }
-
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -84,19 +73,19 @@ public class OrderClient {
         this.endDate = endDate;
     }
 
-    public int getRoomId() {
+    public Integer getRoomId() {
         return roomId;
     }
 
-    public void setRoomId(int roomId) {
+    public void setRoomId(Integer roomId) {
         this.roomId = roomId;
     }
 
-    public int getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
@@ -106,5 +95,30 @@ public class OrderClient {
 
     public void setCondition(Condition condition) {
         this.condition = condition;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "order_id=" + id +
+                ", startDate='" + startDate + '\'' +
+                ", endDate='" + endDate + '\'' +
+                ", room_id=" + roomId +
+                ", user_id=" + userId +
+                ", cond_id=" + condition +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OrderClient that = (OrderClient) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

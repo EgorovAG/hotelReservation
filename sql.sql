@@ -4,10 +4,10 @@
 create table IF NOT EXISTS authUser
 (
     id       int(64) auto_increment PRIMARY KEY,
-    login    varchar(50)                           not null,
-    password varchar(50)                           not null,
+    login    varchar(50) not null,
+    password varchar(50) not null,
 #     role     enum ('ADMIN', 'USER') default 'USER' not null
-    role     varchar(50)   not null
+    role     varchar(50) not null
 #     constraint authUser_login_unique unique (login)
 );
 
@@ -36,10 +36,10 @@ create table IF NOT EXISTS client
 create table IF NOT EXISTS room
 (
     id         int auto_increment PRIMARY KEY,
-    numOfSeats int                                     not null,
+    numOfSeats int         not null,
 #     classOfAp  enum ('ECONOM', 'STANDART', 'BUSINESS') not null,
     classOfAp  varchar(50) not null,
-    price      int                                     not null
+    price      int         not null
 );
 
 insert into room(numOfSeats, classOfAp, price)
@@ -71,10 +71,10 @@ create table IF NOT EXISTS blackList
 create table IF NOT EXISTS orderClient
 (
     id         int(64) auto_increment PRIMARY KEY,
-    startDate  varchar(50)                                                                 not null,
-    endDate    varchar(50)                                                                 not null,
-    room_id    int                                                                         not null,
-    client_id  int(64)                                                                     not null,
+    startDate  varchar(50) not null,
+    endDate    varchar(50) not null,
+    room_id    int         not null,
+    client_id  int(64)     not null,
 #     conditions enum ('CONSIDERATION','APPROVED','REJECTED','PAID') default 'CONSIDERATION' not null,
     conditions varchar(50) not null,
     constraint orderClient_client_id_fk foreign key (client_id) references client (user_id),
@@ -175,7 +175,7 @@ create table IF NOT EXISTS orderClient
 #
 # select price from room join orderClient oC on room.id = oC.room_id where oC.id = 1
 
-# insert into orderclient(startDate, endDate, room_id, client_id, conditions) values ('2020-10-05','2020-10-07','2','2','CONSIDERATION')
+insert into orderclient(startDate, endDate, room_id, client_id, conditions) values ('2020-10-05','2020-10-07','2','4','CONSIDERATION')
 #
 #
 # select oc.id, startDate, endDate,numOfSeats, classOfAp, price from orderclient as oc join room r on oc.room_id = r.id where 2
