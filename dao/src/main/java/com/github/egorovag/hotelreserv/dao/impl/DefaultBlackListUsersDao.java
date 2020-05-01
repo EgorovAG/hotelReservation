@@ -3,11 +3,14 @@ package com.github.egorovag.hotelreserv.dao.impl;
 import com.github.egorovag.hotelreserv.dao.BlackListUsersDao;
 import com.github.egorovag.hotelreserv.dao.utils.MysqlDataBase;
 import com.github.egorovag.hotelreserv.dao.utils.SFUtil;
+import com.github.egorovag.hotelreserv.model.AuthUserWithClient;
 import com.github.egorovag.hotelreserv.model.BlackList;
 import com.github.egorovag.hotelreserv.model.BlackListUsers;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
+import org.hibernate.transform.Transformers;
+import org.hibernate.type.StandardBasicTypes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,14 +20,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class DefaultBlackListUsersDao implements com.github.egorovag.hotelreserv.dao.BlackListUsersDao {
+public class DefaultBlackListUsersDao implements BlackListUsersDao {
     private static final Logger log = LoggerFactory.getLogger(DefaultBlackListUsersDao.class);
-    private static volatile com.github.egorovag.hotelreserv.dao.BlackListUsersDao instance;
+    private static volatile BlackListUsersDao instance;
 
     public static BlackListUsersDao getInstance() {
-        com.github.egorovag.hotelreserv.dao.BlackListUsersDao localInstance = instance;
+        BlackListUsersDao localInstance = instance;
         if (localInstance == null) {
-            synchronized (com.github.egorovag.hotelreserv.dao.BlackListUsersDao.class) {
+            synchronized (BlackListUsersDao.class) {
                 localInstance = instance;
                 if (localInstance == null) {
                     instance = localInstance = new DefaultBlackListUsersDao();
@@ -64,7 +67,12 @@ public class DefaultBlackListUsersDao implements com.github.egorovag.hotelreserv
         try (Session session = SFUtil.getSession()) {
             session.beginTransaction();
             List<BlackListUsers> listBL = session.createNativeQuery("select  bl.id, bl.user_id, bl.date_block,c.firstName,c.secondName from blacklist bl join client c on bl.user_id = c.user_id")
-                    .getResultList();
+                    .addScalar("id", StandardBasicTypes.INTEGER)
+                    .addScalar("user_id", StandardBasicTypes.INTEGER)
+                    .addScalar("date_block", StandardBasicTypes.STRING)
+                    .addScalar("firstName", StandardBasicTypes.STRING)
+                    .addScalar("secondName", StandardBasicTypes.STRING)
+                    .list();
             session.getTransaction().commit();
             log.info("List<AuthUser> readed:{}", listBL);
             return listBL;
@@ -138,8 +146,6 @@ public class DefaultBlackListUsersDao implements com.github.egorovag.hotelreserv
     }
 
 
-
-
 //    @Override
 //    public int checkBlackUserByIdDao(int id) {
 //        Integer res = null;
@@ -164,7 +170,9 @@ public class DefaultBlackListUsersDao implements com.github.egorovag.hotelreserv
     public int checkBlackUserByIdDao(int id) {
         try (Session session = SFUtil.getSession()) {
             session.beginTransaction();
-            Long res = (Long) session.createQuery("select count (*) from BlackList where userId = :id").setParameter("id",id).getSingleResult();
+            Long res = (Long) session.createQuery("select count (*) from BlackList b where b.userId = :id")
+                    .setParameter("id", id)
+                    .getSingleResult();
             session.getTransaction().commit();
             log.info("Client with id:{} saved in blackList", id);
             return Integer.parseInt(String.valueOf(res));
@@ -174,8 +182,6 @@ public class DefaultBlackListUsersDao implements com.github.egorovag.hotelreserv
         }
     }
 }
-
-
 
 
 //было

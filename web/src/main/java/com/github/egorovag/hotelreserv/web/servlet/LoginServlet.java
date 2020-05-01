@@ -45,14 +45,21 @@ public class LoginServlet extends HttpServlet {
             req.setAttribute("error", "Вы ввели неверное имя или пароль либо Вам необходимо зарегистрироваться");
             req.getRequestDispatcher("login.jsp").forward(req, resp);
         } else {
-            int id = authUser.getId();
-            if (blackListUsersService.checkBlackUserById(id)){
-                req.getRequestDispatcher("/youAreBlockClient.jsp").forward(req,resp);
-            } else {
+            if (authUser.getLogin().equals("admin")) {
                 req.getSession().setAttribute("authUser", authUser);
-                Client client = checkUserService.readClientByLoginService(authUser.getLogin());
-                req.getSession().setAttribute("client", client);
                 req.getRequestDispatcher("/personalArea.jsp").forward(req, resp);
+            } else {
+                int id = authUser.getId();
+                if (blackListUsersService.checkBlackUserById(id)) {
+                    req.getRequestDispatcher("/youAreBlockClient.jsp").forward(req, resp);
+                } else {
+                    req.getSession().setAttribute("authUser", authUser);
+                    Client client = checkUserService.readClientByLoginService(authUser.getLogin());
+                    if (client != null) {
+                        req.getSession().setAttribute("client", client);
+                    }
+                    req.getRequestDispatcher("/personalArea.jsp").forward(req, resp);
+                }
             }
         }
     }

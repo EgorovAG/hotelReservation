@@ -49,11 +49,6 @@ class OrderDaoTest {
         Assertions.assertEquals(1, orderLists.size());
     }
 
-    @Test
-    void testReadOrderByAuthUserIdDao() {
-        List<OrderClient> orderClients = orderDao.readOrderByAuthUserIdDao(authUser.getId());
-        Assertions.assertEquals(1,orderClients.size());
-    }
 
     @Test
     void testReadOrderForClientByClientIdDao(){
@@ -65,8 +60,8 @@ class OrderDaoTest {
     void testUpdateOrderListDao() {
         int orderId = order.getId();
         orderDao.updateOrderListDao(orderId, Condition.APPROVED);
-        List<OrderClient> orderClients = orderDao.readOrderByAuthUserIdDao(authUser.getId());
-        OrderClient orderClient = orderClients.get(0);
+        List<OrderForClient> orderForClients = orderDao.readOrderForClientByClientIdDao(authUser.getId());
+        OrderForClient orderClient = orderForClients.get(0);
         Assertions.assertEquals(Condition.APPROVED, orderClient.getCondition());
     }
 
@@ -102,3 +97,11 @@ class OrderDaoTest {
         Assertions.assertEquals(Condition.CONSIDERATION,condition);
     }
 }
+
+
+
+//@Test
+//    void testReadOrderByAuthUserIdDao() {
+//        List<OrderClient> orderClients = orderDao.readOrderByAuthUserIdDao(authUser.getId());
+//        Assertions.assertEquals(1,orderClients.size());
+//    }

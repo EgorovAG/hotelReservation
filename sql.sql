@@ -186,3 +186,6 @@ create table IF NOT EXISTS orderClient
 # select client_id from orderclient where id=9
 # select login from authuser where login = 'we'
 # select blackList.id, blackList.user_id, date_block, firstName, secondName from blacklist join client c on blackList.user_id = c.user_id
+
+
+select * from authuser join client on authuser.id = client.user_id where login = 'admin'

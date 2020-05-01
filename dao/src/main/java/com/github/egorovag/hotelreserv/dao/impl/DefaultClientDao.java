@@ -16,10 +16,10 @@ public class DefaultClientDao implements ClientDao {
     private static final Logger log = LoggerFactory.getLogger(DefaultClientDao.class);
     public static volatile com.github.egorovag.hotelreserv.dao.ClientDao instance;
 
-    public static com.github.egorovag.hotelreserv.dao.ClientDao getInstance() {
-        com.github.egorovag.hotelreserv.dao.ClientDao localInstance = instance;
+    public static ClientDao getInstance() {
+        ClientDao localInstance = instance;
         if (localInstance == null) {
-            synchronized (com.github.egorovag.hotelreserv.dao.ClientDao.class) {
+            synchronized (ClientDao.class) {
                 localInstance = instance;
                 if (localInstance == null) {
                     instance = localInstance = new DefaultClientDao();

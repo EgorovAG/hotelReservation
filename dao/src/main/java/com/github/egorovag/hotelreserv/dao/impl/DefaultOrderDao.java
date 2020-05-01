@@ -1,6 +1,7 @@
 package com.github.egorovag.hotelreserv.dao.impl;
 
 import com.github.egorovag.hotelreserv.dao.BlackListUsersDao;
+import com.github.egorovag.hotelreserv.dao.OrderDao;
 import com.github.egorovag.hotelreserv.dao.utils.MysqlDataBase;
 import com.github.egorovag.hotelreserv.dao.utils.SFUtil;
 import com.github.egorovag.hotelreserv.model.OrderClient;
@@ -11,6 +12,8 @@ import com.github.egorovag.hotelreserv.model.Condition;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.transform.Transformers;
+import org.hibernate.type.CustomType;
+import org.hibernate.type.EnumType;
 import org.hibernate.type.StandardBasicTypes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,15 +22,16 @@ import javax.management.Query;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
-public class DefaultOrderDao implements com.github.egorovag.hotelreserv.dao.OrderDao {
+public class DefaultOrderDao implements OrderDao {
     private static final Logger log = LoggerFactory.getLogger(DefaultOrderDao.class);
 
 
-    private static volatile com.github.egorovag.hotelreserv.dao.OrderDao instance;
+    private static volatile OrderDao instance;
 
-    public static com.github.egorovag.hotelreserv.dao.OrderDao getInstance() {
-        com.github.egorovag.hotelreserv.dao.OrderDao localInstance = instance;
+    public static OrderDao getInstance() {
+        OrderDao localInstance = instance;
         if (localInstance == null) {
             synchronized (BlackListUsersDao.class) {
                 localInstance = instance;
@@ -114,9 +118,15 @@ public class DefaultOrderDao implements com.github.egorovag.hotelreserv.dao.Orde
 
 //    @Override
 //    public List<OrderForAdmin> readOrderListDao() {
+////        Properties params = new Properties();
+////        params.put("enumClass", Condition.class.getName());
+////        params.put("useNamed", true);
+////        EnumType enumType = new EnumType();
+////        enumType.setParameterValues(params);
+////        CustomType customType = new CustomType(enumType);
 //        try (Session session = SFUtil.getSession()) {
 //            session.beginTransaction().commit();
-//            List<OrderForAdmin> orderForAdmins = session.createNativeQuery("select oC.id, c.firstName, c.secondName, c.email, c.phone, oC.client_id, oC.startDate, oC.endDate, oC.conditions from client c join orderClient oC on c.user_id = oC.client_id")
+//            List orderForAdmins = session.createNativeQuery("select oC.id, c.firstName, c.secondName, c.email, c.phone, oC.client_id, oC.startDate, oC.endDate, oC.conditions from client c join orderClient oC on c.user_id = oC.client_id")
 //                    .addScalar("id", StandardBasicTypes.INTEGER)
 //                    .addScalar("firstName", StandardBasicTypes.STRING)
 //                    .addScalar("secondName", StandardBasicTypes.STRING)
@@ -126,6 +136,7 @@ public class DefaultOrderDao implements com.github.egorovag.hotelreserv.dao.Orde
 //                    .addScalar("startDate", StandardBasicTypes.STRING)
 //                    .addScalar("endDate", StandardBasicTypes.STRING)
 //                    .addScalar("condition", StandardBasicTypes.STRING)
+////                    .addScalar("condition", customType)
 //                    .setResultTransformer(Transformers.aliasToBean(OrderForAdmin.class))
 //                    .list();
 //            session.getTransaction().commit();
@@ -138,47 +149,7 @@ public class DefaultOrderDao implements com.github.egorovag.hotelreserv.dao.Orde
 //    }
 
 
-//    @Override
-//    public List<OrderClient> readOrderByAuthUserIdDao(int id) {
-//        List<OrderClient> orderList = new ArrayList<>();
-//        try (Connection connection = MysqlDataBase.connect()) {
-//            try (PreparedStatement statement = connection.prepareStatement("select * from orderClient where client_id =?")) {
-//                statement.setInt(1, id);
-//                ResultSet rs = statement.executeQuery();
-//                while (rs.next()) {
-//                    int orderId = rs.getInt("id");
-//                    String startDate = rs.getString("startDate");
-//                    String endDate = rs.getString("endDate");
-//                    int roomId = rs.getInt("room_id");
-//                    int clientId = rs.getInt("client_id");
-//                    String condition = rs.getString("conditions");
-//                    OrderClient order = new OrderClient(orderId, startDate, endDate, roomId, clientId, Condition.valueOf(condition));
-//                    orderList.add(order);
-//                }
-//            }
-//            log.info("List<OrderClient> with id: {} readed", id);
-//        } catch (SQLException | ClassNotFoundException e) {
-//            e.printStackTrace();
-//            log.error("Fail read List<OrderClient> with id: {}", id, e);
-//        }
-//        return orderList;
-//    }
-
-    @Override
-    public List<OrderClient> readOrderByAuthUserIdDao(int id) {
-        try (Session session = SFUtil.getSession()) {
-            session.beginTransaction();
-            List<OrderClient> orderClients = session.createQuery("select OC FROM OrderClient OC WHERE userId = :userId ")
-                    .setParameter("userId", id)
-                    .getResultList();
-            session.getTransaction().commit();
-            log.info("List<OrderClient> with id: {} readed", id);
-            return orderClients;
-        } catch (HibernateException e) {
-            log.error("Fail read List<OrderClient> with id: {}", id, e);
-            return null;
-        }
-    }
+//
 
     @Override
     public List<OrderForClient> readOrderForClientByClientIdDao(int id) {
@@ -211,7 +182,7 @@ public class DefaultOrderDao implements com.github.egorovag.hotelreserv.dao.Orde
 //    public List<OrderForClient> readOrderForClientByClientIdDao(int id) {
 //          try (Session session = SFUtil.getSession()) {
 //            session.beginTransaction().commit();
-//            List<OrderForClient> orderForClients = session.createNativeQuery("select oc.id, startDate, endDate,numOfSeats, classOfAp, price, conditions from orderclient as oc join room r on oc.room_id = r.id where oc.client_id= :id")
+//            List<OrderForClient> orderForClients = session.createNativeQuery("select oc.id, oc.startDate, oc.endDate, r.numOfSeats, r.classOfAp, r.price, oc.conditions from orderclient as oc join room r on oc.room_id = r.id where oc.client_id= :id")
 //                    .setParameter("id", id)
 //                    .addScalar("id", StandardBasicTypes.INTEGER)
 //                    .addScalar("startDate", StandardBasicTypes.STRING)
@@ -219,7 +190,7 @@ public class DefaultOrderDao implements com.github.egorovag.hotelreserv.dao.Orde
 //                    .addScalar("numOfSeats", StandardBasicTypes.INTEGER)
 //                    .addScalar("classOfAp", StandardBasicTypes.INTEGER)
 //                    .addScalar("price", StandardBasicTypes.INTEGER)
-//                    .addScalar("condition", StandardBasicTypes.STRING)
+//                    .addScalar("conditions", StandardBasicTypes.STRING)
 //                    .setResultTransformer(Transformers.aliasToBean(OrderForAdmin.class))
 //                    .list();
 //            session.getTransaction().commit();
@@ -439,3 +410,49 @@ public class DefaultOrderDao implements com.github.egorovag.hotelreserv.dao.Orde
         }
     }
 }
+
+
+
+
+//вроде лишнее
+//@Override
+//    public List<OrderClient> readOrderByAuthUserIdDao(int id) {
+//        List<OrderClient> orderList = new ArrayList<>();
+//        try (Connection connection = MysqlDataBase.connect()) {
+//            try (PreparedStatement statement = connection.prepareStatement("select * from orderClient where client_id =?")) {
+//                statement.setInt(1, id);
+//                ResultSet rs = statement.executeQuery();
+//                while (rs.next()) {
+//                    int orderId = rs.getInt("id");
+//                    String startDate = rs.getString("startDate");
+//                    String endDate = rs.getString("endDate");
+//                    int roomId = rs.getInt("room_id");
+//                    int clientId = rs.getInt("client_id");
+//                    String condition = rs.getString("conditions");
+//                    OrderClient order = new OrderClient(orderId, startDate, endDate, roomId, clientId, Condition.valueOf(condition));
+//                    orderList.add(order);
+//                }
+//            }
+//            log.info("List<OrderClient> with id: {} readed", id);
+//        } catch (SQLException | ClassNotFoundException e) {
+//            e.printStackTrace();
+//            log.error("Fail read List<OrderClient> with id: {}", id, e);
+//        }
+//        return orderList;
+//    }
+
+//    @Override
+//    public List<OrderClient> readOrderByAuthUserIdDao(int id) {
+//        try (Session session = SFUtil.getSession()) {
+//            session.beginTransaction();
+//            List<OrderClient> orderClients = session.createQuery("select oc FROM OrderClient oc WHERE oc.userId = :userId ")
+//                    .setParameter("userId", id)
+//                    .list();
+//            session.getTransaction().commit();
+//            log.info("List<OrderClient> with id: {} readed", id);
+//            return orderClients;
+//        } catch (HibernateException e) {
+//            log.error("Fail read List<OrderClient> with id: {}", id, e);
+//            return null;
+//        }
+//    }

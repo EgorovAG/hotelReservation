@@ -39,10 +39,7 @@ public class DefaultOrderService implements OrderService {
         return iOrderDao.readOrderListDao();
     }
 
-    @Override
-    public List<OrderClient> readOrderByAuthUserIdService(int id) {
-        return iOrderDao.readOrderByAuthUserIdDao(id);
-    }
+
 
     @Override
     public boolean updateOrderList(int order_id, Condition condition) {
@@ -90,3 +87,9 @@ public class DefaultOrderService implements OrderService {
        return iOrderDao.readConditionByOrderIdDao(orderId);
     }
 }
+
+// вроде лишнее
+//    @Override
+//    public List<OrderClient> readOrderByAuthUserIdService(int id) {
+//        return iOrderDao.readOrderByAuthUserIdDao(id);
+//    }

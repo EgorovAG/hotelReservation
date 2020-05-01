@@ -41,35 +41,35 @@ class AuthUserDaoTest {
     void testSaveUserDao() {
         Assertions.assertEquals("alex", authUser.getLogin());
     }
-//
-//    @Test
-//    void testReadUserByLoginDao() {
-//        AuthUser authUserRes = authUserDao.readUserByLoginDao("alex");
-//        Assertions.assertEquals("alex", authUserRes.getLogin());
-//        Assertions.assertEquals("pass", authUserRes.getPassword());
-//    }
-//
-//    @Test
-//    void readClientByLoginDao() {
-//        Client client = new Client("Alex","Alexandrov","alex@tut.by","55555",authUser.getId());
-//        clientDao.saveClientDao(client);
-//        Client clientRes = authUserDao.readClientByLoginDao("alex");
-//        Assertions.assertEquals("Alex", clientRes.getFirstName());
-//        Assertions.assertEquals("55555", clientRes.getPhone());
-//        clientDao.deleteClientByClientIdDao(authUser.getId());
-//    }
-//
-//
-//    @Test
-//    void readListClientDao() {
-//
-//        Client client = new Client("Alex","Alexandrov","alex@tut.by","55555",authUser.getId());
-//        clientDao.saveClientDao(client);
-//        List<AuthUserWithClient> authUserListsRes = authUserDao.readListClientDao();
-//        Assertions.assertEquals(1, authUserListsRes.size());
-//        clientDao.deleteClientByClientIdDao(authUser.getId());
-//    }
-//
+
+    @Test
+    void testReadUserByLoginDao() {
+        AuthUser authUserRes = authUserDao.readUserByLoginDao("alex");
+        Assertions.assertEquals("alex", authUserRes.getLogin());
+        Assertions.assertEquals("pass", authUserRes.getPassword());
+    }
+
+    @Test
+    void readClientByLoginDao() {
+        Client client = new Client("Alex","Alexandrov","alex@tut.by","55555",authUser.getId());
+        clientDao.saveClientDao(client);
+        Client clientRes = authUserDao.readClientByLoginDao("alex");
+        Assertions.assertEquals("Alex", clientRes.getFirstName());
+        Assertions.assertEquals("55555", clientRes.getPhone());
+        clientDao.deleteClientByClientIdDao(authUser.getId());
+    }
+
+
+    @Test
+    void readListClientDao() {
+
+        Client client = new Client("Alex","Alexandrov","alex@tut.by","55555",authUser.getId());
+        clientDao.saveClientDao(client);
+        List<AuthUserWithClient> authUserListsRes = authUserDao.readListClientDao();
+        Assertions.assertEquals(1, authUserListsRes.size());
+        clientDao.deleteClientByClientIdDao(authUser.getId());
+    }
+
     @Test
    void deleteUserByLoginDao() {
         AuthUser authUser = authUserDao.saveUserDao("mike", "pass", Role.USER);

@@ -21,7 +21,7 @@ class BlackListUsersDaoTest {
     boolean res;
 
     @BeforeEach
-    void saveUserAndNewClientAndBlackList() {
+    void saveUserAndNewClient() {
         authUser = authUserDao.saveUserDao("alex", "pass", Role.USER);
         clientId = authUser.getId();
         client = new Client("Alex", "Alexandrov", "alex@tut.by", "55555", authUser.getId());
@@ -29,7 +29,7 @@ class BlackListUsersDaoTest {
     }
 
     @AfterEach
-    void deleteUserAndNewClientAndBlackList(){
+    void deleteUserAndNewClient(){
         clientDao.deleteClientByClientIdDao(clientId);
         authUserDao.deleteUserByIdDao(clientId);
         }

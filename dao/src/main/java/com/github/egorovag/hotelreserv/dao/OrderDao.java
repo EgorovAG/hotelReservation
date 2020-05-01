@@ -11,7 +11,6 @@ public interface OrderDao {
 
     OrderClient saveOrderDao (OrderClient orderWithoutId, int clientId);
     List<OrderForAdmin> readOrderListDao();
-    List<OrderClient> readOrderByAuthUserIdDao(int id);
     boolean updateOrderListDao(int orderId, Condition condition);
     boolean deleteOrderByClientIdDao(int id);
     List<OrderForClient> readOrderForClientByClientIdDao(int id);
@@ -19,6 +18,9 @@ public interface OrderDao {
     boolean deleteOrderByOrderIdDao(int orderId);
     Condition readConditionByOrderIdDao(int orderId);
     int readPriceByOrderIdDao(int orderId);
+
+//    List<OrderClient> readOrderByAuthUserIdDao(int id);
+
 
 
 

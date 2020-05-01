@@ -11,7 +11,7 @@ public interface OrderService {
 
     OrderClient saveOrder(OrderClient orderWithoutId, int client_id);
     List<OrderForAdmin> readOrderListService();
-    List<OrderClient> readOrderByAuthUserIdService(int id);
+//    List<OrderClient> readOrderByAuthUserIdService(int id);
     boolean updateOrderList(int orderId, Condition condition);
     boolean deleteOrderByClientId(int id);
     int readPriceByOrderId(int orderId);
