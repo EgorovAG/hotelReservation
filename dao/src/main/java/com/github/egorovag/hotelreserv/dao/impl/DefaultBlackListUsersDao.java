@@ -34,38 +34,45 @@ public class DefaultBlackListUsersDao implements com.github.egorovag.hotelreserv
         return localInstance;
     }
 
-    @Override
-    public List<BlackListUsers> readBlackListUsersListsDao() {
-        List<BlackListUsers> listBL = new ArrayList<>();
-        try (Connection connection = MysqlDataBase.connect();
-             Statement statement = connection.createStatement()) {
-            try (ResultSet rs = statement.executeQuery("select blackList.id, blackList.user_id, date_block, firstName, secondName from blacklist join client c on blackList.user_id = c.user_id")) {
-                while (rs.next()) {
-                    int id = rs.getInt("id");
-                    int userId = rs.getInt("user_id");
-                    Date dateBlock = rs.getDate("date_block");
-                    String firstName = rs.getString("firstName");
-                    String secondName = rs.getString("secondName");
-
-                    BlackListUsers blackListUsers = new BlackListUsers(id, userId, firstName, secondName, dateBlock);
-                    listBL.add(blackListUsers);
-                }
-            }
-            log.info("List<AuthUser> readed:{}", listBL);
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-            log.error("Fail to read List<AuthUser>", e);
-        }
-        return listBL;
-    }
-
 //    @Override
 //    public List<BlackListUsers> readBlackListUsersListsDao() {
-//        try (Session session = SFUtil.getSession()) {
-//            session.beginTransaction();
+//        List<BlackListUsers> listBL = new ArrayList<>();
+//        try (Connection connection = MysqlDataBase.connect();
+//             Statement statement = connection.createStatement()) {
+//            try (ResultSet rs = statement.executeQuery("select blackList.id, blackList.user_id, date_block, firstName, secondName from blacklist join client c on blackList.user_id = c.user_id")) {
+//                while (rs.next()) {
+//                    int id = rs.getInt("id");
+//                    int userId = rs.getInt("user_id");
+//                    Date dateBlock = rs.getDate("date_block");
+//                    String firstName = rs.getString("firstName");
+//                    String secondName = rs.getString("secondName");
 //
+//                    BlackListUsers blackListUsers = new BlackListUsers(id, userId, firstName, secondName, dateBlock);
+//                    listBL.add(blackListUsers);
+//                }
+//            }
+//            log.info("List<BlackListUsers> readed:{}", listBL);
+//        } catch (SQLException | ClassNotFoundException e) {
+//            e.printStackTrace();
+//            log.error("Fail to read List<BlackListUsers>", e);
 //        }
+//        return listBL;
 //    }
+
+    @Override
+    public List<BlackListUsers> readBlackListUsersListsDao() {
+        try (Session session = SFUtil.getSession()) {
+            session.beginTransaction();
+            List<BlackListUsers> listBL = session.createNativeQuery("select  bl.id, bl.user_id, bl.date_block,c.firstName,c.secondName from blacklist bl join client c on bl.user_id = c.user_id")
+                    .getResultList();
+            session.getTransaction().commit();
+            log.info("List<AuthUser> readed:{}", listBL);
+            return listBL;
+        } catch (HibernateException e) {
+            log.error("Fail to read List<BlackListUsers>", e);
+            return null;
+        }
+    }
 
 //    @Override
 //    public boolean deleteBlackListUserByIdDao(int id) {
@@ -134,7 +141,7 @@ public class DefaultBlackListUsersDao implements com.github.egorovag.hotelreserv
 
 
 //    @Override
-//    public Integer checkBlackUserByIdDao(int id) {
+//    public int checkBlackUserByIdDao(int id) {
 //        Integer res = null;
 //        try (Connection connection = MysqlDataBase.connect();
 //             PreparedStatement statement = connection.prepareStatement
@@ -157,10 +164,10 @@ public class DefaultBlackListUsersDao implements com.github.egorovag.hotelreserv
     public int checkBlackUserByIdDao(int id) {
         try (Session session = SFUtil.getSession()) {
             session.beginTransaction();
-            int res = (int) session.createQuery("select count (*) from BlackList where userId = :id").setParameter("id",id).getSingleResult();
+            Long res = (Long) session.createQuery("select count (*) from BlackList where userId = :id").setParameter("id",id).getSingleResult();
             session.getTransaction().commit();
             log.info("Client with id:{} saved in blackList", id);
-            return res;
+            return Integer.parseInt(String.valueOf(res));
         } catch (HibernateException e) {
             log.error("Fail to save client:{} in blackList", id, e);
             return 0;

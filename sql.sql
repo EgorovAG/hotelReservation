@@ -175,7 +175,7 @@ create table IF NOT EXISTS orderClient
 #
 # select price from room join orderClient oC on room.id = oC.room_id where oC.id = 1
 
-insert into orderclient(startDate, endDate, room_id, client_id, conditions) values ('2020-10-05','2020-10-07','2','4','CONSIDERATION')
+# insert into orderclient(startDate, endDate, room_id, client_id, conditions) values ('2020-10-05','2020-10-07','2','4','CONSIDERATION')
 #
 #
 # select oc.id, startDate, endDate,numOfSeats, classOfAp, price from orderclient as oc join room r on oc.room_id = r.id where 2
@@ -185,3 +185,4 @@ insert into orderclient(startDate, endDate, room_id, client_id, conditions) valu
 #
 # select client_id from orderclient where id=9
 # select login from authuser where login = 'we'
+# select blackList.id, blackList.user_id, date_block, firstName, secondName from blacklist join client c on blackList.user_id = c.user_id
