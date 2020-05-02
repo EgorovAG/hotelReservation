@@ -1,23 +1,17 @@
 package com.github.egorovag.hotelreserv.model;
 
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
 
-@Entity
-@Table(name = "blacklist")
-public class BlackListUsers {
 
-    @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+public class BlackListUsers {
     private Integer id;
-    @Column (name = "user_id")
     private Integer userId;
-    @Column
     private String firstName;
-    @Column
     private String secondName;
-    @Column
     private Date dateBlock;
 
     public BlackListUsers(Integer id, int userId, String firstName, String secondName, Date dateBlock) {
@@ -28,8 +22,6 @@ public class BlackListUsers {
         this.dateBlock = dateBlock;
     }
 
-    public BlackListUsers() {
-    }
 
     public Integer getId() {
         return id;

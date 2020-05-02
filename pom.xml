@@ -48,9 +48,14 @@
       <artifactId>hibernate-core</artifactId>
     </dependency>
     <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-ehcache</artifactId>
+    </dependency>
+    <dependency>
       <groupId>com.h2database</groupId>
       <artifactId>h2</artifactId>
     </dependency>
+
 <!--    <dependency>-->
 <!--      <groupId>org.apache.logging.log4j</groupId>-->
 <!--      <artifactId>log4j-core</artifactId>-->
@@ -117,10 +122,16 @@
           <version>5.4.14.Final</version>
         </dependency>
         <dependency>
+          <groupId>org.hibernate</groupId>
+          <artifactId>hibernate-ehcache</artifactId>
+          <version>5.4.14.Final</version>
+        </dependency>
+        <dependency>
           <groupId>com.h2database</groupId>
           <artifactId>h2</artifactId>
           <version>1.4.200</version>
         </dependency>
+
       </dependencies>
     </dependencyManagement>
 

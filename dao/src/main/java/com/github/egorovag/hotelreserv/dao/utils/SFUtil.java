@@ -37,6 +37,8 @@ public class SFUtil {
         settings.put(Environment.FORMAT_SQL, "false");
         settings.put(Environment.ISOLATION, "2");
         settings.put(Environment.STORAGE_ENGINE, "innodb");
+        settings.put(Environment.CACHE_REGION_FACTORY, "org.hibernate.cache.ehcache.EhCacheRegionFactory");
+        settings.put(Environment.USE_SECOND_LEVEL_CACHE, "true");
         // Apply settings
         serviceRegistryBuilder.applySettings(settings);
         // Create registry
