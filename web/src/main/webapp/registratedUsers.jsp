@@ -6,14 +6,65 @@
 
 <h2 style="text-align: center">Список зарегистрированных пользователей</h2>
 
-<c:set var="x" value="1"/>
-<c:forEach var="authUser" items="${authUserList}" >
-    <fieldset>
-        <c:out value="${x}"/>)
-        <c:out value="${authUser}"/>
-        <c:set var="x" value="${x+1}"/>
-    </fieldset>
-</c:forEach>
+
+<table border="1" width="100%" cellpadding="5">
+    <tr>
+        <th>№</th>
+        <th>id</th>
+        <th>логин</th>
+        <th>пароль</th>
+        <th>имя</th>
+        <th>фамилия</th>
+        <th>email</th>
+        <th>phone</th>
+        <th>Действия над списком заказчиков</th>
+    </tr>
+
+    <c:set var="x" value="1"/>
+    <c:forEach var="authUserWithClients" items="${authUserWithClients}">
+        <tr>
+            <td><c:out value="${x}"/>
+                <c:set var="x" value="${x+1}"/></td>
+            <td>${authUserWithClients.id}</td>
+            <td>${authUserWithClients.login}</td>
+            <td>${authUserWithClients.firstName}</td>
+            <td>${authUserWithClients.secondName}</td>
+            <td>${authUserWithClients.password}</td>
+            <td>${authUserWithClients.email}</td>
+            <td>${authUserWithClients.phone}</td>
+            <td>
+                <form action="${pageContext.request.contextPath}/orderList" method="post" >
+                    <input id="id" type="text" name="id" value="${authUserWithClients.id}" hidden="hidden">
+                    <input id="status" type="text" name="status" value="DELETE" hidden="hidden">
+                    <input type="submit" value=Удалить>
+                </form>
+                    <%--                    <form action="${pageContext.request.contextPath}/orderList" method="post">--%>
+                    <%--                        <button name="condition" value="APPROVED" name="orderId" value="${orderForAdmins.id}">--%>
+                    <%--                            Одобрить--%>
+                    <%--                        </button>--%>
+                    <%--                    </form>--%>
+            </td>
+
+                <%--                <td> <form action="${pageContext.request.contextPath}/orderList" method="post" >--%>
+                <%--                    <button  name="condition" value="APPROVED" >Одобрить</button>--%>
+                <%--                    <button  name="condition" value="REJECTED">Отказать</button>--%>
+                <%--                    <button  name="condition" value="DELETE">Удалить</button>--%>
+                <%--                </form></td>--%>
+        </tr>
+    </c:forEach>
+</table>
+
+<%--<c:set var="x" value="1"/>--%>
+<%--<c:forEach var="authUser" items="${authUserList}" >--%>
+<%--    <fieldset>--%>
+<%--        <c:out value="${x}"/>)--%>
+<%--        <c:out value="${authUser}"/>--%>
+<%--        <c:set var="x" value="${x+1}"/>--%>
+<%--    </fieldset>--%>
+<%--</c:forEach>--%>
+
+
+
 
 <form action="${pageContext.request.contextPath}/registratedUsers" method="post" >
     <h4>Введите id пользователя для удаления или блокировки</h4>

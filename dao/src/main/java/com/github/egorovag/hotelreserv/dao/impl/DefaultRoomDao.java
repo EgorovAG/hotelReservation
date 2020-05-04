@@ -1,20 +1,13 @@
 package com.github.egorovag.hotelreserv.dao.impl;
 
 import com.github.egorovag.hotelreserv.dao.RoomDao;
-import com.github.egorovag.hotelreserv.dao.utils.MysqlDataBase;
 import com.github.egorovag.hotelreserv.dao.utils.SFUtil;
-import com.github.egorovag.hotelreserv.model.Condition;
 import com.github.egorovag.hotelreserv.model.Room;
-import com.github.egorovag.hotelreserv.model.ClassRoom;
+import com.github.egorovag.hotelreserv.model.enums.ClassRoom;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 public class DefaultRoomDao implements RoomDao {
     private static final Logger log = LoggerFactory.getLogger(DefaultRoomDao.class);

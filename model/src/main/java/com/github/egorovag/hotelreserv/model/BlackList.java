@@ -11,12 +11,9 @@ import java.util.Objects;
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Table(name = "blackList")
 public class BlackList {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Integer id;
-    @Column(name = "user_id")
     private Integer userId;
-    @Column(name = "date_block")
     private Date dateBlock;
 
     public BlackList() {
@@ -32,7 +29,8 @@ public class BlackList {
         this.dateBlock = dateBlock;
     }
 
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Integer getId() {
         return id;
     }
@@ -40,7 +38,7 @@ public class BlackList {
     public void setId(Integer id) {
         this.id = id;
     }
-
+    @Column(name = "user_id")
     public Integer getUserId() {
         return userId;
     }
@@ -48,7 +46,7 @@ public class BlackList {
     public void setUserId(Integer userId) {
         this.userId = userId;
     }
-
+    @Column(name = "date_block")
     public Date getDateBlock() {
         return dateBlock;
     }

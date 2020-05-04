@@ -1,5 +1,6 @@
 package com.github.egorovag.hotelreserv.model;
 
+import com.github.egorovag.hotelreserv.model.enums.ClassRoom;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
@@ -10,14 +11,9 @@ import java.util.Objects;
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
 @Table(name = "room")
 public class Room {
-    @Id
     private Integer id;
-    @Column
     private Integer numOfSeats;
-    @Enumerated(EnumType.STRING)
-    @Column
     private ClassRoom classOfAp;
-    @Column
     private Integer price;
 
     public Room(Integer id, Integer numOfSeats, ClassRoom classOfAp, Integer price) {
@@ -29,7 +25,7 @@ public class Room {
 
     public Room() {
     }
-
+    @Id
     public Integer getId() {
         return id;
     }
@@ -37,7 +33,7 @@ public class Room {
     public void setId(Integer id) {
         this.id = id;
     }
-
+    @Column
     public Integer getNumOfSeats() {
         return numOfSeats;
     }
@@ -45,7 +41,8 @@ public class Room {
     public void setNumOfSeats(Integer numOfSeats) {
         this.numOfSeats = numOfSeats;
     }
-
+    @Enumerated(EnumType.STRING)
+    @Column
     public ClassRoom getClassOfAp() {
         return classOfAp;
     }
@@ -53,7 +50,7 @@ public class Room {
     public void setClassOfAp(ClassRoom classOfAp) {
         this.classOfAp = classOfAp;
     }
-
+    @Column
     public Integer getPrice() {
         return price;
     }

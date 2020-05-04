@@ -4,9 +4,9 @@ import com.github.egorovag.hotelreserv.dao.impl.DefaultAuthUserDao;
 import com.github.egorovag.hotelreserv.dao.impl.DefaultBlackListUsersDao;
 import com.github.egorovag.hotelreserv.dao.impl.DefaultClientDao;
 import com.github.egorovag.hotelreserv.model.AuthUser;
-import com.github.egorovag.hotelreserv.model.BlackListUsers;
+import com.github.egorovag.hotelreserv.model.dto.BlackListUsers;
 import com.github.egorovag.hotelreserv.model.Client;
-import com.github.egorovag.hotelreserv.model.Role;
+import com.github.egorovag.hotelreserv.model.enums.Role;
 import org.junit.jupiter.api.*;
 
 import java.util.List;

@@ -1,7 +1,6 @@
 package com.github.egorovag.hotelreserv.dao;
 
 import com.github.egorovag.hotelreserv.dao.impl.DefaultRoomDao;
-import com.github.egorovag.hotelreserv.model.ClassRoom;
 import com.github.egorovag.hotelreserv.model.Room;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

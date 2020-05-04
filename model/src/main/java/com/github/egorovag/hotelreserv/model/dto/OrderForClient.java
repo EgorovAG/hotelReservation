@@ -1,4 +1,7 @@
-package com.github.egorovag.hotelreserv.model;
+package com.github.egorovag.hotelreserv.model.dto;
+
+import com.github.egorovag.hotelreserv.model.enums.ClassRoom;
+import com.github.egorovag.hotelreserv.model.enums.Condition;
 
 import java.util.Objects;
 

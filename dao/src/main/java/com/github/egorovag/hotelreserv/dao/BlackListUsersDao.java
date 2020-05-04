@@ -1,8 +1,7 @@
 package com.github.egorovag.hotelreserv.dao;
 
-import com.github.egorovag.hotelreserv.model.BlackListUsers;
+import com.github.egorovag.hotelreserv.model.dto.BlackListUsers;
 
-import java.util.Date;
 import java.util.List;
 
 public interface BlackListUsersDao {

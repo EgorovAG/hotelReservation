@@ -1,9 +1,9 @@
 package com.github.egorovag.hotelreserv.dao;
 
 import com.github.egorovag.hotelreserv.model.AuthUser;
-import com.github.egorovag.hotelreserv.model.AuthUserWithClient;
+import com.github.egorovag.hotelreserv.model.dto.AuthUserWithClient;
 import com.github.egorovag.hotelreserv.model.Client;
-import com.github.egorovag.hotelreserv.model.Role;
+import com.github.egorovag.hotelreserv.model.enums.Role;
 
 import java.util.List;
 

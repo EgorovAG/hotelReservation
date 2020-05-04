@@ -5,20 +5,18 @@ import com.github.egorovag.hotelreserv.dao.OrderDao;
 import com.github.egorovag.hotelreserv.dao.utils.MysqlDataBase;
 import com.github.egorovag.hotelreserv.dao.utils.SFUtil;
 import com.github.egorovag.hotelreserv.model.OrderClient;
-import com.github.egorovag.hotelreserv.model.OrderForAdmin;
-import com.github.egorovag.hotelreserv.model.OrderForClient;
-import com.github.egorovag.hotelreserv.model.ClassRoom;
-import com.github.egorovag.hotelreserv.model.Condition;
+import com.github.egorovag.hotelreserv.model.dto.OrderForAdmin;
+import com.github.egorovag.hotelreserv.model.dto.OrderForClient;
+import com.github.egorovag.hotelreserv.model.enums.ClassRoom;
+import com.github.egorovag.hotelreserv.model.enums.Condition;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.internal.TypeLocatorImpl;
 import org.hibernate.transform.Transformers;
-import org.hibernate.type.CustomType;
-import org.hibernate.type.EnumType;
-import org.hibernate.type.StandardBasicTypes;
+import org.hibernate.type.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.management.Query;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -88,65 +86,65 @@ public class DefaultOrderDao implements OrderDao {
     }
 
 
-    @Override
-    public List<OrderForAdmin> readOrderListDao() {
-        List<OrderForAdmin> listOrder = new ArrayList<>();
-        try (Connection connection = MysqlDataBase.connect();
-             Statement statement = connection.createStatement()) {
-            try (ResultSet rs = statement.executeQuery("select oC.id, firstName, secondName, email, phone, client_id, startDate, endDate, conditions from client join orderClient oC on client.user_id = oC.client_id")) {
-                while (rs.next()) {
-                    int orderId = rs.getInt(1);
-                    String firstName = rs.getString(2);
-                    String secondName = rs.getString(3);
-                    String email = rs.getString(4);
-                    String phone = rs.getString(5);
-                    int clientId = rs.getInt(6);
-                    String startDate = rs.getString(7);
-                    String endDate = rs.getString(8);
-                    Condition condition = Condition.valueOf(rs.getString(9));
-                    OrderForAdmin orderList = new OrderForAdmin(orderId, firstName, secondName, email, phone, clientId, startDate, endDate, condition);
-                    listOrder.add(orderList);
-                }
-            }
-            log.info("List<OrderForAdmin> readed");
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-            log.error("Fail to read List<OrderForAdmin>", e);
-        }
-        return listOrder;
-    }
-
 //    @Override
 //    public List<OrderForAdmin> readOrderListDao() {
-////        Properties params = new Properties();
-////        params.put("enumClass", Condition.class.getName());
-////        params.put("useNamed", true);
-////        EnumType enumType = new EnumType();
-////        enumType.setParameterValues(params);
-////        CustomType customType = new CustomType(enumType);
-//        try (Session session = SFUtil.getSession()) {
-//            session.beginTransaction().commit();
-//            List orderForAdmins = session.createNativeQuery("select oC.id, c.firstName, c.secondName, c.email, c.phone, oC.client_id, oC.startDate, oC.endDate, oC.conditions from client c join orderClient oC on c.user_id = oC.client_id")
-//                    .addScalar("id", StandardBasicTypes.INTEGER)
-//                    .addScalar("firstName", StandardBasicTypes.STRING)
-//                    .addScalar("secondName", StandardBasicTypes.STRING)
-//                    .addScalar("email", StandardBasicTypes.STRING)
-//                    .addScalar("phone", StandardBasicTypes.STRING)
-//                    .addScalar("clientId", StandardBasicTypes.INTEGER)
-//                    .addScalar("startDate", StandardBasicTypes.STRING)
-//                    .addScalar("endDate", StandardBasicTypes.STRING)
-//                    .addScalar("condition", StandardBasicTypes.STRING)
-////                    .addScalar("condition", customType)
-//                    .setResultTransformer(Transformers.aliasToBean(OrderForAdmin.class))
-//                    .list();
-//            session.getTransaction().commit();
+//        List<OrderForAdmin> listOrder = new ArrayList<>();
+//        try (Connection connection = MysqlDataBase.connect();
+//             Statement statement = connection.createStatement()) {
+//            try (ResultSet rs = statement.executeQuery("select oC.id, firstName, secondName, email, phone, client_id, startDate, endDate, conditions from client join orderClient oC on client.user_id = oC.client_id")) {
+//                while (rs.next()) {
+//                    int orderId = rs.getInt(1);
+//                    String firstName = rs.getString(2);
+//                    String secondName = rs.getString(3);
+//                    String email = rs.getString(4);
+//                    String phone = rs.getString(5);
+//                    int clientId = rs.getInt(6);
+//                    String startDate = rs.getString(7);
+//                    String endDate = rs.getString(8);
+//                    Condition condition = Condition.valueOf(rs.getString(9));
+//                    OrderForAdmin orderList = new OrderForAdmin(orderId, firstName, secondName, email, phone, clientId, startDate, endDate, condition);
+//                    listOrder.add(orderList);
+//                }
+//            }
 //            log.info("List<OrderForAdmin> readed");
-//            return orderForAdmins;
-//        } catch (HibernateException e) {
+//        } catch (SQLException | ClassNotFoundException e) {
+//            e.printStackTrace();
 //            log.error("Fail to read List<OrderForAdmin>", e);
 //        }
-//        return null;
+//        return listOrder;
 //    }
+
+    @Override
+    public List<OrderForAdmin> readOrderListDao() {
+        Properties params = new Properties();
+        params.put(EnumType.ENUM, "com.github.egorovag.hotelreserv.model.enums.Condition");
+        params.put(EnumType.NAMED, true);
+
+        try (Session session = SFUtil.getSession()) {
+            session.beginTransaction().commit();
+            Type custom = session.getSessionFactory().getTypeHelper().custom(Condition.class, params);
+            List<OrderForAdmin> orderForAdmins = session.createNativeQuery("select oC.id, c.firstName, c.secondName, c.email, c.phone, oC.client_id as clientId, oC.startDate, oC.endDate, oC.conditions as 'condition' from client c join orderClient oC on c.user_id = oC.client_id")
+                    .addScalar("id", StandardBasicTypes.INTEGER)
+                    .addScalar("firstName", StandardBasicTypes.STRING)
+                    .addScalar("secondName", StandardBasicTypes.STRING)
+                    .addScalar("email", StandardBasicTypes.STRING)
+                    .addScalar("phone", StandardBasicTypes.STRING)
+                    .addScalar("clientId", StandardBasicTypes.INTEGER)
+                    .addScalar("startDate", StandardBasicTypes.STRING)
+                    .addScalar("endDate", StandardBasicTypes.STRING)
+                    .addScalar("condition", custom)
+//                    .addScalar("condition", StandardBasicTypes.STRING)
+//                    .addScalar("condition", customType)
+                    .setResultTransformer(Transformers.aliasToBean(OrderForAdmin.class))
+                    .list();
+            session.getTransaction().commit();
+            log.info("List<OrderForAdmin> readed");
+            return orderForAdmins;
+        } catch (HibernateException e) {
+            log.error("Fail to read List<OrderForAdmin>", e);
+        }
+        return null;
+    }
 
 
 //

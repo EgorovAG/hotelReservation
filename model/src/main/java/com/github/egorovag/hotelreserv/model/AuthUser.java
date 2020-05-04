@@ -1,5 +1,6 @@
 package com.github.egorovag.hotelreserv.model;
 
+import com.github.egorovag.hotelreserv.model.enums.Role;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
@@ -10,15 +11,9 @@ import java.util.Objects;
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Table(name = "authUser")
 public class AuthUser {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column
     private String login;
-    @Column
     private String password;
-    @Enumerated(EnumType.STRING)
-    @Column(name = "role")
     private Role role;
 
     public AuthUser(Integer id, String login, String password, Role role) {
@@ -37,6 +32,8 @@ public class AuthUser {
     public AuthUser() {
     }
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Integer getId() {
         return id;
     }
@@ -45,6 +42,7 @@ public class AuthUser {
         this.id = id;
     }
 
+    @Column
     public String getLogin() {
         return login;
     }
@@ -53,6 +51,7 @@ public class AuthUser {
         this.login = login;
     }
 
+    @Column
     public String getPassword() {
         return password;
     }
@@ -61,6 +60,8 @@ public class AuthUser {
         this.password = password;
     }
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role")
     public Role getRole() {
         return role;
     }

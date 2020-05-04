@@ -1,8 +1,8 @@
 package com.github.egorovag.hotelreserv.web.servlet;
 
 import com.github.egorovag.hotelreserv.model.Client;
-import com.github.egorovag.hotelreserv.model.OrderForClient;
-import com.github.egorovag.hotelreserv.model.Condition;
+import com.github.egorovag.hotelreserv.model.dto.OrderForClient;
+import com.github.egorovag.hotelreserv.model.enums.Condition;
 import com.github.egorovag.hotelreserv.service.impl.DefaultOrderService;
 import com.github.egorovag.hotelreserv.service.OrderService;
 

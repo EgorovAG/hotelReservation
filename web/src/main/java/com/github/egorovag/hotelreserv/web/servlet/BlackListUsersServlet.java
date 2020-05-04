@@ -1,7 +1,7 @@
 package com.github.egorovag.hotelreserv.web.servlet;
 
 
-import com.github.egorovag.hotelreserv.model.BlackListUsers;
+import com.github.egorovag.hotelreserv.model.dto.BlackListUsers;
 import com.github.egorovag.hotelreserv.service.impl.DefaultBlackListUsersService;
 import com.github.egorovag.hotelreserv.service.BlackListUsersService;
 

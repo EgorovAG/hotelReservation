@@ -1,4 +1,6 @@
-package com.github.egorovag.hotelreserv.model;
+package com.github.egorovag.hotelreserv.model.dto;
+
+import com.github.egorovag.hotelreserv.model.enums.Condition;
 
 import java.util.Objects;
 
@@ -26,6 +28,8 @@ public class OrderForAdmin {
         this.condition = condition;
     }
 
+    public OrderForAdmin() {
+    }
 
     public Integer getId() {
         return id;

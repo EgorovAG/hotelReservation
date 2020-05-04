@@ -2,7 +2,7 @@
 //
 //import com.github.egorovag.hotelreserv.dao.IroomDao;
 //import com.github.egorovag.hotelreserv.model.Room;
-//import com.github.egorovag.hotelreserv.model.ClassRoom;
+//import com.github.egorovag.hotelreserv.model.ENUM.ClassRoom;
 //import com.github.egorovag.hotelreserv.service.api.IroomService;
 //import org.junit.jupiter.api.Assertions;
 //import org.junit.jupiter.api.BeforeAll;

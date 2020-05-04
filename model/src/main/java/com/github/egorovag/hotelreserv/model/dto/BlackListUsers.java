@@ -1,8 +1,5 @@
-package com.github.egorovag.hotelreserv.model;
+package com.github.egorovag.hotelreserv.model.dto;
 
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
-import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
 

@@ -2,9 +2,9 @@
 //
 //import com.github.egorovag.hotelreserv.dao.IcheckAuthUserDao;
 //import com.github.egorovag.hotelreserv.model.AuthUser;
-//import com.github.egorovag.hotelreserv.model.AuthUserWithClient;
+//import com.github.egorovag.hotelreserv.model.DTO.AuthUserWithClient;
 //import com.github.egorovag.hotelreserv.model.Client;
-//import com.github.egorovag.hotelreserv.model.Role;
+//import com.github.egorovag.hotelreserv.model.ENUM.Role;
 //import com.github.egorovag.hotelreserv.service.api.IcheckUserService;
 //import org.junit.jupiter.api.Assertions;
 //import org.junit.jupiter.api.BeforeAll;

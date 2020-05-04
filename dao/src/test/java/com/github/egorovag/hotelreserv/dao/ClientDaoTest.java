@@ -5,7 +5,7 @@ import com.github.egorovag.hotelreserv.dao.impl.DefaultAuthUserDao;
 import com.github.egorovag.hotelreserv.dao.impl.DefaultClientDao;
 import com.github.egorovag.hotelreserv.model.AuthUser;
 import com.github.egorovag.hotelreserv.model.Client;
-import com.github.egorovag.hotelreserv.model.Role;
+import com.github.egorovag.hotelreserv.model.enums.Role;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

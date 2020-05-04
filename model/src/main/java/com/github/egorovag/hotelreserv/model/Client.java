@@ -10,18 +10,12 @@ import java.util.Objects;
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Table(name = "client")
 public class Client {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Integer id;
-    @Column
     private String firstName;
-    @Column
     private String secondName;
-    @Column
     private String email;
-    @Column
     private String phone;
-    @Column(name = "user_id")
     private Integer userId;
 
     public Client(String firstName, String secondName, String email, String phone, Integer userId) {
@@ -44,7 +38,8 @@ public class Client {
 
     public Client() {
     }
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Integer getId() {
         return id;
     }
@@ -52,7 +47,7 @@ public class Client {
     public void setId(Integer id) {
         this.id = id;
     }
-
+    @Column
     public String getFirstName() {
         return firstName;
     }
@@ -60,7 +55,7 @@ public class Client {
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
-
+    @Column
     public String getSecondName() {
         return secondName;
     }
@@ -68,7 +63,7 @@ public class Client {
     public void setSecondName(String secondName) {
         this.secondName = secondName;
     }
-
+    @Column
     public String getEmail() {
         return email;
     }
@@ -76,7 +71,7 @@ public class Client {
     public void setEmail(String email) {
         this.email = email;
     }
-
+    @Column
     public String getPhone() {
         return phone;
     }
@@ -84,7 +79,7 @@ public class Client {
     public void setPhone(String phone) {
         this.phone = phone;
     }
-
+    @Column(name = "user_id")
     public Integer getUserId() {
         return userId;
     }

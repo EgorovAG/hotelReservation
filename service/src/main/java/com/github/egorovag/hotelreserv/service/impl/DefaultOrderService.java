@@ -3,9 +3,9 @@ package com.github.egorovag.hotelreserv.service.impl;
 import com.github.egorovag.hotelreserv.dao.OrderDao;
 import com.github.egorovag.hotelreserv.dao.impl.DefaultOrderDao;
 import com.github.egorovag.hotelreserv.model.OrderClient;
-import com.github.egorovag.hotelreserv.model.OrderForAdmin;
-import com.github.egorovag.hotelreserv.model.OrderForClient;
-import com.github.egorovag.hotelreserv.model.Condition;
+import com.github.egorovag.hotelreserv.model.dto.OrderForAdmin;
+import com.github.egorovag.hotelreserv.model.dto.OrderForClient;
+import com.github.egorovag.hotelreserv.model.enums.Condition;
 import com.github.egorovag.hotelreserv.service.CheckUserService;
 import com.github.egorovag.hotelreserv.service.OrderService;
 

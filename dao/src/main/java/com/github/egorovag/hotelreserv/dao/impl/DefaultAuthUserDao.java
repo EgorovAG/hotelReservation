@@ -4,9 +4,9 @@ import com.github.egorovag.hotelreserv.dao.AuthUserDao;
 import com.github.egorovag.hotelreserv.dao.utils.MysqlDataBase;
 import com.github.egorovag.hotelreserv.dao.utils.SFUtil;
 import com.github.egorovag.hotelreserv.model.AuthUser;
-import com.github.egorovag.hotelreserv.model.AuthUserWithClient;
+import com.github.egorovag.hotelreserv.model.dto.AuthUserWithClient;
 import com.github.egorovag.hotelreserv.model.Client;
-import com.github.egorovag.hotelreserv.model.Role;
+import com.github.egorovag.hotelreserv.model.enums.Role;
 import org.hibernate.HibernateError;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -187,56 +187,56 @@ public class DefaultAuthUserDao implements AuthUserDao {
         }
     }
 
-    @Override
-    public List<AuthUserWithClient> readListClientDao() {
-        List<AuthUserWithClient> listAU = new ArrayList<>();
-        try (Connection connection = MysqlDataBase.connect();
-             Statement statement = connection.createStatement()) {
-            try (ResultSet rs = statement.executeQuery("select a.id, a.login, a.password, c.firstname, c.secondname, c.email, c.phone" +
-                    " from authuser a join client c on a.id = c.user_id ")) {
-                while (rs.next()) {
-                    int id = rs.getInt("id");
-                    String login = rs.getString("login");
-                    String password = rs.getString("password");
-                    String firstname = rs.getString("firstname");
-                    String secondname = rs.getString("secondname");
-                    String email = rs.getString("email");
-                    String phone = rs.getString("phone");
-                    AuthUserWithClient authUserList = new AuthUserWithClient(id, login, password, firstname, secondname, email, phone);
-                    listAU.add(authUserList);
-                }
-            }
-            log.info("List<AuthUserWithClient> readed: {}", listAU);
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-            log.error("Fail to read List<AuthUserWithClient>", e);
-        }
-        return listAU;
-    }
-
 //    @Override
 //    public List<AuthUserWithClient> readListClientDao() {
-//        try (Session session = SFUtil.getSession()) {
-//            session.beginTransaction();
-//            List<AuthUserWithClient> listAU = session.createNativeQuery("select a.id,a.login,a.password,c.firstName," +
-//                    "c.secondName,c.email,c.phone from AuthUser a join Client c on a.id = c.user_id")
-//                    .addScalar("id", StandardBasicTypes.INTEGER)
-//                    .addScalar("login", StandardBasicTypes.STRING)
-//                    .addScalar("password", StandardBasicTypes.STRING)
-//                    .addScalar("firstName", StandardBasicTypes.STRING)
-//                    .addScalar("secondName", StandardBasicTypes.STRING)
-//                    .addScalar("email", StandardBasicTypes.STRING)
-//                    .addScalar("phone", StandardBasicTypes.STRING)
-//                    .setResultTransformer(Transformers.aliasToBean(AuthUserWithClient.class))
-//                    .list();
-//            session.getTransaction().commit();
+//        List<AuthUserWithClient> listAU = new ArrayList<>();
+//        try (Connection connection = MysqlDataBase.connect();
+//             Statement statement = connection.createStatement()) {
+//            try (ResultSet rs = statement.executeQuery("select a.id, a.login, a.password, c.firstname, c.secondname, c.email, c.phone" +
+//                    " from authuser a join client c on a.id = c.user_id ")) {
+//                while (rs.next()) {
+//                    int id = rs.getInt("id");
+//                    String login = rs.getString("login");
+//                    String password = rs.getString("password");
+//                    String firstname = rs.getString("firstname");
+//                    String secondname = rs.getString("secondname");
+//                    String email = rs.getString("email");
+//                    String phone = rs.getString("phone");
+//                    AuthUserWithClient authUserList = new AuthUserWithClient(id, login, password, firstname, secondname, email, phone);
+//                    listAU.add(authUserList);
+//                }
+//            }
 //            log.info("List<AuthUserWithClient> readed: {}", listAU);
-//            return listAU;
-//        } catch (HibernateException e) {
+//        } catch (SQLException | ClassNotFoundException e) {
+//            e.printStackTrace();
 //            log.error("Fail to read List<AuthUserWithClient>", e);
-//            return null;
 //        }
+//        return listAU;
 //    }
+
+    @Override
+    public List<AuthUserWithClient> readListClientDao() {
+        try (Session session = SFUtil.getSession()) {
+            session.beginTransaction();
+            List<AuthUserWithClient> listAU = session.createNativeQuery("select a.id,a.login,a.password,c.firstName," +
+                    "c.secondName,c.email,c.phone from AuthUser a join Client c on a.id = c.user_id")
+                    .addScalar("id", StandardBasicTypes.INTEGER)
+                    .addScalar("login", StandardBasicTypes.STRING)
+                    .addScalar("password", StandardBasicTypes.STRING)
+                    .addScalar("firstName", StandardBasicTypes.STRING)
+                    .addScalar("secondName", StandardBasicTypes.STRING)
+                    .addScalar("email", StandardBasicTypes.STRING)
+                    .addScalar("phone", StandardBasicTypes.STRING)
+                    .setResultTransformer(Transformers.aliasToBean(AuthUserWithClient.class))
+                    .list();
+            session.getTransaction().commit();
+            log.info("List<AuthUserWithClient> readed: {}", listAU);
+            return listAU;
+        } catch (HibernateException e) {
+            log.error("Fail to read List<AuthUserWithClient>", e);
+            return null;
+        }
+    }
 
 
 //    @Override

@@ -1,7 +1,7 @@
 package com.github.egorovag.hotelreserv.web.servlet;
 
-import com.github.egorovag.hotelreserv.model.OrderForAdmin;
-import com.github.egorovag.hotelreserv.model.Condition;
+import com.github.egorovag.hotelreserv.model.dto.OrderForAdmin;
+import com.github.egorovag.hotelreserv.model.enums.Condition;
 import com.github.egorovag.hotelreserv.service.impl.DefaultOrderService;
 import com.github.egorovag.hotelreserv.service.OrderService;
 
@@ -15,21 +15,21 @@ import java.util.List;
 
 @WebServlet("/orderList")
 public class OrderListServlet extends HttpServlet {
-    private OrderService iorderService;
-    private List<OrderForAdmin> orderWithClients;
+    private OrderService orderService;
+    private List<OrderForAdmin> orderForAdmins;
 
     @Override
     public void init() throws ServletException {
-        iorderService = DefaultOrderService.getInstance();
+        orderService = DefaultOrderService.getInstance();
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<OrderForAdmin> orderWithClients = iorderService.readOrderListService();
-        if(orderWithClients==null || orderWithClients.isEmpty()){
-            req.setAttribute("orderWithClients",null);
+        List<OrderForAdmin> orderForAdmins = orderService.readOrderListService();
+        if(orderForAdmins==null || orderForAdmins.isEmpty()){
+            req.setAttribute("orderForAdmins",null);
         } else {
-            req.setAttribute("orderWithClients", orderWithClients);
+            req.setAttribute("orderForAdmins", orderForAdmins);
         }
         req.getRequestDispatcher("/orderList.jsp").forward(req,resp);
     }
@@ -39,18 +39,18 @@ public class OrderListServlet extends HttpServlet {
         int orderId = Integer.parseInt(req.getParameter("orderId"));
         String cond = req.getParameter("condition");
         if(cond.equals("DELETE")){
-            iorderService.deleteOrderByOrderId(orderId);
+            orderService.deleteOrderByOrderId(orderId);
 
         } else {
             Condition condition = Condition.valueOf(cond);
-            if(iorderService.readConditionByOrderId(orderId)==Condition.PAID){
+            if(orderService.readConditionByOrderId(orderId)==Condition.PAID){
                 req.setAttribute("error", "Заказ уже был оплачен после одобрения");
             } else {
-                iorderService.updateOrderList(orderId, condition);
+                orderService.updateOrderList(orderId, condition);
             }
         }
-        orderWithClients = iorderService.readOrderListService();
-        req.setAttribute("orderWithClients", orderWithClients);
+        orderForAdmins = orderService.readOrderListService();
+        req.setAttribute("orderForAdmins", orderForAdmins);
         req.getRequestDispatcher("/orderList.jsp").forward(req, resp);
     }
 }

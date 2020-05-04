@@ -2,7 +2,7 @@ package com.github.egorovag.hotelreserv.service.impl;
 
 import com.github.egorovag.hotelreserv.dao.BlackListUsersDao;
 import com.github.egorovag.hotelreserv.dao.impl.DefaultBlackListUsersDao;
-import com.github.egorovag.hotelreserv.model.BlackListUsers;
+import com.github.egorovag.hotelreserv.model.dto.BlackListUsers;
 import com.github.egorovag.hotelreserv.service.BlackListUsersService;
 
 import java.util.List;

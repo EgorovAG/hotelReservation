@@ -3,9 +3,9 @@ package com.github.egorovag.hotelreserv.dao;
 import com.github.egorovag.hotelreserv.dao.impl.DefaultAuthUserDao;
 import com.github.egorovag.hotelreserv.dao.impl.DefaultClientDao;
 import com.github.egorovag.hotelreserv.model.AuthUser;
-import com.github.egorovag.hotelreserv.model.AuthUserWithClient;
+import com.github.egorovag.hotelreserv.model.dto.AuthUserWithClient;
 import com.github.egorovag.hotelreserv.model.Client;
-import com.github.egorovag.hotelreserv.model.Role;
+import com.github.egorovag.hotelreserv.model.enums.Role;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -50,7 +50,7 @@ class AuthUserDaoTest {
     }
 
     @Test
-    void readClientByLoginDao() {
+    void testReadClientByLoginDao() {
         Client client = new Client("Alex","Alexandrov","alex@tut.by","55555",authUser.getId());
         clientDao.saveClientDao(client);
         Client clientRes = authUserDao.readClientByLoginDao("alex");
@@ -61,7 +61,7 @@ class AuthUserDaoTest {
 
 
     @Test
-    void readListClientDao() {
+    void testReadListClientDao() {
 
         Client client = new Client("Alex","Alexandrov","alex@tut.by","55555",authUser.getId());
         clientDao.saveClientDao(client);
@@ -71,14 +71,14 @@ class AuthUserDaoTest {
     }
 
     @Test
-   void deleteUserByLoginDao() {
+   void testDeleteUserByLoginDao() {
         AuthUser authUser = authUserDao.saveUserDao("mike", "pass", Role.USER);
         boolean res = authUserDao.deleteUserByLoginDao(authUser.getLogin());
         Assertions.assertTrue(res);
     }
 
     @Test
-    void deleteUserByIdDao() {
+    void testDeleteUserByIdDao() {
         AuthUser authUser = authUserDao.saveUserDao("mike", "pass", Role.USER);
         boolean res = authUserDao.deleteUserByIdDao(authUser.getId());
         Assertions.assertTrue(res);

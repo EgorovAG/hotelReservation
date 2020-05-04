@@ -1,6 +1,6 @@
 package com.github.egorovag.hotelreserv.service;
 
-import com.github.egorovag.hotelreserv.model.BlackListUsers;
+import com.github.egorovag.hotelreserv.model.dto.BlackListUsers;
 
 import java.util.List;
 

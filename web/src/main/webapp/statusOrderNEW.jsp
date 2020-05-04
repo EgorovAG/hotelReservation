@@ -8,13 +8,56 @@
 
     <h2 style="text-align: center">Список заказов</h2>
 
-    <c:set var="x" value="${1}"/>
-    <c:forEach var="orderForClients" items="${orderForClients}" >
-        <fieldset>
-            <c:out value="${x}"/>)    <c:out value="${orderForClients}"/>
-            <c:set var="x" value="${x+1}"/>
-        </fieldset>
-    </c:forEach>
+
+    <table border="1" width="100%" cellpadding="5">
+        <tr>
+            <th>№</th>
+            <th>id</th>
+            <th>время приезда</th>
+            <th>время отъезда</th>
+            <th>число мест</th>
+            <th>класс комнаты</th>
+            <th>цена</th>
+            <th>состояние</th>
+            <th>Действия над заказом</th>
+        </tr>
+
+        <c:set var="x" value="1"/>
+        <c:forEach var="orderForClients" items="${orderForClients}">
+            <tr>
+                <td><c:out value="${x}"/>
+                    <c:set var="x" value="${x+1}"/></td>
+                <td>${orderForClients.id}</td>
+                <td>${orderForClients.startDate}</td>
+                <td>${orderForClients.endDate}</td>
+                <td>${orderForClients.numOfSeats}</td>
+                <td>${orderForClients.classOfAp}</td>
+                <td>${orderForClients.price}</td>
+                <td>${orderForClients.condition}</td>
+                <td>
+                        <%--                    <form action="${pageContext.request.contextPath}/orderList" method="post">--%>
+                        <%--                        <button name="condition" value="APPROVED" name="orderId" value="${orderForAdmins.id}">--%>
+                        <%--                            Одобрить--%>
+                        <%--                        </button>--%>
+                        <%--                    </form>--%>
+                </td>
+
+                    <%--                <td> <form action="${pageContext.request.contextPath}/orderList" method="post" >--%>
+                    <%--                    <button  name="condition" value="APPROVED" >Одобрить</button>--%>
+                    <%--                    <button  name="condition" value="REJECTED">Отказать</button>--%>
+                    <%--                    <button  name="condition" value="DELETE">Удалить</button>--%>
+                    <%--                </form></td>--%>
+            </tr>
+        </c:forEach>
+    </table>
+
+<%--    <c:set var="x" value="${1}"/>--%>
+<%--    <c:forEach var="orderForClients" items="${orderForClients}" >--%>
+<%--        <fieldset>--%>
+<%--            <c:out value="${x}"/>)    <c:out value="${orderForClients}"/>--%>
+<%--            <c:set var="x" value="${x+1}"/>--%>
+<%--        </fieldset>--%>
+<%--    </c:forEach>--%>
 
     <form action="${pageContext.request.contextPath}/toPayOrder" method="post" >
         <h4>Введите id заказа:</h4>

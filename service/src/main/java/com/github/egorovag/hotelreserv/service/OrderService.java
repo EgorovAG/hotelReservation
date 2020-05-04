@@ -1,9 +1,9 @@
 package com.github.egorovag.hotelreserv.service;
 
 import com.github.egorovag.hotelreserv.model.OrderClient;
-import com.github.egorovag.hotelreserv.model.OrderForAdmin;
-import com.github.egorovag.hotelreserv.model.OrderForClient;
-import com.github.egorovag.hotelreserv.model.Condition;
+import com.github.egorovag.hotelreserv.model.dto.OrderForAdmin;
+import com.github.egorovag.hotelreserv.model.dto.OrderForClient;
+import com.github.egorovag.hotelreserv.model.enums.Condition;
 
 import java.util.List;
 

@@ -6,20 +6,45 @@
 
 <h2 style="text-align: center">Список заблокированных пользователей</h2>
 
-<c:set var="x" value="1"/>
-<c:forEach var="blackListUsers" items="${blackListUsers}" >
-    <fieldset>
-        <c:out value="${x}"/>)
-        <c:out value="${blackListUsers}"/>
-        <c:set var="x" value="${x+1}"/>
-    </fieldset>
-</c:forEach>
+<table border="1" width="100%" cellpadding="5">
+    <tr>
+        <th>№</th>
+        <th>Имя</th>
+        <th>Фамилия</th>
+        <th>Дата блокировки</th>
+        <th>Удалить из черного списка </th>
+    </tr>
 
-<form action="${pageContext.request.contextPath}/blackListUsers" method="post" >
-        <h4>Введите user_id пользователя для удаления из черного списка</h4>
-            <input id="text" type="text" name="id">
-            <input type="submit" value=Удалить>
-</form>
+    <c:set var="x" value="1"/>
+    <c:forEach var="blackListUsers" items="${blackListUsers}">
+        <tr>
+            <td><c:out value="${x}"/>
+                <c:set var="x" value="${x+1}"/></td>
+            <td>${blackListUsers.firstName}</td>
+            <td>${blackListUsers.secondName}</td>
+            <td>${blackListUsers.dateBlock}</td>
+            <td> <form action="${pageContext.request.contextPath}/blackListUsers" method="post" >
+                <button name="id" value="${blackListUsers.userId}">Удалить</button>
+            </form></td>
+        </tr>
+    </c:forEach>
+</table>
+
+
+<%--<c:set var="x" value="1"/>--%>
+<%--<c:forEach var="blackListUsers" items="${blackListUsers}" >--%>
+<%--    <fieldset>--%>
+<%--        <c:out value="${x}"/>)--%>
+<%--        <c:out value="${blackListUsers}"/>--%>
+<%--        <c:set var="x" value="${x+1}"/>--%>
+<%--    </fieldset>--%>
+<%--</c:forEach>--%>
+
+<%--<form action="${pageContext.request.contextPath}/blackListUsers" method="post" >--%>
+<%--        <h4>Введите user_id пользователя для удаления из черного списка</h4>--%>
+<%--            <input id="text" type="text" name="id">--%>
+<%--            <input type="submit" value=Удалить>--%>
+<%--</form>--%>
 
 <form action="${pageContext.request.contextPath}/personalArea.jsp" method="post" >
     <input type="submit" value="перейти в личный кабинет">

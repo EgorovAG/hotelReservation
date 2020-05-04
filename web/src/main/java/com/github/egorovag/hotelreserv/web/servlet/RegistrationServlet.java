@@ -2,7 +2,7 @@ package com.github.egorovag.hotelreserv.web.servlet;
 
 import com.github.egorovag.hotelreserv.model.AuthUser;
 import com.github.egorovag.hotelreserv.model.Client;
-import com.github.egorovag.hotelreserv.model.Role;
+import com.github.egorovag.hotelreserv.model.enums.Role;
 import com.github.egorovag.hotelreserv.service.impl.DefaultClientService;
 import com.github.egorovag.hotelreserv.service.CheckUserService;
 import com.github.egorovag.hotelreserv.service.impl.DefaultCheckUserService;

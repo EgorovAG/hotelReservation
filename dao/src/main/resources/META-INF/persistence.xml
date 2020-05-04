@@ -15,7 +15,7 @@
         <properties>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
             <property name="javax.persistence.jdbc.url"
-                      value="jdbc:mysql://localhost:3306/hotelreserv?serverTimezone=UTC&amp;
+                      value="jdbc:mysql://localhost:3306/hotelreserv?serverTimezone=Europe/Moscow&amp;
                       useSSL=false&amp;createDatabaseIfNotExist=true&amp;logger=com.mysql.cj.log.Slf4JLogger&amp;profileSQL=true"/>
 <!--            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/hotelreserv?createDatabaseIfNotExist=true"/>-->
             <property name="javax.persistence.jdbc.user" value="root"/>

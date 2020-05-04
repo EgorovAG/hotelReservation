@@ -4,8 +4,10 @@ import com.github.egorovag.hotelreserv.dao.impl.DefaultAuthUserDao;
 import com.github.egorovag.hotelreserv.dao.impl.DefaultClientDao;
 import com.github.egorovag.hotelreserv.dao.impl.DefaultOrderDao;
 import com.github.egorovag.hotelreserv.model.*;
-import com.github.egorovag.hotelreserv.model.Condition;
-import com.github.egorovag.hotelreserv.model.Role;
+import com.github.egorovag.hotelreserv.model.enums.Condition;
+import com.github.egorovag.hotelreserv.model.dto.OrderForAdmin;
+import com.github.egorovag.hotelreserv.model.dto.OrderForClient;
+import com.github.egorovag.hotelreserv.model.enums.Role;
 import org.junit.jupiter.api.*;
 
 import java.util.List;

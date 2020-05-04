@@ -1,5 +1,6 @@
 package com.github.egorovag.hotelreserv.model;
 
+import com.github.egorovag.hotelreserv.model.enums.Condition;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
@@ -10,19 +11,13 @@ import java.util.Objects;
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Table(name = "orderClient")
 public class OrderClient {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Integer id;
-    @Column
     private String startDate;
-    @Column
     private String endDate;
-    @Column(name = "room_id")
     private Integer roomId;
-    @Column (name = "client_id")
     private Integer userId;
-    @Enumerated(EnumType.STRING)
-    @Column(name = "conditions")
+
     private Condition condition;
 
     public OrderClient(String startDate, String endDate, Integer roomId, Condition condition) {
@@ -52,7 +47,8 @@ public class OrderClient {
 
     public OrderClient() {
     }
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Integer getId() {
         return id;
     }
@@ -60,7 +56,7 @@ public class OrderClient {
     public void setId(Integer id) {
         this.id = id;
     }
-
+    @Column
     public String getStartDate() {
         return startDate;
     }
@@ -68,6 +64,7 @@ public class OrderClient {
     public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
+    @Column
 
     public String getEndDate() {
         return endDate;
@@ -76,6 +73,7 @@ public class OrderClient {
     public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
+    @Column(name = "room_id")
 
     public Integer getRoomId() {
         return roomId;
@@ -84,6 +82,7 @@ public class OrderClient {
     public void setRoomId(Integer roomId) {
         this.roomId = roomId;
     }
+    @Column (name = "client_id")
 
     public Integer getUserId() {
         return userId;
@@ -92,7 +91,8 @@ public class OrderClient {
     public void setUserId(Integer userId) {
         this.userId = userId;
     }
-
+    @Enumerated(EnumType.STRING)
+    @Column(name = "conditions")
     public Condition getCondition() {
         return condition;
     }
