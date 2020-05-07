@@ -50,6 +50,7 @@ public class SFUtil {
         sources.addAnnotatedClass(OrderClient.class);
         sources.addAnnotatedClass(Room.class);
         sources.addAnnotatedClass(BlackList.class);
+        sources.addAnnotatedClass(Service.class);
         // Create Metadata
         Metadata metadata = sources.getMetadataBuilder().build();
         // Create SessionFactory

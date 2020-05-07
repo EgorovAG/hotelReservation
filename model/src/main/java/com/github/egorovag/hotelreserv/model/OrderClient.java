@@ -4,6 +4,8 @@ import com.github.egorovag.hotelreserv.model.enums.Condition;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -12,13 +14,24 @@ import java.util.Objects;
 @Table(name = "orderClient")
 public class OrderClient {
 
-    private Integer id;
+    private Integer orderId;
     private String startDate;
     private String endDate;
     private Integer roomId;
     private Integer userId;
-
     private Condition condition;
+
+
+    private Room room;
+
+
+//    @ManyToMany(mappedBy = "orderClients", cascade = CascadeType.ALL)
+//    private List<Service> services = new ArrayList<>();
+
+
+    private Client client;
+
+
 
     public OrderClient(String startDate, String endDate, Integer roomId, Condition condition) {
         this.startDate = startDate;
@@ -36,8 +49,8 @@ public class OrderClient {
     }
 
 
-    public OrderClient(Integer id, String startDate, String endDate, Integer roomId, Integer userId, Condition condition) {
-        this.id = id;
+    public OrderClient(Integer orderId, String startDate, String endDate, Integer roomId, Integer userId, Condition condition) {
+        this.orderId = orderId;
         this.startDate = startDate;
         this.endDate = endDate;
         this.roomId = roomId;
@@ -47,15 +60,18 @@ public class OrderClient {
 
     public OrderClient() {
     }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Integer getId() {
-        return id;
+    @Column(name = "order_id")
+    public Integer getOrderId() {
+        return orderId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setOrderId(Integer orderId) {
+        this.orderId = orderId;
     }
+
     @Column
     public String getStartDate() {
         return startDate;
@@ -64,6 +80,7 @@ public class OrderClient {
     public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
+
     @Column
 
     public String getEndDate() {
@@ -73,7 +90,8 @@ public class OrderClient {
     public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
-    @Column(name = "room_id")
+
+    @Column(name = "room_id", insertable = false, updatable = false)
 
     public Integer getRoomId() {
         return roomId;
@@ -82,7 +100,8 @@ public class OrderClient {
     public void setRoomId(Integer roomId) {
         this.roomId = roomId;
     }
-    @Column (name = "client_id")
+
+    @Column(name = "client_id")
 
     public Integer getUserId() {
         return userId;
@@ -91,6 +110,7 @@ public class OrderClient {
     public void setUserId(Integer userId) {
         this.userId = userId;
     }
+
     @Enumerated(EnumType.STRING)
     @Column(name = "conditions")
     public Condition getCondition() {
@@ -101,10 +121,38 @@ public class OrderClient {
         this.condition = condition;
     }
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "room_id", referencedColumnName = "id")
+    public Room getRoom() {
+        return room;
+    }
+
+    public void setRoom(Room room) {
+        this.room = room;
+    }
+
+    //    public List<Service> getServices() {
+//        return services;
+//    }
+//
+//    public void setServices(List<Service> services) {
+//        this.services = services;
+//    }
+//
+    @ManyToOne
+    @JoinColumn(name = "client_id",insertable = false, updatable = false)
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
-                "order_id=" + id +
+                "order_id=" + orderId +
                 ", startDate='" + startDate + '\'' +
                 ", endDate='" + endDate + '\'' +
                 ", room_id=" + roomId +
@@ -118,11 +166,11 @@ public class OrderClient {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         OrderClient that = (OrderClient) o;
-        return Objects.equals(id, that.id);
+        return Objects.equals(orderId, that.orderId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(orderId);
     }
 }

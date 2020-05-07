@@ -60,7 +60,7 @@ class OrderDaoTest {
 
     @Test
     void testUpdateOrderListDao() {
-        int orderId = order.getId();
+        int orderId = order.getOrderId();
         orderDao.updateOrderListDao(orderId, Condition.APPROVED);
         List<OrderForClient> orderForClients = orderDao.readOrderForClientByClientIdDao(authUser.getId());
         OrderForClient orderClient = orderForClients.get(0);
@@ -76,26 +76,26 @@ class OrderDaoTest {
 
     @Test
     void testReadPriceByOrderIdDao(){
-        int price = orderDao.readPriceByOrderIdDao(order.getId());
+        int price = orderDao.readPriceByOrderIdDao(order.getOrderId());
         Assertions.assertEquals(100, price);
     }
 
     @Test
     void testDeleteOrderByOrderIdDao(){
-        boolean res = orderDao.deleteOrderByOrderIdDao(order.getId());
+        boolean res = orderDao.deleteOrderByOrderIdDao(order.getOrderId());
         Assertions.assertTrue(res);
         orderDao.saveOrderDao(orderWithoutId, clientId);
     }
 
     @Test
     void testCheckIdOrderByClientOrderDao(){
-        int res = orderDao.checkIdOrderByClientOrderDao(order.getId());
+        int res = orderDao.checkIdOrderByClientOrderDao(order.getOrderId());
         Assertions.assertEquals(clientId,res);
     }
 
     @Test
     void testReadConditionByOrderIdDao(){
-        Condition condition = orderDao.readConditionByOrderIdDao(order.getId());
+        Condition condition = orderDao.readConditionByOrderIdDao(order.getOrderId());
         Assertions.assertEquals(Condition.CONSIDERATION,condition);
     }
 }

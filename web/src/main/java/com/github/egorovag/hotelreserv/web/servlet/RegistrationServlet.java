@@ -18,13 +18,13 @@ import java.io.IOException;
 @WebServlet("/registration")
 public class RegistrationServlet extends HttpServlet {
 
-    private CheckUserService icheckUserService;
-    private СlientService iclientService;
+    private CheckUserService checkUserService;
+    private СlientService clientService;
 
     @Override
     public void init() {
-        icheckUserService = DefaultCheckUserService.getInstance();
-        iclientService = DefaultClientService.getInstance();
+        checkUserService = DefaultCheckUserService.getInstance();
+        clientService = DefaultClientService.getInstance();
     }
 
     @Override
@@ -36,9 +36,17 @@ public class RegistrationServlet extends HttpServlet {
         String secondName = req.getParameter("secondName");
         String email = req.getParameter("email");
         String phone = req.getParameter("phone");
-        AuthUser authUser = icheckUserService.saveAuthUser(login, password, Role.USER);
+        AuthUser authUser = checkUserService.saveAuthUser(login, password, Role.USER);
         Client client = new Client(firstName, secondName, email, phone, authUser.getId());
-        iclientService.saveClient(client);
+
+//        oneToOne
+        AuthUser authUser = new AuthUser(login, password, Role.USER);
+        Client client = new Client(null,firstName, secondName, email, phone, authUser);
+        clientService.saveAuthUserAndClient(authUser, client);
+
+
+
+        clientService.saveClient(client);
         req.getSession().setAttribute("authUser", authUser);
         req.getSession().setAttribute("client", client);
         req.getRequestDispatcher("personalArea.jsp").forward(req, resp);

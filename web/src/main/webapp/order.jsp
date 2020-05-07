@@ -25,6 +25,11 @@
         <td><c:out value="дата отъезда"/></td>
         <td><c:out value="${order.endDate}"/></td>
     </tr>
+
+<%--    <tr>--%>
+<%--        <td><c:out value="дата отъезда"/></td>--%>
+<%--        <td><c:out value="${order.endDate}"/></td>--%>
+<%--    </tr>--%>
 </table> <br/>
 
     <form action="${pageContext.request.contextPath}/personalArea.jsp">

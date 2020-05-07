@@ -11,10 +11,15 @@ import java.util.Objects;
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Table(name = "authUser")
 public class AuthUser {
+
     private Integer id;
     private String login;
     private String password;
     private Role role;
+
+    private Client client;
+    private BlackList blackList;
+
 
     public AuthUser(Integer id, String login, String password, Role role) {
         this.id = id;
@@ -34,6 +39,7 @@ public class AuthUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     public Integer getId() {
         return id;
     }
@@ -68,6 +74,26 @@ public class AuthUser {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    @OneToOne(mappedBy = "authUser", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    @OneToOne(mappedBy = "authUser", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    public BlackList getBlackList() {
+        return blackList;
+    }
+
+    public void setBlackList(BlackList blackList) {
+        this.blackList = blackList;
     }
 
     @Override

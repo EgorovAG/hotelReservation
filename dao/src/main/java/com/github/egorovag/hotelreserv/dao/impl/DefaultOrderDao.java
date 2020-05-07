@@ -14,6 +14,7 @@ import org.hibernate.Session;
 import org.hibernate.internal.TypeLocatorImpl;
 import org.hibernate.transform.Transformers;
 import org.hibernate.type.*;
+import org.hibernate.type.spi.TypeConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -91,7 +92,7 @@ public class DefaultOrderDao implements OrderDao {
 //        List<OrderForAdmin> listOrder = new ArrayList<>();
 //        try (Connection connection = MysqlDataBase.connect();
 //             Statement statement = connection.createStatement()) {
-//            try (ResultSet rs = statement.executeQuery("select oC.id, firstName, secondName, email, phone, client_id, startDate, endDate, conditions from client join orderClient oC on client.user_id = oC.client_id")) {
+//            try (ResultSet rs = statement.executeQuery("select oC.order_id, firstName, secondName, email, phone, client_id, startDate, endDate, conditions from client join orderClient oC on client.user_id = oC.client_id")) {
 //                while (rs.next()) {
 //                    int orderId = rs.getInt(1);
 //                    String firstName = rs.getString(2);
@@ -113,17 +114,53 @@ public class DefaultOrderDao implements OrderDao {
 //        }
 //        return listOrder;
 //    }
+//
+//    @Override
+//    public List<OrderForAdmin> readOrderListDao() {
+//        Properties params = new Properties();
+//        params.put("enumClass", "com.github.egorovag.hotelreserv.model.enums.Condition");
+//        params.put("useNamed", true);
+//        TypeConfiguration typeConfiguration = new TypeConfiguration();
+//        Type myEnumType = new TypeLocatorImpl(new TypeResolver(typeConfiguration, new TypeFactory(typeConfiguration))).custom(EnumType.class, params);
+//        try (Session session = SFUtil.getSession()) {
+//            session.beginTransaction().commit();
+//            Type custom = session.getSessionFactory().getTypeHelper().custom(Condition.class, params);
+//            List<OrderForAdmin> orderForAdmins = session.createNativeQuery("select oC.order_id as orderId, c.firstName, c.secondName, c.email, c.phone, oC.client_id as clientId, oC.startDate, oC.endDate, oC.conditions as 'condition' from client c join orderClient oC on c.user_id = oC.client_id")
+//                    .addScalar("orderId", StandardBasicTypes.INTEGER)
+//                    .addScalar("firstName", StandardBasicTypes.STRING)
+//                    .addScalar("secondName", StandardBasicTypes.STRING)
+//                    .addScalar("email", StandardBasicTypes.STRING)
+//                    .addScalar("phone", StandardBasicTypes.STRING)
+//                    .addScalar("clientId", StandardBasicTypes.INTEGER)
+//                    .addScalar("startDate", StandardBasicTypes.STRING)
+//                    .addScalar("endDate", StandardBasicTypes.STRING)
+//                    .addScalar("condition", myEnumType)
+//
+////                    .addScalar("condition", StandardBasicTypes.STRING)
+////                    .addScalar("condition", customType)
+//                    .setResultTransformer(Transformers.aliasToBean(OrderForAdmin.class))
+//                    .list();
+//            session.getTransaction().commit();
+//            log.info("List<OrderForAdmin> readed");
+//            return orderForAdmins;
+//        } catch (HibernateException e) {
+//            log.error("Fail to read List<OrderForAdmin>", e);
+//        }
+//        return null;
+//    }
 
     @Override
     public List<OrderForAdmin> readOrderListDao() {
         Properties params = new Properties();
-        params.put(EnumType.ENUM, "com.github.egorovag.hotelreserv.model.enums.Condition");
-        params.put(EnumType.NAMED, true);
-
+        params.put("enumClass", "com.github.egorovag.hotelreserv.model.enums.Condition");
+        params.put("useNamed", true);
+        TypeConfiguration typeConfiguration = new TypeConfiguration();
+        Type myEnumType = new TypeLocatorImpl(new TypeResolver(typeConfiguration, new TypeFactory(typeConfiguration))).custom(EnumType.class, params);
         try (Session session = SFUtil.getSession()) {
-            session.beginTransaction().commit();
-            Type custom = session.getSessionFactory().getTypeHelper().custom(Condition.class, params);
-            List<OrderForAdmin> orderForAdmins = session.createNativeQuery("select oC.id, c.firstName, c.secondName, c.email, c.phone, oC.client_id as clientId, oC.startDate, oC.endDate, oC.conditions as 'condition' from client c join orderClient oC on c.user_id = oC.client_id")
+            session.beginTransaction();
+            List<OrderForAdmin> orderForAdmins = session.createNativeQuery("select oC.order_id as id, c.firstName, " +
+                    "c.secondName, c.email, c.phone, oC.client_id as clientId, oC.startDate, oC.endDate, oC.conditions as 'condition' " +
+                    "from client c join orderClient oC on c.user_id = oC.client_id")
                     .addScalar("id", StandardBasicTypes.INTEGER)
                     .addScalar("firstName", StandardBasicTypes.STRING)
                     .addScalar("secondName", StandardBasicTypes.STRING)
@@ -132,9 +169,7 @@ public class DefaultOrderDao implements OrderDao {
                     .addScalar("clientId", StandardBasicTypes.INTEGER)
                     .addScalar("startDate", StandardBasicTypes.STRING)
                     .addScalar("endDate", StandardBasicTypes.STRING)
-                    .addScalar("condition", custom)
-//                    .addScalar("condition", StandardBasicTypes.STRING)
-//                    .addScalar("condition", customType)
+                    .addScalar("condition", myEnumType)
                     .setResultTransformer(Transformers.aliasToBean(OrderForAdmin.class))
                     .list();
             session.getTransaction().commit();
@@ -147,13 +182,12 @@ public class DefaultOrderDao implements OrderDao {
     }
 
 
-//
 
     @Override
     public List<OrderForClient> readOrderForClientByClientIdDao(int id) {
         List<OrderForClient> orderForClients = new ArrayList<>();
         try (Connection connection = MysqlDataBase.connect()) {
-            try (PreparedStatement statement = connection.prepareStatement("select oc.id, startDate, endDate,numOfSeats, classOfAp, price, conditions from orderclient as oc join room r on oc.room_id = r.id where oc.client_id=?")) {
+            try (PreparedStatement statement = connection.prepareStatement("select oc.order_id, startDate, endDate,numOfSeats, classOfAp, price, conditions from orderclient as oc join room r on oc.room_id = r.id where oc.client_id=?")) {
                 statement.setInt(1, id);
                 ResultSet rs = statement.executeQuery();
                 while (rs.next()) {
@@ -178,17 +212,27 @@ public class DefaultOrderDao implements OrderDao {
 
 //    @Override
 //    public List<OrderForClient> readOrderForClientByClientIdDao(int id) {
+//        Properties params = new Properties();
+//        params.put("enumClass", "com.github.egorovag.hotelreserv.model.enums.Condition");
+//        params.put("useNamed", true);
+//        TypeConfiguration typeConfiguration = new TypeConfiguration();
+//        Type myEnumType = new TypeLocatorImpl(new TypeResolver(typeConfiguration, new TypeFactory(typeConfiguration))).custom(EnumType.class, params);
+//        Properties params2 = new Properties();
+//        params2.put("enumClass", "com.github.egorovag.hotelreserv.model.enums.ClassRoom");
+//        params2.put("useNamed", true);
+//        TypeConfiguration typeConfiguration2 = new TypeConfiguration();
+//        Type myEnumType2 = new TypeLocatorImpl(new TypeResolver(typeConfiguration2, new TypeFactory(typeConfiguration2))).custom(EnumType.class, params2);
 //          try (Session session = SFUtil.getSession()) {
 //            session.beginTransaction().commit();
-//            List<OrderForClient> orderForClients = session.createNativeQuery("select oc.id, oc.startDate, oc.endDate, r.numOfSeats, r.classOfAp, r.price, oc.conditions from orderclient as oc join room r on oc.room_id = r.id where oc.client_id= :id")
+//            List<OrderForClient> orderForClients = session.createNativeQuery("select oc.order_id as id, oc.startDate, oc.endDate, r.numOfSeats, r.classOfAp, r.price, oc.conditions as 'condition' from orderclient as oc join room r on oc.room_id = r.id where oc.client_id= :id")
 //                    .setParameter("id", id)
 //                    .addScalar("id", StandardBasicTypes.INTEGER)
 //                    .addScalar("startDate", StandardBasicTypes.STRING)
 //                    .addScalar("endDate", StandardBasicTypes.STRING)
 //                    .addScalar("numOfSeats", StandardBasicTypes.INTEGER)
-//                    .addScalar("classOfAp", StandardBasicTypes.INTEGER)
+//                    .addScalar("classOfAp", myEnumType2)
 //                    .addScalar("price", StandardBasicTypes.INTEGER)
-//                    .addScalar("conditions", StandardBasicTypes.STRING)
+//                    .addScalar("condition", myEnumType)
 //                    .setResultTransformer(Transformers.aliasToBean(OrderForAdmin.class))
 //                    .list();
 //            session.getTransaction().commit();
@@ -205,7 +249,7 @@ public class DefaultOrderDao implements OrderDao {
 //    public boolean updateOrderListDao(int orderId, Condition condition) {
 //        try (Connection connection = MysqlDataBase.connect();
 //             PreparedStatement statement = connection.prepareStatement
-//                     ("update orderclient set conditions=? where id=?")) {
+//                     ("update orderclient set conditions=? where order_id=?")) {
 //            statement.setString(1, String.valueOf(condition));
 //            statement.setInt(2, orderId);
 //            statement.executeUpdate();
@@ -221,9 +265,9 @@ public class DefaultOrderDao implements OrderDao {
     public boolean updateOrderListDao(int orderId, Condition condition) {
         try (Session session = SFUtil.getSession()) {
             session.beginTransaction();
-            session.createNativeQuery("update orderclient set conditions = :condition where id = :id")
+            session.createNativeQuery("update orderclient set conditions = :condition where order_id = :orderId")
                     .setParameter("condition", String.valueOf(condition))
-                    .setParameter("id", orderId)
+                    .setParameter("orderId", orderId)
                     .executeUpdate();
             session.getTransaction().commit();
             log.info("cond_id: {} orderclient with order_id: {} updated", orderId, condition);
@@ -272,7 +316,7 @@ public class DefaultOrderDao implements OrderDao {
 //    public int readPriceByOrderIdDao(int orderId) {
 //        int price = 0;
 //        try (Connection connection = MysqlDataBase.connect()) {
-//            try (PreparedStatement statement = connection.prepareStatement("select price from room join orderClient oC on room.id = oC.room_id where oC.id =?")) {
+//            try (PreparedStatement statement = connection.prepareStatement("select price from room join orderClient oC on room.id = oC.room_id where oC.order_id =?")) {
 //                statement.setInt(1, orderId);
 //                ResultSet rs = statement.executeQuery();
 //                if (rs.next()) {
@@ -292,7 +336,7 @@ public class DefaultOrderDao implements OrderDao {
         int price = 0;
         try (Session session = SFUtil.getSession()) {
             session.beginTransaction();
-            price = (int) session.createNativeQuery("select r.price  from room r join orderClient oC on r.id = oC.room_id where oC.id = :orderId")
+            price = (int) session.createNativeQuery("select r.price  from room r join orderClient oC on r.id = oC.room_id where oC.order_id = :orderId")
                     .setParameter("orderId", orderId)
                     .getSingleResult();
             session.getTransaction().commit();
@@ -309,7 +353,7 @@ public class DefaultOrderDao implements OrderDao {
 //    public boolean deleteOrderByOrderIdDao(int orderId) {
 //        try (Connection connection = MysqlDataBase.connect();
 //             PreparedStatement statement = connection.prepareStatement
-//                     ("delete from orderclient where id=?")) {
+//                     ("delete from orderclient where order_id=?")) {
 //            statement.setInt(1, orderId);
 //            statement.executeUpdate();
 //            log.info("orderclient with client_id:{} deleted", orderId);
@@ -325,8 +369,8 @@ public class DefaultOrderDao implements OrderDao {
     public boolean deleteOrderByOrderIdDao(int orderId) {
         try (Session session = SFUtil.getSession()) {
             session.beginTransaction();
-            OrderClient orderClient = session.createQuery("select oC from OrderClient oC where id = :id", OrderClient.class)
-                    .setParameter("id", orderId)
+            OrderClient orderClient = session.createQuery("select oC from OrderClient oC where order_id = :orderId", OrderClient.class)
+                    .setParameter("orderId", orderId)
                     .getSingleResult();
             session.delete(orderClient);
             session.getTransaction().commit();
@@ -342,7 +386,7 @@ public class DefaultOrderDao implements OrderDao {
 //    public int checkIdOrderByClientOrderDao(int orderId) {
 //        int id = 0;
 //        try (Connection connection = MysqlDataBase.connect()) {
-//            try (PreparedStatement statement = connection.prepareStatement("select client_id from orderclient where id=?")) {
+//            try (PreparedStatement statement = connection.prepareStatement("select client_id from orderclient where order_id=?")) {
 //                statement.setInt(1, orderId);
 //                ResultSet rs = statement.executeQuery();
 //                if (rs.next()) {
@@ -362,8 +406,8 @@ public class DefaultOrderDao implements OrderDao {
         int id = 0;
         try (Session session = SFUtil.getSession()) {
             session.beginTransaction();
-            id = (int) session.createQuery("select OC.userId from OrderClient OC where id = :id")
-                    .setParameter("id", orderId)
+            id = (int) session.createQuery("select OC.userId from OrderClient OC where order_id = :orderId")
+                    .setParameter("orderId", orderId)
                     .getSingleResult();
             session.getTransaction().commit();
             log.info("ClientId with orderId:{} readed ", orderId);
@@ -377,7 +421,7 @@ public class DefaultOrderDao implements OrderDao {
 //    @Override
 //    public Condition readConditionByOrderIdDao(int orderId) {
 //        try (Connection connection = MysqlDataBase.connect()) {
-//            try (PreparedStatement statement = connection.prepareStatement("select conditions from orderclient where id =?")) {
+//            try (PreparedStatement statement = connection.prepareStatement("select conditions from orderclient where order_id =?")) {
 //                statement.setInt(1, orderId);
 //                ResultSet rs = statement.executeQuery();
 //                if (rs.next()) {
@@ -396,8 +440,8 @@ public class DefaultOrderDao implements OrderDao {
     public Condition readConditionByOrderIdDao(int orderId) {
         try (Session session = SFUtil.getSession()) {
             session.beginTransaction();
-            Condition condition = (Condition) session.createQuery("select OC.condition from OrderClient OC where id = :id")
-                    .setParameter("id", orderId)
+            Condition condition = (Condition) session.createQuery("select OC.condition from OrderClient OC where orderId = :orderId")
+                    .setParameter("orderId", orderId)
                     .getSingleResult();
             session.getTransaction().commit();
             log.info("Condition with orderId: {} readed", orderId);

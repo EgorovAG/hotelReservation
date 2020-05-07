@@ -16,6 +16,8 @@ public class Room {
     private ClassRoom classOfAp;
     private Integer price;
 
+    private OrderClient orderClient;
+
     public Room(Integer id, Integer numOfSeats, ClassRoom classOfAp, Integer price) {
         this.id = id;
         this.numOfSeats = numOfSeats;
@@ -25,6 +27,7 @@ public class Room {
 
     public Room() {
     }
+
     @Id
     public Integer getId() {
         return id;
@@ -33,6 +36,7 @@ public class Room {
     public void setId(Integer id) {
         this.id = id;
     }
+
     @Column
     public Integer getNumOfSeats() {
         return numOfSeats;
@@ -41,6 +45,7 @@ public class Room {
     public void setNumOfSeats(Integer numOfSeats) {
         this.numOfSeats = numOfSeats;
     }
+
     @Enumerated(EnumType.STRING)
     @Column
     public ClassRoom getClassOfAp() {
@@ -50,6 +55,7 @@ public class Room {
     public void setClassOfAp(ClassRoom classOfAp) {
         this.classOfAp = classOfAp;
     }
+
     @Column
     public Integer getPrice() {
         return price;
@@ -57,6 +63,15 @@ public class Room {
 
     public void setPrice(Integer price) {
         this.price = price;
+    }
+
+    @OneToOne(mappedBy = "room", fetch = FetchType.LAZY, cascade = {CascadeType.ALL} )
+    public OrderClient getOrderClient() {
+        return orderClient;
+    }
+
+    public void setOrderClient(OrderClient orderClient) {
+        this.orderClient = orderClient;
     }
 
     @Override

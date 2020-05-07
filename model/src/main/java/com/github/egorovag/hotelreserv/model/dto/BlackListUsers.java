@@ -1,5 +1,6 @@
 package com.github.egorovag.hotelreserv.model.dto;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 
@@ -9,9 +10,9 @@ public class BlackListUsers {
     private Integer userId;
     private String firstName;
     private String secondName;
-    private Date dateBlock;
+    private LocalDate dateBlock;
 
-    public BlackListUsers(Integer id, int userId, String firstName, String secondName, Date dateBlock) {
+    public BlackListUsers(Integer id, int userId, String firstName, String secondName, LocalDate dateBlock) {
         this.id = id;
         this.userId = userId;
         this.firstName = firstName;
@@ -19,6 +20,8 @@ public class BlackListUsers {
         this.dateBlock = dateBlock;
     }
 
+    public BlackListUsers() {
+    }
 
     public Integer getId() {
         return id;
@@ -52,11 +55,11 @@ public class BlackListUsers {
         this.secondName = secondName;
     }
 
-    public Date getDateBlock() {
+    public LocalDate getDateBlock() {
         return dateBlock;
     }
 
-    public void setDateBlock(Date dateBlock) {
+    public void setDateBlock(LocalDate dateBlock) {
         this.dateBlock = dateBlock;
     }
 

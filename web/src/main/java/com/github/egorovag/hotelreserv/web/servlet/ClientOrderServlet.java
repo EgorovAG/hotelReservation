@@ -31,12 +31,14 @@ public class ClientOrderServlet extends HttpServlet {
     private СlientService clientService;
     private Client client;
 
+
     @Override
     public void init() {
         orderService = DefaultOrderService.getInstance();
         conditionService = DefaultBlackListUsersService.getInstance();
         roomService = DefaultRoomService.getInstance();
         clientService = DefaultClientService.getInstance();
+
     }
 
 
@@ -47,11 +49,23 @@ public class ClientOrderServlet extends HttpServlet {
         String classOfAp = req.getParameter("classOfAp");
         String startDate = req.getParameter("startDate");
         String endDate = req.getParameter("endDate");
+        String typeOfService1 = req.getParameter("typeOfService1");
+        String typeOfService2 = req.getParameter("typeOfService2");
+        String typeOfService3 = req.getParameter("typeOfService3");
+        String typeOfService4 = req.getParameter("typeOfService4");
+        String typeOfService5 = req.getParameter("typeOfService5");
+        String typeOfService6 = req.getParameter("typeOfService6");
+        String typeOfService7 = req.getParameter("typeOfService7");
+
         client = (Client) req.getSession().getAttribute("client");
         int clientId = client.getUserId();
         int roomId = roomService.readRoomIdService(numOfSeats, classOfAp);
         OrderClient orderWithoutId = new OrderClient(startDate, endDate, roomId, Condition.CONSIDERATION);
         OrderClient order = orderService.saveOrder(orderWithoutId, clientId);
+        if(typeOfService1.equals("pool")){
+
+
+        }
         req.getSession().setAttribute("order", order);
         Room room = roomService.readRoomByIdService(roomId);
         req.getSession().setAttribute("room", room);

@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <html>
 
@@ -33,23 +33,16 @@
             <td>${authUserWithClients.email}</td>
             <td>${authUserWithClients.phone}</td>
             <td>
-                <form action="${pageContext.request.contextPath}/orderList" method="post" >
-                    <input id="id" type="text" name="id" value="${authUserWithClients.id}" hidden="hidden">
-                    <input id="status" type="text" name="status" value="DELETE" hidden="hidden">
-                    <input type="submit" value=Удалить>
-                </form>
-                    <%--                    <form action="${pageContext.request.contextPath}/orderList" method="post">--%>
-                    <%--                        <button name="condition" value="APPROVED" name="orderId" value="${orderForAdmins.id}">--%>
-                    <%--                            Одобрить--%>
-                    <%--                        </button>--%>
-                    <%--                    </form>--%>
-            </td>
 
-                <%--                <td> <form action="${pageContext.request.contextPath}/orderList" method="post" >--%>
-                <%--                    <button  name="condition" value="APPROVED" >Одобрить</button>--%>
-                <%--                    <button  name="condition" value="REJECTED">Отказать</button>--%>
-                <%--                    <button  name="condition" value="DELETE">Удалить</button>--%>
-                <%--                </form></td>--%>
+                <form action="${pageContext.request.contextPath}/registratedUsers" method="post">
+                    <input id="id1" type="text" name="id" value="${authUserWithClients.id}" hidden="hidden">
+                    <input type="submit" value=Удалить>
+                </form>Z
+                <form action="${pageContext.request.contextPath}/blockUser" method="post">
+                    <input id="id2" type="text" name="id" value="${authUserWithClients.id}" hidden="hidden">
+                    <input type="submit" value=Заблокировать>
+                </form>
+            </td>
         </tr>
     </c:forEach>
 </table>
@@ -64,32 +57,23 @@
 <%--</c:forEach>--%>
 
 
+<%--<form action="${pageContext.request.contextPath}/registratedUsers" method="post">--%>
+<%--    <h4>Введите id пользователя для удаления или блокировки</h4>--%>
+<%--    <input id="text" type="text" name="id">--%>
+<%--    <input type="submit" value=Удалить>--%>
+<%--</form>--%>
+<%--<form action="${pageContext.request.contextPath}/blockUser" method="post">--%>
+<%--    <input id="texts" type="text" name="id">--%>
+<%--    <input type="submit" value=Заблокировать>--%>
+<%--</form>--%>
 
-
-<form action="${pageContext.request.contextPath}/registratedUsers" method="post" >
-    <h4>Введите id пользователя для удаления или блокировки</h4>
-    <input id="text" type="text" name="id">
-    <input type="submit" value=Удалить>
-</form>
-<form action="${pageContext.request.contextPath}/blockUser" method="post" >
-    <input id="texts" type="text" name="id">
-    <input type="submit" value=Заблокировать>
-</form>
-
-<form action="${pageContext.request.contextPath}/personalArea.jsp" method="post" >
+<form action="${pageContext.request.contextPath}/personalArea.jsp" method="post">
     <input type="submit" value="перейти в личный кабинет">
 </form>
 
 <a href="${pageContext.request.contextPath}/logout">Logout</a> <br/>
 
 <p style="color: red">${error}</p>
-
-
-
-
-
-
-
 
 
 </html>

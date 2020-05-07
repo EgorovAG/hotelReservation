@@ -187,6 +187,7 @@ public class DefaultAuthUserDao implements AuthUserDao {
         }
     }
 
+
 //    @Override
 //    public List<AuthUserWithClient> readListClientDao() {
 //        List<AuthUserWithClient> listAU = new ArrayList<>();

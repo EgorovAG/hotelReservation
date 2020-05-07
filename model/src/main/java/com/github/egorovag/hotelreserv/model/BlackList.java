@@ -3,6 +3,7 @@ package com.github.egorovag.hotelreserv.model;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 
@@ -14,17 +15,20 @@ public class BlackList {
 
     private Integer id;
     private Integer userId;
-    private Date dateBlock;
+    private LocalDate dateBlock;
+
+    private AuthUser authUser;
 
     public BlackList() {
     }
 
-    public BlackList(Integer id, Integer userId, Date dateBlock) {
+    public BlackList(Integer id, Integer userId, LocalDate dateBlock) {
         this.id = id;
         this.userId = userId;
         this.dateBlock = dateBlock;
     }
-    public BlackList(Integer userId, Date dateBlock) {
+
+    public BlackList(Integer userId, LocalDate dateBlock) {
         this.userId = userId;
         this.dateBlock = dateBlock;
     }
@@ -38,7 +42,8 @@ public class BlackList {
     public void setId(Integer id) {
         this.id = id;
     }
-    @Column(name = "user_id")
+
+    @Column(name = "user_id", insertable = false, updatable = false)
     public Integer getUserId() {
         return userId;
     }
@@ -46,13 +51,24 @@ public class BlackList {
     public void setUserId(Integer userId) {
         this.userId = userId;
     }
+
     @Column(name = "date_block")
-    public Date getDateBlock() {
+    public LocalDate getDateBlock() {
         return dateBlock;
     }
 
-    public void setDateBlock(Date dateBlock) {
+    public void setDateBlock(LocalDate dateBlock) {
         this.dateBlock = dateBlock;
+    }
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    public AuthUser getAuthUser() {
+        return authUser;
+    }
+
+    public void setAuthUser(AuthUser authUser) {
+        this.authUser = authUser;
     }
 
     @Override

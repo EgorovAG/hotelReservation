@@ -8,6 +8,8 @@ import com.github.egorovag.hotelreserv.model.dto.BlackListUsers;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
+import org.hibernate.transform.Transformers;
+import org.hibernate.type.StandardBasicTypes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,7 +45,7 @@ public class DefaultBlackListUsersDao implements BlackListUsersDao {
                 while (rs.next()) {
                     int id = rs.getInt("id");
                     int userId = rs.getInt("user_id");
-                    Date dateBlock = rs.getDate("date_block");
+                    LocalDate dateBlock = LocalDate.parse(rs.getString("date_block"));
                     String firstName = rs.getString("firstName");
                     String secondName = rs.getString("secondName");
 
@@ -63,14 +65,13 @@ public class DefaultBlackListUsersDao implements BlackListUsersDao {
 //    public List<BlackListUsers> readBlackListUsersListsDao() {
 //        try (Session session = SFUtil.getSession()) {
 //            session.beginTransaction();
-//            List<BlackListUsers> listBL = session.createNativeQuery("select  bl.id, bl.user_id, bl.date_block,c.firstName,c.secondName from blacklist bl join client c on bl.user_id = c.user_id")
+//            List<BlackListUsers> listBL = session.createNativeQuery("select  bl.id, bl.user_id as userId, c.firstName ,c.secondName, bl.date_block as dateBlock  from blacklist bl join client c on bl.user_id = c.user_id")
 //                    .addScalar("id", StandardBasicTypes.INTEGER)
-//                    .addScalar("user_id", StandardBasicTypes.INTEGER)
-//                    .addScalar("date_block", StandardBasicTypes.STRING)
+//                    .addScalar("userId", StandardBasicTypes.INTEGER)
 //                    .addScalar("firstName", StandardBasicTypes.STRING)
 //                    .addScalar("secondName", StandardBasicTypes.STRING)
+//                    .addScalar("date_block", StandardBasicTypes.CALENDAR_DATE)
 //                    .setResultTransformer(Transformers.aliasToBean(BlackListUsers.class))
-//
 //                    .list();
 //            session.getTransaction().commit();
 //            log.info("List<AuthUser> readed:{}", listBL);
@@ -81,36 +82,36 @@ public class DefaultBlackListUsersDao implements BlackListUsersDao {
 //        }
 //    }
 
-//    @Override
-//    public boolean deleteBlackListUserByIdDao(int id) {
-//        try (Connection connection = MysqlDataBase.connect();
-//             PreparedStatement statement = connection.prepareStatement
-//                     ("delete from blacklist where user_id =?")) {
-//            statement.setInt(1, id);
-//            statement.executeUpdate();
-//            log.info("user with id:{} deleted from blackList", id);
-//            return true;
-//        } catch (SQLException | ClassNotFoundException e) {
-//            e.printStackTrace();
-//            log.error("Fail to delete user from blackList with id:{}", id);
-//            return false;
-//        }
-//    }
-
     @Override
     public boolean deleteBlackListUserByIdDao(int id) {
-        try (Session session = SFUtil.getSession()) {
-            session.beginTransaction();
-            Query query = session.createQuery("DELETE BlackList where userId = :id");
-            query.setParameter("id", id);
-            query.executeUpdate();
-            session.getTransaction().commit();
+        try (Connection connection = MysqlDataBase.connect();
+             PreparedStatement statement = connection.prepareStatement
+                     ("delete from blacklist where user_id =?")) {
+            statement.setInt(1, id);
+            statement.executeUpdate();
+            log.info("user with id:{} deleted from blackList", id);
             return true;
-        } catch (HibernateException e) {
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
             log.error("Fail to delete user from blackList with id:{}", id);
             return false;
         }
     }
+
+//    @Override
+//    public boolean deleteBlackListUserByIdDao(int id) {
+//        try (Session session = SFUtil.getSession()) {
+//            session.beginTransaction();
+//            Query query = session.createQuery("DELETE BlackList where userId = :id");
+//            query.setParameter("id", id);
+//            query.executeUpdate();
+//            session.getTransaction().commit();
+//            return true;
+//        } catch (HibernateException e) {
+//            log.error("Fail to delete user from blackList with id:{}", id);
+//            return false;
+//        }
+//    }
 
 
 //    @Override
@@ -131,7 +132,7 @@ public class DefaultBlackListUsersDao implements BlackListUsersDao {
 
     @Override
     public boolean saveBlackListUserDao(int id) {
-        BlackList blackList = new BlackList(id, Date.valueOf(LocalDate.now()));
+        BlackList blackList = new BlackList(id, LocalDate.now());
         try (Session session = SFUtil.getSession()) {
             session.beginTransaction();
             session.saveOrUpdate(blackList);

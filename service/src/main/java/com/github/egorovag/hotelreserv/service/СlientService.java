@@ -8,6 +8,7 @@ public interface СlientService {
 
     boolean saveClient(Client client) ;
     boolean deleteClientSeviceById(int id);
+
 //    int loadClient_id(String login);
 
 

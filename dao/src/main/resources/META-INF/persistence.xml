@@ -9,6 +9,7 @@
         <class>com.github.egorovag.hotelreserv.model.OrderClient</class>
         <class>com.github.egorovag.hotelreserv.model.BlackList</class>
         <class>com.github.egorovag.hotelreserv.model.Room</class>
+        <class>com.github.egorovag.hotelreserv.model.Service</class>
 
 
         <exclude-unlisted-classes>true</exclude-unlisted-classes>

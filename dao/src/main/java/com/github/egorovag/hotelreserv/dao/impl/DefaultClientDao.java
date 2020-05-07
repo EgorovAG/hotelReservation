@@ -4,6 +4,7 @@ import com.github.egorovag.hotelreserv.dao.ClientDao;
 import com.github.egorovag.hotelreserv.dao.utils.MysqlDataBase;
 //import com.github.egorovag.hotelreserv.dao.utils.SFUtil;
 import com.github.egorovag.hotelreserv.dao.utils.SFUtil;
+import com.github.egorovag.hotelreserv.model.AuthUser;
 import com.github.egorovag.hotelreserv.model.Client;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -28,6 +29,10 @@ public class DefaultClientDao implements ClientDao {
         }
         return localInstance;
     }
+
+
+
+
 
 //    @Override
 //    public boolean saveClientDao(Client client) {
@@ -61,6 +66,24 @@ public class DefaultClientDao implements ClientDao {
             return false;
         }
     }
+//    @Override //oneToOne сохранить сразу и клиента и user
+//    public boolean saveClientDao(Client client) {
+//        try (Session session = SFUtil.getSession()) {
+//            session.beginTransaction();
+//            AuthUser authUser = session.get(AuthUser.class, client.getUserId());
+//            authUser.setClient(client);
+//            session.saveOrUpdate(authUser);
+//            session.getTransaction().commit();
+//            log.info("Client : {} saved", client);
+//            return true;
+//        } catch (HibernateException e) {
+//            log.error("Fail to save client: {}", client, e);
+//            return false;
+//        }
+//    }
+
+
+
 
 //    @Override
 //    public boolean deleteClientByClientIdDao(int id) {

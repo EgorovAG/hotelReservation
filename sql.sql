@@ -6,8 +6,8 @@ create table IF NOT EXISTS authUser
     id       int(64) auto_increment PRIMARY KEY,
     login    varchar(50) not null,
     password varchar(50) not null,
-#     role     enum ('ADMIN', 'USER') default 'USER' not null
     role     varchar(50) not null
+#     role     enum ('ADMIN', 'USER') default 'USER' not null
 #     constraint authUser_login_unique unique (login)
 );
 
@@ -70,7 +70,7 @@ create table IF NOT EXISTS blackList
 
 create table IF NOT EXISTS orderClient
 (
-    id         int(64) auto_increment PRIMARY KEY,
+    order_id   int(64) auto_increment PRIMARY KEY,
     startDate  varchar(50) not null,
     endDate    varchar(50) not null,
     room_id    int         not null,
@@ -81,7 +81,26 @@ create table IF NOT EXISTS orderClient
     constraint orderClient_room_id_fk foreign key (room_id) references room (id)
 );
 
-# insert into orderclient(startDate, endDate, room_id, client_id, conditions)
+create table IF NOT EXISTS service
+(
+    id    int(64) auto_increment PRIMARY KEY,
+    typeOfService varchar(50) not null,
+    price         int(64)     not null
+);
+insert into service( typeOfService, price)
+values ('pool', 50),
+       ('wifi', 15),
+       ('breakfast', 20),
+       ('lunch', 30),
+       ('dinner', 30),
+       ('bar', 70),
+       ('gym', 40);
+
+
+
+
+
+    # insert into orderclient(startDate, endDate, room_id, client_id, conditions)
 # values ('2020-10-05', '2020-10-07', '3', '2', 'CONSIDERATION')
 
 # select client_id, firstName, secondName, email, phone, startDate, endDate, conditions from client join orderClient oC on client.user_id = oC.client_id
@@ -188,4 +207,8 @@ create table IF NOT EXISTS orderClient
 # select blackList.id, blackList.user_id, date_block, firstName, secondName from blacklist join client c on blackList.user_id = c.user_id
 
 
-select * from authuser join client on authuser.id = client.user_id where login = 'admin'
+# select *
+# from authuser
+#          join client on authuser.id = client.user_id
+# where login = 'admin'
+

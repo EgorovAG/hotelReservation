@@ -26,6 +26,9 @@ public class OrderForClient {
         this.condition = condition;
     }
 
+    public OrderForClient() {
+    }
+
     public Integer getId() {
         return id;
     }

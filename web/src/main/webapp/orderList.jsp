@@ -11,7 +11,7 @@
     <table border="1" width="100%" cellpadding="5">
         <tr>
             <th>№</th>
-            <th>id заказа </th>
+            <th>id заказа</th>
             <th>Имя</th>
             <th>Фамилия</th>
             <th>email</th>
@@ -36,18 +36,22 @@
                 <td>${orderForAdmins.endDate}</td>
                 <td>${orderForAdmins.condition}</td>
                 <td>
-<%--                    <form action="${pageContext.request.contextPath}/orderList" method="post">--%>
-<%--                        <button name="condition" value="APPROVED" name="orderId" value="${orderForAdmins.id}">--%>
-<%--                            Одобрить--%>
-<%--                        </button>--%>
-<%--                    </form>--%>
+                    <form action="${pageContext.request.contextPath}/orderList" method="post">
+                        <input id="id1" type="text" name="orderId" value="${orderForAdmins.id}" hidden="hidden">
+                        <input id="status1" type="text" name="condition" value="APPROVED" hidden="hidden">
+                        <input type="submit" value=Одобрить>
+                    </form>
+                    <form action="${pageContext.request.contextPath}/orderList" method="post">
+                        <input id="id2" type="text" name="orderId" value="${orderForAdmins.id}" hidden="hidden">
+                        <input id="status2" type="text" name="condition" value="REJECTED" hidden="hidden">
+                        <input type="submit" value=Отказать>
+                    </form>
+                    <form action="${pageContext.request.contextPath}/orderList" method="post">
+                        <input id="id3" type="text" name="orderId" value="${orderForAdmins.id}" hidden="hidden">
+                        <input id="status3" type="text" name="condition" value="DELETE" hidden="hidden">
+                        <input type="submit" value=Удалить>
+                    </form>
                 </td>
-
-                    <%--                <td> <form action="${pageContext.request.contextPath}/orderList" method="post" >--%>
-                    <%--                    <button  name="condition" value="APPROVED" >Одобрить</button>--%>
-                    <%--                    <button  name="condition" value="REJECTED">Отказать</button>--%>
-                    <%--                    <button  name="condition" value="DELETE">Удалить</button>--%>
-                    <%--                </form></td>--%>
             </tr>
         </c:forEach>
     </table>
@@ -60,14 +64,14 @@
     <%--        </fieldset>--%>
     <%--    </c:forEach>--%>
 
-        <form action="${pageContext.request.contextPath}/orderList" method="post">
-            <h4>Введите id заказа:</h4>
-            <input id="ok" type="number" name="orderId" required> <br/>
-            <input type="radio" name="condition" value="APPROVED" checked> Одобрить<br>
-            <input type="radio" name="condition" value="REJECTED"> Отказать<br>
-            <input type="radio" name="condition" value="DELETE"> Удалить<br>
-            <input type="submit">
-        </form>
+    <%--        <form action="${pageContext.request.contextPath}/orderList" method="post">--%>
+    <%--            <h4>Введите id заказа:</h4>--%>
+    <%--            <input id="ok" type="number" name="orderId" required> <br/>--%>
+    <%--            <input type="radio" name="condition" value="APPROVED" checked> Одобрить<br>--%>
+    <%--            <input type="radio" name="condition" value="REJECTED"> Отказать<br>--%>
+    <%--            <input type="radio" name="condition" value="DELETE"> Удалить<br>--%>
+    <%--            <input type="submit">--%>
+    <%--        </form>--%>
 </c:if>
 
 <c:if test="${orderForAdmins == null}">
