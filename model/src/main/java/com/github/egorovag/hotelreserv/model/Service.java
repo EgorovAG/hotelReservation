@@ -17,10 +17,8 @@ public class Service {
     private String typeOfService;
     private Integer price;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "service_orderClient", joinColumns = {@JoinColumn(name = "service_id")},
-            inverseJoinColumns = {@JoinColumn(name = "order_id")}
-    )
+
+    @ManyToMany(mappedBy = "service", cascade = CascadeType.ALL)
     private List<OrderClient> orderClients = new ArrayList<>();
 
     public Service(Integer serviceId, String typeOfService, Integer price, List<OrderClient> orderClients) {

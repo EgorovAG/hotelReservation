@@ -34,6 +34,15 @@ public class AuthUser {
         this.role = role;
     }
 
+    public AuthUser(Integer id, String login, String password, Role role, Client client, BlackList blackList) {
+        this.id = id;
+        this.login = login;
+        this.password = password;
+        this.role = role;
+        this.client = client;
+        this.blackList = blackList;
+    }
+
     public AuthUser() {
     }
 
@@ -77,7 +86,7 @@ public class AuthUser {
     }
 
     @OneToOne(mappedBy = "authUser", fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     public Client getClient() {
         return client;
     }
@@ -87,7 +96,7 @@ public class AuthUser {
     }
 
     @OneToOne(mappedBy = "authUser", fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     public BlackList getBlackList() {
         return blackList;
     }

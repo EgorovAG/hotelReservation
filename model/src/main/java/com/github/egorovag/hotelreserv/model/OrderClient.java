@@ -23,15 +23,23 @@ public class OrderClient {
 
 
     private Room room;
-
-
-//    @ManyToMany(mappedBy = "orderClients", cascade = CascadeType.ALL)
-//    private List<Service> services = new ArrayList<>();
-
-
     private Client client;
 
 
+    private List<Service> services = new ArrayList<>();
+
+
+    public OrderClient(Integer orderId, String startDate, String endDate, Integer roomId,
+                       Integer userId, Condition condition, Room room, Client client) {
+        this.orderId = orderId;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.roomId = roomId;
+        this.userId = userId;
+        this.condition = condition;
+        this.room = room;
+        this.client = client;
+    }
 
     public OrderClient(String startDate, String endDate, Integer roomId, Condition condition) {
         this.startDate = startDate;
@@ -101,7 +109,7 @@ public class OrderClient {
         this.roomId = roomId;
     }
 
-    @Column(name = "client_id")
+    @Column(name = "client_id", insertable = false, updatable = false)
 
     public Integer getUserId() {
         return userId;
@@ -131,16 +139,20 @@ public class OrderClient {
         this.room = room;
     }
 
-    //    public List<Service> getServices() {
-//        return services;
-//    }
-//
-//    public void setServices(List<Service> services) {
-//        this.services = services;
-//    }
-//
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "orderClient_service", joinColumns = {@JoinColumn(name = "order_id")},
+            inverseJoinColumns = {@JoinColumn(name = "service_id")}
+    )
+    public List<Service> getServices() {
+        return services;
+    }
+
+    public void setServices(List<Service> services) {
+        this.services = services;
+    }
+
     @ManyToOne
-    @JoinColumn(name = "client_id",insertable = false, updatable = false)
+    @JoinColumn(name = "client_id", referencedColumnName = "user_id")
     public Client getClient() {
         return client;
     }

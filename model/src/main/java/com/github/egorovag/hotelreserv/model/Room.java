@@ -65,7 +65,8 @@ public class Room {
         this.price = price;
     }
 
-    @OneToOne(mappedBy = "room", fetch = FetchType.LAZY, cascade = {CascadeType.ALL} )
+    @OneToOne(mappedBy = "room", fetch = FetchType.LAZY,
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     public OrderClient getOrderClient() {
         return orderClient;
     }
