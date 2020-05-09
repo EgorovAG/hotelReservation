@@ -9,7 +9,7 @@ import java.util.List;
 
 public class DefaultBlackListUsersService implements BlackListUsersService {
 
-    private BlackListUsersDao iblackListUsersDao = DefaultBlackListUsersDao.getInstance();
+    private BlackListUsersDao blackListUsersDao = DefaultBlackListUsersDao.getInstance();
     private static volatile BlackListUsersService instance;
 
     public static BlackListUsersService getInstance() {
@@ -27,22 +27,22 @@ public class DefaultBlackListUsersService implements BlackListUsersService {
 
     @Override
     public List<BlackListUsers> readBlackListUsersListsService() {
-        return iblackListUsersDao.readBlackListUsersListsDao();
+        return blackListUsersDao.readBlackListUsersListsDao();
     }
 
     @Override
     public boolean deleteBlackListUserById(int id) {
-        return iblackListUsersDao.deleteBlackListUserByIdDao(id);
+        return blackListUsersDao.deleteBlackListUserByIdDao(id);
     }
 
     @Override
     public boolean saveBlackListUserById(int id) {
-        return iblackListUsersDao.saveBlackListUserDao(id);
+        return blackListUsersDao.saveBlackListUserDao(id);
     }
 
     @Override
     public boolean checkBlackUserByUserId(int id) {
-        if (iblackListUsersDao.checkBlackUserByUserIdDao(id)==1){
+        if (blackListUsersDao.checkBlackUserByUserIdDao(id)!=null){
             return true;
         } else {
             return false;

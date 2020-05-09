@@ -56,7 +56,7 @@ class ClientDaoTest {
         Integer idRes = clientDao.saveAuthUserAndClientDao(authUser,client);
         BlackListUsersDao blackListUsersDao = DefaultBlackListUsersDao.getInstance();
         blackListUsersDao.saveBlackListUserDao(idRes);
-//        boolean res = clientDao.deleteAuthUserAndClientByUserIdDao(idRes);
-//        Assertions.assertTrue(res);
+        boolean res = clientDao.deleteAuthUserAndClientByUserIdDao(idRes);
+        Assertions.assertTrue(res);
     }
 }

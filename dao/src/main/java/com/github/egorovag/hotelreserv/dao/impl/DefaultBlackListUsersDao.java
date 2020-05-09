@@ -171,18 +171,32 @@ public class DefaultBlackListUsersDao implements BlackListUsersDao {
 //        return res;
 //    }
 
+//    @Override
+//    public int checkBlackUserByUserIdDao(int id) {
+//        try (Session session = SFUtil.getSession()) {
+//            session.beginTransaction();
+//            Long res = (Long) session.createQuery("select count (*) from BlackList b where b.userId = :id")
+//                    .setParameter("id", id)
+//                    .getSingleResult();
+//            session.getTransaction().commit();
+//            log.info("Client with id:{} saved in blackList", id);
+//            return Integer.parseInt(String.valueOf(res));
+//        } catch (HibernateException e) {
+//            log.error("Fail to save client:{} in blackList", id, e);
+//            return 0;
+//        }
+//    }
+
     @Override
-    public int checkBlackUserByUserIdDao(int id) {
+    public Integer checkBlackUserByUserIdDao(int id) {
         try (Session session = SFUtil.getSession()) {
             session.beginTransaction();
-            Long res = (Long) session.createQuery("select count (*) from BlackList b where b.userId = :id")
-                    .setParameter("id", id)
-                    .getSingleResult();
-            session.getTransaction().commit();
-            log.info("Client with id:{} saved in blackList", id);
-            return Integer.parseInt(String.valueOf(res));
+            AuthUser authUser = session.get(AuthUser.class,id);
+            Integer idRes = authUser.getBlackList().getId();
+            log.info("AuthUser with id:{} readed in blackList", id);
+            return idRes;
         } catch (HibernateException e) {
-            log.error("Fail to save client:{} in blackList", id, e);
+            log.error("Fail to readed AuthUSer:{} in blackList", id, e);
             return 0;
         }
     }

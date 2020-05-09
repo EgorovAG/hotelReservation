@@ -33,7 +33,7 @@
 <%--            <input type="radio" name="typeOfService6" value="bar"> бар<Br>--%>
 <%--            <input type="radio" name="typeOfService7" value="gym"> тренажерный зал<Br>--%>
 <%--        </p>--%>
-        <br/>
+<%--        <br/>--%>
 
             <input type="date" name="startDate" required>
         Время въезда:

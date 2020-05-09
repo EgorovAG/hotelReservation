@@ -18,16 +18,26 @@ public class OrderClient {
     private String startDate;
     private String endDate;
     private Integer roomId;
-    private Integer userId;
+    private Integer clientId;
     private Condition condition;
 
 
     private Room room;
     private Client client;
-
-
     private List<Service> services = new ArrayList<>();
 
+    public OrderClient(Integer orderId, String startDate, String endDate, Integer roomId, Integer clientId,
+                       Condition condition, Room room, Client client, List<Service> services) {
+        this.orderId = orderId;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.roomId = roomId;
+        this.clientId = clientId;
+        this.condition = condition;
+        this.room = room;
+        this.client = client;
+        this.services = services;
+    }
 
     public OrderClient(Integer orderId, String startDate, String endDate, Integer roomId,
                        Integer userId, Condition condition, Room room, Client client) {
@@ -35,7 +45,7 @@ public class OrderClient {
         this.startDate = startDate;
         this.endDate = endDate;
         this.roomId = roomId;
-        this.userId = userId;
+        this.clientId = userId;
         this.condition = condition;
         this.room = room;
         this.client = client;
@@ -52,17 +62,18 @@ public class OrderClient {
         this.startDate = startDate;
         this.endDate = endDate;
         this.roomId = roomId;
-        this.userId = userId;
+        this.clientId = userId;
         this.condition = condition;
     }
 
 
-    public OrderClient(Integer orderId, String startDate, String endDate, Integer roomId, Integer userId, Condition condition) {
+    public OrderClient(Integer orderId, String startDate, String endDate, Integer roomId, Integer userId,
+                       Condition condition) {
         this.orderId = orderId;
         this.startDate = startDate;
         this.endDate = endDate;
         this.roomId = roomId;
-        this.userId = userId;
+        this.clientId = userId;
         this.condition = condition;
     }
 
@@ -109,14 +120,13 @@ public class OrderClient {
         this.roomId = roomId;
     }
 
-//    @Column(name = "client_id", insertable = false, updatable = false)
-    @Column(name = "client_id")
-    public Integer getUserId() {
-        return userId;
+    @Column(name = "client_id", insertable = false, updatable = false)
+    public Integer getClientId() {
+        return clientId;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setClientId(Integer clientId) {
+        this.clientId = clientId;
     }
 
     @Enumerated(EnumType.STRING)
@@ -139,27 +149,27 @@ public class OrderClient {
         this.room = room;
     }
 
-//    @ManyToMany(cascade = CascadeType.ALL)
-//    @JoinTable(name = "orderClient_service", joinColumns = {@JoinColumn(name = "order_id")},
-//            inverseJoinColumns = {@JoinColumn(name = "service_id")}
-//    )
-//    public List<Service> getServices() {
-//        return services;
-//    }
-//
-//    public void setServices(List<Service> services) {
-//        this.services = services;
-//    }
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "orderclient_service", joinColumns = {@JoinColumn(name = "order_id")},
+            inverseJoinColumns = {@JoinColumn(name = "service_id")}
+    )
+    public List<Service> getServices() {
+        return services;
+    }
 
-//    @ManyToOne
-//    @JoinColumn(name = "client_id", referencedColumnName = "user_id")
-//    public Client getClient() {
-//        return client;
-//    }
-//
-//    public void setClient(Client client) {
-//        this.client = client;
-//    }
+    public void setServices(List<Service> services) {
+        this.services = services;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "client_id", referencedColumnName = "id")
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
 
     @Override
     public String toString() {
@@ -168,7 +178,7 @@ public class OrderClient {
                 ", startDate='" + startDate + '\'' +
                 ", endDate='" + endDate + '\'' +
                 ", room_id=" + roomId +
-                ", user_id=" + userId +
+                ", client_id=" + clientId +
                 ", cond_id=" + condition +
                 '}';
     }

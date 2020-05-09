@@ -59,14 +59,14 @@ public class Service {
         this.price = price;
     }
 
-//    @ManyToMany(mappedBy = "service", cascade = CascadeType.ALL)
-//    public List<OrderClient> getOrderClients() {
-//        return orderClients;
-//    }
-//
-//    public void setOrderClients(List<OrderClient> orderClients) {
-//        this.orderClients = orderClients;
-//    }
+    @ManyToMany(mappedBy = "services", cascade = CascadeType.ALL)
+    public List<OrderClient> getOrderClients() {
+        return orderClients;
+    }
+
+    public void setOrderClients(List<OrderClient> orderClients) {
+        this.orderClients = orderClients;
+    }
 
     @Override
     public boolean equals(Object o) {

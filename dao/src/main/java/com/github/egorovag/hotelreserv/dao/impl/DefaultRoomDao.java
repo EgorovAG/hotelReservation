@@ -47,7 +47,7 @@ public class DefaultRoomDao implements RoomDao {
 //        }
 //    }
 
-    @Override
+    @Override //+
     public int readRoomIdDao(int numOfSeats, String classOfApp) {
         try (Session session = SFUtil.getSession()) {
             session.beginTransaction();
@@ -86,13 +86,27 @@ public class DefaultRoomDao implements RoomDao {
 //        return room;
 //    }
 
-    @Override
+//    @Override
+//    public Room readRoomByIdDao(int id) {
+//        try (Session session = SFUtil.getSession()) {
+//            session.beginTransaction();
+//            Room room = session.createQuery("select r from Room r where id = :id ", Room.class)
+//                    .setParameter("id", id)
+//                    .getSingleResult();
+//            session.getTransaction().commit();
+//            log.info("Room with room_id: {} readed", id);
+//            return room;
+//        } catch ( HibernateException e) {
+//            log.error("Fail to read room with room_id: {} readed", id, e);
+//            return null;
+//        }
+//    }
+
+    @Override //+
     public Room readRoomByIdDao(int id) {
         try (Session session = SFUtil.getSession()) {
             session.beginTransaction();
-            Room room = session.createQuery("select r from Room r where id = :id ", Room.class)
-                    .setParameter("id", id)
-                    .getSingleResult();
+            Room room = session.get(Room.class, id);
             session.getTransaction().commit();
             log.info("Room with room_id: {} readed", id);
             return room;

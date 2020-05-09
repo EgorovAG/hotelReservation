@@ -23,6 +23,18 @@ public class Client {
     private AuthUser authUser;
     private List<OrderClient> orderClients = new ArrayList<>();
 
+    public Client(Integer id, String firstName, String secondName, String email, String phone, Integer userId,
+                  AuthUser authUser, List<OrderClient> orderClients) {
+        this.id = id;
+        this.firstName = firstName;
+        this.secondName = secondName;
+        this.email = email;
+        this.phone = phone;
+        this.userId = userId;
+        this.authUser = authUser;
+        this.orderClients = orderClients;
+    }
+
     public Client(Integer id, String firstName, String secondName, String email, String phone, AuthUser authUser) {
         this.id = id;
         this.firstName = firstName;

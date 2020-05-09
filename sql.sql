@@ -77,7 +77,7 @@ create table IF NOT EXISTS orderClient
     client_id  int(64)     not null,
 #     conditions enum ('CONSIDERATION','APPROVED','REJECTED','PAID') default 'CONSIDERATION' not null,
     conditions varchar(50) not null,
-    constraint orderClient_client_id_fk foreign key (client_id) references client (user_id),
+    constraint orderClient_client_id_fk foreign key (client_id) references client (id),
     constraint orderClient_room_id_fk foreign key (room_id) references room (id)
 );
 
@@ -101,9 +101,9 @@ create table orderclient_service
 (
     order_id   int not null,
     service_id int not null,
-    constraint FKcv805l8kf091n13jj56upwaye
+    constraint orderclient_service_service_id_FK
         foreign key (service_id) references service (service_id),
-    constraint FKk7g0bh1e4itpyqb6c6jombl5d
+    constraint orderclient_service_order_id_FK
         foreign key (order_id) references orderclient (order_id)
 );
 

@@ -41,7 +41,6 @@ class BlackListUsersDaoTest {
         boolean res = blackListUsersDao.saveBlackListUserDao(clientId);
         List<BlackListUsers> listBL = blackListUsersDao.readBlackListUsersListsDao();
         BlackListUsers blackListUsers = listBL.get(0);
-        int id = blackListUsers.getId();
         Assertions.assertEquals(1, listBL.size());
         clientDao.deleteAuthUserAndClientByUserIdDao(clientId);
 
@@ -78,8 +77,8 @@ class BlackListUsersDaoTest {
         client = new Client(null, "Alex","Alexandrov","alex@tut.by","55555",authUser);
         int clientId = clientDao.saveAuthUserAndClientDao(authUser,client);
         boolean res = blackListUsersDao.saveBlackListUserDao(clientId);
-        int count = blackListUsersDao.checkBlackUserByUserIdDao(clientId);
-        Assertions.assertEquals(1,count);
+        Integer idRes = blackListUsersDao.checkBlackUserByUserIdDao(clientId);
+        Assertions.assertNotNull(idRes);
         clientDao.deleteAuthUserAndClientByUserIdDao(clientId);
 
     }

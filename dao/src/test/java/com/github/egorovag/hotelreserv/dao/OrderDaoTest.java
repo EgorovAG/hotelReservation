@@ -20,6 +20,7 @@ class OrderDaoTest {
     private OrderClient orderWithoutId;
     private OrderClient order;
     private Integer clientId;
+    private Client client;
 
 
 //    @BeforeEach
@@ -60,6 +61,11 @@ class OrderDaoTest {
 
     @Test
     void testUpdateOrderListDao() {
+        authUser = new AuthUser("alex", "pass", Role.USER);
+        client = new Client(null, "Alex","Alexandrov","alex@tut.by","55555",authUser);
+        int clientId = clientDao.saveAuthUserAndClientDao(authUser,client);
+        orderWithoutId = new OrderClient("2020-05-10","2020-05-12", 1, Condition.CONSIDERATION);
+        order = orderDao.saveOrderDao(orderWithoutId, clientId);
         int orderId = order.getOrderId();
         orderDao.updateOrderListDao(orderId, Condition.APPROVED);
         List<OrderForClient> orderForClients = orderDao.readOrderForClientByClientIdDao(authUser.getId());
