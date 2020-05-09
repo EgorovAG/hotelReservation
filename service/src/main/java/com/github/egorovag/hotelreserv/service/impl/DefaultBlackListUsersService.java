@@ -41,8 +41,8 @@ public class DefaultBlackListUsersService implements BlackListUsersService {
     }
 
     @Override
-    public boolean checkBlackUserById(int id) {
-        if (iblackListUsersDao.checkBlackUserByIdDao(id)==1){
+    public boolean checkBlackUserByUserId(int id) {
+        if (iblackListUsersDao.checkBlackUserByUserIdDao(id)==1){
             return true;
         } else {
             return false;

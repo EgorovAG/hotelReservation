@@ -6,7 +6,7 @@ import com.github.egorovag.hotelreserv.model.OrderClient;
 import com.github.egorovag.hotelreserv.model.dto.OrderForAdmin;
 import com.github.egorovag.hotelreserv.model.dto.OrderForClient;
 import com.github.egorovag.hotelreserv.model.enums.Condition;
-import com.github.egorovag.hotelreserv.service.CheckUserService;
+import com.github.egorovag.hotelreserv.service.UserService;
 import com.github.egorovag.hotelreserv.service.OrderService;
 
 import java.util.List;
@@ -19,7 +19,7 @@ public class DefaultOrderService implements OrderService {
     public static OrderService getInstance() {
         OrderService localInstance = instance;
         if (localInstance == null) {
-            synchronized (CheckUserService.class) {
+            synchronized (UserService.class) {
                 localInstance = instance;
                 if (localInstance == null) {
                     instance = localInstance = new DefaultOrderService();

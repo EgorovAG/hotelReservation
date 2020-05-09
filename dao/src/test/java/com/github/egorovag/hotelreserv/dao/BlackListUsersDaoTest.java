@@ -20,49 +20,67 @@ class BlackListUsersDaoTest {
     int clientId;
     boolean res;
 
-    @BeforeEach
-    void saveUserAndNewClient() {
-        authUser = authUserDao.saveUserDao("alex", "pass", Role.USER);
-        clientId = authUser.getId();
-        client = new Client("Alex", "Alexandrov", "alex@tut.by", "55555", authUser.getId());
-        clientDao.saveClientDao(client);
-    }
+//    @BeforeEach
+//    void saveUserAndNewClient() {
+//        authUser = new AuthUser("alex", "pass", Role.USER);
+//        client = new Client(null, "Alex","Alexandrov","alex@tut.by","55555",authUser);
+//       int clientId = clientDao.saveAuthUserAndClientDao(authUser,client);
+//    }
 
-    @AfterEach
-    void deleteUserAndNewClient(){
-        clientDao.deleteClientByClientIdDao(clientId);
-        authUserDao.deleteUserByIdDao(clientId);
-        }
+//    @AfterEach
+//    void deleteUserAndNewClient(){
+//        clientDao.deleteClientByClientIdDao(clientId);
+//        authUserDao.deleteUserByIdDao(clientId);
+//        }
 
     @Test
     void testReadBlackListUsersListsDao() {
-        blackListUsersDao.saveBlackListUserDao(clientId);
+        authUser = new AuthUser("alex", "pass", Role.USER);
+        client = new Client(null, "Alex","Alexandrov","alex@tut.by","55555",authUser);
+        int clientId = clientDao.saveAuthUserAndClientDao(authUser,client);
+        boolean res = blackListUsersDao.saveBlackListUserDao(clientId);
         List<BlackListUsers> listBL = blackListUsersDao.readBlackListUsersListsDao();
+        BlackListUsers blackListUsers = listBL.get(0);
+        int id = blackListUsers.getId();
         Assertions.assertEquals(1, listBL.size());
-        blackListUsersDao.deleteBlackListUserByIdDao(clientId);
+        clientDao.deleteAuthUserAndClientByUserIdDao(clientId);
 
     }
 
     @Test
     void testDeleteBlackListUserByIdDao() {
+        authUser = new AuthUser("alex", "pass", Role.USER);
+        client = new Client(null, "Alex","Alexandrov","alex@tut.by","55555",authUser);
+        int clientId = clientDao.saveAuthUserAndClientDao(authUser,client);
         blackListUsersDao.saveBlackListUserDao(clientId);
-        boolean res = blackListUsersDao.deleteBlackListUserByIdDao(clientId);
+        List<BlackListUsers> listBL = blackListUsersDao.readBlackListUsersListsDao();
+        BlackListUsers blackListUsers = listBL.get(0);
+        int id = blackListUsers.getId();
+        boolean res = blackListUsersDao.deleteBlackListUserByIdDao(id);
         Assertions.assertTrue(res);
+        clientDao.deleteAuthUserAndClientByUserIdDao(clientId);
+
     }
 
     @Test
     void testSaveBlackListUserDao() {
+        authUser = new AuthUser("alex", "pass", Role.USER);
+        client = new Client(null, "Alex","Alexandrov","alex@tut.by","55555",authUser);
+        int clientId = clientDao.saveAuthUserAndClientDao(authUser,client);
         boolean res = blackListUsersDao.saveBlackListUserDao(clientId);
         Assertions.assertTrue(res);
-        blackListUsersDao.deleteBlackListUserByIdDao(clientId);
+        clientDao.deleteAuthUserAndClientByUserIdDao(clientId);
     }
 
     @Test
     void testCheckBlackUserByIdDao(){
-        blackListUsersDao.saveBlackListUserDao(clientId);
-        int count = blackListUsersDao.checkBlackUserByIdDao(clientId);
+        authUser = new AuthUser("alex", "pass", Role.USER);
+        client = new Client(null, "Alex","Alexandrov","alex@tut.by","55555",authUser);
+        int clientId = clientDao.saveAuthUserAndClientDao(authUser,client);
+        boolean res = blackListUsersDao.saveBlackListUserDao(clientId);
+        int count = blackListUsersDao.checkBlackUserByUserIdDao(clientId);
         Assertions.assertEquals(1,count);
-        blackListUsersDao.deleteBlackListUserByIdDao(clientId);
+        clientDao.deleteAuthUserAndClientByUserIdDao(clientId);
 
     }
 }

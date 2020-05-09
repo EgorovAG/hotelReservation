@@ -31,22 +31,26 @@
                       value="org.hibernate.cache.ehcache.EhCacheRegionFactory"/>
         </properties>
     </persistence-unit>
-    <!--    <persistence-unit name="com.github.egorovag.hotelreserv.test" transaction-type="RESOURCE_LOCAL">-->
-    <!--        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>-->
-    <!--        <class>com.github.egorovag.hotelreserv.model.AuthUser</class>-->
-    <!--        <class>com.github.egorovag.hotelreserv.model.Client</class>-->
-    <!--        <exclude-unlisted-classes>true</exclude-unlisted-classes>-->
-    <!--        <properties>-->
-    <!--            <property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>-->
-    <!--            <property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:jpadb"/>-->
-    <!--            <property name="javax.persistence.jdbc.user" value="root"/>-->
-    <!--            <property name="javax.persistence.jdbc.password" value="root"/>-->
-    <!--            <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>-->
-    <!--            <property name="hibernate.hbm2ddl.auto" value="create-drop"/>-->
-    <!--            <property name="hibernate.use_sql_comments" value="false"/>-->
-    <!--            <property name="hibernate.show_sql" value="true"/>-->
-    <!--            <property name="hibernate.connection.pool_size" value="10"/>-->
-    <!--        </properties>-->
-    <!--    </persistence-unit>-->
+<!--        <persistence-unit name="com.github.egorovag.hotelreserv.test" transaction-type="RESOURCE_LOCAL">-->
+<!--            <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>-->
+<!--            <class>com.github.egorovag.hotelreserv.model.AuthUser</class>-->
+<!--            <class>com.github.egorovag.hotelreserv.model.Client</class>-->
+<!--            <class>com.github.egorovag.hotelreserv.model.OrderClient</class>-->
+<!--            <class>com.github.egorovag.hotelreserv.model.BlackList</class>-->
+<!--            <class>com.github.egorovag.hotelreserv.model.Room</class>-->
+<!--            <class>com.github.egorovag.hotelreserv.model.Service</class>-->
+<!--            <exclude-unlisted-classes>true</exclude-unlisted-classes>-->
+<!--            <properties>-->
+<!--                <property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>-->
+<!--                <property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:jpadb"/>-->
+<!--                <property name="javax.persistence.jdbc.user" value="root"/>-->
+<!--                <property name="javax.persistence.jdbc.password" value="root"/>-->
+<!--                <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>-->
+<!--                <property name="hibernate.hbm2ddl.auto" value="validate"/>-->
+<!--                <property name="hibernate.use_sql_comments" value="false"/>-->
+<!--                <property name="hibernate.show_sql" value="true"/>-->
+<!--                <property name="hibernate.connection.pool_size" value="10"/>-->
+<!--            </properties>-->
+<!--        </persistence-unit>-->
 </persistence>
 

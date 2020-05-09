@@ -2,11 +2,11 @@ package com.github.egorovag.hotelreserv.web.servlet;
 
 import com.github.egorovag.hotelreserv.model.dto.AuthUserWithClient;
 import com.github.egorovag.hotelreserv.service.impl.DefaultBlackListUsersService;
-import com.github.egorovag.hotelreserv.service.impl.DefaultCheckUserService;
+import com.github.egorovag.hotelreserv.service.impl.DefaultUserService;
 import com.github.egorovag.hotelreserv.service.impl.DefaultClientService;
 import com.github.egorovag.hotelreserv.service.impl.DefaultOrderService;
 import com.github.egorovag.hotelreserv.service.BlackListUsersService;
-import com.github.egorovag.hotelreserv.service.CheckUserService;
+import com.github.egorovag.hotelreserv.service.UserService;
 import com.github.egorovag.hotelreserv.service.СlientService;
 import com.github.egorovag.hotelreserv.service.OrderService;
 
@@ -20,15 +20,15 @@ import java.util.List;
 
 @WebServlet("/registratedUsers")
 public class RegisteredUsersServlet extends HttpServlet {
-    private CheckUserService checkUserService;
-    private СlientService сlientService;
+    private UserService checkUserService;
+    private СlientService clientService;
     private BlackListUsersService blackListUsersService;
     private OrderService orderService;
 
     @Override
     public void init() throws ServletException {
-        checkUserService = DefaultCheckUserService.getInstance();
-        сlientService = DefaultClientService.getInstance();
+        checkUserService = DefaultUserService.getInstance();
+        clientService = DefaultClientService.getInstance();
         blackListUsersService = DefaultBlackListUsersService.getInstance();
         orderService = DefaultOrderService.getInstance();
     }
@@ -45,10 +45,11 @@ public class RegisteredUsersServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         int id = Integer.parseInt(req.getParameter("id"));
-        orderService.deleteOrderByClientId(id);
-        blackListUsersService.deleteBlackListUserById(id);
-        сlientService.deleteClientSeviceById(id);
-        checkUserService.deleteUserByIdService(id);
+//        orderService.deleteOrderByClientId(id); уже не надо с 1к1
+//        blackListUsersService.deleteBlackListUserById(id); уже не надо с 1к1
+        clientService.deleteAuthUserAndClientByUserIdDao(id);
+//        сlientService.deleteClientById(id);
+//        checkUserService.deleteUserById(id);
         List<AuthUserWithClient> authUserWithClients = checkUserService.readListClient();
         req.getSession().setAttribute("authUserWithClients", authUserWithClients);
         req.getRequestDispatcher("/registratedUsers.jsp").forward(req,resp);

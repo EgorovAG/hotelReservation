@@ -33,6 +33,13 @@ public class BlackList {
         this.dateBlock = dateBlock;
     }
 
+    public BlackList(Integer userId, LocalDate dateBlock, AuthUser authUser) {
+        this.id = id;
+        this.userId = userId;
+        this.dateBlock = dateBlock;
+        this.authUser = authUser;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Integer getId() {

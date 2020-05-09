@@ -18,7 +18,6 @@ public class Service {
     private Integer price;
 
 
-    @ManyToMany(mappedBy = "service", cascade = CascadeType.ALL)
     private List<OrderClient> orderClients = new ArrayList<>();
 
     public Service(Integer serviceId, String typeOfService, Integer price, List<OrderClient> orderClients) {
@@ -30,9 +29,10 @@ public class Service {
 
     public Service() {
     }
-@Id
-@GeneratedValue(strategy = GenerationType.IDENTITY)
-@Column(name = "id")
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "service_id")
     public Integer getServiceId() {
         return serviceId;
     }
@@ -40,7 +40,8 @@ public class Service {
     public void setServiceId(Integer serviceId) {
         this.serviceId = serviceId;
     }
-@Column
+
+    @Column
     public String getTypeOfService() {
         return typeOfService;
     }
@@ -48,7 +49,8 @@ public class Service {
     public void setTypeOfService(String typeOfService) {
         this.typeOfService = typeOfService;
     }
-@Column
+
+    @Column
     public Integer getPrice() {
         return price;
     }
@@ -56,6 +58,15 @@ public class Service {
     public void setPrice(Integer price) {
         this.price = price;
     }
+
+//    @ManyToMany(mappedBy = "service", cascade = CascadeType.ALL)
+//    public List<OrderClient> getOrderClients() {
+//        return orderClients;
+//    }
+//
+//    public void setOrderClients(List<OrderClient> orderClients) {
+//        this.orderClients = orderClients;
+//    }
 
     @Override
     public boolean equals(Object o) {

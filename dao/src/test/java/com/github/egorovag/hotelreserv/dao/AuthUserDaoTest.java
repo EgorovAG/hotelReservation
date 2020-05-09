@@ -18,72 +18,86 @@ class AuthUserDaoTest {
     private AuthUserDao authUserDao = DefaultAuthUserDao.getInstance();
     private ClientDao clientDao = DefaultClientDao.getInstance();
     private AuthUser authUser;
+    private Client client;
 
-    @BeforeEach
-    void saveUser() {
-        authUser = authUserDao.saveUserDao("alex", "pass", Role.USER);
-    }
-
-    @AfterEach
-    void deleteUser() {
-        authUserDao.deleteUserByLoginDao(authUser.getLogin());
-    }
+//    @BeforeEach
+//    void saveUser() {
+//        authUser = authUserDao.saveUserDao("alex", "pass", Role.USER);
+//
+//    }
+//
+//    @AfterEach
+//    void deleteUser() {
+//        authUserDao.deleteUserByLoginDao(authUser.getLogin());
+//    }
 
 
     @Test
     void testCheckLoginDao() {
+        authUser = new AuthUser("alex", "pass", Role.USER);
+        client = new Client(null, "Alex", "Alexandrov", "alex@tut.by", "55555", authUser);
+        int userId = clientDao.saveAuthUserAndClientDao(authUser, client);
         String login = authUserDao.checkLoginDao(authUser.getLogin());
         Assertions.assertEquals("alex", login);
+        clientDao.deleteAuthUserAndClientByUserIdDao(userId);
+
     }
 
-
-    @Test
-    void testSaveUserDao() {
-        Assertions.assertEquals("alex", authUser.getLogin());
-    }
 
     @Test
     void testReadUserByLoginDao() {
+        authUser = new AuthUser("alex", "pass", Role.USER);
+        client = new Client(null, "Alex", "Alexandrov", "alex@tut.by", "55555", authUser);
+        int userId = clientDao.saveAuthUserAndClientDao(authUser, client);
         AuthUser authUserRes = authUserDao.readUserByLoginDao("alex");
         Assertions.assertEquals("alex", authUserRes.getLogin());
         Assertions.assertEquals("pass", authUserRes.getPassword());
+        clientDao.deleteAuthUserAndClientByUserIdDao(userId);
+
     }
 
     @Test
-    void testReadClientByLoginDao() {
-        Client client = new Client("Alex","Alexandrov","alex@tut.by","55555",authUser.getId());
-        clientDao.saveClientDao(client);
-        Client clientRes = authUserDao.readClientByLoginDao("alex");
+    void testReadClientByAuthUserIdDao() {
+        authUser = new AuthUser("alex", "pass", Role.USER);
+        client = new Client(null, "Alex", "Alexandrov", "alex@tut.by", "55555", authUser);
+        int userId = clientDao.saveAuthUserAndClientDao(authUser, client);
+        Client clientRes = authUserDao.readClientByAuthUserIdDao(userId);
         Assertions.assertEquals("Alex", clientRes.getFirstName());
         Assertions.assertEquals("55555", clientRes.getPhone());
-        clientDao.deleteClientByClientIdDao(authUser.getId());
+        clientDao.deleteAuthUserAndClientByUserIdDao(userId);
     }
-
 
     @Test
     void testReadListClientDao() {
 
-        Client client = new Client("Alex","Alexandrov","alex@tut.by","55555",authUser.getId());
-        clientDao.saveClientDao(client);
+        authUser = new AuthUser("alex", "pass", Role.USER);
+        client = new Client(null, "Alex", "Alexandrov", "alex@tut.by", "55555", authUser);
+        int userId = clientDao.saveAuthUserAndClientDao(authUser, client);
         List<AuthUserWithClient> authUserListsRes = authUserDao.readListClientDao();
         Assertions.assertEquals(1, authUserListsRes.size());
-        clientDao.deleteClientByClientIdDao(authUser.getId());
-    }
-
-    @Test
-   void testDeleteUserByLoginDao() {
-        AuthUser authUser = authUserDao.saveUserDao("mike", "pass", Role.USER);
-        boolean res = authUserDao.deleteUserByLoginDao(authUser.getLogin());
-        Assertions.assertTrue(res);
-    }
-
-    @Test
-    void testDeleteUserByIdDao() {
-        AuthUser authUser = authUserDao.saveUserDao("mike", "pass", Role.USER);
-        boolean res = authUserDao.deleteUserByIdDao(authUser.getId());
-        Assertions.assertTrue(res);
+        clientDao.deleteAuthUserAndClientByUserIdDao(userId);
     }
 }
+//
+//    @Test
+//   void testDeleteUserByLoginDao() {
+//        AuthUser authUser = authUserDao.saveUserDao("mike", "pass", Role.USER);
+//        boolean res = authUserDao.deleteUserByLoginDao(authUser.getLogin());
+//        Assertions.assertTrue(res);
+//    }
+//
+//    @Test
+//    void testDeleteUserByIdDao() {
+//        AuthUser authUser = authUserDao.saveUserDao("mike", "pass", Role.USER);
+//        boolean res = authUserDao.deleteUserByIdDao(authUser.getId());
+//        Assertions.assertTrue(res);
+//    }
+//}
+
+//    @Test
+//    void testSaveUserDao() {
+//        Assertions.assertEquals("alex", authUser.getLogin());
+//    }
 
 
 // не надо

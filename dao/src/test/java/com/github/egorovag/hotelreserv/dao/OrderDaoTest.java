@@ -22,22 +22,22 @@ class OrderDaoTest {
     private Integer clientId;
 
 
-    @BeforeEach
-    void saveOrder(){
-        authUser = authUserDao.saveUserDao("alex", "pass", Role.USER);
-        clientId = authUser.getId();
-        Client client = new Client("Alex","Alexandrov","alex@tut.by","55555", clientId);
-        clientDao.saveClientDao(client);
-        orderWithoutId = new OrderClient("2020-05-10","2020-05-12", 1, Condition.CONSIDERATION);
-        order = orderDao.saveOrderDao(orderWithoutId, clientId);
-    }
-
-    @AfterEach
-    void deleteOrder(){
-        orderDao.deleteOrderByClientIdDao(clientId);
-        clientDao.deleteClientByClientIdDao(clientId);
-        authUserDao.deleteUserByLoginDao(authUser.getLogin());
-    }
+//    @BeforeEach
+//    void saveOrder(){
+//        authUser = authUserDao.saveUserDao("alex", "pass", Role.USER);
+//        clientId = authUser.getId();
+//        Client client = new Client("Alex","Alexandrov","alex@tut.by","55555", clientId);
+//        clientDao.saveClientDao(client);
+//        orderWithoutId = new OrderClient("2020-05-10","2020-05-12", 1, Condition.CONSIDERATION);
+//        order = orderDao.saveOrderDao(orderWithoutId, clientId);
+//    }
+//
+//    @AfterEach
+//    void deleteOrder(){
+//        orderDao.deleteOrderByClientIdDao(clientId);
+//        clientDao.deleteClientByClientIdDao(clientId);
+//        authUserDao.deleteUserByLoginDao(authUser.getLogin());
+//    }
 
     @Test
     void testSaveOrderDao() {

@@ -8,5 +8,5 @@ public interface BlackListUsersDao {
      List<BlackListUsers> readBlackListUsersListsDao();
      boolean deleteBlackListUserByIdDao(int id);
      boolean saveBlackListUserDao(int id);
-     int checkBlackUserByIdDao(int id);
+     int checkBlackUserByUserIdDao(int id);
 }

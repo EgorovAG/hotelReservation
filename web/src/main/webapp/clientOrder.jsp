@@ -24,15 +24,15 @@
             <input type="radio" name="classOfAp" value="BUSINESS"> бизнес<Br>
         </p>
 
-        <p><b>Класс апартаментов:</b><Br>
-            <input type="radio" name="typeOfService1" value="pool"> бассейн<Br>
-            <input type="radio" name="typeOfService2" value="wifi"> wi-fi<Br>
-            <input type="radio" name="typeOfService3" value="breakfast"> завтрак<Br>
-            <input type="radio" name="typeOfService4" value="lunch"> обед<Br>
-            <input type="radio" name="typeOfService5" value="dinner"> ужин<Br>
-            <input type="radio" name="typeOfService6" value="bar"> бар<Br>
-            <input type="radio" name="typeOfService7" value="gym"> тренажерный зал<Br>
-        </p>
+<%--        <p><b>Класс апартаментов:</b><Br>--%>
+<%--            <input type="radio" name="typeOfService1" value="pool"> бассейн<Br>--%>
+<%--            <input type="radio" name="typeOfService2" value="wifi"> wi-fi<Br>--%>
+<%--            <input type="radio" name="typeOfService3" value="breakfast"> завтрак<Br>--%>
+<%--            <input type="radio" name="typeOfService4" value="lunch"> обед<Br>--%>
+<%--            <input type="radio" name="typeOfService5" value="dinner"> ужин<Br>--%>
+<%--            <input type="radio" name="typeOfService6" value="bar"> бар<Br>--%>
+<%--            <input type="radio" name="typeOfService7" value="gym"> тренажерный зал<Br>--%>
+<%--        </p>--%>
         <br/>
 
             <input type="date" name="startDate" required>

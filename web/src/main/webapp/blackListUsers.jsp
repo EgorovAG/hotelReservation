@@ -24,7 +24,7 @@
             <td>${blackListUsers.secondName}</td>
             <td>${blackListUsers.dateBlock}</td>
             <td> <form action="${pageContext.request.contextPath}/blackListUsers" method="post" >
-                <button name="id" value="${blackListUsers.userId}">Удалить</button>
+                <button name="id" value="${blackListUsers.id}">Удалить</button>
             </form></td>
         </tr>
     </c:forEach>

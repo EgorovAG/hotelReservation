@@ -55,7 +55,7 @@ public class DefaultAuthUserDao implements AuthUserDao {
 //        return null;
 //    }
 
-    @Override
+    @Override //+
     public String checkLoginDao(String login) {
         try (Session session = SFUtil.getSession()) {
             session.beginTransaction();
@@ -94,20 +94,20 @@ public class DefaultAuthUserDao implements AuthUserDao {
 //        return new AuthUser(id, login, password, role);
 //    }
 
-    @Override
-    public AuthUser saveUserDao(String login, String password, Role role) {
-        int id;
-        try (Session session = SFUtil.getSession()) {
-            session.beginTransaction();
-            id = (int) session.save(new AuthUser(login, password, role));
-            session.getTransaction().commit();
-            log.info("authuser with login:{}, password:{}, role{} saved", login, password, role);
-            return new AuthUser(id, login, password, role);
-        } catch (HibernateException e) {
-            log.error("Fail to save authuser with login:{}, password:{}, role{}", login, password, role, e);
-            return null;
-        }
-    }
+//    @Override
+//    public AuthUser saveUserDao(String login, String password, Role role) {
+//        int id;
+//        try (Session session = SFUtil.getSession()) {
+//            session.beginTransaction();
+//            id = (int) session.save(new AuthUser(login, password, role));
+//            session.getTransaction().commit();
+//            log.info("authuser with login:{}, password:{}, role{} saved", login, password, role);
+//            return new AuthUser(id, login, password, role);
+//        } catch (HibernateException e) {
+//            log.error("Fail to save authuser with login:{}, password:{}, role{}", login, password, role, e);
+//            return null;
+//        }
+//    }
 
 //    @Override
 //    public AuthUser readUserByLoginDao(String login) {
@@ -130,7 +130,7 @@ public class DefaultAuthUserDao implements AuthUserDao {
 //        return authUser;
 //    }
 
-    @Override
+    @Override //+
     public AuthUser readUserByLoginDao(String login) {
         try (Session session = SFUtil.getSession()) {
             session.beginTransaction();
@@ -140,7 +140,7 @@ public class DefaultAuthUserDao implements AuthUserDao {
             session.getTransaction().commit();
             log.info("authuser with login: {} readed", login);
             return authUserRes;
-        } catch (HibernateError e) {
+        } catch (NoResultException e) {
             log.error("Fail to read authuser with login: {}", login, e);
         }
         return null;
@@ -168,21 +168,35 @@ public class DefaultAuthUserDao implements AuthUserDao {
 //    }
 
 
-    @Override
-    public Client readClientByLoginDao(String login) {
+    //    @Override
+//    public Client readClientByAuthUserIdDao(Integer id) { //    public Client readClientByLoginDao(String login) {
+//        try (Session session = SFUtil.getSession()) {
+//            session.beginTransaction();
+//            AuthUser authUser = session.get(AuthUser.class,id);
+//            AuthUser authUserRes = session.createQuery("select A from AuthUser A where login = :login", AuthUser.class)
+//                    .setParameter("login", login)
+//                    .getSingleResult();
+//            Client client = session.createQuery("select C from Client C where C.userId = :id", Client.class)
+//                    .setParameter("id", authUserRes.getId())
+//                    .getSingleResult();
+//            session.getTransaction().commit();
+//            log.info("Client with login:{} readed", login);
+//            return client;
+//        } catch (HibernateError e) {
+//            log.error("Fail to read client with login:{}", login, e);
+//            return null;
+//        }
+//    }
+    @Override //+
+    public Client readClientByAuthUserIdDao(Integer id) {
         try (Session session = SFUtil.getSession()) {
             session.beginTransaction();
-            AuthUser authUserRes = session.createQuery("select A from AuthUser A where login = :login", AuthUser.class)
-                    .setParameter("login", login)
-                    .getSingleResult();
-            Client client = session.createQuery("select C from Client C where C.userId = :id", Client.class)
-                    .setParameter("id", authUserRes.getId())
-                    .getSingleResult();
-            session.getTransaction().commit();
-            log.info("Client with login:{} readed", login);
+            AuthUser authUser = session.get(AuthUser.class, id);
+            Client client = authUser.getClient();
+            log.info("Client with authUserID:{} readed", id);
             return client;
         } catch (HibernateError e) {
-            log.error("Fail to read client with login:{}", login, e);
+            log.error("Fail to read client with authUserID:{}", id, e);
             return null;
         }
     }
@@ -215,7 +229,7 @@ public class DefaultAuthUserDao implements AuthUserDao {
 //        return listAU;
 //    }
 
-    @Override
+    @Override //+
     public List<AuthUserWithClient> readListClientDao() {
         try (Session session = SFUtil.getSession()) {
             session.beginTransaction();
@@ -238,6 +252,7 @@ public class DefaultAuthUserDao implements AuthUserDao {
             return null;
         }
     }
+}
 
 
 //    @Override
@@ -256,22 +271,22 @@ public class DefaultAuthUserDao implements AuthUserDao {
 //    }
 
 
-    @Override
-    public boolean deleteUserByLoginDao(String login) {
-        try (Session session = SFUtil.getSession()) {
-            session.beginTransaction();
-            AuthUser authUser = session.createQuery("select A from AuthUser A where login = :login", AuthUser.class)
-                    .setParameter("login", login)
-                    .getSingleResult();
-            session.delete(authUser);
-            session.getTransaction().commit();
-            log.info("authuser with login:{} deleted", login);
-            return true;
-        } catch (HibernateError e) {
-            log.error("Fail to delete authuser with login:{}", login, e);
-        }
-        return false;
-    }
+//    @Override
+//    public boolean deleteUserByLoginDao(String login) {
+//        try (Session session = SFUtil.getSession()) {
+//            session.beginTransaction();
+//            AuthUser authUser = session.createQuery("select A from AuthUser A where login = :login", AuthUser.class)
+//                    .setParameter("login", login)
+//                    .getSingleResult();
+//            session.delete(authUser);
+//            session.getTransaction().commit();
+//            log.info("authuser with login:{} deleted", login);
+//            return true;
+//        } catch (HibernateError e) {
+//            log.error("Fail to delete authuser with login:{}", login, e);
+//        }
+//        return false;
+//    }
 
 //    @Override
 //    public boolean deleteUserByIdDao(int id) {
@@ -289,22 +304,22 @@ public class DefaultAuthUserDao implements AuthUserDao {
 //    }
 
 
-    @Override
-    public boolean deleteUserByIdDao(int id) {
-        try (Session session = SFUtil.getSession()) {
-            session.beginTransaction();
-            AuthUser authUser = session.createQuery("select A from AuthUser A where id = :id", AuthUser.class)
-                    .setParameter("id", id).getSingleResult();
-            session.delete(authUser);
-            session.getTransaction().commit();
-            log.info("authuser with id:{} deleted", id);
-            return true;
-        } catch (HibernateError e) {
-            log.error("Fail to delete authuser with id:{}", id, e);
-        }
-        return false;
-    }
-}
+//    @Override
+//    public boolean deleteUserByIdDao(int id) {
+//        try (Session session = SFUtil.getSession()) {
+//            session.beginTransaction();
+//            AuthUser authUser = session.createQuery("select A from AuthUser A where id = :id", AuthUser.class)
+//                    .setParameter("id", id).getSingleResult();
+//            session.delete(authUser);
+//            session.getTransaction().commit();
+//            log.info("authuser with id:{} deleted", id);
+//            return true;
+//        } catch (HibernateError e) {
+//            log.error("Fail to delete authuser with id:{}", id, e);
+//        }
+//        return false;
+//    }
+//}
 
 
 // лишний метод !!!!!!!

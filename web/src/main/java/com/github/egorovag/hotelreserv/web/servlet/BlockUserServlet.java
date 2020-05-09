@@ -12,21 +12,21 @@ import java.io.IOException;
 
 @WebServlet("/blockUser")
 public class BlockUserServlet extends HttpServlet {
-    BlackListUsersService iblackListUsersService;
+    BlackListUsersService blackListUsersService;
 
     @Override
     public void init() throws ServletException {
-        iblackListUsersService = DefaultBlackListUsersService.getInstance();
+        blackListUsersService = DefaultBlackListUsersService.getInstance();
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter("id"));
-        if(iblackListUsersService.checkBlackUserById(id)) {
+        if(blackListUsersService.checkBlackUserByUserId(id)) {
             req.setAttribute("error", "Такой пользователь уже заблокирован!");
             req.getRequestDispatcher("/registratedUsers.jsp").forward(req,resp);
         } else {
-            iblackListUsersService.saveBlackListUserById(id);}
+            blackListUsersService.saveBlackListUserById(id);}
         req.setAttribute("error", "Выбранный пользователь заблокирован!");
         req.getRequestDispatcher("/registratedUsers.jsp").forward(req,resp);
 

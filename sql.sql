@@ -83,7 +83,7 @@ create table IF NOT EXISTS orderClient
 
 create table IF NOT EXISTS service
 (
-    id    int(64) auto_increment PRIMARY KEY,
+    service_id    int(64) auto_increment PRIMARY KEY,
     typeOfService varchar(50) not null,
     price         int(64)     not null
 );
@@ -96,6 +96,16 @@ values ('pool', 50),
        ('bar', 70),
        ('gym', 40);
 
+-- auto-generated definition
+create table orderclient_service
+(
+    order_id   int not null,
+    service_id int not null,
+    constraint FKcv805l8kf091n13jj56upwaye
+        foreign key (service_id) references service (service_id),
+    constraint FKk7g0bh1e4itpyqb6c6jombl5d
+        foreign key (order_id) references orderclient (order_id)
+);
 
 
 

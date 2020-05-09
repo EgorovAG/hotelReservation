@@ -31,9 +31,6 @@ public class DefaultClientDao implements ClientDao {
     }
 
 
-
-
-
 //    @Override
 //    public boolean saveClientDao(Client client) {
 //        try (Connection connection = MysqlDataBase.connect();
@@ -66,23 +63,6 @@ public class DefaultClientDao implements ClientDao {
             return false;
         }
     }
-//    @Override //oneToOne сохранить сразу и клиента и user
-//    public boolean saveClientDao(Client client) {
-//        try (Session session = SFUtil.getSession()) {
-//            session.beginTransaction();
-//            AuthUser authUser = session.get(AuthUser.class, client.getUserId());
-//            authUser.setClient(client);
-//            session.saveOrUpdate(authUser);
-//            session.getTransaction().commit();
-//            log.info("Client : {} saved", client);
-//            return true;
-//        } catch (HibernateException e) {
-//            log.error("Fail to save client: {}", client, e);
-//            return false;
-//        }
-//    }
-
-
 
 
 //    @Override
@@ -101,26 +81,55 @@ public class DefaultClientDao implements ClientDao {
 //        }
 //    }
 
-    @Override
-    public boolean deleteClientByClientIdDao(int id) {
+//    @Override
+//    public boolean deleteClientByClientIdDao(int id) {
+//        try (Session session = SFUtil.getSession()) {
+//            session.beginTransaction();
+//            Client client = session.createQuery("select C from Client C where userId = :id", Client.class)
+//                    .setParameter("id", id)
+//                    .getSingleResult();
+//            session.delete(client);
+//            session.getTransaction().commit();
+//            log.info("Client with client_id: {} deleted", id);
+//            return true;
+//        } catch (HibernateException e) {
+//            log.error("Fail to delete client with client_id: {}", id, e);
+//            return false;
+//        }
+//    }
+
+    @Override //oneToOne
+    public Integer saveAuthUserAndClientDao(AuthUser authUser, Client client) {
+        authUser.setClient(client);
         try (Session session = SFUtil.getSession()) {
             session.beginTransaction();
-            Client client = session.createQuery("select C from Client C where userId = :id", Client.class)
-                    .setParameter("id", id)
-                    .getSingleResult();
-            session.delete(client);
+            Integer id = (Integer) session.save(authUser);
             session.getTransaction().commit();
-            log.info("Client with client_id: {} deleted", id);
+            log.info("AuthUser: {} and Client : {} saved", authUser, client);
+            return id;
+        } catch (HibernateException e) {
+            log.error("Fail to save AuthUser: {} and Client : {} ", authUser, client , e);
+            return null;
+        }
+    }
+
+    @Override //oneToOne
+    public boolean deleteAuthUserAndClientByUserIdDao(Integer userId) {
+        try (Session session = SFUtil.getSession()) {
+            session.beginTransaction();
+            AuthUser authUser = session.get(AuthUser.class,userId);
+            session.delete(authUser);
+            session.getTransaction().commit();
+            log.info("AuthUser with : {} userId and Client deleted", userId);
             return true;
         } catch (HibernateException e) {
-            log.error("Fail to delete client with client_id: {}", id, e);
+            log.error("Fail to delete AuthUser with : {} userId and Client ", userId, e);
             return false;
         }
     }
 
+
 }
-
-
 
 
 // ЛИШНЕЕ!!!!!

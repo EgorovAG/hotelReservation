@@ -43,6 +43,8 @@ public class AuthUser {
         this.blackList = blackList;
     }
 
+
+
     public AuthUser() {
     }
 
@@ -86,7 +88,7 @@ public class AuthUser {
     }
 
     @OneToOne(mappedBy = "authUser", fetch = FetchType.LAZY,
-            cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+            cascade = CascadeType.ALL)
     public Client getClient() {
         return client;
     }
@@ -96,7 +98,7 @@ public class AuthUser {
     }
 
     @OneToOne(mappedBy = "authUser", fetch = FetchType.LAZY,
-            cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+            cascade = CascadeType.ALL)
     public BlackList getBlackList() {
         return blackList;
     }

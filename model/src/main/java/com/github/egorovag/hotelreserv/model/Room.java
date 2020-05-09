@@ -25,6 +25,14 @@ public class Room {
         this.price = price;
     }
 
+    public Room(Integer id, Integer numOfSeats, ClassRoom classOfAp, Integer price, OrderClient orderClient) {
+        this.id = id;
+        this.numOfSeats = numOfSeats;
+        this.classOfAp = classOfAp;
+        this.price = price;
+        this.orderClient = orderClient;
+    }
+
     public Room() {
     }
 
@@ -66,7 +74,7 @@ public class Room {
     }
 
     @OneToOne(mappedBy = "room", fetch = FetchType.LAZY,
-            cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+            cascade = CascadeType.ALL)
     public OrderClient getOrderClient() {
         return orderClient;
     }

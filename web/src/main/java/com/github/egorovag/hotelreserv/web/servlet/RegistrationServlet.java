@@ -4,8 +4,8 @@ import com.github.egorovag.hotelreserv.model.AuthUser;
 import com.github.egorovag.hotelreserv.model.Client;
 import com.github.egorovag.hotelreserv.model.enums.Role;
 import com.github.egorovag.hotelreserv.service.impl.DefaultClientService;
-import com.github.egorovag.hotelreserv.service.CheckUserService;
-import com.github.egorovag.hotelreserv.service.impl.DefaultCheckUserService;
+import com.github.egorovag.hotelreserv.service.UserService;
+import com.github.egorovag.hotelreserv.service.impl.DefaultUserService;
 import com.github.egorovag.hotelreserv.service.СlientService;
 
 import javax.servlet.ServletException;
@@ -18,12 +18,12 @@ import java.io.IOException;
 @WebServlet("/registration")
 public class RegistrationServlet extends HttpServlet {
 
-    private CheckUserService checkUserService;
+    private UserService userService;
     private СlientService clientService;
 
     @Override
     public void init() {
-        checkUserService = DefaultCheckUserService.getInstance();
+        userService = DefaultUserService.getInstance();
         clientService = DefaultClientService.getInstance();
     }
 
@@ -36,18 +36,18 @@ public class RegistrationServlet extends HttpServlet {
         String secondName = req.getParameter("secondName");
         String email = req.getParameter("email");
         String phone = req.getParameter("phone");
-        AuthUser authUser = checkUserService.saveAuthUser(login, password, Role.USER);
-        Client client = new Client(firstName, secondName, email, phone, authUser.getId());
+
+//        AuthUser authUser = userService.saveAuthUser(login, password, Role.USER);
+//        Client client = new Client(firstName, secondName, email, phone, authUser.getId());
 
 //        oneToOne
         AuthUser authUser = new AuthUser(login, password, Role.USER);
         Client client = new Client(null,firstName, secondName, email, phone, authUser);
-        clientService.saveAuthUserAndClient(authUser, client);
+        Integer id = clientService.saveAuthUserAndClient(authUser, client);
+        req.getSession().setAttribute("authUser", new AuthUser(id, login, password, Role.USER));
 
-
-
-        clientService.saveClient(client);
-        req.getSession().setAttribute("authUser", authUser);
+//        clientService.saveClient(client);
+//        req.getSession().setAttribute("authUser", authUser);
         req.getSession().setAttribute("client", client);
         req.getRequestDispatcher("personalArea.jsp").forward(req, resp);
     }

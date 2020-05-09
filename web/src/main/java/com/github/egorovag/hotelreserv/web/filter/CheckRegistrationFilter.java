@@ -1,7 +1,7 @@
 package com.github.egorovag.hotelreserv.web.filter;
 
-import com.github.egorovag.hotelreserv.service.impl.DefaultCheckUserService;
-import com.github.egorovag.hotelreserv.service.CheckUserService;
+import com.github.egorovag.hotelreserv.service.impl.DefaultUserService;
+import com.github.egorovag.hotelreserv.service.UserService;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -12,10 +12,10 @@ import java.io.IOException;
 @WebFilter("/registration")
 public class CheckRegistrationFilter implements Filter {
 
-    private CheckUserService icheckUserService;
+    private UserService userService;
     @Override
     public void init(FilterConfig filterConfig) {
-        icheckUserService = DefaultCheckUserService.getInstance();
+        userService = DefaultUserService.getInstance();
     }
 
     @Override
@@ -25,7 +25,7 @@ public class CheckRegistrationFilter implements Filter {
 
         String login = req.getParameter("login");
 
-        if (!icheckUserService.checkLogin(login)) {
+        if (!userService.checkLogin(login)) {
             filterChain.doFilter(req,resp);
         } else {
             req.setAttribute("errorUser", "Пользователь с таким именем уже существует");

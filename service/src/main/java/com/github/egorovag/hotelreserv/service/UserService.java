@@ -7,12 +7,15 @@ import com.github.egorovag.hotelreserv.model.enums.Role;
 
 import java.util.List;
 
-public interface CheckUserService {
+public interface UserService {
 
     AuthUser checkUser(String login, String password);
     boolean checkLogin(String login) ;
-    AuthUser saveAuthUser(String login, String password, Role role) ;
-    Client readClientByLoginService(String login);
+    Client readClientByAuthUserId(Integer id);
     List<AuthUserWithClient> readListClient();
-    boolean deleteUserByIdService( int id );
+
+
+//    boolean deleteUserById(int id );
+//    AuthUser saveAuthUser(String login, String password, Role role) ;
+
 }

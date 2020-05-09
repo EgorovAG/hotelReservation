@@ -4,8 +4,8 @@ import com.github.egorovag.hotelreserv.model.AuthUser;
 import com.github.egorovag.hotelreserv.model.Client;
 import com.github.egorovag.hotelreserv.service.impl.DefaultBlackListUsersService;
 import com.github.egorovag.hotelreserv.service.BlackListUsersService;
-import com.github.egorovag.hotelreserv.service.CheckUserService;
-import com.github.egorovag.hotelreserv.service.impl.DefaultCheckUserService;
+import com.github.egorovag.hotelreserv.service.UserService;
+import com.github.egorovag.hotelreserv.service.impl.DefaultUserService;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -17,12 +17,12 @@ import java.io.IOException;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
-    private CheckUserService checkUserService;
+    private UserService checkUserService;
     private BlackListUsersService blackListUsersService;
 
     @Override
     public void init() {
-        checkUserService = DefaultCheckUserService.getInstance();
+        checkUserService = DefaultUserService.getInstance();
         blackListUsersService = DefaultBlackListUsersService.getInstance();
     }
 
@@ -50,11 +50,11 @@ public class LoginServlet extends HttpServlet {
                 req.getRequestDispatcher("/personalArea.jsp").forward(req, resp);
             } else {
                 int id = authUser.getId();
-                if (blackListUsersService.checkBlackUserById(id)) {
+                if (blackListUsersService.checkBlackUserByUserId(id)) {
                     req.getRequestDispatcher("/youAreBlockClient.jsp").forward(req, resp);
                 } else {
                     req.getSession().setAttribute("authUser", authUser);
-                    Client client = checkUserService.readClientByLoginService(authUser.getLogin());
+                    Client client = checkUserService.readClientByAuthUserId(authUser.getId());
                     if (client != null) {
                         req.getSession().setAttribute("client", client);
                     }

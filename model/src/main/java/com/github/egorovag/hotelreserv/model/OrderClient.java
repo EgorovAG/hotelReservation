@@ -109,8 +109,8 @@ public class OrderClient {
         this.roomId = roomId;
     }
 
-    @Column(name = "client_id", insertable = false, updatable = false)
-
+//    @Column(name = "client_id", insertable = false, updatable = false)
+    @Column(name = "client_id")
     public Integer getUserId() {
         return userId;
     }
@@ -139,27 +139,27 @@ public class OrderClient {
         this.room = room;
     }
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "orderClient_service", joinColumns = {@JoinColumn(name = "order_id")},
-            inverseJoinColumns = {@JoinColumn(name = "service_id")}
-    )
-    public List<Service> getServices() {
-        return services;
-    }
+//    @ManyToMany(cascade = CascadeType.ALL)
+//    @JoinTable(name = "orderClient_service", joinColumns = {@JoinColumn(name = "order_id")},
+//            inverseJoinColumns = {@JoinColumn(name = "service_id")}
+//    )
+//    public List<Service> getServices() {
+//        return services;
+//    }
+//
+//    public void setServices(List<Service> services) {
+//        this.services = services;
+//    }
 
-    public void setServices(List<Service> services) {
-        this.services = services;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "client_id", referencedColumnName = "user_id")
-    public Client getClient() {
-        return client;
-    }
-
-    public void setClient(Client client) {
-        this.client = client;
-    }
+//    @ManyToOne
+//    @JoinColumn(name = "client_id", referencedColumnName = "user_id")
+//    public Client getClient() {
+//        return client;
+//    }
+//
+//    public void setClient(Client client) {
+//        this.client = client;
+//    }
 
     @Override
     public String toString() {

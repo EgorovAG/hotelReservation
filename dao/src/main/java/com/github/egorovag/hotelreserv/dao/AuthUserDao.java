@@ -11,12 +11,12 @@ public interface AuthUserDao {
 
     String checkLoginDao(String login);
 //    String readPasswordByLoginDao(String login);
-    AuthUser saveUserDao(String login, String password, Role role);
+//    AuthUser saveUserDao(String login, String password, Role role);
     AuthUser readUserByLoginDao(String login);
-    Client readClientByLoginDao(String login);
+    Client readClientByAuthUserIdDao(Integer id);
     List<AuthUserWithClient> readListClientDao();
-    boolean deleteUserByLoginDao(String login);
-    boolean deleteUserByIdDao(int id);
+//    boolean deleteUserByLoginDao(String login);
+//    boolean deleteUserByIdDao(int id);
 
 
 }

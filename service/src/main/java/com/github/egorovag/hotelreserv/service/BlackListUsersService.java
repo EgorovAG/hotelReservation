@@ -9,5 +9,5 @@ public interface BlackListUsersService {
     List<BlackListUsers> readBlackListUsersListsService();
     boolean deleteBlackListUserById(int id);
     boolean saveBlackListUserById(int id);
-    boolean checkBlackUserById(int id);
+    boolean checkBlackUserByUserId(int id);
 }

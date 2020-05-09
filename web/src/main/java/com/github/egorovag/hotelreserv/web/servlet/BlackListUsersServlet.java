@@ -15,16 +15,16 @@ import java.util.List;
 
 @WebServlet("/blackListUsers")
 public class BlackListUsersServlet extends HttpServlet {
-    BlackListUsersService iblackListUsersService;
+    BlackListUsersService blackListUsersService;
 
     @Override
     public void init() throws ServletException {
-        iblackListUsersService = DefaultBlackListUsersService.getInstance();
+        blackListUsersService = DefaultBlackListUsersService.getInstance();
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<BlackListUsers> blackListUsers = iblackListUsersService.readBlackListUsersListsService();
+        List<BlackListUsers> blackListUsers = blackListUsersService.readBlackListUsersListsService();
         if (blackListUsers == null || blackListUsers.isEmpty()) {
             req.setAttribute("blackListUsers", null);
         } else {
@@ -36,8 +36,8 @@ public class BlackListUsersServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter("id"));
-        iblackListUsersService.deleteBlackListUserById(id);
-        List<BlackListUsers> blackListUsers = iblackListUsersService.readBlackListUsersListsService();
+        blackListUsersService.deleteBlackListUserById(id);
+        List<BlackListUsers> blackListUsers = blackListUsersService.readBlackListUsersListsService();
         if (blackListUsers == null || blackListUsers.isEmpty()) {
             req.setAttribute("blackListUsers", null);
         } else {

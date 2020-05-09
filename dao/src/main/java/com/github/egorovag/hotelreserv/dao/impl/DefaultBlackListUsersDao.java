@@ -3,6 +3,7 @@ package com.github.egorovag.hotelreserv.dao.impl;
 import com.github.egorovag.hotelreserv.dao.BlackListUsersDao;
 import com.github.egorovag.hotelreserv.dao.utils.MysqlDataBase;
 import com.github.egorovag.hotelreserv.dao.utils.SFUtil;
+import com.github.egorovag.hotelreserv.model.AuthUser;
 import com.github.egorovag.hotelreserv.model.BlackList;
 import com.github.egorovag.hotelreserv.model.dto.BlackListUsers;
 import org.hibernate.HibernateException;
@@ -36,7 +37,7 @@ public class DefaultBlackListUsersDao implements BlackListUsersDao {
         return localInstance;
     }
 
-    @Override
+    @Override //разобраться с датой
     public List<BlackListUsers> readBlackListUsersListsDao() {
         List<BlackListUsers> listBL = new ArrayList<>();
         try (Connection connection = MysqlDataBase.connect();
@@ -61,6 +62,8 @@ public class DefaultBlackListUsersDao implements BlackListUsersDao {
         return listBL;
     }
 
+
+
 //    @Override
 //    public List<BlackListUsers> readBlackListUsersListsDao() {
 //        try (Session session = SFUtil.getSession()) {
@@ -82,36 +85,37 @@ public class DefaultBlackListUsersDao implements BlackListUsersDao {
 //        }
 //    }
 
-    @Override
-    public boolean deleteBlackListUserByIdDao(int id) {
-        try (Connection connection = MysqlDataBase.connect();
-             PreparedStatement statement = connection.prepareStatement
-                     ("delete from blacklist where user_id =?")) {
-            statement.setInt(1, id);
-            statement.executeUpdate();
-            log.info("user with id:{} deleted from blackList", id);
-            return true;
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-            log.error("Fail to delete user from blackList with id:{}", id);
-            return false;
-        }
-    }
+
 
 //    @Override
 //    public boolean deleteBlackListUserByIdDao(int id) {
-//        try (Session session = SFUtil.getSession()) {
-//            session.beginTransaction();
-//            Query query = session.createQuery("DELETE BlackList where userId = :id");
-//            query.setParameter("id", id);
-//            query.executeUpdate();
-//            session.getTransaction().commit();
+//        try (Connection connection = MysqlDataBase.connect();
+//             PreparedStatement statement = connection.prepareStatement
+//                     ("delete from blacklist where user_id =?")) {
+//            statement.setInt(1, id);
+//            statement.executeUpdate();
+//            log.info("user with id:{} deleted from blackList", id);
 //            return true;
-//        } catch (HibernateException e) {
+//        } catch (SQLException | ClassNotFoundException e) {
+//            e.printStackTrace();
 //            log.error("Fail to delete user from blackList with id:{}", id);
 //            return false;
 //        }
 //    }
+
+    @Override //+
+    public boolean deleteBlackListUserByIdDao(int id) {
+        try (Session session = SFUtil.getSession()) {
+            session.beginTransaction();
+            BlackList blackList = session.get(BlackList.class, id);
+            session.delete(blackList);
+            session.getTransaction().commit();
+            return true;
+        } catch (HibernateException e) {
+            log.error("Fail to delete user from blackList with id:{}", id);
+            return false;
+        }
+    }
 
 
 //    @Override
@@ -130,11 +134,12 @@ public class DefaultBlackListUsersDao implements BlackListUsersDao {
 //        return true;
 //    }
 
-    @Override
+    @Override //+
     public boolean saveBlackListUserDao(int id) {
-        BlackList blackList = new BlackList(id, LocalDate.now());
         try (Session session = SFUtil.getSession()) {
             session.beginTransaction();
+            AuthUser authUser = session.get(AuthUser.class, id);
+            BlackList blackList = new BlackList(id, LocalDate.now(),authUser);
             session.saveOrUpdate(blackList);
             session.getTransaction().commit();
             log.info("Client with id:{} saved in blackList", id);
@@ -167,7 +172,7 @@ public class DefaultBlackListUsersDao implements BlackListUsersDao {
 //    }
 
     @Override
-    public int checkBlackUserByIdDao(int id) {
+    public int checkBlackUserByUserIdDao(int id) {
         try (Session session = SFUtil.getSession()) {
             session.beginTransaction();
             Long res = (Long) session.createQuery("select count (*) from BlackList b where b.userId = :id")
