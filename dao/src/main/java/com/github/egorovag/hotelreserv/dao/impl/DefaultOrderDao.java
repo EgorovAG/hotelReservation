@@ -4,11 +4,15 @@ import com.github.egorovag.hotelreserv.dao.BlackListUsersDao;
 import com.github.egorovag.hotelreserv.dao.OrderDao;
 import com.github.egorovag.hotelreserv.dao.utils.MysqlDataBase;
 import com.github.egorovag.hotelreserv.dao.utils.SFUtil;
+import com.github.egorovag.hotelreserv.model.Client;
 import com.github.egorovag.hotelreserv.model.OrderClient;
+import com.github.egorovag.hotelreserv.model.Room;
+import com.github.egorovag.hotelreserv.model.Service;
 import com.github.egorovag.hotelreserv.model.dto.OrderForAdmin;
 import com.github.egorovag.hotelreserv.model.dto.OrderForClient;
 import com.github.egorovag.hotelreserv.model.enums.ClassRoom;
 import com.github.egorovag.hotelreserv.model.enums.Condition;
+import net.sf.ehcache.search.expression.Or;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.internal.TypeLocatorImpl;
@@ -69,20 +73,38 @@ public class DefaultOrderDao implements OrderDao {
 //        }
 //    }
 
-    @Override
-    public OrderClient saveOrderDao(OrderClient orderWithoutId, int clientId) {
-        OrderClient orderClient = new OrderClient(orderWithoutId.getStartDate(), orderWithoutId.getEndDate(), orderWithoutId.getRoomId(), clientId, orderWithoutId.getCondition());
+//    @Override
+//    public OrderClient saveOrderDao(OrderClient orderWithoutId, int clientId) {
+//        OrderClient orderClient = new OrderClient(orderWithoutId.getStartDate(), orderWithoutId.getEndDate(), orderWithoutId.getRoomId(), clientId, orderWithoutId.getCondition());
+//        try (Session session = SFUtil.getSession()) {
+//            session.beginTransaction();
+//            int idRes = (int) session.save(orderClient);
+//            session.getTransaction().commit();
+//            log.info("Order with startDate: {}, endDate: {}, room_id: {}, client_id: {}, cond_id: {} saved",
+//                    orderWithoutId.getStartDate(), orderWithoutId.getEndDate(), orderWithoutId.getRoomId(), clientId, orderWithoutId.getCondition());
+//            return new OrderClient(idRes, orderWithoutId.getStartDate(), orderWithoutId.getEndDate(), orderWithoutId.getRoomId(), clientId, orderWithoutId.getCondition());
+//        } catch ( HibernateException e) {
+//            log.error("Fail to save Order with startDate: {}, endDate: {}, room_id: {}, client_id: {}, cond_id: {}",
+//                    orderWithoutId.getStartDate(), orderWithoutId.getEndDate(), orderWithoutId.getRoomId(), clientId, orderWithoutId.getCondition(), e);
+//            return null;
+//        }
+//    }
+
+    @Override  //+++ //пытался добавить все сразу
+    public boolean saveOrderDao(OrderClient orderClient) {
+
+        Client client = orderClient.getClient();
+        client.getOrderClients().add(orderClient);
+
         try (Session session = SFUtil.getSession()) {
             session.beginTransaction();
-            int idRes = (int) session.save(orderClient);
+            session.saveOrUpdate(client);
             session.getTransaction().commit();
-            log.info("Order with startDate: {}, endDate: {}, room_id: {}, client_id: {}, cond_id: {} saved",
-                    orderWithoutId.getStartDate(), orderWithoutId.getEndDate(), orderWithoutId.getRoomId(), clientId, orderWithoutId.getCondition());
-            return new OrderClient(idRes, orderWithoutId.getStartDate(), orderWithoutId.getEndDate(), orderWithoutId.getRoomId(), clientId, orderWithoutId.getCondition());
-        } catch ( HibernateException e) {
-            log.error("Fail to save Order with startDate: {}, endDate: {}, room_id: {}, client_id: {}, cond_id: {}",
-                    orderWithoutId.getStartDate(), orderWithoutId.getEndDate(), orderWithoutId.getRoomId(), clientId, orderWithoutId.getCondition(), e);
-            return null;
+            log.info("Order: {} saved", orderClient);
+            return true;
+        } catch (HibernateException e) {
+            log.error("Fail to save Order: {}", orderClient, e);
+            return false;
         }
     }
 
@@ -92,7 +114,7 @@ public class DefaultOrderDao implements OrderDao {
         List<OrderForAdmin> listOrder = new ArrayList<>();
         try (Connection connection = MysqlDataBase.connect();
              Statement statement = connection.createStatement()) {
-            try (ResultSet rs = statement.executeQuery("select oC.order_id, firstName, secondName, email, phone, client_id, startDate, endDate, conditions from client join orderClient oC on client.user_id = oC.client_id")) {
+            try (ResultSet rs = statement.executeQuery("select oC.order_id, firstName, secondName, email, phone, client_id, startDate, endDate, conditions from client join orderClient oC on client.id = oC.client_id")) {
                 while (rs.next()) {
                     int orderId = rs.getInt(1);
                     String firstName = rs.getString(2);
@@ -160,7 +182,7 @@ public class DefaultOrderDao implements OrderDao {
 //            session.beginTransaction();
 //            List<OrderForAdmin> orderForAdmins = session.createNativeQuery("select oC.order_id as id, c.firstName, " +
 //                    "c.secondName, c.email, c.phone, oC.client_id as clientId, oC.startDate, oC.endDate, oC.conditions as 'condition' " +
-//                    "from client c join orderClient oC on c.user_id = oC.client_id")
+//                    "from client c join orderClient oC on c.id = oC.client_id")
 //                    .addScalar("id", StandardBasicTypes.INTEGER)
 //                    .addScalar("firstName", StandardBasicTypes.STRING)
 //                    .addScalar("secondName", StandardBasicTypes.STRING)
@@ -180,7 +202,6 @@ public class DefaultOrderDao implements OrderDao {
 //        }
 //        return null;
 //    }
-
 
 
     @Override
@@ -286,10 +307,10 @@ public class DefaultOrderDao implements OrderDao {
             orderClient.setCondition(condition);
             session.saveOrUpdate(orderClient);
             session.getTransaction().commit();
-            log.info("cond_id: {} orderclient with order_id: {} updated", orderId, condition);
+            log.info("Condition: {} orderclient with order_id: {} updated", condition, orderId);
             return true;
         } catch (HibernateException e) {
-            log.error("Fail to update cond_id: {} orderclient with order_id: {}", orderId, condition, e);
+            log.error("Fail to update condition: {} orderclient with order_id: {}", condition, orderId, e);
             return false;
         }
     }
@@ -310,9 +331,9 @@ public class DefaultOrderDao implements OrderDao {
 //        }
 //    }
 
-    @Override
+    @Override // вроде уже не нужен
     public boolean deleteOrderByClientIdDao(int id) {
-        try (Session session = SFUtil.getSession()){
+        try (Session session = SFUtil.getSession()) {
             session.beginTransaction();
             OrderClient orderClient = session.createQuery("select OC from OrderClient OC where userId = :id", OrderClient.class)
                     .setParameter("id", id)
@@ -321,7 +342,7 @@ public class DefaultOrderDao implements OrderDao {
             session.getTransaction().commit();
             log.info("orderclient with client_id:{} deleted", id);
             return true;
-            } catch (HibernateException e) {
+        } catch (HibernateException e) {
             log.error("Fail to delete orderclient with client_id:{}", id, e);
             return false;
         }
@@ -347,8 +368,8 @@ public class DefaultOrderDao implements OrderDao {
 //        return price;
 //    }
 
-    @Override
-    public int readPriceByOrderIdDao(int orderId) {
+    @Override //+++
+    public int readPriceForRoomByOrderIdDao(int orderId) {
         int price = 0;
         try (Session session = SFUtil.getSession()) {
             session.beginTransaction();
@@ -381,7 +402,7 @@ public class DefaultOrderDao implements OrderDao {
 //        return false;
 //    }
 
-    @Override
+    @Override //++
     public boolean deleteOrderByOrderIdDao(int orderId) {
         try (Session session = SFUtil.getSession()) {
             session.beginTransaction();
@@ -417,20 +438,17 @@ public class DefaultOrderDao implements OrderDao {
 //        return id;
 //    }
 
-    @Override
+    @Override // ++
     public int checkIdOrderByClientOrderDao(int orderId) {
-        int id = 0;
         try (Session session = SFUtil.getSession()) {
             session.beginTransaction();
-            id = (int) session.createQuery("select OC.userId from OrderClient OC where order_id = :orderId")
-                    .setParameter("orderId", orderId)
-                    .getSingleResult();
+            OrderClient orderClient = session.get(OrderClient.class, orderId);
             session.getTransaction().commit();
             log.info("ClientId with orderId:{} readed ", orderId);
-            return id;
+            return orderClient.getClientId();
         } catch (HibernateException e) {
             log.error("Fail read ClientId with orderId:{} ", orderId, e);
-            return id;
+            return 0;
         }
     }
 
@@ -456,20 +474,16 @@ public class DefaultOrderDao implements OrderDao {
     public Condition readConditionByOrderIdDao(int orderId) {
         try (Session session = SFUtil.getSession()) {
             session.beginTransaction();
-            Condition condition = (Condition) session.createQuery("select OC.condition from OrderClient OC where orderId = :orderId")
-                    .setParameter("orderId", orderId)
-                    .getSingleResult();
+            OrderClient orderClient = session.get(OrderClient.class, orderId);
             session.getTransaction().commit();
             log.info("Condition with orderId: {} readed", orderId);
-            return condition;
+            return orderClient.getCondition();
         } catch (HibernateException e) {
             log.error("Fail read condition with orderId: {}", orderId, e);
             return null;
         }
     }
 }
-
-
 
 
 //вроде лишнее

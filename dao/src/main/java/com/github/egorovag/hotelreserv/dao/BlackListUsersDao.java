@@ -7,6 +7,6 @@ import java.util.List;
 public interface BlackListUsersDao {
      List<BlackListUsers> readBlackListUsersListsDao();
      boolean deleteBlackListUserByIdDao(int id);
-     boolean saveBlackListUserDao(int id);
+     boolean saveBlackListUserByIdDao(int id);
      Integer checkBlackUserByUserIdDao(int id);
 }

@@ -6,9 +6,7 @@ import com.github.egorovag.hotelreserv.model.AuthUser;
 import com.github.egorovag.hotelreserv.model.dto.AuthUserWithClient;
 import com.github.egorovag.hotelreserv.model.Client;
 import com.github.egorovag.hotelreserv.model.enums.Role;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -36,10 +34,10 @@ class AuthUserDaoTest {
     void testCheckLoginDao() {
         authUser = new AuthUser("alex", "pass", Role.USER);
         client = new Client(null, "Alex", "Alexandrov", "alex@tut.by", "55555", authUser);
-        int userId = clientDao.saveAuthUserAndClientDao(authUser, client);
+        AuthUser authUserRes = clientDao.saveAuthUserAndClientDao(authUser, client);
         String login = authUserDao.checkLoginDao(authUser.getLogin());
         Assertions.assertEquals("alex", login);
-        clientDao.deleteAuthUserAndClientByUserIdDao(userId);
+        clientDao.deleteAuthUserAndClientByUserIdDao(authUserRes.getId());
 
     }
 
@@ -48,11 +46,11 @@ class AuthUserDaoTest {
     void testReadUserByLoginDao() {
         authUser = new AuthUser("alex", "pass", Role.USER);
         client = new Client(null, "Alex", "Alexandrov", "alex@tut.by", "55555", authUser);
-        int userId = clientDao.saveAuthUserAndClientDao(authUser, client);
-        AuthUser authUserRes = authUserDao.readUserByLoginDao("alex");
-        Assertions.assertEquals("alex", authUserRes.getLogin());
-        Assertions.assertEquals("pass", authUserRes.getPassword());
-        clientDao.deleteAuthUserAndClientByUserIdDao(userId);
+        AuthUser authUserRes = clientDao.saveAuthUserAndClientDao(authUser, client);
+        AuthUser authUserResult = authUserDao.readUserByLoginDao("alex");
+        Assertions.assertEquals("alex", authUserResult.getLogin());
+        Assertions.assertEquals("pass", authUserResult.getPassword());
+        clientDao.deleteAuthUserAndClientByUserIdDao(authUserRes.getId());
 
     }
 
@@ -60,11 +58,11 @@ class AuthUserDaoTest {
     void testReadClientByAuthUserIdDao() {
         authUser = new AuthUser("alex", "pass", Role.USER);
         client = new Client(null, "Alex", "Alexandrov", "alex@tut.by", "55555", authUser);
-        int userId = clientDao.saveAuthUserAndClientDao(authUser, client);
-        Client clientRes = authUserDao.readClientByAuthUserIdDao(userId);
+        AuthUser authUserRes = clientDao.saveAuthUserAndClientDao(authUser, client);
+        Client clientRes = authUserDao.readClientByAuthUserIdDao(authUserRes.getId());
         Assertions.assertEquals("Alex", clientRes.getFirstName());
         Assertions.assertEquals("55555", clientRes.getPhone());
-        clientDao.deleteAuthUserAndClientByUserIdDao(userId);
+        clientDao.deleteAuthUserAndClientByUserIdDao(authUserRes.getId());
     }
 
     @Test
@@ -72,10 +70,10 @@ class AuthUserDaoTest {
 
         authUser = new AuthUser("alex", "pass", Role.USER);
         client = new Client(null, "Alex", "Alexandrov", "alex@tut.by", "55555", authUser);
-        int userId = clientDao.saveAuthUserAndClientDao(authUser, client);
+        AuthUser authUserRes = clientDao.saveAuthUserAndClientDao(authUser, client);
         List<AuthUserWithClient> authUserListsRes = authUserDao.readListClientDao();
         Assertions.assertEquals(1, authUserListsRes.size());
-        clientDao.deleteAuthUserAndClientByUserIdDao(userId);
+        clientDao.deleteAuthUserAndClientByUserIdDao(authUserRes.getId());
     }
 }
 //

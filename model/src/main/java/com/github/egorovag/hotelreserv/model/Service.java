@@ -20,6 +20,16 @@ public class Service {
 
     private List<OrderClient> orderClients = new ArrayList<>();
 
+    public Service(String typeOfService) {
+        this.typeOfService = typeOfService;
+    }
+
+    public Service(Integer serviceId, String typeOfService, List<OrderClient> orderClients) {
+        this.serviceId = serviceId;
+        this.typeOfService = typeOfService;
+        this.orderClients = orderClients;
+    }
+
     public Service(Integer serviceId, String typeOfService, Integer price, List<OrderClient> orderClients) {
         this.serviceId = serviceId;
         this.typeOfService = typeOfService;

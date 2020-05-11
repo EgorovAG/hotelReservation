@@ -7,7 +7,7 @@ import com.github.egorovag.hotelreserv.model.enums.Role;
 
 import java.util.List;
 
-public interface UserService {
+public interface AuthUserService {
 
     AuthUser checkUser(String login, String password);
     boolean checkLogin(String login) ;

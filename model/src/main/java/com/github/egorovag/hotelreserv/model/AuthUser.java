@@ -87,7 +87,7 @@ public class AuthUser {
         this.role = role;
     }
 
-    @OneToOne(mappedBy = "authUser", fetch = FetchType.LAZY,
+    @OneToOne(mappedBy = "authUser", fetch = FetchType.EAGER,
             cascade = CascadeType.ALL)
     public Client getClient() {
         return client;
@@ -97,7 +97,7 @@ public class AuthUser {
         this.client = client;
     }
 
-    @OneToOne(mappedBy = "authUser", fetch = FetchType.LAZY,
+    @OneToOne(mappedBy = "authUser", fetch = FetchType.EAGER,
             cascade = CascadeType.ALL)
     public BlackList getBlackList() {
         return blackList;

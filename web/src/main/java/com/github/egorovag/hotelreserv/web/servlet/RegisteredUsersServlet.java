@@ -2,11 +2,11 @@ package com.github.egorovag.hotelreserv.web.servlet;
 
 import com.github.egorovag.hotelreserv.model.dto.AuthUserWithClient;
 import com.github.egorovag.hotelreserv.service.impl.DefaultBlackListUsersService;
-import com.github.egorovag.hotelreserv.service.impl.DefaultUserService;
+import com.github.egorovag.hotelreserv.service.impl.DefaultAuthUserService;
 import com.github.egorovag.hotelreserv.service.impl.DefaultClientService;
 import com.github.egorovag.hotelreserv.service.impl.DefaultOrderService;
 import com.github.egorovag.hotelreserv.service.BlackListUsersService;
-import com.github.egorovag.hotelreserv.service.UserService;
+import com.github.egorovag.hotelreserv.service.AuthUserService;
 import com.github.egorovag.hotelreserv.service.СlientService;
 import com.github.egorovag.hotelreserv.service.OrderService;
 
@@ -20,14 +20,14 @@ import java.util.List;
 
 @WebServlet("/registratedUsers")
 public class RegisteredUsersServlet extends HttpServlet {
-    private UserService checkUserService;
+    private AuthUserService checkUserService;
     private СlientService clientService;
     private BlackListUsersService blackListUsersService;
     private OrderService orderService;
 
     @Override
     public void init() throws ServletException {
-        checkUserService = DefaultUserService.getInstance();
+        checkUserService = DefaultAuthUserService.getInstance();
         clientService = DefaultClientService.getInstance();
         blackListUsersService = DefaultBlackListUsersService.getInstance();
         orderService = DefaultOrderService.getInstance();

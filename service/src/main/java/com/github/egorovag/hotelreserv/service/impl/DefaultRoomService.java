@@ -3,11 +3,12 @@ package com.github.egorovag.hotelreserv.service.impl;
 import com.github.egorovag.hotelreserv.dao.RoomDao;
 import com.github.egorovag.hotelreserv.dao.impl.DefaultRoomDao;
 import com.github.egorovag.hotelreserv.model.Room;
+import com.github.egorovag.hotelreserv.model.enums.ClassRoom;
 import com.github.egorovag.hotelreserv.service.RoomService;
 
 public class DefaultRoomService implements RoomService {
 
-    private RoomDao iroomDao = DefaultRoomDao.getInstance();
+    private RoomDao roomDao = DefaultRoomDao.getInstance();
     private static volatile RoomService instance;
 
     public static RoomService getInstance() {
@@ -24,13 +25,18 @@ public class DefaultRoomService implements RoomService {
     }
 
     @Override
-    public Integer readRoomIdService(int numOfSeats, String classOfApp) {
-        return iroomDao.readRoomIdDao(numOfSeats, classOfApp);
+    public Integer readRoomIdService(int numOfSeats, ClassRoom classOfApp) {
+        return roomDao.readRoomIdDao(numOfSeats, classOfApp);
     }
 
     @Override
-    public Room readRoomByIdService(int id) {
-        return iroomDao.readRoomByIdDao(id);
+    public Room readRoomByNumOfSeatsAndClassOfAp( int numOfSeats, ClassRoom classOfAp) {
+        return roomDao.readRoomByNumOfSeatsAndClassOfApDao(numOfSeats, classOfAp);
+    }
+
+    @Override
+    public Room readRoomById(int id) {
+        return roomDao.readRoomByIdDao(id);
     }
 
 //    @Override

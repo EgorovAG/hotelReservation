@@ -4,8 +4,8 @@ import com.github.egorovag.hotelreserv.model.AuthUser;
 import com.github.egorovag.hotelreserv.model.Client;
 import com.github.egorovag.hotelreserv.service.impl.DefaultBlackListUsersService;
 import com.github.egorovag.hotelreserv.service.BlackListUsersService;
-import com.github.egorovag.hotelreserv.service.UserService;
-import com.github.egorovag.hotelreserv.service.impl.DefaultUserService;
+import com.github.egorovag.hotelreserv.service.AuthUserService;
+import com.github.egorovag.hotelreserv.service.impl.DefaultAuthUserService;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -17,12 +17,12 @@ import java.io.IOException;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
-    private UserService checkUserService;
+    private AuthUserService checkUserService;
     private BlackListUsersService blackListUsersService;
 
     @Override
     public void init() {
-        checkUserService = DefaultUserService.getInstance();
+        checkUserService = DefaultAuthUserService.getInstance();
         blackListUsersService = DefaultBlackListUsersService.getInstance();
     }
 

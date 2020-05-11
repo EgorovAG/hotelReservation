@@ -9,7 +9,7 @@ public interface ClientDao {
 //    boolean deleteClientByClientIdDao(int client_id);
 //    boolean deleteClientByFirstNameDao(String firstName);
 //    void updateDao();
-    Integer saveAuthUserAndClientDao(AuthUser authUser, Client client);
+    AuthUser saveAuthUserAndClientDao(AuthUser authUser, Client client);
     boolean deleteAuthUserAndClientByUserIdDao(Integer userId);
 
 }

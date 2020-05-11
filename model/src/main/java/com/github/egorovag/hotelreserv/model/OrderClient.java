@@ -26,8 +26,9 @@ public class OrderClient {
     private Client client;
     private List<Service> services = new ArrayList<>();
 
+
     public OrderClient(Integer orderId, String startDate, String endDate, Integer roomId, Integer clientId,
-                       Condition condition, Room room, Client client, List<Service> services) {
+                       Condition condition, Room room, Client client) {
         this.orderId = orderId;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -36,45 +37,6 @@ public class OrderClient {
         this.condition = condition;
         this.room = room;
         this.client = client;
-        this.services = services;
-    }
-
-    public OrderClient(Integer orderId, String startDate, String endDate, Integer roomId,
-                       Integer userId, Condition condition, Room room, Client client) {
-        this.orderId = orderId;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.roomId = roomId;
-        this.clientId = userId;
-        this.condition = condition;
-        this.room = room;
-        this.client = client;
-    }
-
-    public OrderClient(String startDate, String endDate, Integer roomId, Condition condition) {
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.roomId = roomId;
-        this.condition = condition;
-    }
-
-    public OrderClient(String startDate, String endDate, Integer roomId, Integer userId, Condition condition) {
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.roomId = roomId;
-        this.clientId = userId;
-        this.condition = condition;
-    }
-
-
-    public OrderClient(Integer orderId, String startDate, String endDate, Integer roomId, Integer userId,
-                       Condition condition) {
-        this.orderId = orderId;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.roomId = roomId;
-        this.clientId = userId;
-        this.condition = condition;
     }
 
     public OrderClient() {

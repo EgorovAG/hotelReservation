@@ -35,6 +35,17 @@ public class Client {
         this.orderClients = orderClients;
     }
 
+    public Client(Integer id, String firstName, String secondName, String email, String phone, Integer userId,
+                  List<OrderClient> orderClients) {
+        this.id = id;
+        this.firstName = firstName;
+        this.secondName = secondName;
+        this.email = email;
+        this.phone = phone;
+        this.userId = userId;
+        this.orderClients = orderClients;
+    }
+
     public Client(Integer id, String firstName, String secondName, String email, String phone, AuthUser authUser) {
         this.id = id;
         this.firstName = firstName;

@@ -4,8 +4,8 @@ import com.github.egorovag.hotelreserv.model.AuthUser;
 import com.github.egorovag.hotelreserv.model.Client;
 import com.github.egorovag.hotelreserv.model.enums.Role;
 import com.github.egorovag.hotelreserv.service.impl.DefaultClientService;
-import com.github.egorovag.hotelreserv.service.UserService;
-import com.github.egorovag.hotelreserv.service.impl.DefaultUserService;
+import com.github.egorovag.hotelreserv.service.AuthUserService;
+import com.github.egorovag.hotelreserv.service.impl.DefaultAuthUserService;
 import com.github.egorovag.hotelreserv.service.СlientService;
 
 import javax.servlet.ServletException;
@@ -18,12 +18,12 @@ import java.io.IOException;
 @WebServlet("/registration")
 public class RegistrationServlet extends HttpServlet {
 
-    private UserService userService;
+    private AuthUserService userService;
     private СlientService clientService;
 
     @Override
     public void init() {
-        userService = DefaultUserService.getInstance();
+        userService = DefaultAuthUserService.getInstance();
         clientService = DefaultClientService.getInstance();
     }
 
@@ -43,8 +43,9 @@ public class RegistrationServlet extends HttpServlet {
 //        oneToOne
         AuthUser authUser = new AuthUser(login, password, Role.USER);
         Client client = new Client(null,firstName, secondName, email, phone, authUser);
-        Integer id = clientService.saveAuthUserAndClient(authUser, client);
-        req.getSession().setAttribute("authUser", new AuthUser(id, login, password, Role.USER));
+        authUser = clientService.saveAuthUserAndClient(authUser, client);
+        req.getSession().setAttribute("authUser", authUser);
+        client = new Client(authUser.getClient().getId(), firstName, secondName, email, phone, authUser);
 
 //        clientService.saveClient(client);
 //        req.getSession().setAttribute("authUser", authUser);

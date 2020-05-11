@@ -36,8 +36,8 @@ public class DefaultBlackListUsersService implements BlackListUsersService {
     }
 
     @Override
-    public boolean saveBlackListUserById(int id) {
-        return blackListUsersDao.saveBlackListUserDao(id);
+    public boolean saveBlackListUserById(int userId) {
+        return blackListUsersDao.saveBlackListUserByIdDao(userId);
     }
 
     @Override

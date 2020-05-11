@@ -5,11 +5,9 @@ import com.github.egorovag.hotelreserv.dao.impl.DefaultAuthUserDao;
 import com.github.egorovag.hotelreserv.dao.impl.DefaultBlackListUsersDao;
 import com.github.egorovag.hotelreserv.dao.impl.DefaultClientDao;
 import com.github.egorovag.hotelreserv.model.AuthUser;
-import com.github.egorovag.hotelreserv.model.BlackList;
 import com.github.egorovag.hotelreserv.model.Client;
 import com.github.egorovag.hotelreserv.model.enums.Role;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 
@@ -44,19 +42,18 @@ class ClientDaoTest {
     void testSaveAuthUserAndClientDao(){
         authUser = new AuthUser("alex", "pass", Role.USER);
         client = new Client(null, "Alex","Alexandrov","alex@tut.by","55555",authUser);
-        Integer res = clientDao.saveAuthUserAndClientDao(authUser,client);
-        Assertions.assertNotNull(res);
-        clientDao.deleteAuthUserAndClientByUserIdDao(res);
+        AuthUser authUserRes = clientDao.saveAuthUserAndClientDao(authUser,client);
+        Assertions.assertNotNull(authUserRes);
+        clientDao.deleteAuthUserAndClientByUserIdDao(authUserRes.getId());
     }
 
     @Test //oneToOne
     void testDeleteAuthUserAndClientByUserIdDao(){
         authUser = new AuthUser("alex", "pass", Role.USER);
         client = new Client(null, "Alex","Alexandrov","alex@tut.by","55555",authUser);
-        Integer idRes = clientDao.saveAuthUserAndClientDao(authUser,client);
-        BlackListUsersDao blackListUsersDao = DefaultBlackListUsersDao.getInstance();
-        blackListUsersDao.saveBlackListUserDao(idRes);
-        boolean res = clientDao.deleteAuthUserAndClientByUserIdDao(idRes);
+        AuthUser authUserRes = clientDao.saveAuthUserAndClientDao(authUser,client);
+        Assertions.assertNotNull(authUserRes.getClient());
+        boolean res = clientDao.deleteAuthUserAndClientByUserIdDao(authUserRes.getId());
         Assertions.assertTrue(res);
     }
 }

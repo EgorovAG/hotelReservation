@@ -135,17 +135,17 @@ public class DefaultBlackListUsersDao implements BlackListUsersDao {
 //    }
 
     @Override //+
-    public boolean saveBlackListUserDao(int id) {
+    public boolean saveBlackListUserByIdDao(int userId) {
         try (Session session = SFUtil.getSession()) {
             session.beginTransaction();
-            AuthUser authUser = session.get(AuthUser.class, id);
-            BlackList blackList = new BlackList(id, LocalDate.now(),authUser);
+            AuthUser authUser = session.get(AuthUser.class, userId);
+            BlackList blackList = new BlackList(userId, LocalDate.now(),authUser);
             session.saveOrUpdate(blackList);
             session.getTransaction().commit();
-            log.info("Client with id:{} saved in blackList", id);
+            log.info("Client with id:{} saved in blackList", userId);
             return true;
         } catch (HibernateException e) {
-            log.error("Fail to save client:{} in blackList", id, e);
+            log.error("Fail to save client:{} in blackList", userId, e);
             return false;
         }
     }

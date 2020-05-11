@@ -99,14 +99,15 @@ public class DefaultClientDao implements ClientDao {
 //    }
 
     @Override //oneToOne
-    public Integer saveAuthUserAndClientDao(AuthUser authUser, Client client) {
+    public AuthUser saveAuthUserAndClientDao(AuthUser authUser, Client client) {
         authUser.setClient(client);
         try (Session session = SFUtil.getSession()) {
             session.beginTransaction();
             Integer id = (Integer) session.save(authUser);
+            AuthUser authUserRes = session.get(AuthUser.class, id);
             session.getTransaction().commit();
             log.info("AuthUser: {} and Client : {} saved", authUser, client);
-            return id;
+            return authUserRes;
         } catch (HibernateException e) {
             log.error("Fail to save AuthUser: {} and Client : {} ", authUser, client , e);
             return null;
@@ -127,6 +128,8 @@ public class DefaultClientDao implements ClientDao {
             return false;
         }
     }
+
+
 
 
 }

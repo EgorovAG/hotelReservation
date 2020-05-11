@@ -4,7 +4,6 @@ import com.github.egorovag.hotelreserv.dao.ClientDao;
 import com.github.egorovag.hotelreserv.dao.impl.DefaultClientDao;
 import com.github.egorovag.hotelreserv.model.AuthUser;
 import com.github.egorovag.hotelreserv.model.Client;
-import com.github.egorovag.hotelreserv.service.UserService;
 import com.github.egorovag.hotelreserv.service.СlientService;
 
 public class DefaultClientService implements СlientService {
@@ -42,7 +41,7 @@ public class DefaultClientService implements СlientService {
 //    }
 
     @Override
-    public Integer saveAuthUserAndClient(AuthUser authUser, Client client) {
+    public AuthUser saveAuthUserAndClient(AuthUser authUser, Client client) {
         return clientDao.saveAuthUserAndClientDao(authUser, client);
     }
 
@@ -50,6 +49,8 @@ public class DefaultClientService implements СlientService {
     public boolean deleteAuthUserAndClientByUserIdDao(Integer userId) {
         return clientDao.deleteAuthUserAndClientByUserIdDao(userId);
     }
+
+
 
 
 }

@@ -18,18 +18,26 @@ public class Room {
 
     private OrderClient orderClient;
 
-    public Room(Integer id, Integer numOfSeats, ClassRoom classOfAp, Integer price) {
+    public Room(Integer id, Integer numOfSeats, ClassRoom classOfAp) {
         this.id = id;
         this.numOfSeats = numOfSeats;
         this.classOfAp = classOfAp;
-        this.price = price;
     }
+
+
 
     public Room(Integer id, Integer numOfSeats, ClassRoom classOfAp, Integer price, OrderClient orderClient) {
         this.id = id;
         this.numOfSeats = numOfSeats;
         this.classOfAp = classOfAp;
         this.price = price;
+        this.orderClient = orderClient;
+    }
+
+    public Room(Integer id, Integer numOfSeats, ClassRoom classOfAp, OrderClient orderClient) {
+        this.id = id;
+        this.numOfSeats = numOfSeats;
+        this.classOfAp = classOfAp;
         this.orderClient = orderClient;
     }
 

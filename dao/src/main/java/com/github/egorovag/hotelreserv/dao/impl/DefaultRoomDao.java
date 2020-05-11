@@ -19,7 +19,7 @@ public class DefaultRoomDao implements RoomDao {
             synchronized (RoomDao.class) {
                 localInstance = instance;
                 if (localInstance == null) {
-                    instance = localInstance = new DefaultRoomDao() ;
+                    instance = localInstance = new DefaultRoomDao();
                 }
             }
         }
@@ -48,18 +48,18 @@ public class DefaultRoomDao implements RoomDao {
 //    }
 
     @Override //+
-    public int readRoomIdDao(int numOfSeats, String classOfApp) {
+    public int readRoomIdDao(int numOfSeats, ClassRoom classOfAp) {
         try (Session session = SFUtil.getSession()) {
             session.beginTransaction();
-            Room room = session.createQuery("SELECT r from Room r where numOfSeats = : numOfSeats and  classOfAp = :classOfApp", Room.class)
+            Room room = session.createQuery("SELECT r from Room r where numOfSeats = : numOfSeats and  classOfAp = :classOfAp", Room.class)
                     .setParameter("numOfSeats", numOfSeats)
-                    .setParameter("classOfApp", ClassRoom.valueOf(classOfApp))
+                    .setParameter("classOfAp", classOfAp)
                     .getSingleResult();
             session.getTransaction().commit();
-            log.info("Room_id with numOfSeats: {} and classOfApp: {} readed", numOfSeats , classOfApp);
+            log.info("Room_id with numOfSeats: {} and classOfApp: {} readed", numOfSeats, classOfAp);
             return room.getId();
-        } catch ( HibernateException e) {
-            log.error("Fail to read room_id with numOfSeats: {} and classOfApp: {} ", numOfSeats , classOfApp, e);
+        } catch (HibernateException e) {
+            log.error("Fail to read room_id with numOfSeats: {} and classOfApp: {} ", numOfSeats, classOfAp, e);
             return 0;
         }
     }
@@ -110,8 +110,25 @@ public class DefaultRoomDao implements RoomDao {
             session.getTransaction().commit();
             log.info("Room with room_id: {} readed", id);
             return room;
-        } catch ( HibernateException e) {
+        } catch (HibernateException e) {
             log.error("Fail to read room with room_id: {} readed", id, e);
+            return null;
+        }
+    }
+
+    @Override
+    public Room readRoomByNumOfSeatsAndClassOfApDao(int numOfSeats, ClassRoom classOfAp) {
+        try (Session session = SFUtil.getSession()) {
+            session.beginTransaction();
+            Room room = session.createQuery("SELECT r from Room r where numOfSeats = : numOfSeats and  classOfAp = :classOfAp", Room.class)
+                    .setParameter("numOfSeats", numOfSeats)
+                    .setParameter("classOfAp", classOfAp)
+                    .getSingleResult();
+            session.getTransaction().commit();
+            log.info("Room_id with numOfSeats: {} and classOfApp: {} readed", numOfSeats, classOfAp);
+            return room;
+        } catch (HibernateException e) {
+            log.error("Fail to read room_id with numOfSeats: {} and classOfApp: {} ", numOfSeats, classOfAp, e);
             return null;
         }
     }
