@@ -12,21 +12,21 @@ class RoomDaoTest {
     private Integer roomId = 4;
 
     @Test
-    void testReadRoomIdDao() {
-        Integer resultRoomId = roomDao.readRoomIdDao(numOfSeats, ClassRoom.ECONOM);
-        Assertions.assertEquals(roomId, resultRoomId);
-    }
-
-    @Test
-    void testReadRoomByIdDao() {
-        Room room = roomDao.readRoomByIdDao(roomId);
-        Assertions.assertEquals(numOfSeats, room.getNumOfSeats());
-        Assertions.assertEquals(roomId, room.getId());
-    }
-
-    @Test
     void testReadRoomByNumOfSeatsAndClassOfApDao() {
         Room room = roomDao.readRoomByNumOfSeatsAndClassOfApDao ( numOfSeats, ClassRoom.ECONOM);
         Assertions.assertEquals(roomId, room.getId());
     }
 }
+
+
+//    @Test
+//    void testReadRoomByIdDao() {
+//        Room room = roomDao.readRoomByIdDao(roomId);
+//        Assertions.assertEquals(numOfSeats, room.getNumOfSeats());
+//        Assertions.assertEquals(roomId, room.getId());
+//    }
+//    @Test
+//    void testReadRoomIdDao() {
+//        Integer resultRoomId = roomDao.readRoomIdDao(numOfSeats, ClassRoom.ECONOM);
+//        Assertions.assertEquals(roomId, resultRoomId);
+//    }

@@ -26,7 +26,7 @@ public class DefaultBlackListUsersService implements BlackListUsersService {
     }
 
     @Override
-    public List<BlackListUsers> readBlackListUsersListsService() {
+    public List<BlackListUsers> readBlackListUsersLists() {
         return blackListUsersDao.readBlackListUsersListsDao();
     }
 

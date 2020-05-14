@@ -24,7 +24,7 @@ public class BlackListUsersServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<BlackListUsers> blackListUsers = blackListUsersService.readBlackListUsersListsService();
+        List<BlackListUsers> blackListUsers = blackListUsersService.readBlackListUsersLists();
         if (blackListUsers == null || blackListUsers.isEmpty()) {
             req.setAttribute("blackListUsers", null);
         } else {
@@ -37,7 +37,7 @@ public class BlackListUsersServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter("id"));
         blackListUsersService.deleteBlackListUserById(id);
-        List<BlackListUsers> blackListUsers = blackListUsersService.readBlackListUsersListsService();
+        List<BlackListUsers> blackListUsers = blackListUsersService.readBlackListUsersLists();
         if (blackListUsers == null || blackListUsers.isEmpty()) {
             req.setAttribute("blackListUsers", null);
         } else {

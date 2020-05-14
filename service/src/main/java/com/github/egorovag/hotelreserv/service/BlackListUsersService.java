@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface BlackListUsersService {
 
-    List<BlackListUsers> readBlackListUsersListsService();
+    List<BlackListUsers> readBlackListUsersLists();
     boolean deleteBlackListUserById(int id);
     boolean saveBlackListUserById(int id);
     boolean checkBlackUserByUserId(int id);

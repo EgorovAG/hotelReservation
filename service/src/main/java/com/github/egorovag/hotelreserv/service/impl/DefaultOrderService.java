@@ -3,12 +3,14 @@ package com.github.egorovag.hotelreserv.service.impl;
 import com.github.egorovag.hotelreserv.dao.OrderDao;
 import com.github.egorovag.hotelreserv.dao.impl.DefaultOrderDao;
 import com.github.egorovag.hotelreserv.model.OrderClient;
+import com.github.egorovag.hotelreserv.model.Service;
 import com.github.egorovag.hotelreserv.model.dto.OrderForAdmin;
 import com.github.egorovag.hotelreserv.model.dto.OrderForClient;
 import com.github.egorovag.hotelreserv.model.enums.Condition;
 import com.github.egorovag.hotelreserv.service.AuthUserService;
 import com.github.egorovag.hotelreserv.service.OrderService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DefaultOrderService implements OrderService {
@@ -30,9 +32,7 @@ public class DefaultOrderService implements OrderService {
     }
 
     @Override
-//    public OrderClient saveOrder(Client client, int numOfSeats, ClassRoom classOfAp, String startDate, String endDate, Condition condition, List<Service> serviceList) {
-//        return iOrderDao.saveOrderDao(client, numOfSeats, classOfAp, startDate, endDate, condition, serviceList);
-    public boolean saveOrder(OrderClient orderClient) {
+    public OrderClient saveOrder(OrderClient orderClient) {
         return orderDao.saveOrderDao(orderClient);
     }
 
@@ -51,13 +51,13 @@ public class DefaultOrderService implements OrderService {
         return false;
     }
 
-    @Override
-    public boolean deleteOrderByClientId(int id) {
-        if (orderDao.deleteOrderByClientIdDao(id)) {
-            return true;
-        }
-        return false;
-    }
+//    @Override
+//    public boolean deleteOrderByClientId(int id) {
+//        if (orderDao.deleteOrderByClientIdDao(id)) {
+//            return true;
+//        }
+//        return false;
+//    }
 
     @Override
     public int readPriceForRoomByOrderId(int orderId) {
@@ -65,8 +65,13 @@ public class DefaultOrderService implements OrderService {
     }
 
     @Override
-    public List<OrderForClient> readOrderForClientByClient_Id(int id) {
+    public List<OrderForClient> readOrderForClientByClientId(int id) {
         return orderDao.readOrderForClientByClientIdDao(id);
+    }
+
+    @Override
+    public List<OrderClient> readOrderClientListByClientId(int clientId) {
+        return  orderDao.readOrderClientListByClientIdDao( clientId );
     }
 
     @Override

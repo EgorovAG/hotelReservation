@@ -20,6 +20,13 @@ public class BlackListUsers {
         this.dateBlock = dateBlock;
     }
 
+    public BlackListUsers(Integer id, Integer userId, String firstName, String secondName) {
+        this.id = id;
+        this.userId = userId;
+        this.firstName = firstName;
+        this.secondName = secondName;
+    }
+
     public BlackListUsers() {
     }
 

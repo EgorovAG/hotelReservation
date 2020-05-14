@@ -12,7 +12,7 @@ import java.util.List;
 
 public class DefaultAuthUserService implements AuthUserService {
 
-    private AuthUserDao userDao = DefaultAuthUserDao.getInstance();
+    private AuthUserDao authUserDao = DefaultAuthUserDao.getInstance();
     private static volatile AuthUserService instance;
 
     public static AuthUserService getInstance() {
@@ -30,7 +30,7 @@ public class DefaultAuthUserService implements AuthUserService {
 
     @Override
     public boolean checkLogin(String login) {
-        if (login.equals(userDao.checkLoginDao(login))) {
+        if (login.equals(authUserDao.checkLoginDao(login))) {
             return true;
         }
         return false;
@@ -38,11 +38,11 @@ public class DefaultAuthUserService implements AuthUserService {
 
     @Override
     public AuthUser checkUser(String login, String password) {
-        AuthUser authUser = userDao.readUserByLoginDao(login);
+        AuthUser authUser = authUserDao.readUserByLoginDao(login);
         if (authUser == null) {
             return null;
         } else {
-            if (login.equals(userDao.checkLoginDao(login)) &&
+            if (login.equals(authUserDao.checkLoginDao(login)) &&
                     password.equals(authUser.getPassword())) {
                 return authUser;
             } else {
@@ -51,20 +51,34 @@ public class DefaultAuthUserService implements AuthUserService {
         }
     }
 
-//    @Override
+    @Override
+    public Client readClientByAuthUserId(Integer id) {
+        return authUserDao.readClientByAuthUserIdDao(id);
+    }
+
+    @Override
+    public List<AuthUserWithClient> readListAuthUserWithClient() {
+        return authUserDao.readListAuthUserWithClientDao();
+    }
+
+    @Override
+    public List<AuthUserWithClient> readListAuthUserWithClientPagination(int currentPage, int maxResultsPage) {
+        return authUserDao.readListAuthUserWithClientPaginationDao(currentPage, maxResultsPage);
+    }
+
+    @Override
+    public int countAuthUserWithClient() {
+        return authUserDao.countAuthUserWithClientDao();
+    }
+
+
+
+
+    //    @Override
 //    public AuthUser saveAuthUser(String login, String password, Role role) {
 //        return checkAuthUserDao.saveUserDao(login, password, role);
 //    }
 
-    @Override
-    public Client readClientByAuthUserId(Integer id) {
-        return userDao.readClientByAuthUserIdDao(id);
-    }
-
-    @Override
-    public List<AuthUserWithClient> readListClient() {
-        return userDao.readListClientDao();
-    }
 
 //    @Override
 //    public boolean deleteUserById(int id) {
@@ -73,4 +87,6 @@ public class DefaultAuthUserService implements AuthUserService {
 //        }
 //        return false;
 //    }
+
+
 }

@@ -4,17 +4,17 @@ import com.github.egorovag.hotelreserv.dao.ClientDao;
 import com.github.egorovag.hotelreserv.dao.impl.DefaultClientDao;
 import com.github.egorovag.hotelreserv.model.AuthUser;
 import com.github.egorovag.hotelreserv.model.Client;
-import com.github.egorovag.hotelreserv.service.СlientService;
+import com.github.egorovag.hotelreserv.service.ClientService;
 
-public class DefaultClientService implements СlientService {
+public class DefaultClientService implements ClientService {
 
     ClientDao clientDao = DefaultClientDao.getInstance();
-    private static volatile СlientService instance;
+    private static volatile ClientService instance;
 
-    public static СlientService getInstance() {
-        СlientService localInstance = instance;
+    public static ClientService getInstance() {
+        ClientService localInstance = instance;
         if (localInstance == null) {
-            synchronized (СlientService.class) {
+            synchronized (ClientService.class) {
                 localInstance = instance;
                 if (localInstance == null) {
                     instance = localInstance = new DefaultClientService();
@@ -23,6 +23,18 @@ public class DefaultClientService implements СlientService {
         }
         return localInstance;
     }
+
+    @Override
+    public AuthUser saveAuthUserAndClient(AuthUser authUser, Client client) {
+        return clientDao.saveAuthUserAndClientDao(authUser, client);
+    }
+
+    @Override
+    public boolean deleteAuthUserAndClientByUserId(Integer userId) {
+        return clientDao.deleteAuthUserAndClientByUserIdDao(userId);
+    }
+}
+
 
 //    @Override
 //    public boolean saveClient(Client client) {
@@ -39,23 +51,6 @@ public class DefaultClientService implements СlientService {
 //        }
 //        return false;
 //    }
-
-    @Override
-    public AuthUser saveAuthUserAndClient(AuthUser authUser, Client client) {
-        return clientDao.saveAuthUserAndClientDao(authUser, client);
-    }
-
-    @Override
-    public boolean deleteAuthUserAndClientByUserIdDao(Integer userId) {
-        return clientDao.deleteAuthUserAndClientByUserIdDao(userId);
-    }
-
-
-
-
-}
-
-
 
 
 //    @Override

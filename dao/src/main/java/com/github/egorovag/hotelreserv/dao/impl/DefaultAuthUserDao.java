@@ -5,6 +5,7 @@ import com.github.egorovag.hotelreserv.dao.utils.SFUtil;
 import com.github.egorovag.hotelreserv.model.AuthUser;
 import com.github.egorovag.hotelreserv.model.dto.AuthUserWithClient;
 import com.github.egorovag.hotelreserv.model.Client;
+import org.hibernate.Criteria;
 import org.hibernate.HibernateError;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -14,6 +15,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.NoResultException;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.List;
 
 public class DefaultAuthUserDao implements AuthUserDao {
@@ -35,6 +39,171 @@ public class DefaultAuthUserDao implements AuthUserDao {
 
 //    @Override
 //    public String checkLoginDao(String login) {
+//        try (Session session = SFUtil.getSession()) {
+//            session.beginTransaction();
+//            String loginResult = (String) session.createNativeQuery("select login from authUser where login = :login")
+//                    .setParameter("login", login)
+//                    .getSingleResult();
+//            session.getTransaction().commit();
+//            log.info("authUser with login: {} readed", login);
+//            return loginResult;
+//        } catch (NoResultException e) {
+//            log.error("Fail to read authUser with login: {}", login, e);
+//        }
+//        return null;
+//    }
+
+    @Override //criteria
+    public String checkLoginDao(String login) {
+        try (Session session = SFUtil.getSession()) {
+            CriteriaBuilder cb = session.getCriteriaBuilder();
+            CriteriaQuery<AuthUser> criteria = cb.createQuery(AuthUser.class);
+            Root<AuthUser> authUserRoot = criteria.from(AuthUser.class);
+            criteria.select(authUserRoot).where(cb.equal(authUserRoot.get("login"), login));
+            AuthUser authUser = session.createQuery(criteria).getSingleResult();
+            log.info("authUser with login: {} readed", login);
+            return authUser.getLogin();
+        } catch (HibernateException e) {
+            log.error("Fail to read authUser with login: {}", login, e);
+        }
+        return null;
+    }
+
+//    @Override
+//    public AuthUser readUserByLoginDao(String login) {
+//        try (Session session = SFUtil.getSession()) {
+//            session.beginTransaction();
+//            AuthUser authUserRes = (AuthUser) session.createQuery("from AuthUser where login = :login")
+//                    .setParameter("login", login)
+//                    .getSingleResult();
+//            session.getTransaction().commit();
+//            log.info("authuser with login: {} readed", login);
+//            return authUserRes;
+//        } catch (NoResultException e) {
+//            log.error("Fail to read authuser with login: {}", login, e);
+//        }
+//        return null;
+//    }
+
+    @Override // criteria
+    public AuthUser readUserByLoginDao(String login) {
+        try (Session session = SFUtil.getSession()) {
+            CriteriaBuilder cb = session.getCriteriaBuilder();
+            CriteriaQuery<AuthUser> criteria = cb.createQuery(AuthUser.class);
+            Root<AuthUser> authUserRoot = criteria.from(AuthUser.class);
+            criteria.select(authUserRoot).where(cb.equal(authUserRoot.get("login"), login));
+            AuthUser authUserRes = session.createQuery(criteria).getSingleResult();
+            log.info("authuser with login: {} readed", login);
+            return authUserRes;
+        } catch (NoResultException e) {
+            log.error("Fail to read authuser with login: {}", login, e);
+        }
+        return null;
+    }
+
+    @Override
+    public Client readClientByAuthUserIdDao(Integer id) {
+        try (Session session = SFUtil.getSession()) {
+            session.beginTransaction();
+            AuthUser authUser = session.get(AuthUser.class, id);
+            Client client = authUser.getClient();
+            session.getTransaction().commit();
+            log.info("Client with authUserID:{} readed", id);
+            return client;
+        } catch (HibernateError e) {
+            log.error("Fail to read client with authUserID:{}", id, e);
+            return null;
+        }
+    }
+
+    @Override
+    public List<AuthUserWithClient> readListAuthUserWithClientDao() {
+        try (Session session = SFUtil.getSession()) {
+            session.beginTransaction();
+            List<AuthUserWithClient> listAU = session.createNativeQuery("select a.id,a.login,a.password,c.firstName," +
+                    "c.secondName,c.email,c.phone from AuthUser a join Client c on a.id = c.user_id")
+                    .addScalar("id", StandardBasicTypes.INTEGER)
+                    .addScalar("login", StandardBasicTypes.STRING)
+                    .addScalar("password", StandardBasicTypes.STRING)
+                    .addScalar("firstName", StandardBasicTypes.STRING)
+                    .addScalar("secondName", StandardBasicTypes.STRING)
+                    .addScalar("email", StandardBasicTypes.STRING)
+                    .addScalar("phone", StandardBasicTypes.STRING)
+                    .setResultTransformer(Transformers.aliasToBean(AuthUserWithClient.class))
+                    .list();
+            session.getTransaction().commit();
+            log.info("List<AuthUserWithClient> readed: {}", listAU);
+            return listAU;
+        } catch (HibernateException e) {
+            log.error("Fail to read List<AuthUserWithClient>", e);
+            return null;
+        }
+    }
+
+    @Override
+    public List<AuthUserWithClient> readListAuthUserWithClientPaginationDao(int currentPage, int maxResultsPage) {
+        List<AuthUserWithClient> listAU = null;
+        try (Session session = SFUtil.getSession()) {
+            session.beginTransaction();
+            listAU = session.createNativeQuery("select a.id,a.login,a.password,c.firstName," +
+                    "c.secondName,c.email,c.phone from AuthUser a join Client c on a.id = c.user_id")
+                    .addScalar("id", StandardBasicTypes.INTEGER)
+                    .addScalar("login", StandardBasicTypes.STRING)
+                    .addScalar("password", StandardBasicTypes.STRING)
+                    .addScalar("firstName", StandardBasicTypes.STRING)
+                    .addScalar("secondName", StandardBasicTypes.STRING)
+                    .addScalar("email", StandardBasicTypes.STRING)
+                    .addScalar("phone", StandardBasicTypes.STRING)
+                    .setMaxResults(maxResultsPage)
+                    .setFirstResult((currentPage - 1) * maxResultsPage)
+                    .setResultTransformer(Transformers.aliasToBean(AuthUserWithClient.class))
+                    .list();
+            session.getTransaction().commit();
+            log.info("List<AuthUserWithClient> readed size: {}", listAU.size());
+            return listAU;
+        } catch (HibernateException e) {
+            log.error("Fail to read List<AuthUserWithClient>", e);
+            return null;
+        }
+    }
+
+    @Override
+    public int countAuthUserWithClientDao() {
+        try (Session session = SFUtil.getSession()) {
+            session.beginTransaction();
+            Long countResult = (Long) session.createQuery("SELECT COUNT(*) FROM Client")
+                    .getSingleResult();
+            session.getTransaction().commit();
+            log.info("CountAuthUserWithClient readed countResult = {}", countResult);
+            return countResult.intValue();
+        } catch (HibernateException e) {
+            log.error("Fail to read CountAuthUserWithClient", e);
+            return 0;
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//    @Override
+//    public String checkLoginDao(String login) {
 //        try (Connection connection = MysqlDataBase.connect();
 //             PreparedStatement statement = connection.prepareStatement("select login from authuser where login = ?")) {
 //            statement.setString(1, login);
@@ -50,22 +219,6 @@ public class DefaultAuthUserDao implements AuthUserDao {
 //        }
 //        return null;
 //    }
-
-    @Override //+
-    public String checkLoginDao(String login) {
-        try (Session session = SFUtil.getSession()) {
-            session.beginTransaction();
-            String loginResult = (String) session.createNativeQuery("select login from authUser where login = :login")
-                    .setParameter("login", login)
-                    .getSingleResult();
-            session.getTransaction().commit();
-            log.info("authUser with login: {} readed", login);
-            return loginResult;
-        } catch (NoResultException e) {
-            log.error("Fail to read authUser with login: {}", login, e);
-        }
-        return null;
-    }
 
 
 //    @Override
@@ -126,22 +279,6 @@ public class DefaultAuthUserDao implements AuthUserDao {
 //        return authUser;
 //    }
 
-    @Override //+
-    public AuthUser readUserByLoginDao(String login) {
-        try (Session session = SFUtil.getSession()) {
-            session.beginTransaction();
-            AuthUser authUserRes = (AuthUser) session.createQuery("select A from AuthUser A  where login = :login")
-                    .setParameter("login", login)
-                    .getSingleResult();
-            session.getTransaction().commit();
-            log.info("authuser with login: {} readed", login);
-            return authUserRes;
-        } catch (NoResultException e) {
-            log.error("Fail to read authuser with login: {}", login, e);
-        }
-        return null;
-    }
-
 //    @Override
 //    public Client readClientByLoginDao(String login) {
 //        Client client = null;
@@ -164,7 +301,7 @@ public class DefaultAuthUserDao implements AuthUserDao {
 //    }
 
 
-    //    @Override
+//    @Override
 //    public Client readClientByAuthUserIdDao(Integer id) { //    public Client readClientByLoginDao(String login) {
 //        try (Session session = SFUtil.getSession()) {
 //            session.beginTransaction();
@@ -183,20 +320,6 @@ public class DefaultAuthUserDao implements AuthUserDao {
 //            return null;
 //        }
 //    }
-    @Override //+
-    public Client readClientByAuthUserIdDao(Integer id) {
-        try (Session session = SFUtil.getSession()) {
-            session.beginTransaction();
-            AuthUser authUser = session.get(AuthUser.class, id);
-            Client client = authUser.getClient();
-            log.info("Client with authUserID:{} readed", id);
-            return client;
-        } catch (HibernateError e) {
-            log.error("Fail to read client with authUserID:{}", id, e);
-            return null;
-        }
-    }
-
 
 //    @Override
 //    public List<AuthUserWithClient> readListClientDao() {
@@ -224,31 +347,6 @@ public class DefaultAuthUserDao implements AuthUserDao {
 //        }
 //        return listAU;
 //    }
-
-    @Override //+
-    public List<AuthUserWithClient> readListClientDao() {
-        try (Session session = SFUtil.getSession()) {
-            session.beginTransaction();
-            List<AuthUserWithClient> listAU = session.createNativeQuery("select a.id,a.login,a.password,c.firstName," +
-                    "c.secondName,c.email,c.phone from AuthUser a join Client c on a.id = c.user_id")
-                    .addScalar("id", StandardBasicTypes.INTEGER)
-                    .addScalar("login", StandardBasicTypes.STRING)
-                    .addScalar("password", StandardBasicTypes.STRING)
-                    .addScalar("firstName", StandardBasicTypes.STRING)
-                    .addScalar("secondName", StandardBasicTypes.STRING)
-                    .addScalar("email", StandardBasicTypes.STRING)
-                    .addScalar("phone", StandardBasicTypes.STRING)
-                    .setResultTransformer(Transformers.aliasToBean(AuthUserWithClient.class))
-                    .list();
-            session.getTransaction().commit();
-            log.info("List<AuthUserWithClient> readed: {}", listAU);
-            return listAU;
-        } catch (HibernateException e) {
-            log.error("Fail to read List<AuthUserWithClient>", e);
-            return null;
-        }
-    }
-}
 
 
 //    @Override

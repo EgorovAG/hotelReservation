@@ -5,10 +5,10 @@ import com.github.egorovag.hotelreserv.model.Client;
 
 import java.sql.SQLException;
 
-public interface СlientService {
+public interface ClientService {
 
     AuthUser saveAuthUserAndClient(AuthUser authUser, Client client);
-    boolean deleteAuthUserAndClientByUserIdDao(Integer userId);
+    boolean deleteAuthUserAndClientByUserId(Integer userId);
 
 //    boolean saveClient(Client client) ;
 //    boolean deleteClientById(int id);

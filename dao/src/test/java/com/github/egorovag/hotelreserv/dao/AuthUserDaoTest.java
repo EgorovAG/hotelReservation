@@ -6,7 +6,9 @@ import com.github.egorovag.hotelreserv.model.AuthUser;
 import com.github.egorovag.hotelreserv.model.dto.AuthUserWithClient;
 import com.github.egorovag.hotelreserv.model.Client;
 import com.github.egorovag.hotelreserv.model.enums.Role;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -18,64 +20,67 @@ class AuthUserDaoTest {
     private AuthUser authUser;
     private Client client;
 
-//    @BeforeEach
-//    void saveUser() {
-//        authUser = authUserDao.saveUserDao("alex", "pass", Role.USER);
-//
-//    }
-//
-//    @AfterEach
-//    void deleteUser() {
-//        authUserDao.deleteUserByLoginDao(authUser.getLogin());
-//    }
+    @BeforeEach
+    void saveAuthUserAndClient() {
+        authUser = new AuthUser("alex", "pass", Role.USER);
+        client = new Client(null, "Alex", "Alexandrov", "alex@tut.by", "55555", authUser);
+        authUser = clientDao.saveAuthUserAndClientDao(authUser, client);
+
+    }
+
+    @AfterEach
+    void deleteUser() {
+        clientDao.deleteAuthUserAndClientByUserIdDao(authUser.getId());
+    }
 
 
     @Test
     void testCheckLoginDao() {
-        authUser = new AuthUser("alex", "pass", Role.USER);
-        client = new Client(null, "Alex", "Alexandrov", "alex@tut.by", "55555", authUser);
-        AuthUser authUserRes = clientDao.saveAuthUserAndClientDao(authUser, client);
         String login = authUserDao.checkLoginDao(authUser.getLogin());
         Assertions.assertEquals("alex", login);
-        clientDao.deleteAuthUserAndClientByUserIdDao(authUserRes.getId());
 
     }
 
 
     @Test
     void testReadUserByLoginDao() {
-        authUser = new AuthUser("alex", "pass", Role.USER);
-        client = new Client(null, "Alex", "Alexandrov", "alex@tut.by", "55555", authUser);
-        AuthUser authUserRes = clientDao.saveAuthUserAndClientDao(authUser, client);
         AuthUser authUserResult = authUserDao.readUserByLoginDao("alex");
         Assertions.assertEquals("alex", authUserResult.getLogin());
         Assertions.assertEquals("pass", authUserResult.getPassword());
-        clientDao.deleteAuthUserAndClientByUserIdDao(authUserRes.getId());
 
     }
 
     @Test
     void testReadClientByAuthUserIdDao() {
-        authUser = new AuthUser("alex", "pass", Role.USER);
-        client = new Client(null, "Alex", "Alexandrov", "alex@tut.by", "55555", authUser);
-        AuthUser authUserRes = clientDao.saveAuthUserAndClientDao(authUser, client);
-        Client clientRes = authUserDao.readClientByAuthUserIdDao(authUserRes.getId());
+        Client clientRes = authUserDao.readClientByAuthUserIdDao(authUser.getId());
         Assertions.assertEquals("Alex", clientRes.getFirstName());
         Assertions.assertEquals("55555", clientRes.getPhone());
-        clientDao.deleteAuthUserAndClientByUserIdDao(authUserRes.getId());
     }
 
     @Test
     void testReadListClientDao() {
-
-        authUser = new AuthUser("alex", "pass", Role.USER);
-        client = new Client(null, "Alex", "Alexandrov", "alex@tut.by", "55555", authUser);
-        AuthUser authUserRes = clientDao.saveAuthUserAndClientDao(authUser, client);
-        List<AuthUserWithClient> authUserListsRes = authUserDao.readListClientDao();
+        List<AuthUserWithClient> authUserListsRes = authUserDao.readListAuthUserWithClientDao();
         Assertions.assertEquals(1, authUserListsRes.size());
-        clientDao.deleteAuthUserAndClientByUserIdDao(authUserRes.getId());
+    }
+
+    @Test
+    void testReadListAuthUserWithClientPaginationDao() {
+        int firstResultPage = 1;
+        int maxResultsPage = 5;
+        List<AuthUserWithClient> authUserListsRes = authUserDao.readListAuthUserWithClientPaginationDao(firstResultPage, maxResultsPage);
+        Assertions.assertEquals(1, authUserListsRes.size());
+    }
+
+    @Test
+    void testCountAuthUserWithClientDao(){
+        int countResult = authUserDao.countAuthUserWithClientDao();
+        Assertions.assertEquals(1,countResult);
     }
 }
+
+
+
+
 //
 //    @Test
 //   void testDeleteUserByLoginDao() {

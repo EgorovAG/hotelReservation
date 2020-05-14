@@ -6,7 +6,7 @@ import com.github.egorovag.hotelreserv.model.enums.Role;
 import com.github.egorovag.hotelreserv.service.impl.DefaultClientService;
 import com.github.egorovag.hotelreserv.service.AuthUserService;
 import com.github.egorovag.hotelreserv.service.impl.DefaultAuthUserService;
-import com.github.egorovag.hotelreserv.service.СlientService;
+import com.github.egorovag.hotelreserv.service.ClientService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,7 +19,7 @@ import java.io.IOException;
 public class RegistrationServlet extends HttpServlet {
 
     private AuthUserService userService;
-    private СlientService clientService;
+    private ClientService clientService;
 
     @Override
     public void init() {

@@ -3,7 +3,7 @@
 <html>
 <body style="background-color: aliceblue">
 
-<h4 ><c:out value=" Имя пользователя: ${client.firstName} " /> </h4>
+<h4><c:out value=" Имя пользователя: ${client.firstName} "/></h4>
 <h1 style="text-align: center"><c:out value="Ваш заказ принят, дождитесь проверки администратора"/></h1>
 
 <%--<table style="width:50%">--%>
@@ -26,15 +26,21 @@
         <td><c:out value="${order.endDate}"/></td>
     </tr>
 
-<%--    <tr>--%>
-<%--        <td><c:out value="дата отъезда"/></td>--%>
-<%--        <td><c:out value="${order.endDate}"/></td>--%>
-<%--    </tr>--%>
-</table> <br/>
+    <tr>
+        <td><c:out value="дополнительные услуги"/></td>
+        <td><c:out value="${serviceList}"/></td>
+    </tr>
 
-    <form action="${pageContext.request.contextPath}/personalArea.jsp">
-        <input type="submit" value="Перейти в личный кабинет">
-    </form>
+    <%--    <tr>--%>
+    <%--        <td><c:out value="дата отъезда"/></td>--%>
+    <%--        <td><c:out value="${order.endDate}"/></td>--%>
+    <%--    </tr>--%>
+</table>
+<br/>
+
+<form action="${pageContext.request.contextPath}/personalArea.jsp">
+    <input type="submit" value="Перейти в личный кабинет">
+</form>
 
 <%--     <form action="${pageContext.request.contextPath}/statusOrderNEW.jsp">--%>
 <%--        <input type="submit" value="Проверить статус заказа">--%>

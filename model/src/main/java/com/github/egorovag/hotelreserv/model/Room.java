@@ -24,8 +24,6 @@ public class Room {
         this.classOfAp = classOfAp;
     }
 
-
-
     public Room(Integer id, Integer numOfSeats, ClassRoom classOfAp, Integer price, OrderClient orderClient) {
         this.id = id;
         this.numOfSeats = numOfSeats;

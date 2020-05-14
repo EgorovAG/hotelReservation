@@ -5,6 +5,9 @@ import com.github.egorovag.hotelreserv.dao.impl.DefaultServiceHotelDao;
 import com.github.egorovag.hotelreserv.model.Service;
 import com.github.egorovag.hotelreserv.service.ServiceHotelService;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DefaultServiceHotelService implements ServiceHotelService {
 
     private ServiceHotelDao serviceHotelDao = DefaultServiceHotelDao.getInstance();
@@ -25,6 +28,16 @@ public class DefaultServiceHotelService implements ServiceHotelService {
 
     @Override
     public Service readServiceByTypeOfService(String typeOfService) {
-        return serviceHotelDao.readServiceByTypeOfService(typeOfService);
+        return serviceHotelDao.readServiceByTypeOfServiceDao(typeOfService);
+    }
+
+    @Override
+    public boolean saveServiceListForOrder(List<Service> serviceList, int orderId) {
+        return serviceHotelDao.saveServiceListForOrderDao(serviceList, orderId);
+    }
+
+    @Override
+    public List<Service> readServiceListByOrderId(int orderId) {
+        return serviceHotelDao.readServiceListByOrderIdDao(orderId);
     }
 }

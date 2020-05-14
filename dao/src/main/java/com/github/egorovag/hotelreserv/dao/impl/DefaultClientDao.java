@@ -30,6 +30,45 @@ public class DefaultClientDao implements ClientDao {
         return localInstance;
     }
 
+    @Override
+    public AuthUser saveAuthUserAndClientDao(AuthUser authUser, Client client) {
+        try (Session session = SFUtil.getSession()) {
+            authUser.setClient(client);
+            session.beginTransaction();
+            int id = (int) session.save(authUser);
+            AuthUser authUserRes = session.get(AuthUser.class, id);
+            session.getTransaction().commit();
+            log.info("AuthUser: {} and Client : {} saved", authUser, client);
+            return authUserRes;
+        } catch (HibernateException e) {
+            log.error("Fail to save AuthUser: {} and Client : {} ", authUser, client, e);
+            return null;
+        }
+    }
+
+    @Override
+    public boolean deleteAuthUserAndClientByUserIdDao(Integer userId) {
+        try (Session session = SFUtil.getSession()) {
+            session.beginTransaction();
+            AuthUser authUser = session.get(AuthUser.class, userId);
+            session.delete(authUser);
+            session.getTransaction().commit();
+            log.info("AuthUser with : {} userId and Client deleted", userId);
+            return true;
+        } catch (HibernateException e) {
+            log.error("Fail to delete AuthUser with : {} userId and Client ", userId, e);
+            return false;
+        }
+    }
+}
+
+
+
+
+
+
+
+
 
 //    @Override
 //    public boolean saveClientDao(Client client) {
@@ -50,19 +89,19 @@ public class DefaultClientDao implements ClientDao {
 //        return true;
 //    }
 
-    @Override
-    public boolean saveClientDao(Client client) {
-        try (Session session = SFUtil.getSession()) {
-            session.beginTransaction();
-            session.saveOrUpdate(client);
-            session.getTransaction().commit();
-            log.info("Client : {} saved", client);
-            return true;
-        } catch (HibernateException e) {
-            log.error("Fail to save client: {}", client, e);
-            return false;
-        }
-    }
+//    @Override //уже не нужен
+//    public boolean saveClientDao(Client client) {
+//        try (Session session = SFUtil.getSession()) {
+//            session.beginTransaction();
+//            session.saveOrUpdate(client);
+//            session.getTransaction().commit();
+//            log.info("Client : {} saved", client);
+//            return true;
+//        } catch (HibernateException e) {
+//            log.error("Fail to save client: {}", client, e);
+//            return false;
+//        }
+//    }
 
 
 //    @Override
@@ -97,42 +136,6 @@ public class DefaultClientDao implements ClientDao {
 //            return false;
 //        }
 //    }
-
-    @Override //oneToOne
-    public AuthUser saveAuthUserAndClientDao(AuthUser authUser, Client client) {
-        authUser.setClient(client);
-        try (Session session = SFUtil.getSession()) {
-            session.beginTransaction();
-            Integer id = (Integer) session.save(authUser);
-            AuthUser authUserRes = session.get(AuthUser.class, id);
-            session.getTransaction().commit();
-            log.info("AuthUser: {} and Client : {} saved", authUser, client);
-            return authUserRes;
-        } catch (HibernateException e) {
-            log.error("Fail to save AuthUser: {} and Client : {} ", authUser, client , e);
-            return null;
-        }
-    }
-
-    @Override //oneToOne
-    public boolean deleteAuthUserAndClientByUserIdDao(Integer userId) {
-        try (Session session = SFUtil.getSession()) {
-            session.beginTransaction();
-            AuthUser authUser = session.get(AuthUser.class,userId);
-            session.delete(authUser);
-            session.getTransaction().commit();
-            log.info("AuthUser with : {} userId and Client deleted", userId);
-            return true;
-        } catch (HibernateException e) {
-            log.error("Fail to delete AuthUser with : {} userId and Client ", userId, e);
-            return false;
-        }
-    }
-
-
-
-
-}
 
 
 // ЛИШНЕЕ!!!!!

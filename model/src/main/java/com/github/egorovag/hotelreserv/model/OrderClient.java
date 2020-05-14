@@ -28,6 +28,18 @@ public class OrderClient {
 
 
     public OrderClient(Integer orderId, String startDate, String endDate, Integer roomId, Integer clientId,
+                       Condition condition, Room room, Client client, List<Service> serviceList) {
+        this.orderId = orderId;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.roomId = roomId;
+        this.clientId = clientId;
+        this.condition = condition;
+        this.room = room;
+        this.client = client;
+    }
+
+    public OrderClient(Integer orderId, String startDate, String endDate, Integer roomId, Integer clientId,
                        Condition condition, Room room, Client client) {
         this.orderId = orderId;
         this.startDate = startDate;
@@ -111,7 +123,7 @@ public class OrderClient {
         this.room = room;
     }
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER )
     @JoinTable(name = "orderclient_service", joinColumns = {@JoinColumn(name = "order_id")},
             inverseJoinColumns = {@JoinColumn(name = "service_id")}
     )

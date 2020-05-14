@@ -7,7 +7,7 @@ import com.github.egorovag.hotelreserv.service.impl.DefaultClientService;
 import com.github.egorovag.hotelreserv.service.impl.DefaultOrderService;
 import com.github.egorovag.hotelreserv.service.BlackListUsersService;
 import com.github.egorovag.hotelreserv.service.AuthUserService;
-import com.github.egorovag.hotelreserv.service.СlientService;
+import com.github.egorovag.hotelreserv.service.ClientService;
 import com.github.egorovag.hotelreserv.service.OrderService;
 
 import javax.servlet.ServletException;
@@ -21,7 +21,7 @@ import java.util.List;
 @WebServlet("/registratedUsers")
 public class RegisteredUsersServlet extends HttpServlet {
     private AuthUserService checkUserService;
-    private СlientService clientService;
+    private ClientService clientService;
     private BlackListUsersService blackListUsersService;
     private OrderService orderService;
 
@@ -33,25 +33,29 @@ public class RegisteredUsersServlet extends HttpServlet {
         orderService = DefaultOrderService.getInstance();
     }
 
+
+    // Есть пагинация, теперь это ВСЕ не надо
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        List<AuthUserWithClient> authUserWithClients = checkUserService.readListClient();
+        List<AuthUserWithClient> authUserWithClients = checkUserService.readListAuthUserWithClient();
         req.getSession().setAttribute("authUserWithClients", authUserWithClients);
-        req.getRequestDispatcher("/registratedUsers.jsp").forward(req,resp);
+        req.getRequestDispatcher("/registratedUsers.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+
         int id = Integer.parseInt(req.getParameter("id"));
 //        orderService.deleteOrderByClientId(id); уже не надо с 1к1
 //        blackListUsersService.deleteBlackListUserById(id); уже не надо с 1к1
-        clientService.deleteAuthUserAndClientByUserIdDao(id);
-//        сlientService.deleteClientById(id);
-//        checkUserService.deleteUserById(id);
-        List<AuthUserWithClient> authUserWithClients = checkUserService.readListClient();
-        req.getSession().setAttribute("authUserWithClients", authUserWithClients);
-        req.getRequestDispatcher("/registratedUsers.jsp").forward(req,resp);
+        clientService.deleteAuthUserAndClientByUserId(id);
+//        сlientService.deleteClientById(id); // из-за hiber уже не надо
+//        checkUserService.deleteUserById(id);  // из-за hiber уже не надо
+//        List<AuthUserWithClient> authUserWithClients = checkUserService.readListAuthUserWithClient();
+//        req.getSession().setAttribute("authUserWithClients", authUserWithClients);
+//        req.getRequestDispatcher("/paginationRegistratedUsers").forward(req,resp);
+        resp.sendRedirect("/hotel/paginationRegistratedUsers");
     }
 }

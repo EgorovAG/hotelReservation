@@ -12,7 +12,9 @@ public interface AuthUserService {
     AuthUser checkUser(String login, String password);
     boolean checkLogin(String login) ;
     Client readClientByAuthUserId(Integer id);
-    List<AuthUserWithClient> readListClient();
+    List<AuthUserWithClient> readListAuthUserWithClient();
+    List<AuthUserWithClient> readListAuthUserWithClientPagination(int currentPage, int maxResultsOnPage);
+    int countAuthUserWithClient();
 
 
 //    boolean deleteUserById(int id );

@@ -139,7 +139,7 @@ public class Client {
         this.userId = userId;
     }
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     public AuthUser getAuthUser() {
         return authUser;

@@ -9,21 +9,20 @@ import com.github.egorovag.hotelreserv.model.dto.OrderForClient;
 import com.github.egorovag.hotelreserv.model.enums.ClassRoom;
 import com.github.egorovag.hotelreserv.model.enums.Condition;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface OrderDao {
 
-    //    OrderClient saveOrderDao (Client client, int numOfSeats, ClassRoom classOfAp, String startDate, String endDate,
-//                              Condition condition, List<Service> serviceList);
-    boolean saveOrderDao(OrderClient orderClient);
+    OrderClient saveOrderDao(OrderClient orderClient);
 
     List<OrderForAdmin> readOrderListDao();
 
     boolean updateOrderListDao(int orderId, Condition condition);
 
-    boolean deleteOrderByClientIdDao(int id);
-
     List<OrderForClient> readOrderForClientByClientIdDao(int id);
+
+    List<OrderClient> readOrderClientListByClientIdDao(int clientId);
 
     int checkIdOrderByClientOrderDao(int orderId);
 
@@ -33,7 +32,10 @@ public interface OrderDao {
 
     int readPriceForRoomByOrderIdDao(int orderId);
 
+
+
 //    List<OrderClient> readOrderByAuthUserIdDao(int id);
+//    boolean deleteOrderByClientIdDao(int id);
 
 
 }

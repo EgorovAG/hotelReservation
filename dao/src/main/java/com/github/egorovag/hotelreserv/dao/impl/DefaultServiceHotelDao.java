@@ -1,13 +1,18 @@
 package com.github.egorovag.hotelreserv.dao.impl;
 
 import com.github.egorovag.hotelreserv.dao.ServiceHotelDao;
+import com.github.egorovag.hotelreserv.dao.utils.EMUtil;
 import com.github.egorovag.hotelreserv.dao.utils.SFUtil;
+import com.github.egorovag.hotelreserv.model.OrderClient;
 import com.github.egorovag.hotelreserv.model.Service;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.persistence.EntityManager;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class DefaultServiceHotelDao implements ServiceHotelDao {
@@ -28,22 +33,7 @@ public class DefaultServiceHotelDao implements ServiceHotelDao {
     }
 
     @Override
-    public List<Service> readServiceHotelList() {
-        try (Session session = SFUtil.getSession()) {
-            session.beginTransaction();
-            List<Service> serviceList = session.createQuery("From Service")
-                    .getResultList();
-            session.getTransaction().commit();
-            log.info("List<Service> readed: {}", serviceList);
-            return serviceList;
-        } catch (HibernateException e) {
-            log.error("Fail to read List<Service>", e);
-            return null;
-        }
-    }
-
-    @Override
-    public Service readServiceByTypeOfService(String typeOfService) {
+    public Service readServiceByTypeOfServiceDao(String typeOfService) {
         try (Session session = SFUtil.getSession()) {
             session.beginTransaction();
             Service service = session.createQuery("select S from Service as S where S.typeOfService = :typeOfService", Service.class)
@@ -57,6 +47,58 @@ public class DefaultServiceHotelDao implements ServiceHotelDao {
             return null;
         }
     }
+
+    @Override
+    public boolean saveServiceListForOrderDao(List<Service> serviceList, int orderId) {
+        try (Session session = SFUtil.getSession()) {
+            ArrayList<Service> serviceArrayList = new ArrayList<>(serviceList);
+            session.beginTransaction();
+            OrderClient orderClient = session.get(OrderClient.class, orderId);
+            orderClient.getServices().addAll(serviceArrayList);
+            session.saveOrUpdate(orderClient);
+            session.getTransaction().commit();
+            return true;
+        } catch (HibernateException e) {
+            return false;
+        }
+    }
+
+    @Override
+    public List<Service> readServiceListByOrderIdDao(int orderId) {
+        try (Session session = SFUtil.getSession()) {
+            session.beginTransaction();
+            OrderClient orderClient = session.get(OrderClient.class, orderId);
+            List<Service> serviceList = orderClient.getServices();
+            session.getTransaction().commit();
+            return serviceList;
+        } catch (HibernateException e) {
+            return null;
+        }
+    }
 }
+
+
+
+
+
+
+
+
+
+
+//    @Override
+//    public List<Service> readServiceHotelList() {
+//        try (Session session = SFUtil.getSession()) {
+//            session.beginTransaction();
+//            List<Service> serviceList = session.createQuery("From Service")
+//                    .getResultList();
+//            session.getTransaction().commit();
+//            log.info("List<Service> readed: {}", serviceList);
+//            return serviceList;
+//        } catch (HibernateException e) {
+//            log.error("Fail to read List<Service>", e);
+//            return null;
+//        }
+//    }
 
 

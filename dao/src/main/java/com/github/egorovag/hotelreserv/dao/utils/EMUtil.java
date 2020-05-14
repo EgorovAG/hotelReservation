@@ -13,7 +13,7 @@ public class EMUtil {
         emFactory = Persistence.createEntityManagerFactory("com.github.egorovag.hotelreserv.dao");
     }
     public static EntityManager getEntityManager() {
-        return emFactory.createEntityManager();
+        return emFactory.createEntityManager().unwrap(Session.class);
     }
 
     public static void close() {

@@ -4,20 +4,20 @@
 <html>
 
 <c:if test="${authUser.login != 'admin'}">
-    <h4 ><c:out value=" Имя пользователя: ${client.firstName} " /> </h4>
-    <h1 style="text-align: center"><c:out value="  Личный кабинет " /> </h1>
+    <h4><c:out value=" Имя пользователя: ${client.firstName} "/></h4>
+    <h1 style="text-align: center"><c:out value="  Личный кабинет "/></h1>
 
     <fieldset>
-    <form action="${pageContext.request.contextPath}/clientOrder.jsp">
-        <input type="submit" value="Сделать заказ">
-    </form>
-</fieldset>
+        <form action="${pageContext.request.contextPath}/clientOrder.jsp">
+            <input type="submit" value="Сделать заказ">
+        </form>
+    </fieldset>
 
-<fieldset>
-    <form action="${pageContext.request.contextPath}/statusOrder">
-        <input type="submit" value="Просмотр заказов">
-    </form>
-</fieldset>
+    <fieldset>
+        <form action="${pageContext.request.contextPath}/statusOrder">
+            <input type="submit" value="Просмотр заказов">
+        </form>
+    </fieldset>
 
     <br/>
     <br/>
@@ -38,8 +38,8 @@
 <%--</c:if>--%>
 
 <c:if test="${authUser.login == 'admin'}">
-    <h4 ><c:out value=" АДМИНИСТРАТОР " /> </h4>
-    <h1 style="text-align: center"><c:out value="  Личный кабинет " /> </h1>
+    <h4><c:out value=" АДМИНИСТРАТОР "/></h4>
+    <h1 style="text-align: center"><c:out value="  Личный кабинет "/></h1>
 
     <fieldset>
         <form action="${pageContext.request.contextPath}/orderList">
@@ -49,7 +49,11 @@
     </fieldset>
 
     <fieldset>
-        <form action="${pageContext.request.contextPath}/registratedUsers">
+
+            <%--        это если без пагинации--%>
+            <%--        <form action="${pageContext.request.contextPath}/registratedUsers"> --%>
+
+        <form action="${pageContext.request.contextPath}/paginationRegistratedUsers">
                 <%--        <h4><c:out value="Регистрация"/></h4>--%>
             <input type="submit" value="Просмотр зарегистрированных пользователей">
         </form>

@@ -110,6 +110,8 @@ create table orderclient_service
 
 
 
+
+
     # insert into orderclient(startDate, endDate, room_id, client_id, conditions)
 # values ('2020-10-05', '2020-10-07', '3', '2', 'CONSIDERATION')
 
@@ -221,4 +223,3 @@ create table orderclient_service
 # from authuser
 #          join client on authuser.id = client.user_id
 # where login = 'admin'
-

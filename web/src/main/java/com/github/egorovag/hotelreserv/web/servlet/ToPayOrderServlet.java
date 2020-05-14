@@ -38,18 +38,18 @@ public class ToPayOrderServlet extends HttpServlet {
         String condition = req.getParameter("condition");
 //        Condition condition = Condition.valueOf(req.getParameter("condition"));
         Client client = (Client) req.getSession().getAttribute("client");
-        int clientId = client.getUserId();
+        int clientId = client.getId();
 
         if (condition.equals("DELETE")){
             if(orderService.checkIdOrderByClientOrder(orderId, clientId)){
                 orderService.deleteOrderByOrderId(orderId);
-                orderForClients = orderService.readOrderForClientByClient_Id(clientId);
+                orderForClients = orderService.readOrderForClientByClientId(clientId);
                 req.setAttribute("orderForClients", orderForClients);
                 req.setAttribute("Error", "Заказ удален!");
                 req.getRequestDispatcher("/statusOrderNEW.jsp").forward(req,resp);
             } else {
                 req.setAttribute("Error", "Заказа с таким id у Вас нет!");
-                orderForClients = orderService.readOrderForClientByClient_Id(clientId);
+                orderForClients = orderService.readOrderForClientByClientId(clientId);
                 req.setAttribute("orderForClients", orderForClients);
 
 
@@ -64,7 +64,7 @@ public class ToPayOrderServlet extends HttpServlet {
             switch (cond){
                 case CONSIDERATION:
                     req.setAttribute("Error", "Заказ еще не одобрен администратором");
-                    orderForClients = orderService.readOrderForClientByClient_Id(clientId);
+                    orderForClients = orderService.readOrderForClientByClientId(clientId);
                     req.setAttribute("orderForClients", orderForClients);
                     req.getRequestDispatcher("/statusOrderNEW.jsp").forward(req,resp);
                     break;
@@ -76,13 +76,13 @@ public class ToPayOrderServlet extends HttpServlet {
                     break;
                 case REJECTED:
                     req.setAttribute("Error", "Ваш заказ отклонен администратором!");
-                    orderForClients = orderService.readOrderForClientByClient_Id(clientId);
+                    orderForClients = orderService.readOrderForClientByClientId(clientId);
                     req.setAttribute("orderForClients", orderForClients);
                     req.getRequestDispatcher("/statusOrderNEW.jsp").forward(req,resp);
                     break;
                 default:
                     req.setAttribute("Error", "Заказ уже оплачен, ждем Вас в нашей гостинице!");
-                    orderForClients = orderService.readOrderForClientByClient_Id(clientId);
+                    orderForClients = orderService.readOrderForClientByClientId(clientId);
                     req.setAttribute("orderForClients", orderForClients);
                     req.getRequestDispatcher("/statusOrderNEW.jsp").forward(req,resp);
 

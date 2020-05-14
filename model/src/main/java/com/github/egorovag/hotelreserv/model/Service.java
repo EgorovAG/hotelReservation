@@ -24,6 +24,12 @@ public class Service {
         this.typeOfService = typeOfService;
     }
 
+    public Service(Integer serviceId, String typeOfService, Integer price) {
+        this.serviceId = serviceId;
+        this.typeOfService = typeOfService;
+        this.price = price;
+    }
+
     public Service(Integer serviceId, String typeOfService, List<OrderClient> orderClients) {
         this.serviceId = serviceId;
         this.typeOfService = typeOfService;
@@ -69,7 +75,7 @@ public class Service {
         this.price = price;
     }
 
-    @ManyToMany(mappedBy = "services", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "services", fetch = FetchType.EAGER)
     public List<OrderClient> getOrderClients() {
         return orderClients;
     }
@@ -93,10 +99,6 @@ public class Service {
 
     @Override
     public String toString() {
-        return "service{" +
-                "serviceId=" + serviceId +
-                ", typeOfService='" + typeOfService + '\'' +
-                ", price=" + price +
-                '}';
+        return typeOfService;
     }
 }
