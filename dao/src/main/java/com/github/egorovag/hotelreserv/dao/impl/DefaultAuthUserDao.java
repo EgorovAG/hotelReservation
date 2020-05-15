@@ -37,37 +37,39 @@ public class DefaultAuthUserDao implements AuthUserDao {
         return localInstance;
     }
 
-//    @Override
-//    public String checkLoginDao(String login) {
-//        try (Session session = SFUtil.getSession()) {
-//            session.beginTransaction();
-//            String loginResult = (String) session.createNativeQuery("select login from authUser where login = :login")
-//                    .setParameter("login", login)
-//                    .getSingleResult();
-//            session.getTransaction().commit();
-//            log.info("authUser with login: {} readed", login);
-//            return loginResult;
-//        } catch (NoResultException e) {
-//            log.error("Fail to read authUser with login: {}", login, e);
-//        }
-//        return null;
-//    }
-
-    @Override //criteria
+    @Override
     public String checkLoginDao(String login) {
         try (Session session = SFUtil.getSession()) {
-            CriteriaBuilder cb = session.getCriteriaBuilder();
-            CriteriaQuery<AuthUser> criteria = cb.createQuery(AuthUser.class);
-            Root<AuthUser> authUserRoot = criteria.from(AuthUser.class);
-            criteria.select(authUserRoot).where(cb.equal(authUserRoot.get("login"), login));
-            AuthUser authUser = session.createQuery(criteria).getSingleResult();
+            session.beginTransaction();
+            String loginResult = (String) session.createNativeQuery("select login from authUser where login = :login")
+                    .setParameter("login", login)
+                    .getSingleResult();
+            session.getTransaction().commit();
             log.info("authUser with login: {} readed", login);
-            return authUser.getLogin();
-        } catch (HibernateException e) {
+            return loginResult;
+        } catch (NoResultException e) {
             log.error("Fail to read authUser with login: {}", login, e);
         }
         return null;
     }
+
+//    @Override //criteria
+//    public String checkLoginDao(String login) {
+//        try (Session session = SFUtil.getSession()) {
+//            session.beginTransaction();
+//            CriteriaBuilder cb = session.getCriteriaBuilder();
+//            CriteriaQuery<AuthUser> criteria = cb.createQuery(AuthUser.class);
+//            Root<AuthUser> authUserRoot = criteria.from(AuthUser.class);
+//            criteria.select(authUserRoot).where(cb.equal(authUserRoot.get("login"), login));
+//            AuthUser authUserRes = session.createQuery(criteria).getSingleResult();
+//            session.getTransaction().commit();
+//            log.info("authUser with login: {} readed", login);
+//            return authUserRes.getLogin();
+//        } catch (HibernateException e) {
+//            log.error("Fail to read authUser with login: {}", login, e);
+//        }
+//        return null;
+//    }
 
 //    @Override
 //    public AuthUser readUserByLoginDao(String login) {
@@ -88,11 +90,13 @@ public class DefaultAuthUserDao implements AuthUserDao {
     @Override // criteria
     public AuthUser readUserByLoginDao(String login) {
         try (Session session = SFUtil.getSession()) {
+            session.beginTransaction();
             CriteriaBuilder cb = session.getCriteriaBuilder();
             CriteriaQuery<AuthUser> criteria = cb.createQuery(AuthUser.class);
             Root<AuthUser> authUserRoot = criteria.from(AuthUser.class);
             criteria.select(authUserRoot).where(cb.equal(authUserRoot.get("login"), login));
             AuthUser authUserRes = session.createQuery(criteria).getSingleResult();
+            session.getTransaction().commit();
             log.info("authuser with login: {} readed", login);
             return authUserRes;
         } catch (NoResultException e) {
@@ -101,15 +105,33 @@ public class DefaultAuthUserDao implements AuthUserDao {
         return null;
     }
 
-    @Override
+//    @Override
+//    public Client readClientByAuthUserIdDao(Integer id) {
+//        try (Session session = SFUtil.getSession()) {
+//            session.beginTransaction();
+//            AuthUser authUser = session.get(AuthUser.class, id);
+//            Client client = authUser.getClient();
+//            session.getTransaction().commit();
+//            log.info("Client with authUserID:{} readed", id);
+//            return client;
+//        } catch (HibernateError e) {
+//            log.error("Fail to read client with authUserID:{}", id, e);
+//            return null;
+//        }
+//    }
+
+    @Override //criteria
     public Client readClientByAuthUserIdDao(Integer id) {
         try (Session session = SFUtil.getSession()) {
             session.beginTransaction();
-            AuthUser authUser = session.get(AuthUser.class, id);
-            Client client = authUser.getClient();
+            CriteriaBuilder cb = session.getCriteriaBuilder();
+            CriteriaQuery<AuthUser> criteria = cb.createQuery(AuthUser.class);
+            Root<AuthUser> authUserRoot = criteria.from(AuthUser.class);
+            criteria.select(authUserRoot).where(cb.equal(authUserRoot.get("id"), id));
+            AuthUser authUserRes = session.createQuery(criteria).getSingleResult();
             session.getTransaction().commit();
             log.info("Client with authUserID:{} readed", id);
-            return client;
+            return authUserRes.getClient();
         } catch (HibernateError e) {
             log.error("Fail to read client with authUserID:{}", id, e);
             return null;

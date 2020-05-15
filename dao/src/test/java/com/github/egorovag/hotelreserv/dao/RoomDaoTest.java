@@ -3,6 +3,7 @@ package com.github.egorovag.hotelreserv.dao;
 import com.github.egorovag.hotelreserv.dao.impl.DefaultRoomDao;
 import com.github.egorovag.hotelreserv.model.Room;
 import com.github.egorovag.hotelreserv.model.enums.ClassRoom;
+import net.sf.ehcache.CacheManager;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -15,6 +16,15 @@ class RoomDaoTest {
     void testReadRoomByNumOfSeatsAndClassOfApDao() {
         Room room = roomDao.readRoomByNumOfSeatsAndClassOfApDao ( numOfSeats, ClassRoom.ECONOM);
         Assertions.assertEquals(roomId, room.getId());
+    }
+
+    @Test
+    void testCashL2(){
+        Room room = roomDao.readRoomByNumOfSeatsAndClassOfApDao ( numOfSeats, ClassRoom.ECONOM);
+        Room room1 = roomDao.readRoomByNumOfSeatsAndClassOfApDao ( numOfSeats, ClassRoom.ECONOM);
+        int size = CacheManager.ALL_CACHE_MANAGERS.get(0)
+                .getCache("com.github.egorovag.hotelreserv.model.Room").getSize();
+        Assertions.assertTrue(size>0);
     }
 }
 

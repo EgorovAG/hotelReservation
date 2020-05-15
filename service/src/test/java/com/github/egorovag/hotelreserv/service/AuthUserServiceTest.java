@@ -53,7 +53,6 @@ class AuthUserServiceTest {
         Assertions.assertEquals(authUser, result);
     }
 
-
     @Test
     void testReadClientByAuthUserId() {
         when(authUserDao.readClientByAuthUserIdDao(authUser.getId())).thenReturn(client);

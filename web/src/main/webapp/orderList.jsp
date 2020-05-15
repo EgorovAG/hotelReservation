@@ -11,7 +11,7 @@
     <table border="1" width="100%" cellpadding="5">
         <tr>
             <th>№</th>
-            <th>id заказа</th>
+<%--            <th>id заказа</th>--%>
             <th>Имя</th>
             <th>Фамилия</th>
             <th>email</th>
@@ -19,7 +19,10 @@
             <th>дата заезда</th>
             <th>дата отъезда</th>
             <th>состояние</th>
+            <th>Дополнительные услуги</th>
             <th>Действие над заказом</th>
+
+
         </tr>
 
         <c:set var="x" value="1"/>
@@ -27,7 +30,7 @@
             <tr>
                 <td><c:out value="${x}"/>
                     <c:set var="x" value="${x+1}"/></td>
-                <td>${orderForAdmins.id}</td>
+<%--                <td>${orderForAdmins.id}</td>--%>
                 <td>${orderForAdmins.firstName}</td>
                 <td>${orderForAdmins.secondName}</td>
                 <td>${orderForAdmins.email}</td>
@@ -35,6 +38,11 @@
                 <td>${orderForAdmins.startDate}</td>
                 <td>${orderForAdmins.endDate}</td>
                 <td>${orderForAdmins.condition}</td>
+
+                <td>вставить <br> услуги</td>
+
+
+
                 <td>
                     <form action="${pageContext.request.contextPath}/orderList" method="post">
                         <input id="id1" type="text" name="orderId" value="${orderForAdmins.id}" hidden="hidden">

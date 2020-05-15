@@ -23,44 +23,14 @@ public class Client {
     private AuthUser authUser;
     private List<OrderClient> orderClients = new ArrayList<>();
 
-    public Client(Integer id, String firstName, String secondName, String email, String phone, Integer userId,
-                  AuthUser authUser, List<OrderClient> orderClients) {
-        this.id = id;
-        this.firstName = firstName;
-        this.secondName = secondName;
-        this.email = email;
-        this.phone = phone;
-        this.userId = userId;
-        this.authUser = authUser;
-        this.orderClients = orderClients;
-    }
-
-    public Client(Integer id, String firstName, String secondName, String email, String phone, Integer userId,
-                  List<OrderClient> orderClients) {
-        this.id = id;
-        this.firstName = firstName;
-        this.secondName = secondName;
-        this.email = email;
-        this.phone = phone;
-        this.userId = userId;
-        this.orderClients = orderClients;
-    }
-
-    public Client(Integer id, String firstName, String secondName, String email, String phone, AuthUser authUser) {
+    public Client(Integer id, String firstName, String secondName, String email, String phone,
+                  AuthUser authUser) {
         this.id = id;
         this.firstName = firstName;
         this.secondName = secondName;
         this.email = email;
         this.phone = phone;
         this.authUser = authUser;
-    }
-
-    public Client(String firstName, String secondName, String email, String phone, Integer userId) {
-        this.firstName = firstName;
-        this.secondName = secondName;
-        this.email = email;
-        this.phone = phone;
-        this.userId = userId;
     }
 
     public Client(Integer id, String firstName, String secondName, String email, String phone, Integer userId) {
@@ -70,13 +40,6 @@ public class Client {
         this.email = email;
         this.phone = phone;
         this.userId = userId;
-    }
-
-    public Client(String firstName, String secondName, String email, String phone) {
-        this.firstName = firstName;
-        this.secondName = secondName;
-        this.email = email;
-        this.phone = phone;
     }
 
     public Client() {

@@ -95,68 +95,39 @@ public class DefaultOrderDao implements OrderDao {
 
     @Override
     public List<OrderForClient> readOrderForClientByClientIdDao(int id) {
-        List<OrderForClient> orderForClients = new ArrayList<>();
-        try (Connection connection = MysqlDataBase.connect()) {
-            try (PreparedStatement statement = connection.prepareStatement("select oc.order_id, startDate, endDate," +
-                    "numOfSeats, classOfAp, price, conditions from orderclient as oc join room r on oc.room_id = r.id where oc.client_id=?")) {
-                statement.setInt(1, id);
-                ResultSet rs = statement.executeQuery();
-                while (rs.next()) {
-                    int orderId = rs.getInt(1);
-                    String startDate = rs.getString(2);
-                    String endDate = rs.getString(3);
-                    int numOfSeats = rs.getInt(4);
-                    ClassRoom classRoom = ClassRoom.valueOf(rs.getString(5));
-                    int price = rs.getInt(6);
-                    Condition condition = Condition.valueOf(rs.getString(7));
-                    OrderForClient orderForClient = new OrderForClient(orderId, startDate, endDate, numOfSeats, classRoom, price, condition);
-                    orderForClients.add(orderForClient);
-                }
-            }
+        Properties params = new Properties();
+        params.put("enumClass", "com.github.egorovag.hotelreserv.model.enums.Condition");
+        params.put("useNamed", true);
+        TypeConfiguration typeConfiguration = new TypeConfiguration();
+        Type myEnumType = new TypeLocatorImpl(new TypeResolver(typeConfiguration,
+                new TypeFactory(typeConfiguration))).custom(EnumType.class, params);
+        Properties params2 = new Properties();
+        params2.put("enumClass", "com.github.egorovag.hotelreserv.model.enums.ClassRoom");
+        params2.put("useNamed", true);
+        TypeConfiguration typeConfiguration2 = new TypeConfiguration();
+        Type myEnumType2 = new TypeLocatorImpl(new TypeResolver(typeConfiguration2,
+                new TypeFactory(typeConfiguration2))).custom(EnumType.class, params2);
+        try (Session session = SFUtil.getSession()) {
+            session.beginTransaction();
+            List<OrderForClient> orderForClients = session.createNativeQuery("select oc.order_id as id, oc.startDate, oc.endDate, r.numOfSeats, r.classOfAp, r.price, oc.conditions as 'condition' from orderclient as oc join room r on oc.room_id = r.id where oc.client_id= :clientId")
+                    .setParameter("clientId", id)
+                    .addScalar("id", StandardBasicTypes.INTEGER)
+                    .addScalar("startDate", StandardBasicTypes.STRING)
+                    .addScalar("endDate", StandardBasicTypes.STRING)
+                    .addScalar("numOfSeats", StandardBasicTypes.INTEGER)
+                    .addScalar("classOfAp", myEnumType2)
+                    .addScalar("price", StandardBasicTypes.INTEGER)
+                    .addScalar("condition", myEnumType)
+                    .setResultTransformer(Transformers.aliasToBean(OrderForClient.class))
+                    .list();
+            session.getTransaction().commit();
             log.info("OrderForClient with id: {} readed", id);
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
+            return orderForClients;
+        } catch (HibernateException e) {
             log.error("Fail read OrderForClient with id: {}", id, e);
+            return null;
         }
-        return orderForClients;
     }
-
-
-//    @Override
-//    public List<OrderForClient> readOrderForClientByClientIdDao(int id) {
-//        Properties params = new Properties();
-//        params.put("enumClass", "com.github.egorovag.hotelreserv.model.enums.Condition");
-//        params.put("useNamed", true);
-//        TypeConfiguration typeConfiguration = new TypeConfiguration();
-//        Type myEnumType = new TypeLocatorImpl(new TypeResolver(typeConfiguration,
-//                new TypeFactory(typeConfiguration))).custom(EnumType.class, params);
-//        Properties params2 = new Properties();
-//        params2.put("enumClass", "com.github.egorovag.hotelreserv.model.enums.ClassRoom");
-//        params2.put("useNamed", true);
-//        TypeConfiguration typeConfiguration2 = new TypeConfiguration();
-//        Type myEnumType2 = new TypeLocatorImpl(new TypeResolver(typeConfiguration2,
-//                new TypeFactory(typeConfiguration2))).custom(EnumType.class, params2);
-//        try (Session session = SFUtil.getSession()) {
-//            session.beginTransaction().commit();
-//            List<OrderForClient> orderForClients = session.createNativeQuery("select oc.order_id as id, oc.startDate, oc.endDate, r.numOfSeats, r.classOfAp, r.price, oc.conditions as 'condition' from orderclient as oc join room r on oc.room_id = r.id where oc.client_id= :clientId")
-//                    .setParameter("clientId", id)
-//                    .addScalar("id", StandardBasicTypes.INTEGER)
-//                    .addScalar("startDate", StandardBasicTypes.STRING)
-//                    .addScalar("endDate", StandardBasicTypes.STRING)
-//                    .addScalar("numOfSeats", StandardBasicTypes.INTEGER)
-//                    .addScalar("classOfAp", myEnumType2)
-//                    .addScalar("price", StandardBasicTypes.INTEGER)
-//                    .addScalar("condition", myEnumType)
-//                    .setResultTransformer(Transformers.aliasToBean(OrderForAdmin.class))
-//                    .list();
-//            session.getTransaction().commit();
-//            log.info("OrderForClient with id: {} readed", id);
-//            return orderForClients;
-//        } catch (HibernateException e) {
-//            log.error("Fail read OrderForClient with id: {}", id, e);
-//            return null;
-//        }
-//    }
 
     @Override
     public List<OrderClient> readOrderClientListByClientIdDao(int clientId) {
@@ -258,6 +229,35 @@ public class DefaultOrderDao implements OrderDao {
 
 
 
+
+
+//    @Override
+//    public List<OrderForClient> readOrderForClientByClientIdDao(int id) {
+//        List<OrderForClient> orderForClients = new ArrayList<>();
+//        try (Connection connection = MysqlDataBase.connect()) {
+//            try (PreparedStatement statement = connection.prepareStatement("select oc.order_id, startDate, endDate," +
+//                    "numOfSeats, classOfAp, price, conditions from orderclient as oc join room r on oc.room_id = r.id where oc.client_id=?")) {
+//                statement.setInt(1, id);
+//                ResultSet rs = statement.executeQuery();
+//                while (rs.next()) {
+//                    int orderId = rs.getInt(1);
+//                    String startDate = rs.getString(2);
+//                    String endDate = rs.getString(3);
+//                    int numOfSeats = rs.getInt(4);
+//                    ClassRoom classRoom = ClassRoom.valueOf(rs.getString(5));
+//                    int price = rs.getInt(6);
+//                    Condition condition = Condition.valueOf(rs.getString(7));
+//                    OrderForClient orderForClient = new OrderForClient(orderId, startDate, endDate, numOfSeats, classRoom, price, condition);
+//                    orderForClients.add(orderForClient);
+//                }
+//            }
+//            log.info("OrderForClient with id: {} readed", id);
+//        } catch (SQLException | ClassNotFoundException e) {
+//            e.printStackTrace();
+//            log.error("Fail read OrderForClient with id: {}", id, e);
+//        }
+//        return orderForClients;
+//    }
 
 
 //    @Override
