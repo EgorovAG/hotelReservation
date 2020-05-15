@@ -17,7 +17,7 @@ import java.util.List;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class DefaultServiceHotelServiceTest {
+class ServiceHotelServiceTest {
 
     @Mock
     private static ServiceHotelDao serviceHotelDao;

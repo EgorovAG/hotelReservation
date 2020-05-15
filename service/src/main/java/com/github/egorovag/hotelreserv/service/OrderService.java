@@ -18,7 +18,7 @@ public interface OrderService {
 
     OrderClient saveOrder(OrderClient order);
 
-    List<OrderForAdmin> readOrderListService();
+    List<OrderForAdmin> readOrderList();
 
     boolean updateOrderList(int orderId, Condition condition);
 

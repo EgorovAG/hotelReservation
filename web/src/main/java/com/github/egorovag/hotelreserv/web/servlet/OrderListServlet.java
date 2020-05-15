@@ -25,7 +25,7 @@ public class OrderListServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<OrderForAdmin> orderForAdmins = orderService.readOrderListService();
+        List<OrderForAdmin> orderForAdmins = orderService.readOrderList();
         if(orderForAdmins==null || orderForAdmins.isEmpty()){
             req.setAttribute("orderForAdmins",null);
         } else {
@@ -49,7 +49,7 @@ public class OrderListServlet extends HttpServlet {
                 orderService.updateOrderList(orderId, condition);
             }
         }
-        orderForAdmins = orderService.readOrderListService();
+        orderForAdmins = orderService.readOrderList();
         req.setAttribute("orderForAdmins", orderForAdmins);
         req.getRequestDispatcher("/orderList.jsp").forward(req, resp);
     }

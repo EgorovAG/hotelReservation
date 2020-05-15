@@ -4,6 +4,8 @@ import com.github.egorovag.hotelreserv.dao.OrderDao;
 import com.github.egorovag.hotelreserv.model.Client;
 import com.github.egorovag.hotelreserv.model.OrderClient;
 import com.github.egorovag.hotelreserv.model.Room;
+import com.github.egorovag.hotelreserv.model.dto.OrderForAdmin;
+import com.github.egorovag.hotelreserv.model.dto.OrderForClient;
 import com.github.egorovag.hotelreserv.model.enums.ClassRoom;
 import com.github.egorovag.hotelreserv.model.enums.Condition;
 import com.github.egorovag.hotelreserv.service.impl.DefaultOrderService;
@@ -15,6 +17,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.mockito.Mockito.when;
 
@@ -28,13 +33,13 @@ class OrderServiceTest {
     @InjectMocks
     private static OrderService orderService;
 
-    Room room = new Room(1,1, ClassRoom.ECONOM);
-    Client client = new Client(5,"Alex","Alexandrov","tut@tut.by","55555",4);
-    OrderClient orderClient = new OrderClient(10, "2020-05-10", "2020-05-12", 1,5,
+    Room room = new Room(1, 1, ClassRoom.ECONOM);
+    Client client = new Client(5, "Alex", "Alexandrov", "tut@tut.by", "55555", 4);
+    OrderClient orderClient = new OrderClient(10, "2020-05-10", "2020-05-12", 1, 5,
             Condition.CONSIDERATION, room, client);
 
     @BeforeAll
-    static void createInstance(){
+    static void createInstance() {
         orderService = DefaultOrderService.getInstance();
     }
 
@@ -42,28 +47,70 @@ class OrderServiceTest {
     void testSaveOrder() {
         when(orderDao.saveOrderDao(orderClient)).thenReturn(orderClient);
         OrderClient orderResult = orderService.saveOrder(orderClient);
-        Assertions.assertEquals(orderClient,orderResult);
+        Assertions.assertEquals(orderClient, orderResult);
     }
 
-//    @Test
-//    void TestReadOrderListService() {
-//        when(orderDao.readOrderListDao()).thenReturn(null);
-//        List<OrderWithClient> orderLists = orderDao.readOrderListDao();
-//        Assertions.assertNull(orderLists);
-//    }
-//
-//    @Test
-//    void TestReadOrderByAuthUserIdService() {
-//        Order order = new Order(3L,"2020-05-10","2020-05-12",1L,2L,3L);
-//        when(orderDao.readOrderByAuthUserIdDao(2L)).thenReturn(order);
-//        Order result = orderService.readOrderByAuthUserIdService(2L);
-//        Assertions.assertEquals(order, result);
-//    }
-//
-//    @Test
-//    void TestUpdateOrderList() {
-//        when(orderDao.updateOrderListDao(1L, 2L)).thenReturn(true);
-//        boolean result = orderService.updateOrderList(1L,2L);
-//        Assertions.assertTrue(result);
-//    }
+    @Test
+    void testReadOrderList() {
+        List<OrderForAdmin> orderForAdmins = new ArrayList<>();
+        when(orderDao.readOrderListDao()).thenReturn(orderForAdmins);
+        List<OrderForAdmin> orderForAdminsRes = orderService.readOrderList();
+        Assertions.assertEquals(orderForAdmins, orderForAdminsRes);
+    }
+
+    @Test
+    void testUpdateOrderList() {
+        List<OrderForAdmin> orderForAdmins = new ArrayList<>();
+        when(orderDao.updateOrderListDao(orderClient.getOrderId(), orderClient.getCondition())).thenReturn(true);
+        boolean res = orderService.updateOrderList(orderClient.getOrderId(), orderClient.getCondition());
+        Assertions.assertTrue(res);
+    }
+
+    @Test
+    void testReadPriceForRoomByOrderId() {
+        when(orderDao.readPriceForRoomByOrderIdDao(orderClient.getOrderId())).thenReturn(100);
+        int res = orderService.readPriceForRoomByOrderId(orderClient.getOrderId());
+        Assertions.assertEquals(100, res);
+    }
+
+    @Test
+    void testReadOrderForClientByClientId() {
+        List<OrderForClient> orderForClients = new ArrayList<>();
+        when(orderDao.readOrderForClientByClientIdDao(orderClient.getClientId())).thenReturn(orderForClients);
+        List<OrderForClient> orderForClientsRes = orderService.readOrderForClientByClientId(orderClient.getClientId());
+        Assertions.assertEquals(orderForClients, orderForClientsRes);
+    }
+
+    @Test
+    void testReadOrderClientListByClientId() {
+        List<OrderClient> orderClients = new ArrayList<>();
+        when(orderDao.readOrderClientListByClientIdDao(orderClient.getClientId())).thenReturn(orderClients);
+        List<OrderClient> orderClientsRes = orderService.readOrderClientListByClientId(orderClient.getClientId());
+        Assertions.assertEquals(orderClients, orderClientsRes);
+    }
+
+    @Test
+    void testCheckIdOrderByClientOrder() {
+        when(orderDao.checkIdOrderByClientOrderDao(orderClient.getOrderId())).thenReturn(orderClient.getClientId());
+        boolean res = orderService.checkIdOrderByClientOrder(orderClient.getOrderId(), orderClient.getClientId());
+        Assertions.assertTrue(res);
+    }
+
+    @Test
+    void testDeleteOrderByOrderId() {
+        when(orderDao.deleteOrderByOrderIdDao(orderClient.getOrderId())).thenReturn(true);
+        boolean res = orderService.deleteOrderByOrderId(orderClient.getOrderId());
+        Assertions.assertTrue(res);
+    }
+
+    @Test
+    void testReadConditionByOrderId() {
+        when(orderDao.readConditionByOrderIdDao(orderClient.getOrderId())).thenReturn(Condition.CONSIDERATION);
+        Condition conditionRes = orderService.readConditionByOrderId(orderClient.getOrderId());
+        Assertions.assertEquals(Condition.CONSIDERATION, conditionRes);
+    }
 }
+
+
+
+

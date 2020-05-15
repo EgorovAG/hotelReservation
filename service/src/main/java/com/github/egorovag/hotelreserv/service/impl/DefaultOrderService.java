@@ -37,11 +37,9 @@ public class DefaultOrderService implements OrderService {
     }
 
     @Override
-    public List<OrderForAdmin> readOrderListService() {
+    public List<OrderForAdmin> readOrderList() {
         return orderDao.readOrderListDao();
     }
-
-
 
     @Override
     public boolean updateOrderList(int order_id, Condition condition) {
@@ -50,14 +48,6 @@ public class DefaultOrderService implements OrderService {
         }
         return false;
     }
-
-//    @Override
-//    public boolean deleteOrderByClientId(int id) {
-//        if (orderDao.deleteOrderByClientIdDao(id)) {
-//            return true;
-//        }
-//        return false;
-//    }
 
     @Override
     public int readPriceForRoomByOrderId(int orderId) {
@@ -71,12 +61,12 @@ public class DefaultOrderService implements OrderService {
 
     @Override
     public List<OrderClient> readOrderClientListByClientId(int clientId) {
-        return  orderDao.readOrderClientListByClientIdDao( clientId );
+        return orderDao.readOrderClientListByClientIdDao(clientId);
     }
 
     @Override
     public boolean checkIdOrderByClientOrder(int orderId, int clientId) {
-        if (orderDao.checkIdOrderByClientOrderDao(orderId) == clientId){
+        if (orderDao.checkIdOrderByClientOrderDao(orderId) == clientId) {
             return true;
         } else {
             return false;
@@ -86,16 +76,24 @@ public class DefaultOrderService implements OrderService {
     @Override
     public boolean deleteOrderByOrderId(int orderId) {
         return orderDao.deleteOrderByOrderIdDao(orderId);
-
     }
 
     @Override
     public Condition readConditionByOrderId(int orderId) {
-       return orderDao.readConditionByOrderIdDao(orderId);
+        return orderDao.readConditionByOrderIdDao(orderId);
     }
 }
 
-// вроде лишнее
+
+//    @Override
+//    public boolean deleteOrderByClientId(int id) {
+//        if (orderDao.deleteOrderByClientIdDao(id)) {
+//            return true;
+//        }
+//        return false;
+//    }
+
+
 //    @Override
 //    public List<OrderClient> readOrderByAuthUserIdService(int id) {
 //        return iOrderDao.readOrderByAuthUserIdDao(id);

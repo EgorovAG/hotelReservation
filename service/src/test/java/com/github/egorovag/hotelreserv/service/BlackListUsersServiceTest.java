@@ -26,7 +26,7 @@ import static org.mockito.ArgumentMatchers.booleanThat;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class DefaultBlackListUsersServiceTest {
+class BlackListUsersServiceTest {
 
     @Mock
     private static BlackListUsersDao blackListUsersDao;
