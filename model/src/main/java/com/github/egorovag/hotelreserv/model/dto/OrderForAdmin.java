@@ -2,6 +2,7 @@ package com.github.egorovag.hotelreserv.model.dto;
 
 import com.github.egorovag.hotelreserv.model.enums.Condition;
 
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class OrderForAdmin {
@@ -12,11 +13,11 @@ public class OrderForAdmin {
     private String email;
     private String phone;
     private Integer clientId;
-    private String startDate;
-    private String endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private Condition condition;
 
-    public OrderForAdmin(Integer id, String firstName, String secondName, String email, String phone, Integer clientId, String startDate, String endDate, Condition condition) {
+    public OrderForAdmin(Integer id, String firstName, String secondName, String email, String phone, Integer clientId, LocalDate startDate, LocalDate endDate, Condition condition) {
         this.id = id;
         this.firstName = firstName;
         this.secondName = secondName;
@@ -79,19 +80,19 @@ public class OrderForAdmin {
         this.clientId = clientId;
     }
 
-    public String getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(String startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
-    public String getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(String endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 

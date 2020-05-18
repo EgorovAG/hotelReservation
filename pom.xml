@@ -55,6 +55,10 @@
       <groupId>com.h2database</groupId>
       <artifactId>h2</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+    </dependency>
 
 <!--    <dependency>-->
 <!--      <groupId>org.apache.logging.log4j</groupId>-->
@@ -130,6 +134,12 @@
           <groupId>com.h2database</groupId>
           <artifactId>h2</artifactId>
           <version>1.4.200</version>
+        </dependency>
+        <dependency>
+          <groupId>org.projectlombok</groupId>
+          <artifactId>lombok</artifactId>
+          <version>1.18.12</version>
+          <scope>provided</scope>
         </dependency>
 
       </dependencies>

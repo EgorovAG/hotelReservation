@@ -33,6 +33,7 @@ public class DefaultRoomDao implements RoomDao {
             Room room = session.createQuery("SELECT r from Room r where numOfSeats = : numOfSeats and  classOfAp = :classOfAp", Room.class)
                     .setParameter("numOfSeats", numOfSeats)
                     .setParameter("classOfAp", classOfAp)
+                    .setCacheable(true)
                     .getSingleResult();
             session.getTransaction().commit();
             log.info("Room_id with numOfSeats: {} and classOfApp: {} readed", numOfSeats, classOfAp);

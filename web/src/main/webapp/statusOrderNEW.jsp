@@ -17,9 +17,9 @@
             <th>время отъезда</th>
             <th>число мест</th>
             <th>класс комнаты</th>
-            <th>цена</th>
             <th>состояние</th>
             <th>Дополнительные услуги</th>
+            <th>цена</th>
             <th>Действия над заказом</th>
 
 
@@ -35,21 +35,15 @@
                 <td>${orderForClients.endDate}</td>
                 <td>${orderForClients.numOfSeats}</td>
                 <td>${orderForClients.classOfAp}</td>
-                <td>${orderForClients.price}</td>
                 <td>${orderForClients.condition}</td>
                 <td>
-
-<%--                    не работает--%>
                     <c:forEach var="orderClients" items="${orderClients}">
-                        <c:if test="${orderClients.orderId} == ${orderForClients.id}">
+                        <c:if test="${orderForClients.id == orderClients.orderId}">
                             <c:out value="${orderClients.services}"/>
                         </c:if>
                     </c:forEach>
-<%--                    не работает--%>
-
-
                 </td>
-
+                <td>${orderForClients.price}</td>
                 <td>
                     <form action="${pageContext.request.contextPath}/toPayOrder" method="post">
                         <input id="id1" type="text" name="orderId" value="${orderForClients.id}" hidden="hidden">

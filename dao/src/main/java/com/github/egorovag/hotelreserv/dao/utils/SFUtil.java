@@ -41,10 +41,13 @@ public class SFUtil {
         settings.put(Environment.FORMAT_SQL, "false");
         settings.put(Environment.ISOLATION, "2");
         settings.put(Environment.STORAGE_ENGINE, "innodb");
+
         settings.put(Environment.CACHE_REGION_FACTORY, "org.hibernate.cache.ehcache.EhCacheRegionFactory");
         settings.put(Environment.USE_SECOND_LEVEL_CACHE, "true");
         settings.put(Environment.USE_QUERY_CACHE, "true");
         settings.put(Environment.AUTO_EVICT_COLLECTION_CACHE, "true");
+//        <property name = "net.sf.ehcache.configurationResourceName" value = "ehcache.xml" / >
+
         // Apply settings
         serviceRegistryBuilder.applySettings(settings);
         // Create registry

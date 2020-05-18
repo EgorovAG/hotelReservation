@@ -10,22 +10,20 @@ import com.github.egorovag.hotelreserv.model.dto.OrderForClient;
 import com.github.egorovag.hotelreserv.model.enums.ClassRoom;
 import com.github.egorovag.hotelreserv.model.enums.Condition;
 import com.github.egorovag.hotelreserv.model.enums.Role;
+import net.sf.ehcache.CacheManager;
 import org.junit.jupiter.api.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 class OrderDaoTest {
     private ClientDao clientDao = DefaultClientDao.getInstance();
-    private AuthUserDao authUserDao = DefaultAuthUserDao.getInstance();
     private OrderDao orderDao = DefaultOrderDao.getInstance();
     private AuthUser authUser;
     private OrderClient orderClient;
-    private Integer clientId;
     private Client client;
     private Room room;
-    private List<Service> serviceList;
-    private  ServiceHotelDao serviceHotelDao = DefaultServiceHotelDao.getInstance();
 
 
     @BeforeEach
@@ -35,7 +33,7 @@ class OrderDaoTest {
         authUser = clientDao.saveAuthUserAndClientDao(authUser,client);
         room = new Room(1,1,ClassRoom.ECONOM);
         client = new Client(authUser.getClient().getId(), "Alex","Alexandrov","alex@tut.by","55555",authUser );
-        orderClient = new OrderClient(null, "2020-10-05", "2020-10-10", room.getId(), client.getId(),
+        orderClient = new OrderClient(null, LocalDate.of(2020,10,05), LocalDate.of(2020,10,8), room.getId(), client.getId(),
                 Condition.CONSIDERATION, room, client);
         orderClient = orderDao.saveOrderDao(orderClient);
     }
@@ -104,6 +102,19 @@ class OrderDaoTest {
         Condition condition = orderDao.readConditionByOrderIdDao(orderLists.iterator().next().getId());
         Assertions.assertEquals(Condition.CONSIDERATION,condition);
     }
+
+//    @Test
+//    void testCashL2(){
+//        List<OrderForAdmin> orderLists = orderDao.readOrderListDao();
+//        Condition condition = orderDao.readConditionByOrderIdDao(orderLists.get(0).getId());
+//        Condition condition1 = orderDao.readConditionByOrderIdDao(orderLists.get(0).getId());
+//        Condition condition2 = orderDao.readConditionByOrderIdDao(orderLists.get(0).getId());
+//        Condition condition3 = orderDao.readConditionByOrderIdDao(orderLists.get(0).getId());
+//
+//        int size = CacheManager.ALL_CACHE_MANAGERS.get(0)
+//                .getCache("com.github.egorovag.hotelreserv.model.OrderClient").getSize();
+//        Assertions.assertTrue(size>0);
+//    }
 }
 
 

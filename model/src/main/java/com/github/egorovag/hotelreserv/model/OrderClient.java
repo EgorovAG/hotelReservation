@@ -4,6 +4,7 @@ import com.github.egorovag.hotelreserv.model.enums.Condition;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -15,8 +16,8 @@ import java.util.Objects;
 public class OrderClient {
 
     private Integer orderId;
-    private String startDate;
-    private String endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private Integer roomId;
     private Integer clientId;
     private Condition condition;
@@ -27,7 +28,7 @@ public class OrderClient {
     private List<Service> services = new ArrayList<>();
 
 
-    public OrderClient(Integer orderId, String startDate, String endDate, Integer roomId, Integer clientId,
+    public OrderClient(Integer orderId, LocalDate startDate, LocalDate endDate, Integer roomId, Integer clientId,
                        Condition condition, Room room, Client client, List<Service> serviceList) {
         this.orderId = orderId;
         this.startDate = startDate;
@@ -39,7 +40,7 @@ public class OrderClient {
         this.client = client;
     }
 
-    public OrderClient(Integer orderId, String startDate, String endDate, Integer roomId, Integer clientId,
+    public OrderClient(Integer orderId, LocalDate startDate, LocalDate endDate, Integer roomId, Integer clientId,
                        Condition condition, Room room, Client client) {
         this.orderId = orderId;
         this.startDate = startDate;
@@ -66,21 +67,21 @@ public class OrderClient {
     }
 
     @Column
-    public String getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(String startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
     @Column
 
-    public String getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(String endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 

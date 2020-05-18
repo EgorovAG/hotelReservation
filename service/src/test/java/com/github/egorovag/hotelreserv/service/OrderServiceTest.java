@@ -18,6 +18,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +36,7 @@ class OrderServiceTest {
 
     Room room = new Room(1, 1, ClassRoom.ECONOM);
     Client client = new Client(5, "Alex", "Alexandrov", "tut@tut.by", "55555", 4);
-    OrderClient orderClient = new OrderClient(10, "2020-05-10", "2020-05-12", 1, 5,
+    OrderClient orderClient = new OrderClient(10, LocalDate.of(2020,10,05), LocalDate.of(2020,10,07), 1, 5,
             Condition.CONSIDERATION, room, client);
 
     @BeforeAll

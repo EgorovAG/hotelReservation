@@ -8,11 +8,13 @@ import com.github.egorovag.hotelreserv.model.*;
 import com.github.egorovag.hotelreserv.model.enums.ClassRoom;
 import com.github.egorovag.hotelreserv.model.enums.Condition;
 import com.github.egorovag.hotelreserv.model.enums.Role;
+import net.sf.ehcache.CacheManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +36,7 @@ class ServiceHotelDaoTest {
         authUser = clientDao.saveAuthUserAndClientDao(authUser,client);
         room = new Room(1,1,ClassRoom.ECONOM);
         client = new Client(authUser.getClient().getId(), "Alex","Alexandrov","alex@tut.by","55555",authUser );
-        orderClient = new OrderClient(null, "2020-10-05", "2020-10-10", room.getId(), client.getId(),
+        orderClient = new OrderClient(null, LocalDate.of(2020,10,05), LocalDate.of(2020,10,07), room.getId(), client.getId(),
                 Condition.CONSIDERATION, room, client);
         orderClient = orderDao.saveOrderDao(orderClient);
         serviceList = new ArrayList<>();

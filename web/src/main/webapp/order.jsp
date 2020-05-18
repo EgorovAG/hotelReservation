@@ -46,7 +46,7 @@
 <%--        <input type="submit" value="Проверить статус заказа">--%>
 <%--     </form>--%>
 
-<form action="${pageContext.request.contextPath}/clientOrder" method="post">
+<form action="${pageContext.request.contextPath}/statusOrder">
     <input type="submit" value="Проверить статус заказа">
 </form>
 

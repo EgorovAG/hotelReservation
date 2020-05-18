@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,8 +51,9 @@ public class ClientOrderServlet extends HttpServlet {
         List<Service> serviceList = new ArrayList<>();
         int numOfSeats = Integer.parseInt(req.getParameter("numOfSeats"));
         ClassRoom classOfAp = ClassRoom.valueOf(req.getParameter("classOfAp"));
-        String startDate = req.getParameter("startDate");
-        String endDate = req.getParameter("endDate");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate startDate = LocalDate.parse(req.getParameter("startDate"),formatter);
+        LocalDate endDate = LocalDate.parse(req.getParameter("endDate"),formatter);
         String typeOfService1 = req.getParameter("typeOfService1");
         String typeOfService2 = req.getParameter("typeOfService2");
         String typeOfService3 = req.getParameter("typeOfService3");
@@ -113,12 +116,12 @@ public class ClientOrderServlet extends HttpServlet {
     }
 
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        client = (Client) req.getSession().getAttribute("client");
-        int clientId = client.getId();
-        List<OrderForClient> orderForClients = orderService.readOrderForClientByClientId(clientId);
-        req.setAttribute("orderForClients", orderForClients);
-        req.getRequestDispatcher("/statusOrderNEW.jsp").forward(req, resp);
-    }
+//    @Override
+//    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//        client = (Client) req.getSession().getAttribute("client");
+//        int clientId = client.getId();
+//        List<OrderForClient> orderForClients = orderService.readOrderForClientByClientId(clientId);
+//        req.setAttribute("orderForClients", orderForClients);
+//        req.getRequestDispatcher("/hotel/statusOrder").forward(req, resp);
+//    }
 }

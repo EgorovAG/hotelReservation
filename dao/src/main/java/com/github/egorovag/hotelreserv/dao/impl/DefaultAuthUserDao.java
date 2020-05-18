@@ -22,54 +22,61 @@ import java.util.List;
 
 public class DefaultAuthUserDao implements AuthUserDao {
     private static final Logger log = LoggerFactory.getLogger(DefaultAuthUserDao.class);
-    private static volatile AuthUserDao instance;
 
+//    private static volatile AuthUserDao instance;
+//    public static AuthUserDao getInstance() {
+//        AuthUserDao localInstance = instance;
+//        if (localInstance == null) {
+//            synchronized (AuthUserDao.class) {
+//                localInstance = instance;
+//                if (localInstance == null) {
+//                    instance = localInstance = new DefaultAuthUserDao();
+//                }
+//            }
+//        }
+//        return localInstance;
+//    }
+
+    private static class SingletonHolder {
+        static final AuthUserDao HOLDER_INSTANCE = new DefaultAuthUserDao();
+    }
     public static AuthUserDao getInstance() {
-        AuthUserDao localInstance = instance;
-        if (localInstance == null) {
-            synchronized (AuthUserDao.class) {
-                localInstance = instance;
-                if (localInstance == null) {
-                    instance = localInstance = new DefaultAuthUserDao();
-                }
-            }
-        }
-        return localInstance;
+        return DefaultAuthUserDao.SingletonHolder.HOLDER_INSTANCE;
     }
 
-    @Override
+//    @Override
+//    public String checkLoginDao(String login) {
+//        try (Session session = SFUtil.getSession()) {
+//            session.beginTransaction();
+//            String loginResult = (String) session.createNativeQuery("select login from authUser where login = :login")
+//                    .setParameter("login", login)
+//                    .getSingleResult();
+//            session.getTransaction().commit();
+//            log.info("authUser with login: {} readed", login);
+//            return loginResult;
+//        } catch (NoResultException e) {
+//            log.error("Fail to read authUser with login: {}", login, e);
+//        }
+//        return null;
+//    }
+
+    @Override //criteria
     public String checkLoginDao(String login) {
         try (Session session = SFUtil.getSession()) {
             session.beginTransaction();
-            String loginResult = (String) session.createNativeQuery("select login from authUser where login = :login")
-                    .setParameter("login", login)
-                    .getSingleResult();
+            CriteriaBuilder cb = session.getCriteriaBuilder();
+            CriteriaQuery<AuthUser> criteria = cb.createQuery(AuthUser.class);
+            Root<AuthUser> authUserRoot = criteria.from(AuthUser.class);
+            criteria.select(authUserRoot).where(cb.equal(authUserRoot.get("login"), login));
+            AuthUser authUserRes = session.createQuery(criteria).getSingleResult();
             session.getTransaction().commit();
             log.info("authUser with login: {} readed", login);
-            return loginResult;
+            return authUserRes.getLogin();
         } catch (NoResultException e) {
             log.error("Fail to read authUser with login: {}", login, e);
         }
         return null;
     }
-
-//    @Override //criteria
-//    public String checkLoginDao(String login) {
-//        try (Session session = SFUtil.getSession()) {
-//            session.beginTransaction();
-//            CriteriaBuilder cb = session.getCriteriaBuilder();
-//            CriteriaQuery<AuthUser> criteria = cb.createQuery(AuthUser.class);
-//            Root<AuthUser> authUserRoot = criteria.from(AuthUser.class);
-//            criteria.select(authUserRoot).where(cb.equal(authUserRoot.get("login"), login));
-//            AuthUser authUserRes = session.createQuery(criteria).getSingleResult();
-//            session.getTransaction().commit();
-//            log.info("authUser with login: {} readed", login);
-//            return authUserRes.getLogin();
-//        } catch (HibernateException e) {
-//            log.error("Fail to read authUser with login: {}", login, e);
-//        }
-//        return null;
-//    }
 
 //    @Override
 //    public AuthUser readUserByLoginDao(String login) {
@@ -101,8 +108,8 @@ public class DefaultAuthUserDao implements AuthUserDao {
             return authUserRes;
         } catch (NoResultException e) {
             log.error("Fail to read authuser with login: {}", login, e);
+            return null;
         }
-        return null;
     }
 
 //    @Override
@@ -204,24 +211,6 @@ public class DefaultAuthUserDao implements AuthUserDao {
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 //    @Override

@@ -3,20 +3,21 @@ package com.github.egorovag.hotelreserv.model.dto;
 import com.github.egorovag.hotelreserv.model.enums.ClassRoom;
 import com.github.egorovag.hotelreserv.model.enums.Condition;
 
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class OrderForClient {
 
     private Integer id;
-    private String startDate;
-    private String endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private Integer numOfSeats;
     private ClassRoom classOfAp;
     private Integer price;
     private Condition condition;
 
 
-    public OrderForClient(Integer id, String startDate, String endDate, Integer numOfSeats, ClassRoom classOfAp, Integer price, Condition condition) {
+    public OrderForClient(Integer id, LocalDate startDate, LocalDate endDate, Integer numOfSeats, ClassRoom classOfAp, Integer price, Condition condition) {
         this.id = id;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -33,11 +34,11 @@ public class OrderForClient {
         return id;
     }
 
-    public String getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public String getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 

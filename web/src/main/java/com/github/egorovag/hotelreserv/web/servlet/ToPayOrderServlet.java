@@ -1,6 +1,8 @@
 package com.github.egorovag.hotelreserv.web.servlet;
 
+import com.github.egorovag.hotelreserv.model.AuthUser;
 import com.github.egorovag.hotelreserv.model.Client;
+import com.github.egorovag.hotelreserv.model.OrderClient;
 import com.github.egorovag.hotelreserv.model.dto.OrderForClient;
 import com.github.egorovag.hotelreserv.model.enums.Condition;
 import com.github.egorovag.hotelreserv.service.impl.DefaultOrderService;
@@ -18,6 +20,8 @@ import java.util.List;
 public class ToPayOrderServlet extends HttpServlet {
     private OrderService orderService;
     private List<OrderForClient> orderForClients;
+    private List<OrderClient> orderClients;
+    private AuthUser authUser;
 
     @Override
     public void init() throws ServletException {
@@ -43,8 +47,11 @@ public class ToPayOrderServlet extends HttpServlet {
         if (condition.equals("DELETE")){
             if(orderService.checkIdOrderByClientOrder(orderId, clientId)){
                 orderService.deleteOrderByOrderId(orderId);
+                authUser = (AuthUser) req.getSession().getAttribute("authUser");
                 orderForClients = orderService.readOrderForClientByClientId(clientId);
+                orderClients = orderService.readOrderClientListByClientId(authUser.getClient().getId());
                 req.setAttribute("orderForClients", orderForClients);
+                req.setAttribute("orderClients", orderClients);
                 req.setAttribute("Error", "Заказ удален!");
                 req.getRequestDispatcher("/statusOrderNEW.jsp").forward(req,resp);
             } else {
@@ -61,11 +68,17 @@ public class ToPayOrderServlet extends HttpServlet {
 //            req.getRequestDispatcher("/toPay.jsp").forward(req,resp);
         } else {
             Condition cond = orderService.readConditionByOrderId(orderId);
+            authUser = (AuthUser) req.getSession().getAttribute("authUser");
+            orderForClients = orderService.readOrderForClientByClientId(clientId);
+            req.setAttribute("orderForClients", orderForClients);
+            orderClients = orderService.readOrderClientListByClientId(authUser.getClient().getId());
+            req.setAttribute("orderClients", orderClients);
+
             switch (cond){
                 case CONSIDERATION:
                     req.setAttribute("Error", "Заказ еще не одобрен администратором");
-                    orderForClients = orderService.readOrderForClientByClientId(clientId);
-                    req.setAttribute("orderForClients", orderForClients);
+//                    orderForClients = orderService.readOrderForClientByClientId(clientId);
+//                    req.setAttribute("orderForClients", orderForClients);
                     req.getRequestDispatcher("/statusOrderNEW.jsp").forward(req,resp);
                     break;
                 case APPROVED:
@@ -76,14 +89,14 @@ public class ToPayOrderServlet extends HttpServlet {
                     break;
                 case REJECTED:
                     req.setAttribute("Error", "Ваш заказ отклонен администратором!");
-                    orderForClients = orderService.readOrderForClientByClientId(clientId);
-                    req.setAttribute("orderForClients", orderForClients);
+//                    orderForClients = orderService.readOrderForClientByClientId(clientId);
+//                    req.setAttribute("orderForClients", orderForClients);
                     req.getRequestDispatcher("/statusOrderNEW.jsp").forward(req,resp);
                     break;
                 default:
                     req.setAttribute("Error", "Заказ уже оплачен, ждем Вас в нашей гостинице!");
-                    orderForClients = orderService.readOrderForClientByClientId(clientId);
-                    req.setAttribute("orderForClients", orderForClients);
+//                    orderForClients = orderService.readOrderForClientByClientId(clientId);
+//                    req.setAttribute("orderForClients", orderForClients);
                     req.getRequestDispatcher("/statusOrderNEW.jsp").forward(req,resp);
 
 

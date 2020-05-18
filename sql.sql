@@ -71,8 +71,8 @@ create table IF NOT EXISTS blackList
 create table IF NOT EXISTS orderClient
 (
     order_id   int(64) auto_increment PRIMARY KEY,
-    startDate  varchar(50) not null,
-    endDate    varchar(50) not null,
+    startDate  DATE not null,
+    endDate    DATE not null,
     room_id    int         not null,
     client_id  int(64)     not null,
 #     conditions enum ('CONSIDERATION','APPROVED','REJECTED','PAID') default 'CONSIDERATION' not null,
