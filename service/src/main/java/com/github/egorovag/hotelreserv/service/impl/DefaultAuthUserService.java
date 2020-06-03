@@ -6,29 +6,22 @@ import com.github.egorovag.hotelreserv.model.AuthUser;
 import com.github.egorovag.hotelreserv.model.dto.AuthUserWithClient;
 import com.github.egorovag.hotelreserv.model.Client;
 import com.github.egorovag.hotelreserv.service.AuthUserService;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 
 public class DefaultAuthUserService implements AuthUserService {
 
-    private AuthUserDao authUserDao = DefaultAuthUserDao.getInstance();
-    private static volatile AuthUserService instance;
+    private final AuthUserDao authUserDao;
 
-    public static AuthUserService getInstance() {
-        AuthUserService localInstance = instance;
-        if (localInstance == null) {
-            synchronized (AuthUserService.class) {
-                localInstance = instance;
-                if (localInstance == null) {
-                    instance = localInstance = new DefaultAuthUserService();
-                }
-            }
-        }
-        return localInstance;
+    public DefaultAuthUserService(AuthUserDao authUserDao) {
+        this.authUserDao = authUserDao;
     }
 
+
     @Override
+    @Transactional
     public boolean checkLogin(String login) {
         if (login.equals(authUserDao.checkLoginDao(login))) {
             return true;
@@ -37,6 +30,7 @@ public class DefaultAuthUserService implements AuthUserService {
     }
 
     @Override
+    @Transactional
     public AuthUser checkUser(String login, String password) {
         AuthUser authUser = authUserDao.readUserByLoginDao(login);
         if (authUser == null) {
@@ -52,21 +46,25 @@ public class DefaultAuthUserService implements AuthUserService {
     }
 
     @Override
+    @Transactional
     public Client readClientByAuthUserId(Integer id) {
         return authUserDao.readClientByAuthUserIdDao(id);
     }
 
     @Override
+    @Transactional
     public List<AuthUserWithClient> readListAuthUserWithClient() {
         return authUserDao.readListAuthUserWithClientDao();
     }
 
     @Override
+    @Transactional
     public List<AuthUserWithClient> readListAuthUserWithClientPagination(int currentPage, int maxResultsPage) {
         return authUserDao.readListAuthUserWithClientPaginationDao(currentPage, maxResultsPage);
     }
 
     @Override
+    @Transactional
     public int countAuthUserWithClient() {
         return authUserDao.countAuthUserWithClientDao();
     }

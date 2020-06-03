@@ -9,6 +9,13 @@ import com.github.egorovag.hotelreserv.service.BlackListUsersService;
 import com.github.egorovag.hotelreserv.service.AuthUserService;
 import com.github.egorovag.hotelreserv.service.ClientService;
 import com.github.egorovag.hotelreserv.service.OrderService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import webUtils.WebUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,33 +25,34 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/registratedUsers")
-public class RegisteredUsersServlet extends HttpServlet {
+@Controller
+@RequestMapping("/registratedUsers")
+public class RegisteredUsersServlet {
+
+    private static final Logger log = LoggerFactory.getLogger(RegisteredUsersServlet.class);
+
     private AuthUserService checkUserService;
     private ClientService clientService;
-    private BlackListUsersService blackListUsersService;
-    private OrderService orderService;
+//    private BlackListUsersService blackListUsersService;
+//    private OrderService orderService;
 
-    @Override
-    public void init() throws ServletException {
-        checkUserService = DefaultAuthUserService.getInstance();
-        clientService = DefaultClientService.getInstance();
-        blackListUsersService = DefaultBlackListUsersService.getInstance();
-        orderService = DefaultOrderService.getInstance();
+
+    public RegisteredUsersServlet(AuthUserService checkUserService, ClientService clientService) {
+        this.checkUserService = checkUserService;
+        this.clientService = clientService;
     }
 
-
     // Есть пагинация, теперь это ВСЕ не надо
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    @GetMapping
+    public String doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         List<AuthUserWithClient> authUserWithClients = checkUserService.readListAuthUserWithClient();
         req.getSession().setAttribute("authUserWithClients", authUserWithClients);
-        req.getRequestDispatcher("/registratedUsers.jsp").forward(req, resp);
+        return "/registratedUsers.jsp";
     }
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    @PostMapping
+    public String doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 
         int id = Integer.parseInt(req.getParameter("id"));
@@ -56,6 +64,7 @@ public class RegisteredUsersServlet extends HttpServlet {
 //        List<AuthUserWithClient> authUserWithClients = checkUserService.readListAuthUserWithClient();
 //        req.getSession().setAttribute("authUserWithClients", authUserWithClients);
 //        req.getRequestDispatcher("/paginationRegistratedUsers").forward(req,resp);
-        resp.sendRedirect("/hotel/paginationRegistratedUsers");
+        return "redirect:/hotel/paginationRegistratedUsers";
+//        resp.sendRedirect("/hotel/paginationRegistratedUsers");
     }
 }

@@ -9,39 +9,33 @@ import com.github.egorovag.hotelreserv.model.dto.OrderForClient;
 import com.github.egorovag.hotelreserv.model.enums.Condition;
 import com.github.egorovag.hotelreserv.service.AuthUserService;
 import com.github.egorovag.hotelreserv.service.OrderService;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class DefaultOrderService implements OrderService {
 
-    private OrderDao orderDao = DefaultOrderDao.getInstance();
-    private static volatile OrderService instance;
+    private final OrderDao orderDao;
 
-    public static OrderService getInstance() {
-        OrderService localInstance = instance;
-        if (localInstance == null) {
-            synchronized (AuthUserService.class) {
-                localInstance = instance;
-                if (localInstance == null) {
-                    instance = localInstance = new DefaultOrderService();
-                }
-            }
-        }
-        return localInstance;
+    public DefaultOrderService(OrderDao orderDao) {
+        this.orderDao = orderDao;
     }
 
     @Override
+    @Transactional
     public OrderClient saveOrder(OrderClient orderClient) {
         return orderDao.saveOrderDao(orderClient);
     }
 
     @Override
+    @Transactional
     public List<OrderForAdmin> readOrderList() {
         return orderDao.readOrderListDao();
     }
 
     @Override
+    @Transactional
     public boolean updateOrderList(int order_id, Condition condition) {
         if (orderDao.updateOrderListDao(order_id, condition)) {
             return true;
@@ -50,21 +44,25 @@ public class DefaultOrderService implements OrderService {
     }
 
     @Override
+    @Transactional
     public int readPriceForRoomByOrderId(int orderId) {
         return orderDao.readPriceForRoomByOrderIdDao(orderId);
     }
 
     @Override
+    @Transactional
     public List<OrderForClient> readOrderForClientByClientId(int id) {
         return orderDao.readOrderForClientByClientIdDao(id);
     }
 
     @Override
+    @Transactional
     public List<OrderClient> readOrderClientListByClientId(int clientId) {
         return orderDao.readOrderClientListByClientIdDao(clientId);
     }
 
     @Override
+    @Transactional
     public boolean checkIdOrderByClientOrder(int orderId, int clientId) {
         if (orderDao.checkIdOrderByClientOrderDao(orderId) == clientId) {
             return true;
@@ -74,11 +72,13 @@ public class DefaultOrderService implements OrderService {
     }
 
     @Override
+    @Transactional
     public boolean deleteOrderByOrderId(int orderId) {
         return orderDao.deleteOrderByOrderIdDao(orderId);
     }
 
     @Override
+    @Transactional
     public Condition readConditionByOrderId(int orderId) {
         return orderDao.readConditionByOrderIdDao(orderId);
     }

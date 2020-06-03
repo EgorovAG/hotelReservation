@@ -20,22 +20,17 @@ import static org.mockito.Mockito.when;
 class ServiceHotelServiceTest {
 
     @Mock
-    private static ServiceHotelDao serviceHotelDao;
+    ServiceHotelDao serviceHotelDao;
 
     @InjectMocks
-    private static ServiceHotelService serviceHotelService;
+    DefaultServiceHotelService defaultServiceHotelService;
 
-    Service service = new Service(1, "pool", 50);
-
-    @BeforeAll
-    static void createInstance() {
-        serviceHotelService = DefaultServiceHotelService.getInstance();
-    }
+    private Service service = new Service(1, "pool", 50);
 
     @Test
     void readServiceByTypeOfService() {
         when(serviceHotelDao.readServiceByTypeOfServiceDao(service.getTypeOfService())).thenReturn(service);
-        Service serviceRes = serviceHotelService.readServiceByTypeOfService(service.getTypeOfService());
+        Service serviceRes = defaultServiceHotelService.readServiceByTypeOfService(service.getTypeOfService());
         Assertions.assertEquals(service, serviceRes);
     }
 
@@ -43,7 +38,7 @@ class ServiceHotelServiceTest {
     void saveServiceListForOrder() {
         List<Service> serviceList = new ArrayList<>();
         when(serviceHotelDao.saveServiceListForOrderDao(serviceList, 10)).thenReturn(true);
-        boolean res = serviceHotelService.saveServiceListForOrder(serviceList, 10);
+        boolean res = defaultServiceHotelService.saveServiceListForOrder(serviceList, 10);
         Assertions.assertTrue(res);
     }
 

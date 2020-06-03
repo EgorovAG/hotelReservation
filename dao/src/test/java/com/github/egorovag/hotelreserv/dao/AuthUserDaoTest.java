@@ -1,32 +1,42 @@
 package com.github.egorovag.hotelreserv.dao;
 
+import com.github.egorovag.hotelreserv.dao.config.DaoConfig;
 import com.github.egorovag.hotelreserv.dao.impl.DefaultAuthUserDao;
 import com.github.egorovag.hotelreserv.dao.impl.DefaultClientDao;
 import com.github.egorovag.hotelreserv.model.AuthUser;
-import com.github.egorovag.hotelreserv.model.Room;
 import com.github.egorovag.hotelreserv.model.dto.AuthUserWithClient;
 import com.github.egorovag.hotelreserv.model.Client;
-import com.github.egorovag.hotelreserv.model.enums.ClassRoom;
 import com.github.egorovag.hotelreserv.model.enums.Role;
-import net.sf.ehcache.CacheManager;
+import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = DaoConfig.class)
+@Transactional
 class AuthUserDaoTest {
-    private AuthUserDao authUserDao = DefaultAuthUserDao.getInstance();
-    private ClientDao clientDao = DefaultClientDao.getInstance();
+    @Autowired
+    AuthUserDao authUserDao;
+    @Autowired
+    ClientDao clientDao;
+    @Autowired
+    SessionFactory sessionFactory;
+
     private AuthUser authUser;
-    private Client client;
 
     @BeforeEach
     void saveAuthUserAndClient() {
         authUser = new AuthUser("alex", "pass", Role.USER);
-        client = new Client(null, "Alex", "Alexandrov", "alex@tut.by", "55555", authUser);
+        Client client = new Client(null, "Alex", "Alexandrov", "alex@tut.by", "55555", authUser);
         authUser = clientDao.saveAuthUserAndClientDao(authUser, client);
 
     }
@@ -80,6 +90,15 @@ class AuthUserDaoTest {
         Assertions.assertEquals(1,countResult);
     }
 }
+
+
+
+
+
+
+
+
+
 
 
 

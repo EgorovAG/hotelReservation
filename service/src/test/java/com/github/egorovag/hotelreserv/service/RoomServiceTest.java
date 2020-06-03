@@ -18,22 +18,17 @@ import static org.mockito.Mockito.when;
 class RoomServiceTest {
 
     @Mock
-    private static RoomDao roomDao;
+    RoomDao roomDao;
 
     @InjectMocks
-    private static RoomService roomService;
+    DefaultRoomService defaultRoomService;
 
-    Room room = new Room(1,1,ClassRoom.ECONOM);
-
-    @BeforeAll
-    static void createInstance(){
-        roomService = DefaultRoomService.getInstance();
-    }
+    private Room room = new Room(1,1,ClassRoom.ECONOM);
 
     @Test
     void testReadRoomByNumOfSeatsAndClassOfApDao() {
         when(roomDao.readRoomByNumOfSeatsAndClassOfApDao(room.getId(),room.getClassOfAp())).thenReturn(room);
-        Room roomRes  = roomService.readRoomByNumOfSeatsAndClassOfAp(room.getId(), room.getClassOfAp());
+        Room roomRes  = defaultRoomService.readRoomByNumOfSeatsAndClassOfAp(room.getId(), room.getClassOfAp());
         Assertions.assertEquals(room, roomRes);
     }
 

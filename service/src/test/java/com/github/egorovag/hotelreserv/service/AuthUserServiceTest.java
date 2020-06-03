@@ -25,23 +25,18 @@ import static org.mockito.Mockito.when;
 class AuthUserServiceTest {
 
     @Mock
-    private static AuthUserDao authUserDao;
+    AuthUserDao authUserDao;
 
     @InjectMocks
-    private static AuthUserService authUserService;
+    DefaultAuthUserService defaultAuthUserService;
 
-    AuthUser authUser = new AuthUser(10, "alex", "pass", Role.USER);
-    Client client = new Client(11, "Alex", "Alexandrov", "alex@tut.by", "55555", authUser);
-
-    @BeforeAll
-    static void createInstance() {
-        authUserService = DefaultAuthUserService.getInstance();
-    }
+    private AuthUser authUser = new AuthUser(10, "alex", "pass", Role.USER);
+    private Client client = new Client(11, "Alex", "Alexandrov", "alex@tut.by", "55555", authUser);
 
     @Test
     void testCheckLogin() {
         when(authUserDao.checkLoginDao("alex")).thenReturn("alex");
-        boolean result = authUserService.checkLogin("alex");
+        boolean result = defaultAuthUserService.checkLogin("alex");
         Assertions.assertTrue(result);
     }
 
@@ -49,14 +44,14 @@ class AuthUserServiceTest {
     void checkUser() {
         when(authUserDao.checkLoginDao("alex")).thenReturn("alex");
         when(authUserDao.readUserByLoginDao("alex")).thenReturn(authUser);
-        AuthUser result = authUserService.checkUser("alex", "pass");
+        AuthUser result = defaultAuthUserService.checkUser("alex", "pass");
         Assertions.assertEquals(authUser, result);
     }
 
     @Test
     void testReadClientByAuthUserId() {
         when(authUserDao.readClientByAuthUserIdDao(authUser.getId())).thenReturn(client);
-        Client clientRes = authUserService.readClientByAuthUserId(authUser.getId());
+        Client clientRes = defaultAuthUserService.readClientByAuthUserId(authUser.getId());
         Assertions.assertEquals(client, clientRes);
     }
 
@@ -64,7 +59,7 @@ class AuthUserServiceTest {
     void testReadListClient() {
         List<AuthUserWithClient> authUserList = new ArrayList<>();
         when(authUserDao.readListAuthUserWithClientDao()).thenReturn(authUserList);
-        List<AuthUserWithClient> authUserListRes = authUserService.readListAuthUserWithClient();
+        List<AuthUserWithClient> authUserListRes = defaultAuthUserService.readListAuthUserWithClient();
         Assertions.assertEquals(authUserList, authUserListRes);
     }
 
@@ -72,14 +67,14 @@ class AuthUserServiceTest {
     void testReadListAuthUserWithClientPagination() {
         List<AuthUserWithClient> authUserList = new ArrayList<>();
         when(authUserDao.readListAuthUserWithClientPaginationDao(1, 2)).thenReturn(authUserList);
-        List<AuthUserWithClient> authUserListRes = authUserService.readListAuthUserWithClientPagination(1,2);
+        List<AuthUserWithClient> authUserListRes = defaultAuthUserService.readListAuthUserWithClientPagination(1,2);
         Assertions.assertEquals(authUserList, authUserListRes);
     }
 
     @Test
     void testCountAuthUserWithClient(){
         when(authUserDao.countAuthUserWithClientDao()).thenReturn(10);
-        int res = authUserService.countAuthUserWithClient();
+        int res = defaultAuthUserService.countAuthUserWithClient();
         Assertions.assertEquals(10, res);
     }
 

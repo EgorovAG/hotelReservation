@@ -29,45 +29,45 @@ import static org.mockito.Mockito.when;
 class BlackListUsersServiceTest {
 
     @Mock
-    private static BlackListUsersDao blackListUsersDao;
+    BlackListUsersDao blackListUsersDao;
 
     @InjectMocks
-    private static BlackListUsersService blackListUsersService;
+    DefaultBlackListUsersService defaultBlackListUsersService;
 
-    BlackListUsers blackListUsers = new BlackListUsers(5, 10, "Alex", "Alexandrov");
-    AuthUser authUser = new AuthUser(10, "alex", "pass", Role.USER);
+    private BlackListUsers blackListUsers = new BlackListUsers(5, 10, "Alex", "Alexandrov");
+    private AuthUser authUser = new AuthUser(10, "alex", "pass", Role.USER);
 
-    @BeforeAll
-    static void createInstance() {
-        blackListUsersService = DefaultBlackListUsersService.getInstance();
-    }
+//    @BeforeAll
+//    static void createInstance() {
+//        blackListUsersService = DefaultBlackListUsersService.getInstance();
+//    }
 
     @Test
     void readBlackListUsersLists() {
         List<BlackListUsers> blackListUsers = new ArrayList<>();
         when(blackListUsersDao.readBlackListUsersListsDao()).thenReturn(blackListUsers);
-        List<BlackListUsers> blackListUsersRes = blackListUsersService.readBlackListUsersLists();
+        List<BlackListUsers> blackListUsersRes = defaultBlackListUsersService.readBlackListUsersLists();
         Assertions.assertEquals(blackListUsers, blackListUsersRes);
     }
 
     @Test
     void deleteBlackListUserById() {
         when(blackListUsersDao.deleteBlackListUserByIdDao(blackListUsers.getId())).thenReturn(true);
-        boolean res = blackListUsersService.deleteBlackListUserById(blackListUsers.getId());
+        boolean res = defaultBlackListUsersService.deleteBlackListUserById(blackListUsers.getId());
         Assertions.assertTrue(res);
     }
 
     @Test
     void saveBlackListUserById() {
         when(blackListUsersDao.saveBlackListUserByIdDao(authUser.getId())).thenReturn(true);
-        boolean res = blackListUsersService.saveBlackListUserById(authUser.getId());
+        boolean res = defaultBlackListUsersService.saveBlackListUserById(authUser.getId());
         Assertions.assertTrue(res);
     }
 
     @Test
     void checkBlackUserByUserId() {
         when(blackListUsersDao.checkBlackUserByUserIdDao(authUser.getId())).thenReturn(null);
-        boolean res = blackListUsersService.checkBlackUserByUserId(authUser.getId());
+        boolean res = defaultBlackListUsersService.checkBlackUserByUserId(authUser.getId());
         Assertions.assertFalse(res);
     }
 }

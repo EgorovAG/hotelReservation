@@ -5,6 +5,12 @@ import com.github.egorovag.hotelreserv.service.AuthUserService;
 import com.github.egorovag.hotelreserv.service.ClientService;
 import com.github.egorovag.hotelreserv.service.impl.DefaultAuthUserService;
 import com.github.egorovag.hotelreserv.service.impl.DefaultClientService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import webUtils.WebUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,26 +21,27 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/paginationRegistratedUsers")
-public class PaginationRegistratedUsers extends HttpServlet {
+@Controller
+@RequestMapping("/paginationRegistratedUsers")
+public class PaginationRegistratedUsers  {
+
+    private static final Logger log = LoggerFactory.getLogger(PaginationRegistratedUsers.class);
 
     private AuthUserService authUserService;
-    private ClientService clientService;
-    private AuthUserService checkUserService;
-    int page;
-    int maxResultsPage;
 
-
-    @Override
-    public void init() throws ServletException {
-        authUserService = DefaultAuthUserService.getInstance();
+    public PaginationRegistratedUsers(AuthUserService authUserService) {
+        this.authUserService = authUserService;
     }
 
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    //    private ClientService clientService;
+//    private AuthUserService checkUserService;
+
+
+    @GetMapping
+    public String doGet(HttpServletRequest req, HttpServletResponse resp) {
         HttpSession session = req.getSession();
-        page = 1;
-        maxResultsPage = 4;
+        int page = 1;
+        int maxResultsPage = 4;
         if (req.getParameter("page") != null) {
             page = Integer.parseInt(req.getParameter("page"));
         }
@@ -47,8 +54,6 @@ public class PaginationRegistratedUsers extends HttpServlet {
         session.setAttribute("currentPage", page);
         session.setAttribute("maxResultsPage", maxResultsPage);
 
-        req.getRequestDispatcher("/registratedUsers.jsp").forward(req, resp);
+        return "/registratedUsers.jsp";
     }
-
-
 }

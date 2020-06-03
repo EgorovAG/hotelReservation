@@ -4,6 +4,13 @@ import com.github.egorovag.hotelreserv.model.dto.OrderForAdmin;
 import com.github.egorovag.hotelreserv.model.enums.Condition;
 import com.github.egorovag.hotelreserv.service.impl.DefaultOrderService;
 import com.github.egorovag.hotelreserv.service.OrderService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import webUtils.WebUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,29 +20,30 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/orderList")
-public class OrderListServlet extends HttpServlet {
-    private OrderService orderService;
-    private List<OrderForAdmin> orderForAdmins;
+@Controller
+@RequestMapping("/orderList")
+public class OrderListServlet {
+    private static final Logger log = LoggerFactory.getLogger(LoginServlet.class);
 
-    @Override
-    public void init() throws ServletException {
-        orderService = DefaultOrderService.getInstance();
+    private final OrderService orderService;
+
+    public OrderListServlet(OrderService orderService) {
+        this.orderService = orderService;
     }
 
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    @GetMapping
+    public String doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<OrderForAdmin> orderForAdmins = orderService.readOrderList();
         if(orderForAdmins==null || orderForAdmins.isEmpty()){
             req.setAttribute("orderForAdmins",null);
         } else {
             req.setAttribute("orderForAdmins", orderForAdmins);
         }
-        req.getRequestDispatcher("/orderList.jsp").forward(req,resp);
+        return "/orderList.jsp";
     }
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    @PostMapping
+    public String doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int orderId = Integer.parseInt(req.getParameter("orderId"));
         String cond = req.getParameter("condition");
         if(cond.equals("DELETE")){
@@ -49,8 +57,8 @@ public class OrderListServlet extends HttpServlet {
                 orderService.updateOrderList(orderId, condition);
             }
         }
-        orderForAdmins = orderService.readOrderList();
+        List<OrderForAdmin> orderForAdmins = orderService.readOrderList();
         req.setAttribute("orderForAdmins", orderForAdmins);
-        req.getRequestDispatcher("/orderList.jsp").forward(req, resp);
+        return "/orderList.jsp";
     }
 }

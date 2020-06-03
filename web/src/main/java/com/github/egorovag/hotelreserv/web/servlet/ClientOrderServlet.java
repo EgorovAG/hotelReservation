@@ -9,6 +9,12 @@ import com.github.egorovag.hotelreserv.model.enums.ClassRoom;
 import com.github.egorovag.hotelreserv.model.enums.Condition;
 import com.github.egorovag.hotelreserv.service.*;
 import com.github.egorovag.hotelreserv.service.impl.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import webUtils.WebUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,33 +27,30 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet("/clientOrder")
-public class ClientOrderServlet extends HttpServlet {
+@Controller
+@RequestMapping("/clientOrder")
+public class ClientOrderServlet {
+    private static final Logger log = LoggerFactory.getLogger(ClientOrderServlet.class);
 
-    private OrderService orderService;
-    private BlackListUsersService conditionService;
-    private RoomService roomService;
-    private ClientService clientService;
-    private ServiceHotelService serviceHotelService;
-    private Client client;
-    private Service service;
-    private Room room;
+    private final OrderService orderService;
+//    private BlackListUsersService conditionService;
+    private final RoomService roomService;
+//    private ClientService clientService;
+    private final ServiceHotelService serviceHotelService;
+
+    public ClientOrderServlet(OrderService orderService, RoomService roomService, ServiceHotelService serviceHotelService) {
+        this.orderService = orderService;
+        this.roomService = roomService;
+        this.serviceHotelService = serviceHotelService;
+    }
+
+    //    private Service service;
+//    private Room room;
     //    private ArrayList<OrderClient> orderClients = null;
 
 
-
-    @Override
-    public void init() {
-        orderService = DefaultOrderService.getInstance();
-        conditionService = DefaultBlackListUsersService.getInstance();
-        roomService = DefaultRoomService.getInstance();
-        clientService = DefaultClientService.getInstance();
-        serviceHotelService = DefaultServiceHotelService.getInstance();
-
-    }
-
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    @GetMapping
+    public String doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<Service> serviceList = new ArrayList<>();
         int numOfSeats = Integer.parseInt(req.getParameter("numOfSeats"));
         ClassRoom classOfAp = ClassRoom.valueOf(req.getParameter("classOfAp"));
@@ -62,7 +65,6 @@ public class ClientOrderServlet extends HttpServlet {
         String typeOfService6 = req.getParameter("typeOfService6");
         String typeOfService7 = req.getParameter("typeOfService7");
 
-             //что-то не работает
         if (typeOfService1 != null && !typeOfService1.isEmpty()) {
             Service service1 = serviceHotelService.readServiceByTypeOfService(typeOfService1);
             serviceList.add(service1);
@@ -99,7 +101,7 @@ public class ClientOrderServlet extends HttpServlet {
         }
 
         Room room = roomService.readRoomByNumOfSeatsAndClassOfAp(numOfSeats, classOfAp);
-        client = (Client) req.getSession().getAttribute("client");
+        Client client = (Client) req.getSession().getAttribute("client");
         OrderClient order = new OrderClient(null, startDate, endDate, room.getId(), client.getId(),
                 Condition.CONSIDERATION, room, client);
         order = orderService.saveOrder(order);
@@ -112,7 +114,7 @@ public class ClientOrderServlet extends HttpServlet {
         req.getSession().setAttribute("order", order);
         req.getSession().setAttribute("room", room);
         req.getSession().setAttribute("serviceList", serviceList);
-        req.getRequestDispatcher("/order.jsp").forward(req, resp);
+        return"/order.jsp";
     }
 
 

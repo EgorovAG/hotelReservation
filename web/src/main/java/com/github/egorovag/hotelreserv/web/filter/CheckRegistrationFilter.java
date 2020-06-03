@@ -13,9 +13,9 @@ import java.io.IOException;
 public class CheckRegistrationFilter implements Filter {
 
     private AuthUserService userService;
-    @Override
-    public void init(FilterConfig filterConfig) {
-        userService = DefaultAuthUserService.getInstance();
+
+    public CheckRegistrationFilter(AuthUserService userService) {
+        this.userService = userService;
     }
 
     @Override

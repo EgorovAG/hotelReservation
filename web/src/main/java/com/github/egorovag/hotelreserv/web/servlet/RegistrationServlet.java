@@ -7,6 +7,12 @@ import com.github.egorovag.hotelreserv.service.impl.DefaultClientService;
 import com.github.egorovag.hotelreserv.service.AuthUserService;
 import com.github.egorovag.hotelreserv.service.impl.DefaultAuthUserService;
 import com.github.egorovag.hotelreserv.service.ClientService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import webUtils.WebUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,20 +21,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet("/registration")
-public class RegistrationServlet extends HttpServlet {
+@Controller
+@RequestMapping("/registration")
+public class RegistrationServlet {
 
-    private AuthUserService userService;
+    private static final Logger log = LoggerFactory.getLogger(RegisteredUsersServlet.class);
+
+//    private AuthUserService userService;
     private ClientService clientService;
 
-    @Override
-    public void init() {
-        userService = DefaultAuthUserService.getInstance();
-        clientService = DefaultClientService.getInstance();
+    public RegistrationServlet(ClientService clientService) {
+        this.clientService = clientService;
     }
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    @GetMapping
+    public String doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         String login = req.getParameter("login");
         String password = req.getParameter("password");
@@ -50,6 +57,6 @@ public class RegistrationServlet extends HttpServlet {
 //        clientService.saveClient(client);
 //        req.getSession().setAttribute("authUser", authUser);
         req.getSession().setAttribute("client", client);
-        req.getRequestDispatcher("personalArea.jsp").forward(req, resp);
+        return "personalArea.jsp";
     }
 }

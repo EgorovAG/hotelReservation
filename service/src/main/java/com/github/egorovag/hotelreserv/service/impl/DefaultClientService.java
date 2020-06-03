@@ -5,31 +5,24 @@ import com.github.egorovag.hotelreserv.dao.impl.DefaultClientDao;
 import com.github.egorovag.hotelreserv.model.AuthUser;
 import com.github.egorovag.hotelreserv.model.Client;
 import com.github.egorovag.hotelreserv.service.ClientService;
+import org.springframework.transaction.annotation.Transactional;
 
 public class DefaultClientService implements ClientService {
 
-    ClientDao clientDao = DefaultClientDao.getInstance();
-    private static volatile ClientService instance;
+    private final ClientDao clientDao;
 
-    public static ClientService getInstance() {
-        ClientService localInstance = instance;
-        if (localInstance == null) {
-            synchronized (ClientService.class) {
-                localInstance = instance;
-                if (localInstance == null) {
-                    instance = localInstance = new DefaultClientService();
-                }
-            }
-        }
-        return localInstance;
+    public DefaultClientService(ClientDao clientDao) {
+        this.clientDao = clientDao;
     }
 
     @Override
+    @Transactional
     public AuthUser saveAuthUserAndClient(AuthUser authUser, Client client) {
         return clientDao.saveAuthUserAndClientDao(authUser, client);
     }
 
     @Override
+    @Transactional
     public boolean deleteAuthUserAndClientByUserId(Integer userId) {
         return clientDao.deleteAuthUserAndClientByUserIdDao(userId);
     }

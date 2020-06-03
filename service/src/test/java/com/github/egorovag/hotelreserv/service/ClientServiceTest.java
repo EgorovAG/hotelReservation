@@ -20,31 +20,26 @@ import static org.mockito.Mockito.when;
 class ClientServiceTest {
 
     @Mock
-    private static ClientDao clientDao;
+    ClientDao clientDao;
 
     @InjectMocks
-    private static ClientService clientService;
+    DefaultClientService defaultClientService;
 
-    AuthUser authUser = new AuthUser(10, "alex", "pass", Role.USER);
-    Client client = new Client(11, "Alex", "Alexandrov", "alex@tut.by", "55555", authUser);
+    private AuthUser authUser = new AuthUser(10, "alex", "pass", Role.USER);
+    private Client client = new Client(11, "Alex", "Alexandrov", "alex@tut.by", "55555", authUser);
     AuthUserWithClient authUserWithClient = new AuthUserWithClient(10,"alex","pass","Alex","Alexandrov", "alex@tut.by", "55555");
-
-    @BeforeAll
-    static void createInstance(){
-        clientService = DefaultClientService.getInstance();
-    }
 
     @Test
     void testSaveAuthUserAndClient() {
         when(clientDao.saveAuthUserAndClientDao(authUser,client)).thenReturn(authUser);
-        AuthUser authUserRes = clientService.saveAuthUserAndClient(authUser,client);
+        AuthUser authUserRes = defaultClientService.saveAuthUserAndClient(authUser,client);
         Assertions.assertEquals(authUser, authUserRes);
     }
 
     @Test
     void testDeleteAuthUserAndClientByUserIdDao() {
         when(clientDao.deleteAuthUserAndClientByUserIdDao(authUserWithClient.getId())).thenReturn(true);
-        boolean res = clientService.deleteAuthUserAndClientByUserId(authUserWithClient.getId());
+        boolean res = defaultClientService.deleteAuthUserAndClientByUserId(authUserWithClient.getId());
         Assertions.assertTrue(res);
     }
 }
