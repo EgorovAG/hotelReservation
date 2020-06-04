@@ -1,4 +1,4 @@
-package com.github.egorovag.hotelreserv.web.servlet;
+package com.github.egorovag.hotelreserv.web.controllers;
 
 import com.github.egorovag.hotelreserv.model.AuthUser;
 import com.github.egorovag.hotelreserv.model.Client;
@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 @Controller
-@RequestMapping("/login")
+@RequestMapping
 public class LoginServlet {
     private static final Logger log = LoggerFactory.getLogger(LoginServlet.class);
     private final AuthUserService authUserService;
@@ -28,39 +28,38 @@ public class LoginServlet {
         this.blackListUsersService = blackListUsersService;
     }
 
-    @GetMapping
-    public String doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    @GetMapping("/login")
+    public String doGet(HttpServletRequest req) {
         AuthUser authUser = (AuthUser) req.getSession().getAttribute("authUser");
         if (authUser == null) {
-            RequestDispatcher requestDispatcher = req.getRequestDispatcher("/login.jsp");
-            requestDispatcher.forward(req, resp);
+            return "forward:/login.jsp";
         }
-        return "personalArea.jsp";
+        return "forward:/personalArea.jsp";
     }
 
-    @PostMapping
-    public String doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    @PostMapping("/login")
+    public String doPost(HttpServletRequest req) {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
         AuthUser authUser = authUserService.checkUser(login, password);
         if (authUser == null) {
             req.setAttribute("error", "Вы ввели неверное имя или пароль либо Вам необходимо зарегистрироваться");
-            return "login.jsp";
+            return "forward:/login.jsp";
         } else {
             if (authUser.getLogin().equals("admin")) {
                 req.getSession().setAttribute("authUser", authUser);
-                return "/personalArea.jsp";
+                return "forward:/personalArea.jsp";
             } else {
                 int id = authUser.getId();
                 if (blackListUsersService.checkBlackUserByUserId(id)) {
-                    return "/youAreBlockClient.jsp";
+                    return "forward:/youAreBlockClient.jsp";
                 } else {
                     req.getSession().setAttribute("authUser", authUser);
                     Client client = authUserService.readClientByAuthUserId(authUser.getId());
                     if (client != null) {
                         req.getSession().setAttribute("client", client);
                     }
-                    return "/personalArea.jsp";
+                    return "forward:/personalArea.jsp";
                 }
             }
         }

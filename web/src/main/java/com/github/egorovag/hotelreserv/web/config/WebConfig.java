@@ -2,7 +2,7 @@ package com.github.egorovag.hotelreserv.web.config;
 
 
 import com.github.egorovag.hotelreserv.service.config.ServiceConfig;
-import com.github.egorovag.hotelreserv.web.servlet.*;
+import com.github.egorovag.hotelreserv.web.controllers.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.ViewResolver;
@@ -67,7 +67,7 @@ public class WebConfig {
 
     @Bean
     public RegistrationServlet registrationServlet() {
-        return new RegistrationServlet(serviceConfig.clientService());
+        return new RegistrationServlet(serviceConfig.authUserService(), serviceConfig.clientService());
     }
 
     @Bean

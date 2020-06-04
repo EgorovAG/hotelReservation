@@ -1,58 +1,46 @@
-package com.github.egorovag.hotelreserv.web.servlet;
+package com.github.egorovag.hotelreserv.web.controllers;
 
 import com.github.egorovag.hotelreserv.model.dto.AuthUserWithClient;
-import com.github.egorovag.hotelreserv.service.impl.DefaultBlackListUsersService;
-import com.github.egorovag.hotelreserv.service.impl.DefaultAuthUserService;
-import com.github.egorovag.hotelreserv.service.impl.DefaultClientService;
-import com.github.egorovag.hotelreserv.service.impl.DefaultOrderService;
-import com.github.egorovag.hotelreserv.service.BlackListUsersService;
 import com.github.egorovag.hotelreserv.service.AuthUserService;
 import com.github.egorovag.hotelreserv.service.ClientService;
-import com.github.egorovag.hotelreserv.service.OrderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import webUtils.WebUtils;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.List;
 
 @Controller
-@RequestMapping("/registratedUsers")
+@RequestMapping
 public class RegisteredUsersServlet {
 
     private static final Logger log = LoggerFactory.getLogger(RegisteredUsersServlet.class);
 
-    private AuthUserService checkUserService;
+    private AuthUserService authUserService;
     private ClientService clientService;
 //    private BlackListUsersService blackListUsersService;
 //    private OrderService orderService;
 
 
-    public RegisteredUsersServlet(AuthUserService checkUserService, ClientService clientService) {
-        this.checkUserService = checkUserService;
+    public RegisteredUsersServlet(AuthUserService authUserService, ClientService clientService) {
+        this.authUserService = authUserService;
         this.clientService = clientService;
     }
 
     // Есть пагинация, теперь это ВСЕ не надо
-    @GetMapping
-    public String doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    @GetMapping("/registratedUsers")
+    public String doGet(HttpServletRequest req){
 
-        List<AuthUserWithClient> authUserWithClients = checkUserService.readListAuthUserWithClient();
+        List<AuthUserWithClient> authUserWithClients = authUserService.readListAuthUserWithClient();
         req.getSession().setAttribute("authUserWithClients", authUserWithClients);
-        return "/registratedUsers.jsp";
+        return "forward:/registratedUsers.jsp";
     }
 
-    @PostMapping
-    public String doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    @PostMapping("/registratedUsers")
+    public String doPost(HttpServletRequest req) {
 
 
         int id = Integer.parseInt(req.getParameter("id"));
@@ -64,7 +52,7 @@ public class RegisteredUsersServlet {
 //        List<AuthUserWithClient> authUserWithClients = checkUserService.readListAuthUserWithClient();
 //        req.getSession().setAttribute("authUserWithClients", authUserWithClients);
 //        req.getRequestDispatcher("/paginationRegistratedUsers").forward(req,resp);
-        return "redirect:/hotel/paginationRegistratedUsers";
+        return "redirect:/paginationRegistratedUsers/";
 //        resp.sendRedirect("/hotel/paginationRegistratedUsers");
     }
 }

@@ -1,24 +1,19 @@
-package com.github.egorovag.hotelreserv.web.servlet;
+package com.github.egorovag.hotelreserv.web.controllers;
 
 import com.github.egorovag.hotelreserv.model.Client;
 import com.github.egorovag.hotelreserv.model.OrderClient;
 import com.github.egorovag.hotelreserv.model.Service;
-import com.github.egorovag.hotelreserv.model.dto.OrderForClient;
 import com.github.egorovag.hotelreserv.model.Room;
 import com.github.egorovag.hotelreserv.model.enums.ClassRoom;
 import com.github.egorovag.hotelreserv.model.enums.Condition;
 import com.github.egorovag.hotelreserv.service.*;
-import com.github.egorovag.hotelreserv.service.impl.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import webUtils.WebUtils;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -28,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@RequestMapping("/clientOrder")
+@RequestMapping
 public class ClientOrderServlet {
     private static final Logger log = LoggerFactory.getLogger(ClientOrderServlet.class);
 
@@ -46,11 +41,11 @@ public class ClientOrderServlet {
 
     //    private Service service;
 //    private Room room;
-    //    private ArrayList<OrderClient> orderClients = null;
+//        private ArrayList<OrderClient> orderClients = null;
 
 
-    @GetMapping
-    public String doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    @GetMapping("/clientOrder")
+    public String doGet(HttpServletRequest req) {
         List<Service> serviceList = new ArrayList<>();
         int numOfSeats = Integer.parseInt(req.getParameter("numOfSeats"));
         ClassRoom classOfAp = ClassRoom.valueOf(req.getParameter("classOfAp"));
@@ -114,7 +109,7 @@ public class ClientOrderServlet {
         req.getSession().setAttribute("order", order);
         req.getSession().setAttribute("room", room);
         req.getSession().setAttribute("serviceList", serviceList);
-        return"/order.jsp";
+        return"forward:/order.jsp";
     }
 
 

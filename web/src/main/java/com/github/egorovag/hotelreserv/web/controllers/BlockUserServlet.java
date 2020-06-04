@@ -1,4 +1,4 @@
-package com.github.egorovag.hotelreserv.web.servlet;
+package com.github.egorovag.hotelreserv.web.controllers;
 
 import com.github.egorovag.hotelreserv.service.BlackListUsersService;
 import org.slf4j.Logger;
@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Controller
-@RequestMapping("/blockUser")
+@RequestMapping
 public class BlockUserServlet {
     private static final Logger log = LoggerFactory.getLogger(BlockUserServlet.class);
     private final BlackListUsersService blackListUsersService;
@@ -24,17 +24,16 @@ public class BlockUserServlet {
         this.blackListUsersService = blackListUsersService;
     }
 
-    @PostMapping
-    public String doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    @PostMapping("/blockUser")
+    public String doPost(HttpServletRequest req) {
         int id = Integer.parseInt(req.getParameter("id"));
-        if(blackListUsersService.checkBlackUserByUserId(id)) {
+        if (blackListUsersService.checkBlackUserByUserId(id)) {
             req.setAttribute("error", "Такой пользователь уже заблокирован!");
-            WebUtils.forward("/registratedUsers.jsp", req,resp);
+            return "forward:/registratedUsers.jsp";
         } else {
-            blackListUsersService.saveBlackListUserById(id);}
+            blackListUsersService.saveBlackListUserById(id);
+        }
         req.setAttribute("error", "Выбранный пользователь заблокирован!");
-        return "/registratedUsers.jsp";
-
-
+        return "forward:/registratedUsers.jsp";
     }
 }
