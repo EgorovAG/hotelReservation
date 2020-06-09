@@ -1,5 +1,6 @@
 package com.github.egorovag.hotelreserv.model.dto;
 
+import com.github.egorovag.hotelreserv.model.ServiceHotel;
 import com.github.egorovag.hotelreserv.model.enums.Condition;
 
 import java.time.LocalDate;
@@ -16,8 +17,10 @@ public class OrderForAdmin {
     private LocalDate startDate;
     private LocalDate endDate;
     private Condition condition;
+    private ServiceHotel services;
 
-    public OrderForAdmin(Integer id, String firstName, String secondName, String email, String phone, Integer clientId, LocalDate startDate, LocalDate endDate, Condition condition) {
+    public OrderForAdmin(Integer id, String firstName, String secondName, String email, String phone, Integer clientId,
+                         LocalDate startDate, LocalDate endDate, Condition condition, ServiceHotel services) {
         this.id = id;
         this.firstName = firstName;
         this.secondName = secondName;
@@ -27,6 +30,7 @@ public class OrderForAdmin {
         this.startDate = startDate;
         this.endDate = endDate;
         this.condition = condition;
+        this.services = services;
     }
 
     public OrderForAdmin() {
@@ -102,6 +106,14 @@ public class OrderForAdmin {
 
     public void setCondition(Condition condition) {
         this.condition = condition;
+    }
+
+    public ServiceHotel getServices() {
+        return services;
+    }
+
+    public void setServices(ServiceHotel services) {
+        this.services = services;
     }
 
     @Override

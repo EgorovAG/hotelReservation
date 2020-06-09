@@ -1,6 +1,10 @@
 package com.github.egorovag.hotelreserv.dao.impl;
 
 import com.github.egorovag.hotelreserv.dao.ClientDao;
+import com.github.egorovag.hotelreserv.dao.converter.AuthUserConverter;
+import com.github.egorovag.hotelreserv.dao.converter.ClientConverter;
+import com.github.egorovag.hotelreserv.dao.entity.AuthUserEntity;
+import com.github.egorovag.hotelreserv.dao.entity.ClientEntity;
 import com.github.egorovag.hotelreserv.model.AuthUser;
 import com.github.egorovag.hotelreserv.model.Client;
 import org.hibernate.HibernateException;
@@ -20,12 +24,15 @@ public class DefaultClientDao implements ClientDao {
     @Override
     public AuthUser saveAuthUserAndClientDao(AuthUser authUser, Client client) {
         try {
+            AuthUserEntity authUserEntity = AuthUserConverter.toEntity(authUser);
+            ClientEntity clientEntity = ClientConverter.toEntity(client);
             final Session session = sessionFactory.getCurrentSession();
-            authUser.setClient(client);
-            int id = (int) session.save(authUser);
-            AuthUser authUserRes = session.get(AuthUser.class, id);
+            authUserEntity.setClientEntity(clientEntity);
+            clientEntity.setAuthUserEntity(authUserEntity);
+            int id = (int) session.save(authUserEntity);
+            AuthUserEntity authUserEntityRes = session.get(AuthUserEntity.class, id);
             log.info("AuthUser: {} and Client : {} saved", authUser, client);
-            return authUserRes;
+            return AuthUserConverter.fromEntity(authUserEntityRes);
         } catch (HibernateException e) {
             log.error("Fail to save AuthUser: {} and Client : {} ", authUser, client, e);
             return null;
@@ -36,8 +43,8 @@ public class DefaultClientDao implements ClientDao {
     public boolean deleteAuthUserAndClientByUserIdDao(Integer userId) {
         try {
             final Session session = sessionFactory.getCurrentSession();
-            AuthUser authUser = session.get(AuthUser.class, userId);
-            session.delete(authUser);
+            AuthUserEntity authUserEntity = session.get(AuthUserEntity.class, userId);
+            session.delete(authUserEntity);
             log.info("AuthUser with : {} userId and Client deleted", userId);
             return true;
         } catch (HibernateException e) {

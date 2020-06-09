@@ -2,7 +2,7 @@ package com.github.egorovag.hotelreserv.web.controllers;
 
 import com.github.egorovag.hotelreserv.model.Client;
 import com.github.egorovag.hotelreserv.model.OrderClient;
-import com.github.egorovag.hotelreserv.model.Service;
+import com.github.egorovag.hotelreserv.model.ServiceHotel;
 import com.github.egorovag.hotelreserv.model.Room;
 import com.github.egorovag.hotelreserv.model.enums.ClassRoom;
 import com.github.egorovag.hotelreserv.model.enums.Condition;
@@ -13,10 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -46,7 +43,7 @@ public class ClientOrderServlet {
 
     @GetMapping("/clientOrder")
     public String doGet(HttpServletRequest req) {
-        List<Service> serviceList = new ArrayList<>();
+        List<ServiceHotel> serviceList = new ArrayList<>();
         int numOfSeats = Integer.parseInt(req.getParameter("numOfSeats"));
         ClassRoom classOfAp = ClassRoom.valueOf(req.getParameter("classOfAp"));
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -61,45 +58,45 @@ public class ClientOrderServlet {
         String typeOfService7 = req.getParameter("typeOfService7");
 
         if (typeOfService1 != null && !typeOfService1.isEmpty()) {
-            Service service1 = serviceHotelService.readServiceByTypeOfService(typeOfService1);
+            ServiceHotel service1 = serviceHotelService.readServiceByTypeOfService(typeOfService1);
             serviceList.add(service1);
         }
 
         if (typeOfService2 != null && !typeOfService2.isEmpty()) {
-            Service service2 = serviceHotelService.readServiceByTypeOfService(typeOfService2);
+            ServiceHotel service2 = serviceHotelService.readServiceByTypeOfService(typeOfService2);
             serviceList.add(service2);
         }
 
         if (typeOfService3 != null && !typeOfService3.isEmpty()) {
-            Service service3 = serviceHotelService.readServiceByTypeOfService(typeOfService3);
+            ServiceHotel service3 = serviceHotelService.readServiceByTypeOfService(typeOfService3);
             serviceList.add(service3);
         }
 
         if (typeOfService4 != null && !typeOfService4.isEmpty()) {
-            Service service4 = serviceHotelService.readServiceByTypeOfService(typeOfService4);
+            ServiceHotel service4 = serviceHotelService.readServiceByTypeOfService(typeOfService4);
             serviceList.add(service4);
         }
 
         if (typeOfService5 != null && !typeOfService5.isEmpty()) {
-            Service service5 = serviceHotelService.readServiceByTypeOfService(typeOfService5);
+            ServiceHotel service5 = serviceHotelService.readServiceByTypeOfService(typeOfService5);
             serviceList.add(service5);
         }
 
         if (typeOfService6 != null && !typeOfService6.isEmpty()) {
-            Service service6 = serviceHotelService.readServiceByTypeOfService(typeOfService6);
+            ServiceHotel service6 = serviceHotelService.readServiceByTypeOfService(typeOfService6);
             serviceList.add(service6);
         }
 
         if (typeOfService7 != null && !typeOfService7.isEmpty()) {
-            Service service7 = serviceHotelService.readServiceByTypeOfService(typeOfService7);
+            ServiceHotel service7 = serviceHotelService.readServiceByTypeOfService(typeOfService7);
             serviceList.add(service7);
         }
 
         Room room = roomService.readRoomByNumOfSeatsAndClassOfAp(numOfSeats, classOfAp);
         Client client = (Client) req.getSession().getAttribute("client");
         OrderClient order = new OrderClient(null, startDate, endDate, room.getId(), client.getId(),
-                Condition.CONSIDERATION, room, client);
-        order = orderService.saveOrder(order);
+                Condition.CONSIDERATION);
+        order = orderService.saveOrder(order, room, client);
 
         if(!serviceList.isEmpty()) {
             serviceHotelService.saveServiceListForOrder(serviceList, order.getOrderId());

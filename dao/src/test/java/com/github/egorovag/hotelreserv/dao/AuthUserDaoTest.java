@@ -28,30 +28,22 @@ class AuthUserDaoTest {
     AuthUserDao authUserDao;
     @Autowired
     ClientDao clientDao;
-    @Autowired
-    SessionFactory sessionFactory;
+
 
     private AuthUser authUser;
 
     @BeforeEach
     void saveAuthUserAndClient() {
         authUser = new AuthUser("alex", "pass", Role.USER);
-        Client client = new Client(null, "Alex", "Alexandrov", "alex@tut.by", "55555", authUser);
+        Client client = new Client(null, "Alex", "Alexandrov", "alex@tut.by", "55555");
         authUser = clientDao.saveAuthUserAndClientDao(authUser, client);
 
     }
-
-    @AfterEach
-    void deleteUser() {
-        clientDao.deleteAuthUserAndClientByUserIdDao(authUser.getId());
-    }
-
 
     @Test
     void testCheckLoginDao() {
         String login = authUserDao.checkLoginDao(authUser.getLogin());
         Assertions.assertEquals("alex", login);
-
     }
 
 

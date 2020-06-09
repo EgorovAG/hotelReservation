@@ -37,11 +37,6 @@ class BlackListUsersServiceTest {
     private BlackListUsers blackListUsers = new BlackListUsers(5, 10, "Alex", "Alexandrov");
     private AuthUser authUser = new AuthUser(10, "alex", "pass", Role.USER);
 
-//    @BeforeAll
-//    static void createInstance() {
-//        blackListUsersService = DefaultBlackListUsersService.getInstance();
-//    }
-
     @Test
     void readBlackListUsersLists() {
         List<BlackListUsers> blackListUsers = new ArrayList<>();

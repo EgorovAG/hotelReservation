@@ -9,7 +9,7 @@
         <class>com.github.egorovag.hotelreserv.model.OrderClient</class>
         <class>com.github.egorovag.hotelreserv.model.BlackList</class>
         <class>com.github.egorovag.hotelreserv.model.Room</class>
-        <class>com.github.egorovag.hotelreserv.model.Service</class>
+        <class>com.github.egorovag.hotelreserv.model.ServiceHotel</class>
 
 
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
@@ -44,7 +44,7 @@
 <!--            <class>com.github.egorovag.hotelreserv.model.OrderClient</class>-->
 <!--            <class>com.github.egorovag.hotelreserv.model.BlackList</class>-->
 <!--            <class>com.github.egorovag.hotelreserv.model.Room</class>-->
-<!--            <class>com.github.egorovag.hotelreserv.model.Service</class>-->
+<!--            <class>com.github.egorovag.hotelreserv.model.ServiceHotel</class>-->
 <!--            <exclude-unlisted-classes>true</exclude-unlisted-classes>-->
 <!--            <properties>-->
 <!--                <property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>-->

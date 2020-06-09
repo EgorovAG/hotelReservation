@@ -1,6 +1,9 @@
 package com.github.egorovag.hotelreserv.dao.impl;
 
 import com.github.egorovag.hotelreserv.dao.AuthUserDao;
+import com.github.egorovag.hotelreserv.dao.converter.AuthUserConverter;
+import com.github.egorovag.hotelreserv.dao.converter.ClientConverter;
+import com.github.egorovag.hotelreserv.dao.entity.AuthUserEntity;
 import com.github.egorovag.hotelreserv.model.AuthUser;
 import com.github.egorovag.hotelreserv.model.dto.AuthUserWithClient;
 import com.github.egorovag.hotelreserv.model.Client;
@@ -24,54 +27,51 @@ public class DefaultAuthUserDao implements AuthUserDao {
         this.sessionFactory = sessionFactory;
     }
 
-
     @Override //criteria
     public String checkLoginDao(String login) {
         try {
             final Session session = sessionFactory.getCurrentSession();
             CriteriaBuilder cb = session.getCriteriaBuilder();
-            CriteriaQuery<AuthUser> criteria = cb.createQuery(AuthUser.class);
-            Root<AuthUser> authUserRoot = criteria.from(AuthUser.class);
-            criteria.select(authUserRoot).where(cb.equal(authUserRoot.get("login"), login));
-            AuthUser authUserRes = session.createQuery(criteria).getSingleResult();
+            CriteriaQuery<AuthUserEntity> criteria = cb.createQuery(AuthUserEntity.class);
+            Root<AuthUserEntity> authUserEntityRoot = criteria.from(AuthUserEntity.class);
+            criteria.select(authUserEntityRoot).where(cb.equal(authUserEntityRoot.get("login"), login));
+            AuthUserEntity authUserEntityRes = session.createQuery(criteria).getSingleResult();
             log.info("authUser with login: {} readed", login);
-            return authUserRes.getLogin();
+            return authUserEntityRes.getLogin();
         } catch (NoResultException e) {
             log.error("Fail to read authUser with login: {}", login, e);
         }
         return null;
     }
 
-
     @Override // criteria
     public AuthUser readUserByLoginDao(String login) {
         try {
             final Session session = sessionFactory.getCurrentSession();
             CriteriaBuilder cb = session.getCriteriaBuilder();
-            CriteriaQuery<AuthUser> criteria = cb.createQuery(AuthUser.class);
-            Root<AuthUser> authUserRoot = criteria.from(AuthUser.class);
-            criteria.select(authUserRoot).where(cb.equal(authUserRoot.get("login"), login));
-            AuthUser authUserRes = session.createQuery(criteria).getSingleResult();
+            CriteriaQuery<AuthUserEntity> criteria = cb.createQuery(AuthUserEntity.class);
+            Root<AuthUserEntity> authUserEntityRoot = criteria.from(AuthUserEntity.class);
+            criteria.select(authUserEntityRoot).where(cb.equal(authUserEntityRoot.get("login"), login));
+            AuthUserEntity authUserEntityRes = session.createQuery(criteria).getSingleResult();
             log.info("authuser with login: {} readed", login);
-            return authUserRes;
+            return AuthUserConverter.fromEntity(authUserEntityRes);
         } catch (NoResultException e) {
             log.error("Fail to read authuser with login: {}", login, e);
             return null;
         }
     }
 
-
     @Override //criteria
     public Client readClientByAuthUserIdDao(Integer id) {
         try {
             final Session session = sessionFactory.getCurrentSession();
             CriteriaBuilder cb = session.getCriteriaBuilder();
-            CriteriaQuery<AuthUser> criteria = cb.createQuery(AuthUser.class);
-            Root<AuthUser> authUserRoot = criteria.from(AuthUser.class);
-            criteria.select(authUserRoot).where(cb.equal(authUserRoot.get("id"), id));
-            AuthUser authUserRes = session.createQuery(criteria).getSingleResult();
+            CriteriaQuery<AuthUserEntity> criteria = cb.createQuery(AuthUserEntity.class);
+            Root<AuthUserEntity> authUserEntityRoot = criteria.from(AuthUserEntity.class);
+            criteria.select(authUserEntityRoot).where(cb.equal(authUserEntityRoot.get("id"), id));
+            AuthUserEntity authUserEntityRes = session.createQuery(criteria).getSingleResult();
             log.info("Client with authUserID:{} readed", id);
-            return authUserRes.getClient();
+            return ClientConverter.fromEntity(authUserEntityRes.getClientEntity());
         } catch (HibernateError e) {
             log.error("Fail to read client with authUserID:{}", id, e);
             return null;
@@ -83,7 +83,7 @@ public class DefaultAuthUserDao implements AuthUserDao {
         try {
             final Session session = sessionFactory.getCurrentSession();
             List<AuthUserWithClient> listAU = session.createNativeQuery("select a.id,a.login,a.password,c.firstName," +
-                    "c.secondName,c.email,c.phone from AuthUser a join Client c on a.id = c.user_id")
+                    "c.secondName,c.email,c.phone from AuthUserEntity a join ClientEntity c on a.id = c.user_id")
                     .addScalar("id", StandardBasicTypes.INTEGER)
                     .addScalar("login", StandardBasicTypes.STRING)
                     .addScalar("password", StandardBasicTypes.STRING)
@@ -107,7 +107,7 @@ public class DefaultAuthUserDao implements AuthUserDao {
         try {
             final Session session = sessionFactory.getCurrentSession();
             listAU = session.createNativeQuery("select a.id,a.login,a.password,c.firstName," +
-                    "c.secondName,c.email,c.phone from AuthUser a join Client c on a.id = c.user_id")
+                    "c.secondName,c.email,c.phone from AuthUserEntity a join ClientEntity c on a.id = c.user_id")
                     .addScalar("id", StandardBasicTypes.INTEGER)
                     .addScalar("login", StandardBasicTypes.STRING)
                     .addScalar("password", StandardBasicTypes.STRING)
@@ -131,7 +131,7 @@ public class DefaultAuthUserDao implements AuthUserDao {
     public int countAuthUserWithClientDao() {
         try {
             final Session session = sessionFactory.getCurrentSession();
-            Long countResult = (Long) session.createQuery("SELECT COUNT(*) FROM Client")
+            Long countResult = (Long) session.createQuery("SELECT COUNT(*) FROM ClientEntity")
                     .getSingleResult();
             log.info("CountAuthUserWithClient readed countResult = {}", countResult);
             return countResult.intValue();

@@ -1,4 +1,4 @@
-package com.github.egorovag.hotelreserv.model;
+package com.github.egorovag.hotelreserv.dao.entity;
 
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -10,51 +10,51 @@ import java.util.Objects;
 @Entity
 @Cacheable
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
-@Table(name = "service")
-public class Service {
+@Table(name = "serviceHotel")
+public class ServiceHotelEntity {
 
-    private Integer serviceId;
+    private Integer serviceHotelId;
     private String typeOfService;
     private Integer price;
 
 
-    private List<OrderClient> orderClients = new ArrayList<>();
+    private List<OrderClientEntity> orderClients = new ArrayList<>();
 
-    public Service(String typeOfService) {
+    public ServiceHotelEntity(String typeOfService) {
         this.typeOfService = typeOfService;
     }
 
-    public Service(Integer serviceId, String typeOfService, Integer price) {
-        this.serviceId = serviceId;
+    public ServiceHotelEntity(Integer serviceId, String typeOfService, Integer price) {
+        this.serviceHotelId = serviceId;
         this.typeOfService = typeOfService;
         this.price = price;
     }
 
-    public Service(Integer serviceId, String typeOfService, List<OrderClient> orderClients) {
-        this.serviceId = serviceId;
+    public ServiceHotelEntity(Integer serviceId, String typeOfService, List<OrderClientEntity> orderClients) {
+        this.serviceHotelId = serviceId;
         this.typeOfService = typeOfService;
         this.orderClients = orderClients;
     }
 
-    public Service(Integer serviceId, String typeOfService, Integer price, List<OrderClient> orderClients) {
-        this.serviceId = serviceId;
+    public ServiceHotelEntity(Integer serviceId, String typeOfService, Integer price, List<OrderClientEntity> orderClients) {
+        this.serviceHotelId = serviceId;
         this.typeOfService = typeOfService;
         this.price = price;
         this.orderClients = orderClients;
     }
 
-    public Service() {
+    public ServiceHotelEntity() {
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "service_id")
-    public Integer getServiceId() {
-        return serviceId;
+    @Column(name = "servicehotel_id")
+    public Integer getServiceHotelId() {
+        return serviceHotelId;
     }
 
-    public void setServiceId(Integer serviceId) {
-        this.serviceId = serviceId;
+    public void setServiceHotelId(Integer serviceHotelId) {
+        this.serviceHotelId = serviceHotelId;
     }
 
     @Column
@@ -76,11 +76,11 @@ public class Service {
     }
 
     @ManyToMany(mappedBy = "services", fetch = FetchType.EAGER)
-    public List<OrderClient> getOrderClients() {
+    public List<OrderClientEntity> getOrderClients() {
         return orderClients;
     }
 
-    public void setOrderClients(List<OrderClient> orderClients) {
+    public void setOrderClients(List<OrderClientEntity> orderClients) {
         this.orderClients = orderClients;
     }
 
@@ -88,13 +88,13 @@ public class Service {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Service service = (Service) o;
-        return Objects.equals(serviceId, service.serviceId);
+        ServiceHotelEntity service = (ServiceHotelEntity) o;
+        return Objects.equals(serviceHotelId, service.serviceHotelId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(serviceId);
+        return Objects.hash(serviceHotelId);
     }
 
     @Override

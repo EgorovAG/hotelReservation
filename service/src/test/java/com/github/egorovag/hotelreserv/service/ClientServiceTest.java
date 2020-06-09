@@ -26,8 +26,9 @@ class ClientServiceTest {
     DefaultClientService defaultClientService;
 
     private AuthUser authUser = new AuthUser(10, "alex", "pass", Role.USER);
-    private Client client = new Client(11, "Alex", "Alexandrov", "alex@tut.by", "55555", authUser);
-    AuthUserWithClient authUserWithClient = new AuthUserWithClient(10,"alex","pass","Alex","Alexandrov", "alex@tut.by", "55555");
+    private Client client = new Client(11, "Alex", "Alexandrov", "alex@tut.by", "55555");
+    AuthUserWithClient authUserWithClient = new AuthUserWithClient(10,"alex","pass","Alex",
+            "Alexandrov", "alex@tut.by", "55555");
 
     @Test
     void testSaveAuthUserAndClient() {

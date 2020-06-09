@@ -1,7 +1,15 @@
 package com.github.egorovag.hotelreserv.dao.impl;
 
 import com.github.egorovag.hotelreserv.dao.OrderDao;
+import com.github.egorovag.hotelreserv.dao.converter.ClientConverter;
+import com.github.egorovag.hotelreserv.dao.converter.OrderClientConverter;
+import com.github.egorovag.hotelreserv.dao.converter.RoomConverter;
+import com.github.egorovag.hotelreserv.dao.entity.ClientEntity;
+import com.github.egorovag.hotelreserv.dao.entity.OrderClientEntity;
+import com.github.egorovag.hotelreserv.dao.entity.RoomEntity;
+import com.github.egorovag.hotelreserv.model.Client;
 import com.github.egorovag.hotelreserv.model.OrderClient;
+import com.github.egorovag.hotelreserv.model.Room;
 import com.github.egorovag.hotelreserv.model.dto.OrderForAdmin;
 import com.github.egorovag.hotelreserv.model.dto.OrderForClient;
 import com.github.egorovag.hotelreserv.model.enums.Condition;
@@ -17,6 +25,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Properties;
+import java.util.stream.Collectors;
 
 public class DefaultOrderDao implements OrderDao {
     private static final Logger log = LoggerFactory.getLogger(DefaultOrderDao.class);
@@ -27,13 +36,18 @@ public class DefaultOrderDao implements OrderDao {
     }
 
     @Override
-    public OrderClient saveOrderDao(OrderClient orderClient) {
+    public OrderClient saveOrderDao(OrderClient orderClient, Room room, Client client) {
         try {
+            OrderClientEntity orderClientEntity = OrderClientConverter.toEntity(orderClient);
+            RoomEntity roomEntity = RoomConverter.toEntity(room);
+            ClientEntity clientEntity = ClientConverter.toEntity(client);
             final Session session = sessionFactory.getCurrentSession();
-            int id = (int) session.save(orderClient);
-            orderClient = session.get(OrderClient.class, id);
+            orderClientEntity.setRoom(roomEntity);
+            orderClientEntity.setClient(clientEntity);
+            int id = (int) session.save(orderClientEntity);
+            orderClientEntity = session.get(OrderClientEntity.class, id);
             log.info("Order: {} saved", orderClient);
-            return orderClient;
+            return OrderClientConverter.fromEntity(orderClientEntity);
         } catch (HibernateException e) {
             log.error("Fail to save Order: {}", orderClient, e);
             return null;
@@ -41,7 +55,7 @@ public class DefaultOrderDao implements OrderDao {
     }
 
     @Override
-    public List<OrderForAdmin> readOrderListDao() {
+    public List<OrderForAdmin> readOrderListForAdminDao() {
         Properties params = new Properties();
         params.put("enumClass", "com.github.egorovag.hotelreserv.model.enums.Condition");
         params.put("useNamed", true);
@@ -110,13 +124,31 @@ public class DefaultOrderDao implements OrderDao {
     public List<OrderClient> readOrderClientListByClientIdDao(int clientId) {
         try {
             final Session session = sessionFactory.getCurrentSession();
-            List<OrderClient> orderClients = session.createQuery("from OrderClient as OC where OC.clientId = :clientId ")
+            List<OrderClientEntity> orderClientEntities = session.createQuery("from OrderClientEntity as OC where OC.clientId = :clientId ")
                     .setParameter("clientId", clientId)
                     .getResultList();
             log.info("OrderClient with clientId: {} readed", clientId);
-            return orderClients;
+            return orderClientEntities.stream()
+                    .map(OrderClientConverter::fromEntity)
+                    .collect(Collectors.toList());
         } catch (HibernateException e) {
             log.error("Fail read OrderClient with clientId: {}", clientId, e);
+            return null;
+        }
+    }
+
+    @Override
+    public List<OrderClient> readOrderClientListDao() {
+        try {
+            final Session session = sessionFactory.getCurrentSession();
+            List<OrderClientEntity> orderClientEntities = session.createQuery("from OrderClientEntity")
+                    .getResultList();
+            log.info("OrderClient readed");
+            return orderClientEntities.stream()
+                    .map(OrderClientConverter::fromEntity)
+                    .collect(Collectors.toList());
+        } catch (HibernateException e) {
+            log.error("Fail read OrderClient", e);
             return null;
         }
     }
@@ -125,9 +157,9 @@ public class DefaultOrderDao implements OrderDao {
     public boolean updateOrderListDao(int orderId, Condition condition) {
         try {
             final Session session = sessionFactory.getCurrentSession();
-            OrderClient orderClient = session.get(OrderClient.class, orderId);
-            orderClient.setCondition(condition);
-            session.saveOrUpdate(orderClient);
+            OrderClientEntity orderClientEntity = session.get(OrderClientEntity.class, orderId);
+            orderClientEntity.setCondition(condition);
+            session.saveOrUpdate(orderClientEntity);
             log.info("Condition: {} orderclient with order_id: {} updated", condition, orderId);
             return true;
         } catch (HibernateException e) {
@@ -157,10 +189,10 @@ public class DefaultOrderDao implements OrderDao {
     public boolean deleteOrderByOrderIdDao(int orderId) {
         try {
             final Session session = sessionFactory.getCurrentSession();
-            OrderClient orderClient = session.createQuery("select oC from OrderClient oC where order_id = :orderId", OrderClient.class)
+            OrderClientEntity orderClientEntity = session.createQuery("select oC from OrderClientEntity oC where order_id = :orderId", OrderClientEntity.class)
                     .setParameter("orderId", orderId)
                     .getSingleResult();
-            session.delete(orderClient);
+            session.delete(orderClientEntity);
             log.info("orderclient with client_id:{} deleted", orderId);
             return true;
         } catch (HibernateException e) {
@@ -173,9 +205,9 @@ public class DefaultOrderDao implements OrderDao {
     public int checkIdOrderByClientOrderDao(int orderId) {
         try {
             final Session session = sessionFactory.getCurrentSession();
-            OrderClient orderClient = session.get(OrderClient.class, orderId);
+            OrderClientEntity orderClientEntity = session.get(OrderClientEntity.class, orderId);
             log.info("ClientId with orderId:{} readed ", orderId);
-            return orderClient.getClientId();
+            return orderClientEntity.getClientId();
         } catch (HibernateException e) {
             log.error("Fail read ClientId with orderId:{} ", orderId, e);
             return 0;
@@ -186,9 +218,9 @@ public class DefaultOrderDao implements OrderDao {
     public Condition readConditionByOrderIdDao(int orderId) {
         try {
             final Session session = sessionFactory.getCurrentSession();
-            OrderClient orderClient = session.get(OrderClient.class, orderId);
+            OrderClientEntity orderClientEntity = session.get(OrderClientEntity.class, orderId);
             log.info("Condition with orderId: {} readed", orderId);
-            return orderClient.getCondition();
+            return orderClientEntity.getCondition();
         } catch (HibernateException e) {
             log.error("Fail read condition with orderId: {}", orderId, e);
             return null;

@@ -1,15 +1,7 @@
 package com.github.egorovag.hotelreserv.model;
 
 import com.github.egorovag.hotelreserv.model.enums.Role;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-import javax.persistence.*;
-import java.util.Objects;
-
-@Entity
-@Cacheable
-@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@Table(name = "authUser")
 public class AuthUser {
 
     private Integer id;
@@ -18,8 +10,6 @@ public class AuthUser {
     private Role role;
 
     private Client client;
-    private BlackList blackList;
-
 
     public AuthUser(Integer id, String login, String password, Role role) {
         this.id = id;
@@ -34,23 +24,6 @@ public class AuthUser {
         this.role = role;
     }
 
-    public AuthUser(Integer id, String login, String password, Role role, Client client, BlackList blackList) {
-        this.id = id;
-        this.login = login;
-        this.password = password;
-        this.role = role;
-        this.client = client;
-        this.blackList = blackList;
-    }
-
-
-
-    public AuthUser() {
-    }
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     public Integer getId() {
         return id;
     }
@@ -59,7 +32,6 @@ public class AuthUser {
         this.id = id;
     }
 
-    @Column
     public String getLogin() {
         return login;
     }
@@ -68,7 +40,6 @@ public class AuthUser {
         this.login = login;
     }
 
-    @Column
     public String getPassword() {
         return password;
     }
@@ -77,8 +48,6 @@ public class AuthUser {
         this.password = password;
     }
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "role")
     public Role getRole() {
         return role;
     }
@@ -87,46 +56,11 @@ public class AuthUser {
         this.role = role;
     }
 
-    @OneToOne(mappedBy = "authUser", fetch = FetchType.EAGER,
-            cascade = CascadeType.ALL)
     public Client getClient() {
         return client;
     }
 
     public void setClient(Client client) {
         this.client = client;
-    }
-
-    @OneToOne(mappedBy = "authUser", fetch = FetchType.EAGER,
-            cascade = CascadeType.ALL)
-    public BlackList getBlackList() {
-        return blackList;
-    }
-
-    public void setBlackList(BlackList blackList) {
-        this.blackList = blackList;
-    }
-
-    @Override
-    public String toString() {
-        return "AuthUser{" +
-                "id=" + id +
-                ", login='" + login + '\'' +
-                ", password='" + password + '\'' +
-                ", role=" + role +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        AuthUser authUser = (AuthUser) o;
-        return Objects.equals(id, authUser.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
     }
 }

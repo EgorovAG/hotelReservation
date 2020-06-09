@@ -10,7 +10,6 @@ import com.github.egorovag.hotelreserv.model.enums.ClassRoom;
 import com.github.egorovag.hotelreserv.model.enums.Condition;
 import com.github.egorovag.hotelreserv.service.impl.DefaultOrderService;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -37,20 +36,20 @@ class OrderServiceTest {
     private Room room = new Room(1, 1, ClassRoom.ECONOM);
     private Client client = new Client(5, "Alex", "Alexandrov", "tut@tut.by", "55555", 4);
     private OrderClient orderClient = new OrderClient(10, LocalDate.of(2020,10,05), LocalDate.of(2020,10,07), 1, 5,
-            Condition.CONSIDERATION, room, client);
+            Condition.CONSIDERATION);
 
     @Test
     void testSaveOrder() {
-        when(orderDao.saveOrderDao(orderClient)).thenReturn(orderClient);
-        OrderClient orderResult = defaultOrderService.saveOrder(orderClient);
+        when(orderDao.saveOrderDao(orderClient, room, client)).thenReturn(orderClient);
+        OrderClient orderResult = defaultOrderService.saveOrder(orderClient, room, client);
         Assertions.assertEquals(orderClient, orderResult);
     }
 
     @Test
     void testReadOrderList() {
         List<OrderForAdmin> orderForAdmins = new ArrayList<>();
-        when(orderDao.readOrderListDao()).thenReturn(orderForAdmins);
-        List<OrderForAdmin> orderForAdminsRes = defaultOrderService.readOrderList();
+        when(orderDao.readOrderListForAdminDao()).thenReturn(orderForAdmins);
+        List<OrderForAdmin> orderForAdminsRes = defaultOrderService.readOrderListForAdmin();
         Assertions.assertEquals(orderForAdmins, orderForAdminsRes);
     }
 

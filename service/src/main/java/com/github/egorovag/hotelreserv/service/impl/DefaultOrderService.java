@@ -1,17 +1,15 @@
 package com.github.egorovag.hotelreserv.service.impl;
 
 import com.github.egorovag.hotelreserv.dao.OrderDao;
-import com.github.egorovag.hotelreserv.dao.impl.DefaultOrderDao;
+import com.github.egorovag.hotelreserv.model.Client;
 import com.github.egorovag.hotelreserv.model.OrderClient;
-import com.github.egorovag.hotelreserv.model.Service;
+import com.github.egorovag.hotelreserv.model.Room;
 import com.github.egorovag.hotelreserv.model.dto.OrderForAdmin;
 import com.github.egorovag.hotelreserv.model.dto.OrderForClient;
 import com.github.egorovag.hotelreserv.model.enums.Condition;
-import com.github.egorovag.hotelreserv.service.AuthUserService;
 import com.github.egorovag.hotelreserv.service.OrderService;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class DefaultOrderService implements OrderService {
@@ -24,14 +22,14 @@ public class DefaultOrderService implements OrderService {
 
     @Override
     @Transactional
-    public OrderClient saveOrder(OrderClient orderClient) {
-        return orderDao.saveOrderDao(orderClient);
+    public OrderClient saveOrder(OrderClient orderClient, Room room, Client client) {
+        return orderDao.saveOrderDao(orderClient, room, client);
     }
 
     @Override
     @Transactional
-    public List<OrderForAdmin> readOrderList() {
-        return orderDao.readOrderListDao();
+    public List<OrderForAdmin> readOrderListForAdmin() {
+        return orderDao.readOrderListForAdminDao();
     }
 
     @Override
@@ -59,6 +57,12 @@ public class DefaultOrderService implements OrderService {
     @Transactional
     public List<OrderClient> readOrderClientListByClientId(int clientId) {
         return orderDao.readOrderClientListByClientIdDao(clientId);
+    }
+
+    @Override
+    @Transactional
+    public List<OrderClient> readOrderClientList() {
+        return orderDao.readOrderClientListDao();
     }
 
     @Override

@@ -31,7 +31,7 @@ class AuthUserServiceTest {
     DefaultAuthUserService defaultAuthUserService;
 
     private AuthUser authUser = new AuthUser(10, "alex", "pass", Role.USER);
-    private Client client = new Client(11, "Alex", "Alexandrov", "alex@tut.by", "55555", authUser);
+    private Client client = new Client(11, "Alex", "Alexandrov", "alex@tut.by", "55555");
 
     @Test
     void testCheckLogin() {

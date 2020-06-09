@@ -23,7 +23,6 @@ public class HibernateConfig {
     @Bean
     public DataSource dataSource() {
         final DatasourceSettings datasourceSettings = settingsConfig.datasourceSettings();
-
         final HikariDataSource hikariDataSource = new HikariDataSource();
         hikariDataSource.setJdbcUrl(datasourceSettings.getUrl());
         hikariDataSource.setUsername(datasourceSettings.getUser());
@@ -37,7 +36,7 @@ public class HibernateConfig {
     public LocalSessionFactoryBean sessionFactoryBean() {
         final LocalSessionFactoryBean sf = new LocalSessionFactoryBean();
         sf.setDataSource(dataSource());
-        sf.setPackagesToScan("com.github.egorovag.hotelreserv.model");
+        sf.setPackagesToScan("com.github.egorovag.hotelreserv.dao.entity");
         sf.setHibernateProperties(settingsConfig.hibernateProperties());
         return sf;
     }

@@ -81,13 +81,13 @@ create table IF NOT EXISTS orderClient
     constraint orderClient_room_id_fk foreign key (room_id) references room (id)
 );
 
-create table IF NOT EXISTS service
+create table IF NOT EXISTS serviceHotel
 (
-    service_id    int(64) auto_increment PRIMARY KEY,
+    serviceHotel_id    int(64) auto_increment PRIMARY KEY,
     typeOfService varchar(50) not null,
     price         int(64)     not null
 );
-insert into service( typeOfService, price)
+insert into serviceHotel( typeOfService, price)
 values ('pool', 50),
        ('wifi', 15),
        ('breakfast', 20),
@@ -97,13 +97,13 @@ values ('pool', 50),
        ('gym', 40);
 
 -- auto-generated definition
-create table orderclient_service
+create table orderClient_serviceHotel
 (
     order_id   int not null,
     service_id int not null,
-    constraint orderclient_service_service_id_FK
-        foreign key (service_id) references service (service_id),
-    constraint orderclient_service_order_id_FK
+    constraint orderClient_serviceHotel_serviceHotel_id_FK
+        foreign key (service_id) references serviceHotel(serviceHotel_id),
+    constraint orderClient_serviceHotel_order_id_FK
         foreign key (order_id) references orderclient (order_id)
 );
 

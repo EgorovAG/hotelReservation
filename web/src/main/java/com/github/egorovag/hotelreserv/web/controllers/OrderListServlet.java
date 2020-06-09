@@ -1,5 +1,6 @@
 package com.github.egorovag.hotelreserv.web.controllers;
 
+import com.github.egorovag.hotelreserv.model.OrderClient;
 import com.github.egorovag.hotelreserv.model.dto.OrderForAdmin;
 import com.github.egorovag.hotelreserv.model.enums.Condition;
 import com.github.egorovag.hotelreserv.service.OrderService;
@@ -10,10 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -29,11 +27,13 @@ public class OrderListServlet {
 
     @GetMapping("/orderList")
     public String doGet(HttpServletRequest req) {
-        List<OrderForAdmin> orderForAdmins = orderService.readOrderList();
+        List<OrderForAdmin> orderForAdmins = orderService.readOrderListForAdmin();
+        List<OrderClient> orderClients = orderService.readOrderClientList();
         if(orderForAdmins==null || orderForAdmins.isEmpty()){
             req.setAttribute("orderForAdmins",null);
         } else {
             req.setAttribute("orderForAdmins", orderForAdmins);
+            req.setAttribute("orderClients", orderClients);
         }
         return "forward:/orderList.jsp";
     }
@@ -44,7 +44,6 @@ public class OrderListServlet {
         String cond = req.getParameter("condition");
         if(cond.equals("DELETE")){
             orderService.deleteOrderByOrderId(orderId);
-
         } else {
             Condition condition = Condition.valueOf(cond);
             if(orderService.readConditionByOrderId(orderId)==Condition.PAID){
@@ -53,8 +52,10 @@ public class OrderListServlet {
                 orderService.updateOrderList(orderId, condition);
             }
         }
-        List<OrderForAdmin> orderForAdmins = orderService.readOrderList();
+        List<OrderForAdmin> orderForAdmins = orderService.readOrderListForAdmin();
+        List<OrderClient> orderClients = orderService.readOrderClientList();
         req.setAttribute("orderForAdmins", orderForAdmins);
+        req.setAttribute("orderClients", orderClients);
         return "forward:/orderList.jsp";
     }
 }

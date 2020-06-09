@@ -1,6 +1,8 @@
 package com.github.egorovag.hotelreserv.dao.impl;
 
 import com.github.egorovag.hotelreserv.dao.BlackListUsersDao;
+import com.github.egorovag.hotelreserv.dao.entity.AuthUserEntity;
+import com.github.egorovag.hotelreserv.dao.entity.BlackListEntity;
 import com.github.egorovag.hotelreserv.model.AuthUser;
 import com.github.egorovag.hotelreserv.model.BlackList;
 import com.github.egorovag.hotelreserv.model.dto.BlackListUsers;
@@ -51,8 +53,8 @@ public class DefaultBlackListUsersDao implements BlackListUsersDao {
     public boolean deleteBlackListUserByIdDao(int id) {
         try {
             final Session session = sessionFactory.getCurrentSession();
-            BlackList blackList = session.get(BlackList.class, id);
-            session.delete(blackList);
+            BlackListEntity blackListEntity = session.get(BlackListEntity.class, id);
+            session.delete(blackListEntity);
             return true;
         } catch (HibernateException e) {
             log.error("Fail to delete user from blackList with id:{}", id);
@@ -64,9 +66,12 @@ public class DefaultBlackListUsersDao implements BlackListUsersDao {
     public boolean saveBlackListUserByIdDao(int userId) {
         try {
             final Session session = sessionFactory.getCurrentSession();
-            AuthUser authUser = session.get(AuthUser.class, userId);
-            BlackList blackList = new BlackList(userId, LocalDate.now(), authUser);
-            session.saveOrUpdate(blackList);
+            AuthUserEntity authUserEntity = session.get(AuthUserEntity.class, userId);
+            BlackListEntity blackListEntity = new BlackListEntity(userId, LocalDate.now(), authUserEntity);
+            authUserEntity.setBlackListEntity(blackListEntity);
+            session.saveOrUpdate(blackListEntity);
+            session.saveOrUpdate(authUserEntity);
+
             log.info("Client with id:{} saved in blackList", userId);
             return true;
         } catch (HibernateException e) {
@@ -79,10 +84,10 @@ public class DefaultBlackListUsersDao implements BlackListUsersDao {
     public Integer checkBlackUserByUserIdDao(int id) {
         try {
             final Session session = sessionFactory.getCurrentSession();
-            AuthUser authUser = session.get(AuthUser.class, id);
+            AuthUserEntity authUserEntity = session.get(AuthUserEntity.class, id);
             log.info("AuthUser with id:{} readed in blackList", id);
-            if (authUser.getBlackList() != null) {
-                return authUser.getBlackList().getId();
+            if (authUserEntity.getBlackListEntity() != null) {
+                return authUserEntity.getBlackListEntity().getId();
             }
         } catch (HibernateException e) {
             log.error("Fail to readed AuthUSer:{} in blackList", id, e);

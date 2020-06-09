@@ -24,18 +24,16 @@ class ClientDaoTest {
     private AuthUser authUser;
     private Client client;
 
-
     @BeforeEach
     void createAuthUserAndClient() {
         authUser = new AuthUser("alex", "pass", Role.USER);
-        client = new Client(null, "Alex","Alexandrov","alex@tut.by","55555",authUser);
+        client = new Client(null, "Alex","Alexandrov","alex@tut.by","55555");
     }
 
     @Test
     void testSaveAuthUserAndClientDao(){
         authUser = clientDao.saveAuthUserAndClientDao(authUser,client);
         Assertions.assertNotNull(authUser);
-        clientDao.deleteAuthUserAndClientByUserIdDao(authUser.getId());
     }
 
     @Test

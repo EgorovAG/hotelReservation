@@ -11,7 +11,7 @@
     <table border="1" width="100%" cellpadding="5">
         <tr>
             <th>№</th>
-<%--            <th>id заказа</th>--%>
+                <%--            <th>id заказа</th>--%>
             <th>Имя</th>
             <th>Фамилия</th>
             <th>email</th>
@@ -30,7 +30,7 @@
             <tr>
                 <td><c:out value="${x}"/>
                     <c:set var="x" value="${x+1}"/></td>
-<%--                <td>${orderForAdmins.id}</td>--%>
+                    <%--                <td>${orderForAdmins.id}</td>--%>
                 <td>${orderForAdmins.firstName}</td>
                 <td>${orderForAdmins.secondName}</td>
                 <td>${orderForAdmins.email}</td>
@@ -39,8 +39,12 @@
                 <td>${orderForAdmins.endDate}</td>
                 <td>${orderForAdmins.condition}</td>
 
-                <td>вставить <br> услуги</td>
-
+                <td><c:forEach var="orderClients" items="${orderClients}">
+                    <c:if test="${orderForAdmins.id == orderClients.orderId}">
+                        <c:out value="${orderClients.services}"/>
+                    </c:if>
+                </c:forEach>
+                </td>
 
 
                 <td>

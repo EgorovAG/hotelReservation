@@ -7,7 +7,7 @@ public class DatasourceSettings {
     @Value("${url}")
     private String url;
 
-    @Value("${username}")
+    @Value("${usernameSp}")
     private String user;
 
     @Value("${password}")
