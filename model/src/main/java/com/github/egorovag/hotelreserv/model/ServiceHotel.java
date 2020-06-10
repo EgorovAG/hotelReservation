@@ -35,4 +35,9 @@ public class ServiceHotel {
     public void setPrice(Integer price) {
         this.price = price;
     }
+
+    @Override
+    public String toString() {
+        return typeOfService;
+    }
 }

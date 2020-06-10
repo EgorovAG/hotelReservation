@@ -2,6 +2,8 @@ package com.github.egorovag.hotelreserv.model;
 
 import com.github.egorovag.hotelreserv.model.enums.Condition;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class OrderClient {
@@ -13,6 +15,9 @@ public class OrderClient {
     private Integer clientId;
     private Condition condition;
 
+    private List<ServiceHotel> serviceHotels = new ArrayList<>();
+
+
     public OrderClient(Integer orderId, LocalDate startDate, LocalDate endDate, Integer roomId, Integer clientId,
                        Condition condition) {
         this.orderId = orderId;
@@ -21,6 +26,17 @@ public class OrderClient {
         this.roomId = roomId;
         this.clientId = clientId;
         this.condition = condition;
+    }
+
+    public OrderClient(Integer orderId, LocalDate startDate, LocalDate endDate, Integer roomId, Integer clientId,
+                       Condition condition, List<ServiceHotel> serviceHotels) {
+        this.orderId = orderId;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.roomId = roomId;
+        this.clientId = clientId;
+        this.condition = condition;
+        this.serviceHotels = serviceHotels;
     }
 
     public Integer getOrderId() {
@@ -69,5 +85,13 @@ public class OrderClient {
 
     public void setCondition(Condition condition) {
         this.condition = condition;
+    }
+
+    public List<ServiceHotel> getServiceHotels() {
+        return serviceHotels;
+    }
+
+    public void setServiceHotels(List<ServiceHotel> serviceHotels) {
+        this.serviceHotels = serviceHotels;
     }
 }

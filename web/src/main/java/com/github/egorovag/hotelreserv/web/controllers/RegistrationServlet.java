@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-@RequestMapping
+@RequestMapping()
 public class RegistrationServlet {
 
-    private static final Logger log = LoggerFactory.getLogger(RegisteredUsersServlet.class);
+    private static final Logger log = LoggerFactory.getLogger(RegistrationServlet.class);
 
     private AuthUserService authUserService;
     private ClientService clientService;
@@ -37,26 +37,17 @@ public class RegistrationServlet {
         String email = req.getParameter("email");
         String phone = req.getParameter("phone");
 
-//        AuthUser authUser = userService.saveAuthUser(login, password, Role.USER);
-//        Client client = new Client(firstName, secondName, email, phone, authUser.getId());
-
         if (!authUserService.checkLogin(login)) {
-
-
-//        oneToOne
             AuthUser authUser = new AuthUser(login, password, Role.USER);
-            Client client = new Client(null,firstName, secondName, email, phone);
+            Client client = new Client(null, firstName, secondName, email, phone);
             authUser = clientService.saveAuthUserAndClient(authUser, client);
             req.getSession().setAttribute("authUser", authUser);
             client = new Client(authUser.getClient().getId(), firstName, secondName, email, phone);
-
-//        clientService.saveClient(client);
-//        req.getSession().setAttribute("authUser", authUser);
             req.getSession().setAttribute("client", client);
-            return "forward:/personalArea.jsp";
+            return "personalArea";
         } else {
             req.setAttribute("errorUser", "Пользователь с таким именем уже существует");
-           return "forward:/registration.jsp";
+            return "registration";
         }
     }
 }

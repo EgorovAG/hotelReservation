@@ -1,7 +1,14 @@
 package com.github.egorovag.hotelreserv.dao.converter;
 
 import com.github.egorovag.hotelreserv.dao.entity.OrderClientEntity;
+import com.github.egorovag.hotelreserv.dao.entity.ServiceHotelEntity;
 import com.github.egorovag.hotelreserv.model.OrderClient;
+import com.github.egorovag.hotelreserv.model.ServiceHotel;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class OrderClientConverter {
     public static OrderClient fromEntity(OrderClientEntity orderClientEntity) {
@@ -14,7 +21,10 @@ public class OrderClientConverter {
                 orderClientEntity.getEndDate(),
                 orderClientEntity.getRoomId(),
                 orderClientEntity.getClientId(),
-                orderClientEntity.getCondition());
+                orderClientEntity.getCondition(),
+                new ArrayList<>(orderClientEntity.getServiceHotelEntities().stream()
+                        .map(ServiceHotelConverter::fromEntity)
+                        .collect(Collectors.toList())));
     }
 
     public static OrderClientEntity toEntity(OrderClient orderClient) {

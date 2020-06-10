@@ -23,10 +23,7 @@ public class DefaultAuthUserService implements AuthUserService {
     @Override
     @Transactional
     public boolean checkLogin(String login) {
-        if (login.equals(authUserDao.checkLoginDao(login))) {
-            return true;
-        }
-        return false;
+        return login.equals(authUserDao.checkLoginDao(login));
     }
 
     @Override

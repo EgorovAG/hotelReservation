@@ -41,7 +41,7 @@
 
                 <td><c:forEach var="orderClients" items="${orderClients}">
                     <c:if test="${orderForAdmins.id == orderClients.orderId}">
-                        <c:out value="${orderClients.services}"/>
+                        <c:out value="${orderClients.serviceHotels}"/>
                     </c:if>
                 </c:forEach>
                 </td>

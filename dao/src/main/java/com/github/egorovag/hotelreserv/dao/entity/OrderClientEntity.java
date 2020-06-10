@@ -29,7 +29,8 @@ public class OrderClientEntity {
 
 
     public OrderClientEntity(Integer orderId, LocalDate startDate, LocalDate endDate, Integer roomId, Integer clientId,
-                             Condition condition, RoomEntity roomEntity, ClientEntity clientEntity, List<ServiceHotelEntity> serviceHotelEntities) {
+                             Condition condition, RoomEntity roomEntity, ClientEntity clientEntity,
+                             List<ServiceHotelEntity> serviceHotelEntities) {
         this.orderId = orderId;
         this.startDate = startDate;
         this.endDate = endDate;

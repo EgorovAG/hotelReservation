@@ -59,7 +59,7 @@ public class SFUtil {
         sources.addAnnotatedClass(OrderClient.class);
         sources.addAnnotatedClass(Room.class);
         sources.addAnnotatedClass(BlackList.class);
-        sources.addAnnotatedClass(Service.class);
+        sources.addAnnotatedClass(ServiceHotel.class);
         sources.addAnnotatedClass(AuthUserWithClient.class);
         sources.addAnnotatedClass(BlackListUsers.class);
         sources.addAnnotatedClass(OrderForAdmin.class);
