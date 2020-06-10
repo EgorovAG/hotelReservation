@@ -83,7 +83,7 @@ public class DefaultAuthUserDao implements AuthUserDao {
         try {
             final Session session = sessionFactory.getCurrentSession();
             List<AuthUserWithClient> listAU = session.createNativeQuery("select a.id,a.login,a.password,c.firstName," +
-                    "c.secondName,c.email,c.phone from AuthUserEntity a join ClientEntity c on a.id = c.user_id")
+                    "c.secondName,c.email,c.phone from AuthUser a join Client c on a.id = c.user_id")
                     .addScalar("id", StandardBasicTypes.INTEGER)
                     .addScalar("login", StandardBasicTypes.STRING)
                     .addScalar("password", StandardBasicTypes.STRING)
@@ -107,7 +107,7 @@ public class DefaultAuthUserDao implements AuthUserDao {
         try {
             final Session session = sessionFactory.getCurrentSession();
             listAU = session.createNativeQuery("select a.id,a.login,a.password,c.firstName," +
-                    "c.secondName,c.email,c.phone from AuthUserEntity a join ClientEntity c on a.id = c.user_id")
+                    "c.secondName,c.email,c.phone from AuthUser a join Client c on a.id = c.user_id")
                     .addScalar("id", StandardBasicTypes.INTEGER)
                     .addScalar("login", StandardBasicTypes.STRING)
                     .addScalar("password", StandardBasicTypes.STRING)

@@ -16,7 +16,7 @@ public class BlackListEntity {
     private Integer userId;
     private LocalDate dateBlock;
 
-    private AuthUserEntity authUser;
+    private AuthUserEntity authUserEntity;
 
     public BlackListEntity() {
     }
@@ -33,10 +33,9 @@ public class BlackListEntity {
     }
 
     public BlackListEntity(Integer userId, LocalDate dateBlock, AuthUserEntity authUser) {
-        this.id = id;
         this.userId = userId;
         this.dateBlock = dateBlock;
-        this.authUser = authUser;
+        this.authUserEntity = authUser;
     }
 
     @Id
@@ -69,12 +68,12 @@ public class BlackListEntity {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    public AuthUserEntity getAuthUser() {
-        return authUser;
+    public AuthUserEntity getAuthUserEntity() {
+        return authUserEntity;
     }
 
-    public void setAuthUser(AuthUserEntity authUser) {
-        this.authUser = authUser;
+    public void setAuthUserEntity(AuthUserEntity authUserEntity) {
+        this.authUserEntity = authUserEntity;
     }
 
     @Override

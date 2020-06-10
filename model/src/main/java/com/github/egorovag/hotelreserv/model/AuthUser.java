@@ -24,6 +24,14 @@ public class AuthUser {
         this.role = role;
     }
 
+    public AuthUser(Integer id, String login, String password, Role role, Client client) {
+        this.id = id;
+        this.login = login;
+        this.password = password;
+        this.role = role;
+        this.client = client;
+    }
+
     public Integer getId() {
         return id;
     }

@@ -2,7 +2,6 @@ package com.github.egorovag.hotelreserv.model;
 
 import com.github.egorovag.hotelreserv.model.enums.ClassRoom;
 
-
 public class Room {
     private Integer id;
     private Integer numOfSeats;
@@ -10,6 +9,10 @@ public class Room {
     private Integer price;
 
     public Room(Integer id, Integer numOfSeats, ClassRoom classOfAp, Integer price) {
+        this.id = id;
+        this.numOfSeats = numOfSeats;
+        this.classOfAp = classOfAp;
+        this.price = price;
     }
 
     public Room(Integer id, Integer numOfSeats, ClassRoom classOfAp) {

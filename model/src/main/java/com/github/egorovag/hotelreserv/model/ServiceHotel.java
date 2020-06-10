@@ -7,6 +7,9 @@ public class ServiceHotel {
     private Integer price;
 
     public ServiceHotel(Integer serviceHotelId, String typeOfService, Integer price) {
+        this.serviceHotelId = serviceHotelId;
+        this.typeOfService = typeOfService;
+        this.price = price;
     }
 
     public Integer getServiceHotelId() {

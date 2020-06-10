@@ -42,8 +42,8 @@ public class DefaultOrderDao implements OrderDao {
             RoomEntity roomEntity = RoomConverter.toEntity(room);
             ClientEntity clientEntity = ClientConverter.toEntity(client);
             final Session session = sessionFactory.getCurrentSession();
-            orderClientEntity.setRoom(roomEntity);
-            orderClientEntity.setClient(clientEntity);
+            orderClientEntity.setRoomEntity(roomEntity);
+            orderClientEntity.setClientEntity(clientEntity);
             int id = (int) session.save(orderClientEntity);
             orderClientEntity = session.get(OrderClientEntity.class, id);
             log.info("Order: {} saved", orderClient);

@@ -12,7 +12,8 @@ public class AuthUserConverter {
                 authUserEntity.getId(),
                 authUserEntity.getLogin(),
                 authUserEntity.getPassword(),
-                authUserEntity.getRole());
+                authUserEntity.getRole(),
+                ClientConverter.fromEntity(authUserEntity.getClientEntity()));
     }
 
     public static AuthUserEntity toEntity(AuthUser authUser) {

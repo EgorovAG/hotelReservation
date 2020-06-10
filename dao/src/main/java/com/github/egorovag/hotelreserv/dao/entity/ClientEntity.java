@@ -112,7 +112,7 @@ public class ClientEntity {
         this.authUserEntity = authUserEntity;
     }
 
-    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "clientEntity", cascade = CascadeType.ALL, orphanRemoval = true)
     public List<OrderClientEntity> getOrderClientEntities() {
         return orderClientEntities;
     }

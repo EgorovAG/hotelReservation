@@ -18,7 +18,7 @@ public class ServiceHotelEntity {
     private Integer price;
 
 
-    private List<OrderClientEntity> orderClients = new ArrayList<>();
+    private List<OrderClientEntity> orderClientEntities = new ArrayList<>();
 
     public ServiceHotelEntity(String typeOfService) {
         this.typeOfService = typeOfService;
@@ -30,17 +30,17 @@ public class ServiceHotelEntity {
         this.price = price;
     }
 
-    public ServiceHotelEntity(Integer serviceId, String typeOfService, List<OrderClientEntity> orderClients) {
+    public ServiceHotelEntity(Integer serviceId, String typeOfService, List<OrderClientEntity> orderClientEntities) {
         this.serviceHotelId = serviceId;
         this.typeOfService = typeOfService;
-        this.orderClients = orderClients;
+        this.orderClientEntities = orderClientEntities;
     }
 
-    public ServiceHotelEntity(Integer serviceId, String typeOfService, Integer price, List<OrderClientEntity> orderClients) {
+    public ServiceHotelEntity(Integer serviceId, String typeOfService, Integer price, List<OrderClientEntity> orderClientEntities) {
         this.serviceHotelId = serviceId;
         this.typeOfService = typeOfService;
         this.price = price;
-        this.orderClients = orderClients;
+        this.orderClientEntities = orderClientEntities;
     }
 
     public ServiceHotelEntity() {
@@ -75,13 +75,13 @@ public class ServiceHotelEntity {
         this.price = price;
     }
 
-    @ManyToMany(mappedBy = "services", fetch = FetchType.EAGER)
-    public List<OrderClientEntity> getOrderClients() {
-        return orderClients;
+    @ManyToMany(mappedBy = "serviceHotelEntities", fetch = FetchType.EAGER)
+    public List<OrderClientEntity> getOrderClientEntities() {
+        return orderClientEntities;
     }
 
-    public void setOrderClients(List<OrderClientEntity> orderClients) {
-        this.orderClients = orderClients;
+    public void setOrderClientEntities(List<OrderClientEntity> orderClientEntities) {
+        this.orderClientEntities = orderClientEntities;
     }
 
     @Override

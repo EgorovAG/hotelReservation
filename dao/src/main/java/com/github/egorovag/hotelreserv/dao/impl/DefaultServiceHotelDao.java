@@ -46,7 +46,7 @@ public class DefaultServiceHotelDao implements ServiceHotelDao {
                     .map(ServiceHotelConverter::toEntity)
                     .collect(Collectors.toList()));
             OrderClientEntity orderClientEntity = session.get(OrderClientEntity.class, orderId);
-            orderClientEntity.getServices().addAll(serviceHotelEntities);
+            orderClientEntity.getServiceHotelEntities().addAll(serviceHotelEntities);
             session.saveOrUpdate(orderClientEntity);
             return true;
         } catch (HibernateException e) {
@@ -59,7 +59,7 @@ public class DefaultServiceHotelDao implements ServiceHotelDao {
         try {
             final Session session = sessionFactory.getCurrentSession();
             OrderClientEntity orderClientEntity = session.get(OrderClientEntity.class, orderId);
-            List<ServiceHotelEntity> serviceHotelEntities = orderClientEntity.getServices();
+            List<ServiceHotelEntity> serviceHotelEntities = orderClientEntity.getServiceHotelEntities();
             return serviceHotelEntities.stream().map(ServiceHotelConverter::fromEntity).collect(Collectors.toList());
         } catch (HibernateException e) {
             return null;

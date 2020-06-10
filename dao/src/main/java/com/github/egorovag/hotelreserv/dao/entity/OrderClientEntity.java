@@ -23,21 +23,22 @@ public class OrderClientEntity {
     private Condition condition;
 
 
-    private RoomEntity room;
-    private ClientEntity client;
-    private List<ServiceHotelEntity> services = new ArrayList<>();
+    private RoomEntity roomEntity;
+    private ClientEntity clientEntity;
+    private List<ServiceHotelEntity> serviceHotelEntities = new ArrayList<>();
 
 
     public OrderClientEntity(Integer orderId, LocalDate startDate, LocalDate endDate, Integer roomId, Integer clientId,
-                             Condition condition, RoomEntity room, ClientEntity client, List<ServiceHotelEntity> serviceList) {
+                             Condition condition, RoomEntity roomEntity, ClientEntity clientEntity, List<ServiceHotelEntity> serviceHotelEntities) {
         this.orderId = orderId;
         this.startDate = startDate;
         this.endDate = endDate;
         this.roomId = roomId;
         this.clientId = clientId;
         this.condition = condition;
-        this.room = room;
-        this.client = client;
+        this.roomEntity = roomEntity;
+        this.clientEntity = clientEntity;
+        this.serviceHotelEntities = serviceHotelEntities;
     }
 
     public OrderClientEntity(Integer orderId, LocalDate startDate, LocalDate endDate, Integer roomId, Integer clientId,
@@ -48,8 +49,8 @@ public class OrderClientEntity {
         this.roomId = roomId;
         this.clientId = clientId;
         this.condition = condition;
-        this.room = room;
-        this.client = client;
+        this.roomEntity = room;
+        this.clientEntity = client;
     }
 
     public OrderClientEntity() {
@@ -116,34 +117,34 @@ public class OrderClientEntity {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_id", referencedColumnName = "id")
-    public RoomEntity getRoom() {
-        return room;
+    public RoomEntity getRoomEntity() {
+        return roomEntity;
     }
 
-    public void setRoom(RoomEntity room) {
-        this.room = room;
+    public void setRoomEntity(RoomEntity room) {
+        this.roomEntity = room;
     }
 
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER )
     @JoinTable(name = "orderclient_servicehotel", joinColumns = {@JoinColumn(name = "order_id")},
             inverseJoinColumns = {@JoinColumn(name = "service_id")}
     )
-    public List<ServiceHotelEntity> getServices() {
-        return services;
+    public List<ServiceHotelEntity> getServiceHotelEntities() {
+        return serviceHotelEntities;
     }
 
-    public void setServices(List<ServiceHotelEntity> services) {
-        this.services = services;
+    public void setServiceHotelEntities(List<ServiceHotelEntity> serviceHotelEntities) {
+        this.serviceHotelEntities = serviceHotelEntities;
     }
 
     @ManyToOne
     @JoinColumn(name = "client_id", referencedColumnName = "id")
-    public ClientEntity getClient() {
-        return client;
+    public ClientEntity getClientEntity() {
+        return clientEntity;
     }
 
-    public void setClient(ClientEntity client) {
-        this.client = client;
+    public void setClientEntity(ClientEntity clientEntity) {
+        this.clientEntity = clientEntity;
     }
 
     @Override

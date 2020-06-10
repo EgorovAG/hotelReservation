@@ -10,8 +10,6 @@ public class Client {
     private String phone;
     private Integer userId;
 
-    private AuthUser authUser;
-
     public Client(Integer id, String firstName, String secondName, String email, String phone) {
         this.id = id;
         this.firstName = firstName;
@@ -75,13 +73,5 @@ public class Client {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
-    }
-
-    public AuthUser getAuthUser() {
-        return authUser;
-    }
-
-    public void setAuthUser(AuthUser authUser) {
-        this.authUser = authUser;
     }
 }

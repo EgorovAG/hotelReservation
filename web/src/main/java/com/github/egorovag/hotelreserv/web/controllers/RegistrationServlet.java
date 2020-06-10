@@ -45,10 +45,10 @@ public class RegistrationServlet {
 
 //        oneToOne
             AuthUser authUser = new AuthUser(login, password, Role.USER);
-            Client client = new Client(null,firstName, secondName, email, phone, authUser);
+            Client client = new Client(null,firstName, secondName, email, phone);
             authUser = clientService.saveAuthUserAndClient(authUser, client);
             req.getSession().setAttribute("authUser", authUser);
-            client = new Client(authUser.getClient().getId(), firstName, secondName, email, phone, authUser);
+            client = new Client(authUser.getClient().getId(), firstName, secondName, email, phone);
 
 //        clientService.saveClient(client);
 //        req.getSession().setAttribute("authUser", authUser);

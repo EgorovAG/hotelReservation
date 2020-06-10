@@ -40,7 +40,7 @@ class RoomDaoTest {
         Room room2 = roomDao.readRoomByNumOfSeatsAndClassOfApDao(numOfSeats, ClassRoom.ECONOM);
         Room room3 = roomDao.readRoomByNumOfSeatsAndClassOfApDao(numOfSeats, ClassRoom.ECONOM);
         int size = CacheManager.ALL_CACHE_MANAGERS.get(0)
-                .getCache("com.github.egorovag.hotelreserv.model.Room").getSize();
+                .getCache("com.github.egorovag.hotelreserv.dao.entity.RoomEntity").getSize();
         Assertions.assertTrue(size > 0);
     }
 }

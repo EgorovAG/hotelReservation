@@ -17,8 +17,8 @@ public class AuthUserEntity {
     private String password;
     private Role role;
 
-    private ClientEntity client;
-    private BlackListEntity blackList;
+    private ClientEntity clientEntity;
+    private BlackListEntity blackListEntity;
 
 
     public AuthUserEntity(Integer id, String login, String password, Role role) {
@@ -34,14 +34,14 @@ public class AuthUserEntity {
         this.role = role;
     }
 
-    public AuthUserEntity(Integer id, String login, String password, Role role, ClientEntity client, BlackListEntity blackList) {
-        this.id = id;
-        this.login = login;
-        this.password = password;
-        this.role = role;
-        this.client = client;
-        this.blackList = blackList;
-    }
+//    public AuthUserEntity(Integer id, String login, String password, Role role, ClientEntity clientEntity, BlackListEntity blackListEntity) {
+//        this.id = id;
+//        this.login = login;
+//        this.password = password;
+//        this.role = role;
+//        this.clientEntity = clientEntity;
+//        this.blackListEntity = blackListEntity;
+//    }
 
 
 
@@ -87,24 +87,24 @@ public class AuthUserEntity {
         this.role = role;
     }
 
-    @OneToOne(mappedBy = "authUser", fetch = FetchType.EAGER,
+    @OneToOne(mappedBy = "authUserEntity", fetch = FetchType.EAGER,
             cascade = CascadeType.ALL)
-    public ClientEntity getClient() {
-        return client;
+    public ClientEntity getClientEntity() {
+        return clientEntity;
     }
 
-    public void setClient(ClientEntity client) {
-        this.client = client;
+    public void setClientEntity(ClientEntity clientEntity) {
+        this.clientEntity = clientEntity;
     }
 
-    @OneToOne(mappedBy = "authUser", fetch = FetchType.EAGER,
+    @OneToOne(mappedBy = "authUserEntity", fetch = FetchType.EAGER,
             cascade = CascadeType.ALL)
-    public BlackListEntity getBlackList() {
-        return blackList;
+    public BlackListEntity getBlackListEntity() {
+        return blackListEntity;
     }
 
-    public void setBlackList(BlackListEntity blackList) {
-        this.blackList = blackList;
+    public void setBlackListEntity(BlackListEntity blackListEntity) {
+        this.blackListEntity = blackListEntity;
     }
 
     @Override

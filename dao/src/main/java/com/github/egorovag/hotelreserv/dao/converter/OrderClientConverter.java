@@ -1,6 +1,5 @@
 package com.github.egorovag.hotelreserv.dao.converter;
 
-import com.github.egorovag.hotelreserv.dao.entity.ClientEntity;
 import com.github.egorovag.hotelreserv.dao.entity.OrderClientEntity;
 import com.github.egorovag.hotelreserv.model.OrderClient;
 
