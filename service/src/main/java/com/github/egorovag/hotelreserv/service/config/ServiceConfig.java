@@ -22,7 +22,7 @@ public class ServiceConfig {
     }
 
     @Bean
-    public BlackListUsersService blackListUsersService() { return new DefaultBlackListUsersService(daoConfig.blackListUsersDao());
+    public BlackListService blackListService() { return new DefaultBlackListService(daoConfig.blackListDao());
     }
 
     @Bean

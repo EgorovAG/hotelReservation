@@ -46,13 +46,13 @@ public class RegisteredUsersServlet {
         int id = Integer.parseInt(req.getParameter("id"));
 //        orderService.deleteOrderByClientId(id); уже не надо с 1к1
 //        blackListUsersService.deleteBlackListUserById(id); уже не надо с 1к1
-        clientService.deleteAuthUserAndClientByUserId(id);
+        clientService.deleteAuthUserAndClientByClientId(id);
 //        сlientService.deleteClientById(id); // из-за hiber уже не надо
 //        checkUserService.deleteUserById(id);  // из-за hiber уже не надо
 //        List<AuthUserWithClient> authUserWithClients = checkUserService.readListAuthUserWithClient();
 //        req.getSession().setAttribute("authUserWithClients", authUserWithClients);
 //        req.getRequestDispatcher("/paginationRegistratedUsers").forward(req,resp);
-        return "redirect:/paginationRegistratedUsers/";
+        return "redirect:/paginationRegistratedUsers";
 //        resp.sendRedirect("/hotel/paginationRegistratedUsers");
     }
 }

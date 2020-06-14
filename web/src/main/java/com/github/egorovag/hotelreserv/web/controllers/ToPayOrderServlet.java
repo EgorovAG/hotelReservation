@@ -33,7 +33,7 @@ public class ToPayOrderServlet {
     public String doGet(HttpServletRequest req) {
 //        !!!!!!!!!!!!!!!!!
 //        Client client = (Client) req.getSession().getAttribute("client");
-        return "forward:/toPayOrder.jsp";
+        return "toPayOrder";
     }
 
     @PostMapping("/toPayOrder")
@@ -56,13 +56,13 @@ public class ToPayOrderServlet {
                 req.setAttribute("orderForClients", orderForClients);
                 req.setAttribute("orderClients", orderClients);
                 req.setAttribute("Error", "Заказ удален!");
-                return "forward:/statusOrderNEW.jsp";
+                return "statusOrderNEW";
             } else {
                 req.setAttribute("Error", "Заказа с таким id у Вас нет!");
                 orderForClients = orderService.readOrderForClientByClientId(clientId);
                 req.setAttribute("orderForClients", orderForClients);
 
-                return "forward:/statusOrderNEW.jsp";
+                return "statusOrderNEW";
             }
 //            req.getSession().setAttribute("orderId", orderId);
 //            int price = iorderService.readPriceByOrderId(orderId);
@@ -81,22 +81,22 @@ public class ToPayOrderServlet {
                     req.setAttribute("Error", "Заказ еще не одобрен администратором");
 //                    orderForClients = orderService.readOrderForClientByClientId(clientId);
 //                    req.setAttribute("orderForClients", orderForClients);
-                    return "forward:/statusOrderNEW.jsp";
+                    return "statusOrderNEW";
                 case APPROVED:
                     int price = orderService.readPriceForRoomByOrderId(orderId);
                     req.getSession().setAttribute("price", price);
                     req.getSession().setAttribute("orderId", orderId);
-                    return "forward:/toPay.jsp";
+                    return "toPay";
                 case REJECTED:
                     req.setAttribute("Error", "Ваш заказ отклонен администратором!");
 //                    orderForClients = orderService.readOrderForClientByClientId(clientId);
 //                    req.setAttribute("orderForClients", orderForClients);
-                    return "forward:/statusOrderNEW.jsp";
+                    return "statusOrderNEW";
                 default:
                     req.setAttribute("Error", "Заказ уже оплачен, ждем Вас в нашей гостинице!");
 //                    orderForClients = orderService.readOrderForClientByClientId(clientId);
 //                    req.setAttribute("orderForClients", orderForClients);
-                    return "forward:/statusOrderNEW.jsp";
+                    return "statusOrderNEW";
             }
         }
     }

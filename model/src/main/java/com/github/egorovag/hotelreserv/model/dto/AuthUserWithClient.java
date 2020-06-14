@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class AuthUserWithClient {
 
-    private Integer id;
+    private Integer clientId;
     private String login;
     private String password;
     private String firstName;
@@ -12,8 +12,8 @@ public class AuthUserWithClient {
     private String email;
     private String phone;
 
-    public AuthUserWithClient(Integer id, String login, String password, String firstName, String secondName, String email, String phone) {
-        this.id = id;
+    public AuthUserWithClient(Integer clientId, String login, String password, String firstName, String secondName, String email, String phone) {
+        this.clientId = clientId;
         this.login = login;
         this.password = password;
         this.firstName = firstName;
@@ -25,12 +25,12 @@ public class AuthUserWithClient {
     public AuthUserWithClient() {
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getClientId() {
+        return clientId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setClientId(Integer clientId) {
+        this.clientId = clientId;
     }
 
     public String getLogin() {
@@ -83,7 +83,7 @@ public class AuthUserWithClient {
 
     @Override
     public String toString() {
-        return   "id=" + id +
+        return   "clientId=" + clientId +
                 ", Логин=" + login +
                 ", Пароль=" + password +
                 ", Имя=" + firstName +
@@ -97,11 +97,11 @@ public class AuthUserWithClient {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AuthUserWithClient that = (AuthUserWithClient) o;
-        return Objects.equals(id, that.id);
+        return Objects.equals(clientId, that.clientId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(clientId);
     }
 }

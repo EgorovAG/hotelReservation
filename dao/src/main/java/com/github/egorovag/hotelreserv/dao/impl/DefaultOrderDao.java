@@ -142,6 +142,7 @@ public class DefaultOrderDao implements OrderDao {
         try {
             final Session session = sessionFactory.getCurrentSession();
             List<OrderClientEntity> orderClientEntities = session.createQuery("from OrderClientEntity")
+                    .setCacheable(true)
                     .getResultList();
             log.info("OrderClient readed");
             return orderClientEntities.stream()

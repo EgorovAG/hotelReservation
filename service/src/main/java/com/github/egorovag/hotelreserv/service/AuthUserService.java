@@ -11,10 +11,11 @@ public interface AuthUserService {
 
     AuthUser checkUser(String login, String password);
     boolean checkLogin(String login) ;
-    Client readClientByAuthUserId(Integer id);
     List<AuthUserWithClient> readListAuthUserWithClient();
     List<AuthUserWithClient> readListAuthUserWithClientPagination(int currentPage, int maxResultsOnPage);
     int countAuthUserWithClient();
+    AuthUser saveAuthUserAndClient(AuthUser authUser, Client client);
+
 
 
 //    boolean deleteUserById(int id );

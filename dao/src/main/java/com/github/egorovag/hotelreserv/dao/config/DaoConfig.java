@@ -22,17 +22,17 @@ public class DaoConfig {
 
     @Bean
     public AuthUserDao authUserDao() {
-        return new DefaultAuthUserDao(sessionFactory);
+        return new DefaultAuthUserDao();
     }
 
     @Bean
-    public BlackListUsersDao blackListUsersDao() {
-        return new DefaultBlackListUsersDao(sessionFactory);
+    public BlackListDao blackListDao() {
+        return new DefaultBlackListDao();
     }
 
     @Bean
     public ClientDao clientDao() {
-        return new DefaultClientDao(sessionFactory);
+        return new DefaultClientDao();
     }
 
     @Bean

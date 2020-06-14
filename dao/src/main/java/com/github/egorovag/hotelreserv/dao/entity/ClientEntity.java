@@ -102,7 +102,7 @@ public class ClientEntity {
         this.userId = userId;
     }
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     public AuthUserEntity getAuthUserEntity() {
         return authUserEntity;

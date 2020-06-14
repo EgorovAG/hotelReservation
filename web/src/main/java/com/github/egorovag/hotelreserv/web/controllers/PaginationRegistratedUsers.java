@@ -47,6 +47,6 @@ public class PaginationRegistratedUsers  {
         session.setAttribute("currentPage", page);
         session.setAttribute("maxResultsPage", maxResultsPage);
 
-        return "forward:/registratedUsers.jsp";
+        return "registratedUsers";
     }
 }

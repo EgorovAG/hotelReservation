@@ -42,11 +42,7 @@ public class DefaultAuthUserService implements AuthUserService {
         }
     }
 
-    @Override
-    @Transactional
-    public Client readClientByAuthUserId(Integer id) {
-        return authUserDao.readClientByAuthUserIdDao(id);
-    }
+
 
     @Override
     @Transactional
@@ -64,6 +60,12 @@ public class DefaultAuthUserService implements AuthUserService {
     @Transactional
     public int countAuthUserWithClient() {
         return authUserDao.countAuthUserWithClientDao();
+    }
+
+    @Override
+    @Transactional
+    public AuthUser saveAuthUserAndClient(AuthUser authUser, Client client) {
+        return authUserDao.saveAuthUserAndClientDao(authUser, client);
     }
 
 

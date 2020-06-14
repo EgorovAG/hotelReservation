@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,28 +20,35 @@ import org.springframework.transaction.annotation.Transactional;
 @ContextConfiguration(classes = DaoConfig.class)
 @Transactional
 class ClientDaoTest {
+
+    @Autowired
+    AuthUserDao authUserDao;
     @Autowired
     ClientDao clientDao;
-    private AuthUser authUser;
+
+
+    AuthUser authUser;
     private Client client;
 
     @BeforeEach
     void createAuthUserAndClient() {
         authUser = new AuthUser("alex", "pass", Role.USER);
-        client = new Client(null, "Alex","Alexandrov","alex@tut.by","55555");
-    }
-
-    @Test
-    void testSaveAuthUserAndClientDao(){
-        authUser = clientDao.saveAuthUserAndClientDao(authUser,client);
-        Assertions.assertNotNull(authUser);
-    }
-
-    @Test
-    void testDeleteAuthUserAndClientByUserIdDao(){
-        authUser = clientDao.saveAuthUserAndClientDao(authUser,client);
+        client = new Client(null, "Alex", "Alexandrov", "alex@tut.by", "55555");
+        authUser = authUserDao.saveAuthUserAndClientDao(authUser, client);
         Assertions.assertNotNull(authUser.getClient());
-        boolean res = clientDao.deleteAuthUserAndClientByUserIdDao(authUser.getId());
+    }
+
+    @Test
+    @Rollback(value = false)
+    void testDeleteAuthUserAndClientByUserIdDao() {
+        boolean res = clientDao.deleteAuthUserAndClientByClientIdDao(authUser.getClient().getId());
         Assertions.assertTrue(res);
+    }
+
+    @Test
+    void testReadClientByAuthUserIdDao() {
+        Client clientRes = clientDao.readClientByClientIdDao(authUser.getClient().getId());
+        Assertions.assertEquals("Alex", clientRes.getFirstName());
+        Assertions.assertEquals("55555", clientRes.getPhone());
     }
 }

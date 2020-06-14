@@ -1,9 +1,6 @@
 package com.github.egorovag.hotelreserv.dao;
 
 import com.github.egorovag.hotelreserv.dao.config.DaoConfig;
-import com.github.egorovag.hotelreserv.dao.impl.DefaultAuthUserDao;
-import com.github.egorovag.hotelreserv.dao.impl.DefaultBlackListUsersDao;
-import com.github.egorovag.hotelreserv.dao.impl.DefaultClientDao;
 import com.github.egorovag.hotelreserv.model.AuthUser;
 import com.github.egorovag.hotelreserv.model.dto.BlackListUsers;
 import com.github.egorovag.hotelreserv.model.Client;
@@ -12,6 +9,7 @@ import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,9 +19,11 @@ import java.util.List;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = DaoConfig.class)
 @Transactional
-class BlackListUsersDaoTest {
+class BlackListDaoTest {
     @Autowired
-    BlackListUsersDao blackListUsersDao;
+    AuthUserDao authUserDao;
+    @Autowired
+    BlackListDao blackListUsersDao;
     @Autowired
     private ClientDao clientDao;
     @Autowired
@@ -36,12 +36,12 @@ class BlackListUsersDaoTest {
     void saveUserAndNewClient() {
         authUser = new AuthUser("alex", "pass", Role.USER);
         Client client = new Client(null, "Alex", "Alexandrov", "alex@tut.by", "55555");
-        authUser = clientDao.saveAuthUserAndClientDao(authUser, client);
+        authUser = authUserDao.saveAuthUserAndClientDao(authUser, client);
     }
 
     @Test
     void testReadBlackListUsersListsDao() {
-        blackListUsersDao.saveBlackListUserByIdDao(authUser.getId());
+        blackListUsersDao.saveBlackListByAuthUserIdDao(authUser.getId());
         List<BlackListUsers> listBL = blackListUsersDao.readBlackListUsersListsDao();
         listBL.get(0);
         Assertions.assertEquals(1, listBL.size());
@@ -49,24 +49,24 @@ class BlackListUsersDaoTest {
 
     @Test
     void testDeleteBlackListUserByIdDao() {
-        blackListUsersDao.saveBlackListUserByIdDao(authUser.getId());
+        blackListUsersDao.saveBlackListByAuthUserIdDao(authUser.getId());
         List<BlackListUsers> listBL = blackListUsersDao.readBlackListUsersListsDao();
         BlackListUsers blackListUsers = listBL.get(0);
         int id = blackListUsers.getId();
-        boolean res = blackListUsersDao.deleteBlackListUserByIdDao(id);
+        boolean res = blackListUsersDao.deleteBlackListByIdDao(id);
         Assertions.assertTrue(res);
     }
 
     @Test
     void testSaveBlackListUserDao() {
-        boolean res = blackListUsersDao.saveBlackListUserByIdDao(authUser.getId());
+        boolean res = blackListUsersDao.saveBlackListByAuthUserIdDao(authUser.getId());
         Assertions.assertTrue(res);
     }
 
     @Test
     void testCheckBlackUserByIdDao() {
-        blackListUsersDao.saveBlackListUserByIdDao(authUser.getId());
-        Integer idRes = blackListUsersDao.checkBlackUserByUserIdDao(authUser.getId());
+        blackListUsersDao.saveBlackListByAuthUserIdDao(authUser.getId());
+        Integer idRes = blackListUsersDao.checkBlackUserByIdDao(authUser.getId());
         Assertions.assertNotNull(idRes);
     }
 }

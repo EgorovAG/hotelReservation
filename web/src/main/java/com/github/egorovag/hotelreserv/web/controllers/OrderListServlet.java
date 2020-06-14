@@ -35,7 +35,7 @@ public class OrderListServlet {
             req.setAttribute("orderForAdmins", orderForAdmins);
             req.setAttribute("orderClients", orderClients);
         }
-        return "forward:/orderList.jsp";
+        return "orderList";
     }
 
     @PostMapping("/orderList")
@@ -56,6 +56,6 @@ public class OrderListServlet {
         List<OrderClient> orderClients = orderService.readOrderClientList();
         req.setAttribute("orderForAdmins", orderForAdmins);
         req.setAttribute("orderClients", orderClients);
-        return "forward:/orderList.jsp";
+        return "orderList";
     }
 }

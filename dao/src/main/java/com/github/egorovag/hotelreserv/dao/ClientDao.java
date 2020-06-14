@@ -4,8 +4,10 @@ import com.github.egorovag.hotelreserv.model.AuthUser;
 import com.github.egorovag.hotelreserv.model.Client;
 
 public interface ClientDao {
-    AuthUser saveAuthUserAndClientDao(AuthUser authUser, Client client);
-    boolean deleteAuthUserAndClientByUserIdDao(Integer userId);
+    boolean deleteAuthUserAndClientByClientIdDao(Integer ClientId);
+
+    Client readClientByClientIdDao(Integer id);
+
 
 //    boolean saveClientDao(Client client);
 //    void loadDao();

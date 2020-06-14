@@ -4,9 +4,9 @@ import com.github.egorovag.hotelreserv.model.dto.BlackListUsers;
 
 import java.util.List;
 
-public interface BlackListUsersDao {
+public interface BlackListDao {
      List<BlackListUsers> readBlackListUsersListsDao();
-     boolean deleteBlackListUserByIdDao(int id);
-     boolean saveBlackListUserByIdDao(int id);
-     Integer checkBlackUserByUserIdDao(int id);
+     boolean deleteBlackListByIdDao(int id);
+     boolean saveBlackListByAuthUserIdDao(int id);
+     Integer checkBlackUserByIdDao(int id);
 }

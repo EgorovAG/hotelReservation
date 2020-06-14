@@ -17,6 +17,7 @@
   </parent>
 
   <dependencies>
+
     <dependency>
       <groupId>com.github.egorovag.hotelreserv</groupId>
       <artifactId>model</artifactId>

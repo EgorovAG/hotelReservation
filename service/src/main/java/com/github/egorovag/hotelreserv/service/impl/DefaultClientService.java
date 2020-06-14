@@ -15,16 +15,17 @@ public class DefaultClientService implements ClientService {
         this.clientDao = clientDao;
     }
 
-    @Override
-    @Transactional
-    public AuthUser saveAuthUserAndClient(AuthUser authUser, Client client) {
-        return clientDao.saveAuthUserAndClientDao(authUser, client);
-    }
+
 
     @Override
     @Transactional
-    public boolean deleteAuthUserAndClientByUserId(Integer userId) {
-        return clientDao.deleteAuthUserAndClientByUserIdDao(userId);
+    public boolean deleteAuthUserAndClientByClientId(Integer userId) {
+        return clientDao.deleteAuthUserAndClientByClientIdDao(userId);
+    }
+    @Override
+    @Transactional
+    public Client readClientByClientId(Integer id) {
+        return clientDao.readClientByClientIdDao(id);
     }
 }
 

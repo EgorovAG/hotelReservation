@@ -7,7 +7,6 @@ import com.github.egorovag.hotelreserv.model.dto.AuthUserWithClient;
 import com.github.egorovag.hotelreserv.model.enums.Role;
 import com.github.egorovag.hotelreserv.service.impl.DefaultClientService;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -30,17 +29,19 @@ class ClientServiceTest {
     AuthUserWithClient authUserWithClient = new AuthUserWithClient(10,"alex","pass","Alex",
             "Alexandrov", "alex@tut.by", "55555");
 
+
+
     @Test
-    void testSaveAuthUserAndClient() {
-        when(clientDao.saveAuthUserAndClientDao(authUser,client)).thenReturn(authUser);
-        AuthUser authUserRes = defaultClientService.saveAuthUserAndClient(authUser,client);
-        Assertions.assertEquals(authUser, authUserRes);
+    void testDeleteAuthUserAndClientByClientIdDao() {
+        when(clientDao.deleteAuthUserAndClientByClientIdDao(authUserWithClient.getClientId())).thenReturn(true);
+        boolean res = defaultClientService.deleteAuthUserAndClientByClientId(authUserWithClient.getClientId());
+        Assertions.assertTrue(res);
     }
 
     @Test
-    void testDeleteAuthUserAndClientByUserIdDao() {
-        when(clientDao.deleteAuthUserAndClientByUserIdDao(authUserWithClient.getId())).thenReturn(true);
-        boolean res = defaultClientService.deleteAuthUserAndClientByUserId(authUserWithClient.getId());
-        Assertions.assertTrue(res);
+    void testReadClientByClientId() {
+        when(clientDao.readClientByClientIdDao(authUser.getId())).thenReturn(client);
+        Client clientRes = defaultClientService.readClientByClientId(authUser.getId());
+        Assertions.assertEquals(client, clientRes);
     }
 }

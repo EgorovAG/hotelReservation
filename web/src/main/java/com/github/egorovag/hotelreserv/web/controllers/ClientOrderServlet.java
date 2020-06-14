@@ -106,7 +106,7 @@ public class ClientOrderServlet {
         req.getSession().setAttribute("order", order);
         req.getSession().setAttribute("room", room);
         req.getSession().setAttribute("serviceList", serviceList);
-        return"forward:/order.jsp";
+        return"order";
     }
 
 

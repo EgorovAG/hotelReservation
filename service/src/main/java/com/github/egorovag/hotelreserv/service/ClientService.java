@@ -7,8 +7,11 @@ import java.sql.SQLException;
 
 public interface ClientService {
 
-    AuthUser saveAuthUserAndClient(AuthUser authUser, Client client);
-    boolean deleteAuthUserAndClientByUserId(Integer userId);
+    boolean deleteAuthUserAndClientByClientId(Integer userId);
+
+    Client readClientByClientId(Integer id);
+
+
 
 //    boolean saveClient(Client client) ;
 //    boolean deleteClientById(int id);

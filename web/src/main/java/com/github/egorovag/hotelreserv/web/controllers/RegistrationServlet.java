@@ -20,11 +20,9 @@ public class RegistrationServlet {
     private static final Logger log = LoggerFactory.getLogger(RegistrationServlet.class);
 
     private AuthUserService authUserService;
-    private ClientService clientService;
 
-    public RegistrationServlet(AuthUserService authUserService, ClientService clientService) {
+    public RegistrationServlet(AuthUserService authUserService) {
         this.authUserService = authUserService;
-        this.clientService = clientService;
     }
 
     @PostMapping("/registration")
@@ -40,7 +38,7 @@ public class RegistrationServlet {
         if (!authUserService.checkLogin(login)) {
             AuthUser authUser = new AuthUser(login, password, Role.USER);
             Client client = new Client(null, firstName, secondName, email, phone);
-            authUser = clientService.saveAuthUserAndClient(authUser, client);
+            authUser = authUserService.saveAuthUserAndClient(authUser, client);
             req.getSession().setAttribute("authUser", authUser);
             client = new Client(authUser.getClient().getId(), firstName, secondName, email, phone);
             req.getSession().setAttribute("client", client);

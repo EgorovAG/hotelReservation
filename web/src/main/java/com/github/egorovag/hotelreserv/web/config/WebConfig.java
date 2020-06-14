@@ -21,12 +21,12 @@ public class WebConfig {
 
     @Bean
     public BlackListUsersServlet blackListUsersServlet() {
-        return new BlackListUsersServlet(serviceConfig.blackListUsersService());
+        return new BlackListUsersServlet(serviceConfig.blackListService());
     }
 
     @Bean
     public BlockUserServlet blockUserServlet() {
-        return new BlockUserServlet(serviceConfig.blackListUsersService());
+        return new BlockUserServlet(serviceConfig.blackListService());
     }
 
     @Bean
@@ -42,7 +42,7 @@ public class WebConfig {
 
     @Bean
     public LoginServlet loginServlet() {
-        return new LoginServlet(serviceConfig.authUserService(), serviceConfig.blackListUsersService());
+        return new LoginServlet(serviceConfig.authUserService(), serviceConfig.blackListService(), serviceConfig.clientService());
     }
 
     @Bean
@@ -67,7 +67,7 @@ public class WebConfig {
 
     @Bean
     public RegistrationServlet registrationServlet() {
-        return new RegistrationServlet(serviceConfig.authUserService(), serviceConfig.clientService());
+        return new RegistrationServlet(serviceConfig.authUserService());
     }
 
     @Bean
@@ -79,7 +79,6 @@ public class WebConfig {
     public ToPayOrderServlet toPayOrderServlet() {
         return new ToPayOrderServlet(serviceConfig.orderService());
     }
-
 
     @Bean
     public ViewResolver viewResolver() {

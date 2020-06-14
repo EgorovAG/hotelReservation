@@ -22,6 +22,9 @@ import java.util.List;
 @ContextConfiguration(classes = DaoConfig.class)
 @Transactional
 class ServiceHotelDaoTest {
+
+    @Autowired
+    AuthUserDao authUserDao;
     @Autowired
     ClientDao clientDao;
     @Autowired
@@ -38,7 +41,7 @@ class ServiceHotelDaoTest {
     void saveAuthUserAndClientAndOrderClientWithService() {
         authUser = new AuthUser("alex", "pass", Role.USER);
         client = new Client(null, "Alex", "Alexandrov", "alex@tut.by", "55555");
-        authUser = clientDao.saveAuthUserAndClientDao(authUser, client);
+        authUser = authUserDao.saveAuthUserAndClientDao(authUser, client);
         room = new Room(1, 1, ClassRoom.ECONOM);
         client = new Client(authUser.getClient().getId(), "Alex", "Alexandrov", "alex@tut.by", "55555");
         orderClient = new OrderClient(null, LocalDate.of(2020, 10, 05), LocalDate.of(2020, 10, 07), room.getId(), client.getId(),

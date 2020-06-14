@@ -48,12 +48,7 @@ class AuthUserServiceTest {
         Assertions.assertEquals(authUser, result);
     }
 
-    @Test
-    void testReadClientByAuthUserId() {
-        when(authUserDao.readClientByAuthUserIdDao(authUser.getId())).thenReturn(client);
-        Client clientRes = defaultAuthUserService.readClientByAuthUserId(authUser.getId());
-        Assertions.assertEquals(client, clientRes);
-    }
+
 
     @Test
     void testReadListClient() {
@@ -76,6 +71,12 @@ class AuthUserServiceTest {
         when(authUserDao.countAuthUserWithClientDao()).thenReturn(10);
         int res = defaultAuthUserService.countAuthUserWithClient();
         Assertions.assertEquals(10, res);
+    }
+    @Test
+    void testSaveAuthUserAndClient() {
+        when(authUserDao.saveAuthUserAndClientDao(authUser,client)).thenReturn(authUser);
+        AuthUser authUserRes = defaultAuthUserService.saveAuthUserAndClient(authUser,client);
+        Assertions.assertEquals(authUser, authUserRes);
     }
 
 

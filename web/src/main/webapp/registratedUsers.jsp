@@ -35,11 +35,11 @@
             <td>
 
                 <form action="${pageContext.request.contextPath}/registratedUsers" method="post">
-                    <input id="id1" type="text" name="id" value="${authUserWithClients.id}" hidden="hidden">
+                    <input id="id1" type="text" name="id" value="${authUserWithClients.clientId}" hidden="hidden">
                     <input type="submit" value=Удалить>
                 </form>
                 <form action="${pageContext.request.contextPath}/blockUser" method="post">
-                    <input id="id2" type="text" name="id" value="${authUserWithClients.id}" hidden="hidden">
+                    <input id="id2" type="text" name="id" value="${authUserWithClients.clientId}" hidden="hidden">
                     <input type="submit" value=Заблокировать>
                 </form>
             </td>

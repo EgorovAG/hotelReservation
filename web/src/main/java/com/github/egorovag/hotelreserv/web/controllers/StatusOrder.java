@@ -37,7 +37,7 @@ public class StatusOrder {
             req.setAttribute("orderForClients", orderForClients);
             req.setAttribute("orderClients", orderClients);
         }
-        return "forward:/statusOrderNEW.jsp";
+        return "statusOrderNEW";
 
 //        } else {
 //            req.setAttribute("orderList", orderList);

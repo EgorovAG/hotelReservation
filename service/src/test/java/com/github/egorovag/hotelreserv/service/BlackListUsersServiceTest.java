@@ -1,38 +1,30 @@
 package com.github.egorovag.hotelreserv.service;
 
-import com.github.egorovag.hotelreserv.dao.AuthUserDao;
-import com.github.egorovag.hotelreserv.dao.BlackListUsersDao;
+import com.github.egorovag.hotelreserv.dao.BlackListDao;
 import com.github.egorovag.hotelreserv.model.AuthUser;
-import com.github.egorovag.hotelreserv.model.Client;
 import com.github.egorovag.hotelreserv.model.dto.BlackListUsers;
 import com.github.egorovag.hotelreserv.model.enums.Role;
-import com.github.egorovag.hotelreserv.service.AuthUserService;
-import com.github.egorovag.hotelreserv.service.BlackListUsersService;
-import com.github.egorovag.hotelreserv.service.impl.DefaultBlackListUsersService;
+import com.github.egorovag.hotelreserv.service.impl.DefaultBlackListService;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.booleanThat;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class BlackListUsersServiceTest {
 
     @Mock
-    BlackListUsersDao blackListUsersDao;
+    BlackListDao blackListUsersDao;
 
     @InjectMocks
-    DefaultBlackListUsersService defaultBlackListUsersService;
+    DefaultBlackListService defaultBlackListUsersService;
 
     private BlackListUsers blackListUsers = new BlackListUsers(5, 10, "Alex", "Alexandrov");
     private AuthUser authUser = new AuthUser(10, "alex", "pass", Role.USER);
@@ -47,22 +39,22 @@ class BlackListUsersServiceTest {
 
     @Test
     void deleteBlackListUserById() {
-        when(blackListUsersDao.deleteBlackListUserByIdDao(blackListUsers.getId())).thenReturn(true);
-        boolean res = defaultBlackListUsersService.deleteBlackListUserById(blackListUsers.getId());
+        when(blackListUsersDao.deleteBlackListByIdDao(blackListUsers.getId())).thenReturn(true);
+        boolean res = defaultBlackListUsersService.deleteBlackListById(blackListUsers.getId());
         Assertions.assertTrue(res);
     }
 
     @Test
     void saveBlackListUserById() {
-        when(blackListUsersDao.saveBlackListUserByIdDao(authUser.getId())).thenReturn(true);
-        boolean res = defaultBlackListUsersService.saveBlackListUserById(authUser.getId());
+        when(blackListUsersDao.saveBlackListByAuthUserIdDao(authUser.getId())).thenReturn(true);
+        boolean res = defaultBlackListUsersService.saveBlackListByAuthUserId(authUser.getId());
         Assertions.assertTrue(res);
     }
 
     @Test
     void checkBlackUserByUserId() {
-        when(blackListUsersDao.checkBlackUserByUserIdDao(authUser.getId())).thenReturn(null);
-        boolean res = defaultBlackListUsersService.checkBlackUserByUserId(authUser.getId());
+        when(blackListUsersDao.checkBlackUserByIdDao(authUser.getId())).thenReturn(null);
+        boolean res = defaultBlackListUsersService.checkBlackListByUserId(authUser.getId());
         Assertions.assertFalse(res);
     }
 }

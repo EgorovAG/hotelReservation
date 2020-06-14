@@ -31,12 +31,13 @@ class AuthUserDaoTest {
 
 
     private AuthUser authUser;
+    private Client client;
 
     @BeforeEach
     void saveAuthUserAndClient() {
         authUser = new AuthUser("alex", "pass", Role.USER);
-        Client client = new Client(null, "Alex", "Alexandrov", "alex@tut.by", "55555");
-        authUser = clientDao.saveAuthUserAndClientDao(authUser, client);
+        client = new Client(null, "Alex", "Alexandrov", "alex@tut.by", "55555");
+        authUser = authUserDao.saveAuthUserAndClientDao(authUser, client);
 
     }
 
@@ -55,12 +56,6 @@ class AuthUserDaoTest {
 
     }
 
-    @Test
-    void testReadClientByAuthUserIdDao() {
-        Client clientRes = authUserDao.readClientByAuthUserIdDao(authUser.getId());
-        Assertions.assertEquals("Alex", clientRes.getFirstName());
-        Assertions.assertEquals("55555", clientRes.getPhone());
-    }
 
     @Test
     void testReadListClientDao() {
@@ -71,28 +66,23 @@ class AuthUserDaoTest {
     @Test
     void testReadListAuthUserWithClientPaginationDao() {
         int firstResultPage = 1;
-        int maxResultsPage = 5;
+        int maxResultsPage = 3;
         List<AuthUserWithClient> authUserListsRes = authUserDao.readListAuthUserWithClientPaginationDao(firstResultPage, maxResultsPage);
         Assertions.assertEquals(1, authUserListsRes.size());
     }
 
     @Test
-    void testCountAuthUserWithClientDao(){
+    void testCountAuthUserWithClientDao() {
         int countResult = authUserDao.countAuthUserWithClientDao();
-        Assertions.assertEquals(1,countResult);
+        Assertions.assertEquals(1, countResult);
+    }
+
+    @Test
+    void testSaveAuthUserAndClientDao() {
+        authUser = authUserDao.saveAuthUserAndClientDao(authUser, client);
+        Assertions.assertNotNull(authUser);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 //

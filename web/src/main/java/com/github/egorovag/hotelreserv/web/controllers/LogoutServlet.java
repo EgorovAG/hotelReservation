@@ -21,6 +21,6 @@ public class LogoutServlet {
         req.getSession().invalidate();
 
 //        resp.sendRedirect("/hotel/index.jsp");
-        return "redirect:/index.jsp";
+        return "index";
     }
 }

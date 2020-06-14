@@ -31,11 +31,11 @@ public class CheckPayServlet {
         if (sum == price) {
             int orderId = (int) req.getSession().getAttribute("orderId");
             orderService.updateOrderList(orderId, Condition.PAID);
-            return "forward:/okPay.jsp";
+            return "okPay";
 
         } else {
             req.setAttribute("Error", "Вы ввели неверную сумму, попробуйте еще раз");
-            return "forward:/toPay.jsp";
+            return "toPay";
         }
     }
 }
