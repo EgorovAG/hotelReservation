@@ -6,7 +6,7 @@
 //import javax.servlet.http.HttpServletResponse;
 //import java.io.IOException;
 //
-//@WebFilter({"/registration", "/orderList", "/toPayOrder","/orderList","/statusOrder"})
+//@WebFilter({"/registration", "/orderList", "/toPayOrder", "/statusOrder"})
 //public class AuthFilter implements Filter {
 //
 //    @Override
@@ -20,10 +20,10 @@
 //
 //        Object authUser = req.getSession().getAttribute("authUser");
 //        if (authUser == null) {
-//            resp.sendRedirect("/hotel/registration");
-//            return;
+//            resp.sendRedirect("/hotel/login");
+//        } else {
+//            filterChain.doFilter(req, resp);
 //        }
-//        filterChain.doFilter(req, resp);
 //    }
 //
 //    @Override

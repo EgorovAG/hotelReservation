@@ -1,7 +1,6 @@
 package com.github.egorovag.hotelreserv.service.impl;
 
 import com.github.egorovag.hotelreserv.dao.AuthUserDao;
-import com.github.egorovag.hotelreserv.dao.impl.DefaultAuthUserDao;
 import com.github.egorovag.hotelreserv.model.AuthUser;
 import com.github.egorovag.hotelreserv.model.dto.AuthUserWithClient;
 import com.github.egorovag.hotelreserv.model.Client;

@@ -5,6 +5,7 @@ import java.util.Objects;
 public class AuthUserWithClient {
 
     private Integer clientId;
+    private Integer userId;
     private String login;
     private String password;
     private String firstName;
@@ -12,8 +13,10 @@ public class AuthUserWithClient {
     private String email;
     private String phone;
 
-    public AuthUserWithClient(Integer clientId, String login, String password, String firstName, String secondName, String email, String phone) {
+    public AuthUserWithClient(Integer clientId, Integer userId, String login, String password, String firstName,
+                              String secondName, String email, String phone) {
         this.clientId = clientId;
+        this.userId = userId;
         this.login = login;
         this.password = password;
         this.firstName = firstName;
@@ -31,6 +34,14 @@ public class AuthUserWithClient {
 
     public void setClientId(Integer clientId) {
         this.clientId = clientId;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getLogin() {

@@ -18,7 +18,7 @@ import java.util.List;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class BlackListUsersServiceTest {
+class BlackListServiceTest {
 
     @Mock
     BlackListDao blackListUsersDao;

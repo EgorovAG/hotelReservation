@@ -9,34 +9,34 @@ import java.util.List;
 
 public class DefaultBlackListService implements BlackListService {
 
-    private final BlackListDao blackListUsersDao;
+    private final BlackListDao blackListDao;
 
     public DefaultBlackListService(BlackListDao blackListUsersDao) {
-        this.blackListUsersDao = blackListUsersDao;
+        this.blackListDao = blackListUsersDao;
     }
 
     @Override
     @Transactional
     public List<BlackListUsers> readBlackListUsersLists() {
-        return blackListUsersDao.readBlackListUsersListsDao();
+        return blackListDao.readBlackListUsersListsDao();
     }
 
     @Override
     @Transactional
     public boolean deleteBlackListById(int id) {
-        return blackListUsersDao.deleteBlackListByIdDao(id);
+        return blackListDao.deleteBlackListByIdDao(id);
     }
 
     @Override
     @Transactional
     public boolean saveBlackListByAuthUserId(int userId) {
-        return blackListUsersDao.saveBlackListByAuthUserIdDao(userId);
+        return blackListDao.saveBlackListByAuthUserIdDao(userId);
     }
 
     @Override
     @Transactional
     public boolean checkBlackListByUserId(int id) {
-        if (blackListUsersDao.checkBlackUserByIdDao(id) != null) {
+        if (blackListDao.checkBlackUserByIdDao(id) != null) {
             return true;
         } else {
             return false;

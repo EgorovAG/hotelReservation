@@ -1,0 +1,49 @@
+<jsp:root xmlns="http://www.w3.org/1999/xhtml"
+          xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:s="http://www.springframework.org/tags/form"
+          xmlns:spring="http://www.springframework.org/tags"
+          xmlns:c="http://java.sun.com/jsp/jstl/core"
+          version="2.0">
+
+    <html>
+    <body>
+    <h2 style="text-align: center"><c:out value="Список заблокированных пользователей"/></h2>
+
+    <table border="1" width="100%" cellpadding="5">
+        <tr>
+            <th>№</th>
+            <th>Имя</th>
+            <th>Фамилия</th>
+            <th>Дата блокировки</th>
+            <th>Удалить из черного списка</th>
+        </tr>
+
+        <c:set var="x" value="1"/>
+        <c:forEach var="blackListUsers" items="${blackListUsers}">
+            <tr>
+                <td><c:out value="${x}"/>
+                    <c:set var="x" value="${x+1}"/></td>
+                <td>${blackListUsers.firstName}</td>
+                <td>${blackListUsers.secondName}</td>
+                <td>${blackListUsers.dateBlock}</td>
+                <td>
+                    <form action="${pageContext.request.contextPath}/blackListUsers" method="post">
+                        <button name="id" value="${blackListUsers.id}">Удалить</button>
+                    </form>
+                </td>
+            </tr>
+        </c:forEach>
+    </table>
+
+<!--    <form action="${pageContext.request.contextPath}personalArea.jspx" method="post">-->
+    <form action="${pageContext.request.contextPath}/toPersonalAreaJspx">
+    <input type="submit" value="перейти в личный кабинет"/>
+    </form>
+
+    <a href="${pageContext.request.contextPath}/logout">Logout</a> <br/>
+
+    </body>
+    </html>
+
+</jsp:root>
+

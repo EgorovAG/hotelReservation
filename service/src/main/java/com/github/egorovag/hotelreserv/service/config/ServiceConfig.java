@@ -18,26 +18,32 @@ public class ServiceConfig {
     }
 
     @Bean
-    public AuthUserService authUserService () {return new DefaultAuthUserService(daoConfig.authUserDao());
+    public AuthUserService authUserService() {
+        return new DefaultAuthUserService(daoConfig.authUserDao());
     }
 
     @Bean
-    public BlackListService blackListService() { return new DefaultBlackListService(daoConfig.blackListDao());
+    public BlackListService blackListService() {
+        return new DefaultBlackListService(daoConfig.blackListDao());
     }
 
     @Bean
-    public ClientService clientService() { return new DefaultClientService(daoConfig.clientDao());
+    public ClientService clientService() {
+        return new DefaultClientService(daoConfig.clientDao());
     }
 
     @Bean
-    public OrderService orderService() { return new DefaultOrderService(daoConfig.orderDao());
+    public OrderService orderService() {
+        return new DefaultOrderService(daoConfig.orderDao());
     }
 
     @Bean
-    public RoomService roomService() { return new DefaultRoomService(daoConfig.roomDao());
+    public RoomService roomService() {
+        return new DefaultRoomService(daoConfig.roomDao());
     }
 
     @Bean
-    public ServiceHotelService serviceHotelService() { return new DefaultServiceHotelService(daoConfig.serviceHotelDao());
+    public ServiceHotelService serviceHotelService() {
+        return new DefaultServiceHotelService(daoConfig.serviceHotelDao());
     }
 }

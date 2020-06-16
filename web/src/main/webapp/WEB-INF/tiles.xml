@@ -4,15 +4,71 @@
         "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
 <tiles-definitions>
     <definition name="default" template="/WEB-INF/view/layouts/default.jspx">
-        <put-attribute name="title" value="Web project"/>
+        <!--        <put-attribute name="title" value="Web project"/>-->
         <put-attribute name="header" value="/WEB-INF/view/common/header.jspx"/>
         <put-attribute name="body" value=""/>
         <put-attribute name="footer" value="/WEB-INF/view/common/footer.jspx"/>
     </definition>
 
-    <definition name="persons/main" extends="default">
-        <put-attribute name="title" value="Persons Info"/>
-        <put-attribute name="body" value="/WEB-INF/view/person/main.jspx"/>
+    <definition name="index" extends="default">
+        <put-attribute name="body" value="/WEB-INF/view/page/index.jspx"/>
     </definition>
+
+    <definition name="blackListUsers" extends="default">
+        <put-attribute name="body" value="/WEB-INF/view/page/blackListUsers.jspx"/>
+    </definition>
+
+    <definition name="registratedUsers" extends="default">
+        <put-attribute name="body" value="/WEB-INF/view/page/registratedUsers.jspx"/>
+    </definition>
+
+    <definition name="okPay" extends="default">
+        <put-attribute name="body" value="/WEB-INF/view/page/okPay.jspx"/>
+    </definition>
+
+    <definition name="toPay" extends="default">
+        <put-attribute name="body" value="/WEB-INF/view/page/toPay.jspx"/>
+    </definition>
+
+    <definition name="order" extends="default">
+        <put-attribute name="body" value="/WEB-INF/view/page/order.jspx"/>
+    </definition>
+
+    <definition name="login" extends="default">
+        <put-attribute name="body" value="/WEB-INF/view/page/login.jspx"/>
+    </definition>
+
+    <definition name="personalArea" extends="default">
+        <put-attribute name="body" value="/WEB-INF/view/page/personalArea.jspx"/>
+    </definition>
+
+    <definition name="youAreBlockClient" extends="default">
+        <put-attribute name="body" value="/WEB-INF/view/page/youAreBlockClient.jspx"/>
+    </definition>
+
+    <definition name="orderList" extends="default">
+        <put-attribute name="body" value="/WEB-INF/view/page/orderList.jspx"/>
+    </definition>
+
+    <definition name="paginationRegistratedUsers" extends="default">
+        <put-attribute name="body" value="/WEB-INF/view/page/paginationRegistratedUsers.jspx"/>
+    </definition>
+
+    <definition name="statusOrderNEW" extends="default">
+        <put-attribute name="body" value="/WEB-INF/view/page/statusOrderNEW.jspx"/>
+    </definition>
+
+    <definition name="toPayOrder" extends="default">
+        <put-attribute name="body" value="/WEB-INF/view/page/toPayOrder.jspx"/>
+    </definition>
+
+    <definition name="registration" extends="default">
+        <put-attribute name="body" value="/WEB-INF/view/page/registration.jspx"/>
+    </definition>
+
+    <definition name="clientOrder" extends="default">
+        <put-attribute name="body" value="/WEB-INF/view/page/clientOrder.jspx"/>
+    </definition>
+
 </tiles-definitions>
 

@@ -106,7 +106,12 @@ public class ClientOrderServlet {
         req.getSession().setAttribute("order", order);
         req.getSession().setAttribute("room", room);
         req.getSession().setAttribute("serviceList", serviceList);
-        return"order";
+        return "order";
+    }
+
+    @GetMapping("/toClientOrderJsp")
+    public String toClientOrderJsp(){
+        return "clientOrder";
     }
 
 

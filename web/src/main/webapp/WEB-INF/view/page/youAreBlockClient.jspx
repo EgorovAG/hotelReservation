@@ -1,0 +1,20 @@
+<jsp:root xmlns="http://www.w3.org/1999/xhtml"
+          xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:s="http://www.springframework.org/tags/form"
+          xmlns:spring="http://www.springframework.org/tags"
+          xmlns:c="http://java.sun.com/jsp/jstl/core"
+          version="2.0">
+
+    <html>
+    <body>
+
+    <h3 style="text-align: center"><c:out value="Вы заблокированы и не можете
+     производить никаких действий, обратитесь к администратору"/></h3>
+
+    <br/><br/>
+    <a href="${pageContext.request.contextPath}/logout">Logout</a> <br/>
+
+    </body>
+    </html>
+
+</jsp:root>

@@ -56,6 +56,6 @@ public class OrderListServlet {
         List<OrderClient> orderClients = orderService.readOrderClientList();
         req.setAttribute("orderForAdmins", orderForAdmins);
         req.setAttribute("orderClients", orderClients);
-        return "orderList";
+        return "redirect:/orderList";
     }
 }

@@ -13,20 +13,20 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping
 public class BlockUserServlet {
     private static final Logger log = LoggerFactory.getLogger(BlockUserServlet.class);
-    private final BlackListService blackListUsersService;
+    private final BlackListService blackListService;
 
-    public BlockUserServlet(BlackListService blackListUsersService) {
-        this.blackListUsersService = blackListUsersService;
+    public BlockUserServlet(BlackListService blackListService) {
+        this.blackListService = blackListService;
     }
 
     @PostMapping("/blockUser")
     public String doPost(HttpServletRequest req) {
         int id = Integer.parseInt(req.getParameter("id"));
-        if (blackListUsersService.checkBlackListByUserId(id)) {
+        if (blackListService.checkBlackListByUserId(id)) {
             req.setAttribute("error", "Такой пользователь уже заблокирован!");
             return "registratedUsers";
         } else {
-            blackListUsersService.saveBlackListByAuthUserId(id);
+            blackListService.saveBlackListByAuthUserId(id);
         }
         req.setAttribute("error", "Выбранный пользователь заблокирован!");
         return "registratedUsers";

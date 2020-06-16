@@ -2,6 +2,7 @@ package com.github.egorovag.hotelreserv.model;
 
 import com.github.egorovag.hotelreserv.model.enums.Role;
 
+
 public class AuthUser {
 
     private Integer id;

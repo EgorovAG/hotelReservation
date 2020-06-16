@@ -2,8 +2,10 @@
           xmlns:jsp="http://java.sun.com/JSP/Page"
           xmlns:spring="http://www.springframework.org/tags"
           version="2.0">
+
     <footer class="newFooter">
         <div class="footer">
+            FOOTER
             <spring:message code="page.footer"/>
         </div>
     </footer>

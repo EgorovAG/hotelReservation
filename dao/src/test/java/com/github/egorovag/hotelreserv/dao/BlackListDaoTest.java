@@ -9,7 +9,6 @@ import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,12 +42,11 @@ class BlackListDaoTest {
     void testReadBlackListUsersListsDao() {
         blackListUsersDao.saveBlackListByAuthUserIdDao(authUser.getId());
         List<BlackListUsers> listBL = blackListUsersDao.readBlackListUsersListsDao();
-        listBL.get(0);
         Assertions.assertEquals(1, listBL.size());
     }
 
     @Test
-    void testDeleteBlackListUserByIdDao() {
+    void testDeleteBlackListByIdDao() {
         blackListUsersDao.saveBlackListByAuthUserIdDao(authUser.getId());
         List<BlackListUsers> listBL = blackListUsersDao.readBlackListUsersListsDao();
         BlackListUsers blackListUsers = listBL.get(0);
@@ -58,7 +56,7 @@ class BlackListDaoTest {
     }
 
     @Test
-    void testSaveBlackListUserDao() {
+    void testSaveBlackListDao() {
         boolean res = blackListUsersDao.saveBlackListByAuthUserIdDao(authUser.getId());
         Assertions.assertTrue(res);
     }

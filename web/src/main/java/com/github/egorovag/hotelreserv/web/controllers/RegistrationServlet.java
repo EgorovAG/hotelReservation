@@ -4,10 +4,10 @@ import com.github.egorovag.hotelreserv.model.AuthUser;
 import com.github.egorovag.hotelreserv.model.Client;
 import com.github.egorovag.hotelreserv.model.enums.Role;
 import com.github.egorovag.hotelreserv.service.AuthUserService;
-import com.github.egorovag.hotelreserv.service.ClientService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -26,7 +26,7 @@ public class RegistrationServlet {
     }
 
     @PostMapping("/registration")
-    public String doPost(HttpServletRequest req) {
+    public String doPost(HttpServletRequest req/*, @Valid AuthUser authUser, @Valid Client client, BindingResult br*/) {
 
         String login = req.getParameter("login");
         String password = req.getParameter("password");
@@ -47,5 +47,10 @@ public class RegistrationServlet {
             req.setAttribute("errorUser", "Пользователь с таким именем уже существует");
             return "registration";
         }
+    }
+
+    @GetMapping("/toRegistrationJspx")
+    public String doGet(){
+        return "registration";
     }
 }

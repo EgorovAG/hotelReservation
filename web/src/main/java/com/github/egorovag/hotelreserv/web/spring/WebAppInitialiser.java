@@ -1,4 +1,4 @@
-package com.github.egorovag.hotelreserv.web.config;
+package com.github.egorovag.hotelreserv.web.spring;
 
 import com.github.egorovag.hotelreserv.dao.config.DaoConfig;
 import com.github.egorovag.hotelreserv.service.config.ServiceConfig;

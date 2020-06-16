@@ -35,8 +35,8 @@ public class RegisteredUsersServlet {
     public String doGet(HttpServletRequest req){
 
         List<AuthUserWithClient> authUserWithClients = authUserService.readListAuthUserWithClient();
-        req.getSession().setAttribute("authUserWithClients", authUserWithClients);
-        return "forward:/registratedUsers.jsp";
+        req.setAttribute("authUserWithClients", authUserWithClients);
+        return "registratedUsers";
     }
 
     @PostMapping("/registratedUsers")

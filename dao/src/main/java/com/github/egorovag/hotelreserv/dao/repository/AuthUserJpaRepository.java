@@ -15,12 +15,12 @@ public interface AuthUserJpaRepository extends JpaRepository<AuthUserEntity, Int
 
     AuthUserEntity findAuthUserEntityByLogin(String login);
 
-    @Query("select new com.github.egorovag.hotelreserv.model.dto.AuthUserWithClient (c.id,a.login,a.password," +
+    @Query("select new com.github.egorovag.hotelreserv.model.dto.AuthUserWithClient (c.id,a.id, a.login,a.password," +
             "c.firstName,c.secondName,c.email,c.phone) from AuthUserEntity a join ClientEntity c on a.id = c.userId")
     List<AuthUserWithClient> readListAuthUserWithClientDaoSD();
 
 
-    @Query("select new com.github.egorovag.hotelreserv.model.dto.AuthUserWithClient (c.id,a.login,a.password," +
+    @Query("select new com.github.egorovag.hotelreserv.model.dto.AuthUserWithClient (c.id,a.id, a.login,a.password," +
             "c.firstName,c.secondName,c.email,c.phone) from AuthUserEntity a join ClientEntity c on a.id = c.userId")
     List<AuthUserWithClient> readListAuthUserWithClientPaginationDaoSD(Pageable pageable);
 

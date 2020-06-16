@@ -55,7 +55,6 @@ class OrderServiceTest {
 
     @Test
     void testUpdateOrderList() {
-        List<OrderForAdmin> orderForAdmins = new ArrayList<>();
         when(orderDao.updateOrderListDao(orderClient.getOrderId(), orderClient.getCondition())).thenReturn(true);
         boolean res = defaultOrderService.updateOrderList(orderClient.getOrderId(), orderClient.getCondition());
         Assertions.assertTrue(res);
@@ -82,6 +81,14 @@ class OrderServiceTest {
         when(orderDao.readOrderClientListByClientIdDao(orderClient.getClientId())).thenReturn(orderClients);
         List<OrderClient> orderClientsRes = defaultOrderService.readOrderClientListByClientId(orderClient.getClientId());
         Assertions.assertEquals(orderClients, orderClientsRes);
+    }
+
+    @Test
+    void testReadOrderClientList() {
+        List<OrderClient> orderClients = new ArrayList<>();
+        when(orderDao.readOrderClientListDao()).thenReturn(orderClients);
+        List<OrderClient> orderClientsRes = defaultOrderService.readOrderClientList();
+        Assertions.assertEquals (orderClients, orderClientsRes);
     }
 
     @Test

@@ -26,7 +26,7 @@ class ClientServiceTest {
 
     private AuthUser authUser = new AuthUser(10, "alex", "pass", Role.USER);
     private Client client = new Client(11, "Alex", "Alexandrov", "alex@tut.by", "55555");
-    AuthUserWithClient authUserWithClient = new AuthUserWithClient(10,"alex","pass","Alex",
+    AuthUserWithClient authUserWithClient = new AuthUserWithClient(10,11,"alex","pass","Alex",
             "Alexandrov", "alex@tut.by", "55555");
 
 
