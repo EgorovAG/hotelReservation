@@ -1,7 +1,7 @@
 package com.github.egorovag.hotelreserv.service.impl;
 
 import com.github.egorovag.hotelreserv.dao.BlackListDao;
-import com.github.egorovag.hotelreserv.model.dto.BlackListUsers;
+import com.github.egorovag.hotelreserv.model.dto.BlackListUsersDTO;
 import com.github.egorovag.hotelreserv.service.BlackListService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,8 +17,8 @@ public class DefaultBlackListService implements BlackListService {
 
     @Override
     @Transactional
-    public List<BlackListUsers> readBlackListUsersLists() {
-        return blackListDao.readBlackListUsersListsDao();
+    public List<BlackListUsersDTO> readBlackListUsersDTO() {
+        return blackListDao.readBlackListUsersDTODao();
     }
 
     @Override

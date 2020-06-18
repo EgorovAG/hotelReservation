@@ -7,16 +7,16 @@
 
     <html>
     <body>
-    <h4><c:out value=" Имя пользователя: ${client.firstName} "/></h4>
+    <h4><spring:message code="label.userName"/>:${client.firstName}</h4>
 
-    <c:out value="Оплата прошла успешно, ждем Вас в нашей гостинице, спасибо!"/>
+    <spring:message code="text.paymentWasSuccessfulWeAreWaitingForYouAtOurHotel"/>
 
     <br/>
     <form action="${pageContext.request.contextPath}/toPersonalAreaJspx">
-        <input type="submit" value="перейти в личный кабинет"/>
+        <button name="GoToPersonalArea"><spring:message code="button.GoToPersonalArea"/></button>
     </form>
 
-    <a href="${pageContext.request.contextPath}/logout">Logout</a> <br/>
+    <a href="${pageContext.request.contextPath}/logout"><spring:message code="button.logout"/></a> <br/>
 
     </body>
     </html>

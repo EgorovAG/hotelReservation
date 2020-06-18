@@ -11,21 +11,21 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping
-public class LoginServlet {
-    private static final Logger log = LoggerFactory.getLogger(LoginServlet.class);
+public class LoginController {
+    private static final Logger log = LoggerFactory.getLogger(LoginController.class);
     private final AuthUserService authUserService;
     private final BlackListService blackListUsersService;
     private final ClientService clientService;
 
-    public LoginServlet(AuthUserService authUserService, BlackListService blackListUsersService, ClientService clientService) {
+    public LoginController(AuthUserService authUserService, BlackListService blackListUsersService, ClientService clientService) {
         this.authUserService = authUserService;
         this.blackListUsersService = blackListUsersService;
         this.clientService = clientService;
-
     }
 
     @GetMapping("/login")

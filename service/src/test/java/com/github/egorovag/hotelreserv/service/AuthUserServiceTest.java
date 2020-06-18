@@ -1,15 +1,12 @@
 package com.github.egorovag.hotelreserv.service;
 
 import com.github.egorovag.hotelreserv.dao.AuthUserDao;
-import com.github.egorovag.hotelreserv.dao.ClientDao;
 import com.github.egorovag.hotelreserv.model.AuthUser;
 import com.github.egorovag.hotelreserv.model.Client;
-import com.github.egorovag.hotelreserv.model.dto.AuthUserWithClient;
+import com.github.egorovag.hotelreserv.model.dto.AuthUserWithClientDTO;
 import com.github.egorovag.hotelreserv.model.enums.Role;
 import com.github.egorovag.hotelreserv.service.impl.DefaultAuthUserService;
-import com.github.egorovag.hotelreserv.service.impl.DefaultClientService;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -52,17 +49,17 @@ class AuthUserServiceTest {
 
     @Test
     void testReadListClient() {
-        List<AuthUserWithClient> authUserList = new ArrayList<>();
-        when(authUserDao.readListAuthUserWithClientDao()).thenReturn(authUserList);
-        List<AuthUserWithClient> authUserListRes = defaultAuthUserService.readListAuthUserWithClient();
+        List<AuthUserWithClientDTO> authUserList = new ArrayList<>();
+        when(authUserDao.readListAuthUserWithClientDTODao()).thenReturn(authUserList);
+        List<AuthUserWithClientDTO> authUserListRes = defaultAuthUserService.readListAuthUserWithClientDTO();
         Assertions.assertEquals(authUserList, authUserListRes);
     }
 
     @Test
     void testReadListAuthUserWithClientPagination() {
-        List<AuthUserWithClient> authUserList = new ArrayList<>();
-        when(authUserDao.readListAuthUserWithClientPaginationDao(1, 2)).thenReturn(authUserList);
-        List<AuthUserWithClient> authUserListRes = defaultAuthUserService.readListAuthUserWithClientPagination(1,2);
+        List<AuthUserWithClientDTO> authUserList = new ArrayList<>();
+        when(authUserDao.readListAuthUserWithClientDTOPaginationDao(1, 2)).thenReturn(authUserList);
+        List<AuthUserWithClientDTO> authUserListRes = defaultAuthUserService.readListAuthUserWithClientDTOPagination(1,2);
         Assertions.assertEquals(authUserList, authUserListRes);
     }
 

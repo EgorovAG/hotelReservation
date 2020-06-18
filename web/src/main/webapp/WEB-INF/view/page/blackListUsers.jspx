@@ -7,15 +7,15 @@
 
     <html>
     <body>
-    <h2 style="text-align: center"><c:out value="Список заблокированных пользователей"/></h2>
+    <h2 style="text-align: center"><spring:message code="button.blockedUsersList"/></h2>
 
     <table border="1" width="100%" cellpadding="5">
         <tr>
             <th>№</th>
-            <th>Имя</th>
-            <th>Фамилия</th>
-            <th>Дата блокировки</th>
-            <th>Удалить из черного списка</th>
+            <th><spring:message code="table.name"/></th>
+            <th><spring:message code="table.surname"/></th>
+            <th><spring:message code="table.dateBlock"/></th>
+            <th><spring:message code="table.removeBlackList"/></th>
         </tr>
 
         <c:set var="x" value="1"/>
@@ -28,19 +28,18 @@
                 <td>${blackListUsers.dateBlock}</td>
                 <td>
                     <form action="${pageContext.request.contextPath}/blackListUsers" method="post">
-                        <button name="id" value="${blackListUsers.id}">Удалить</button>
+                        <button name="id" value="${blackListUsers.id}"><spring:message code="button.delete"/></button>
                     </form>
                 </td>
             </tr>
         </c:forEach>
     </table>
 
-<!--    <form action="${pageContext.request.contextPath}personalArea.jspx" method="post">-->
     <form action="${pageContext.request.contextPath}/toPersonalAreaJspx">
-    <input type="submit" value="перейти в личный кабинет"/>
+        <button name="GoToPersonalArea"><spring:message code="button.GoToPersonalArea"/></button>
     </form>
 
-    <a href="${pageContext.request.contextPath}/logout">Logout</a> <br/>
+    <a href="${pageContext.request.contextPath}/logout"><spring:message code="button.logout"/></a> <br/>
 
     </body>
     </html>

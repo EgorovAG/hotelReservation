@@ -4,8 +4,8 @@ import com.github.egorovag.hotelreserv.dao.OrderDao;
 import com.github.egorovag.hotelreserv.model.Client;
 import com.github.egorovag.hotelreserv.model.OrderClient;
 import com.github.egorovag.hotelreserv.model.Room;
-import com.github.egorovag.hotelreserv.model.dto.OrderForAdmin;
-import com.github.egorovag.hotelreserv.model.dto.OrderForClient;
+import com.github.egorovag.hotelreserv.model.dto.OrderForAdminDTO;
+import com.github.egorovag.hotelreserv.model.dto.OrderForClientDTO;
 import com.github.egorovag.hotelreserv.model.enums.Condition;
 import com.github.egorovag.hotelreserv.service.OrderService;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,8 +28,8 @@ public class DefaultOrderService implements OrderService {
 
     @Override
     @Transactional
-    public List<OrderForAdmin> readOrderListForAdmin() {
-        return orderDao.readOrderListForAdminDao();
+    public List<OrderForAdminDTO> readOrderListForAdminDTO() {
+        return orderDao.readOrderListForAdminDTODao();
     }
 
     @Override
@@ -49,8 +49,8 @@ public class DefaultOrderService implements OrderService {
 
     @Override
     @Transactional
-    public List<OrderForClient> readOrderForClientByClientId(int id) {
-        return orderDao.readOrderForClientByClientIdDao(id);
+    public List<OrderForClientDTO> readOrderForClientDTOByClientId(int id) {
+        return orderDao.readOrderForClientDTOByClientIdDao(id);
     }
 
     @Override

@@ -8,23 +8,20 @@
     <html>
     <body>
 
-    <h3>Введите данные для входа в систему</h3>
+    <h3><spring:message code="label.enterLoginInformation"/></h3>
     <form action="${pageContext.request.contextPath}/login" method="post">
 
-
         <input id="login" type="text" name="login"/>
-        <label for="login">Логин</label><br/>
-
+        <label for="login"><spring:message code="button.login"/></label><br/>
 
         <input id="password" type="password" name="password"/>
-        <label for="password">Пароль</label><br/>
+        <label for="password"><spring:message code="button.password"/></label><br/>
 
-        <input type="submit" value="Войти"/>
+        <button name="logIn"><spring:message code="button.enter"/></button>
     </form>
     <br/><br/>
 
-<!--    <a href="${pageContext.request.contextPath}/registration.jspx">РЕГИСТРАЦИЯ</a>-->
-    <a href="${pageContext.request.contextPath}/toRegistrationJspx">РЕГИСТРАЦИЯ</a>
+    <a href="${pageContext.request.contextPath}/toRegistrationJspx"><spring:message code="button.registration"/></a>
 
     <p style="color: red">${error}</p>
 

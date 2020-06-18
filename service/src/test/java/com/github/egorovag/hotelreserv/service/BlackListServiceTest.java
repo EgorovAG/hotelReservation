@@ -2,7 +2,7 @@ package com.github.egorovag.hotelreserv.service;
 
 import com.github.egorovag.hotelreserv.dao.BlackListDao;
 import com.github.egorovag.hotelreserv.model.AuthUser;
-import com.github.egorovag.hotelreserv.model.dto.BlackListUsers;
+import com.github.egorovag.hotelreserv.model.dto.BlackListUsersDTO;
 import com.github.egorovag.hotelreserv.model.enums.Role;
 import com.github.egorovag.hotelreserv.service.impl.DefaultBlackListService;
 import org.junit.jupiter.api.Assertions;
@@ -26,14 +26,14 @@ class BlackListServiceTest {
     @InjectMocks
     DefaultBlackListService defaultBlackListUsersService;
 
-    private BlackListUsers blackListUsers = new BlackListUsers(5, 10, "Alex", "Alexandrov");
+    private BlackListUsersDTO blackListUsers = new BlackListUsersDTO(5, 10, "Alex", "Alexandrov");
     private AuthUser authUser = new AuthUser(10, "alex", "pass", Role.USER);
 
     @Test
     void readBlackListUsersLists() {
-        List<BlackListUsers> blackListUsers = new ArrayList<>();
-        when(blackListUsersDao.readBlackListUsersListsDao()).thenReturn(blackListUsers);
-        List<BlackListUsers> blackListUsersRes = defaultBlackListUsersService.readBlackListUsersLists();
+        List<BlackListUsersDTO> blackListUsers = new ArrayList<>();
+        when(blackListUsersDao.readBlackListUsersDTODao()).thenReturn(blackListUsers);
+        List<BlackListUsersDTO> blackListUsersRes = defaultBlackListUsersService.readBlackListUsersDTO();
         Assertions.assertEquals(blackListUsers, blackListUsersRes);
     }
 

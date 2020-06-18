@@ -2,8 +2,8 @@ package com.github.egorovag.hotelreserv.dao;
 
 import com.github.egorovag.hotelreserv.dao.config.DaoConfig;
 import com.github.egorovag.hotelreserv.model.*;
-import com.github.egorovag.hotelreserv.model.dto.OrderForAdmin;
-import com.github.egorovag.hotelreserv.model.dto.OrderForClient;
+import com.github.egorovag.hotelreserv.model.dto.OrderForAdminDTO;
+import com.github.egorovag.hotelreserv.model.dto.OrderForClientDTO;
 import com.github.egorovag.hotelreserv.model.enums.ClassRoom;
 import com.github.egorovag.hotelreserv.model.enums.Condition;
 import com.github.egorovag.hotelreserv.model.enums.Role;
@@ -58,14 +58,14 @@ class OrderDaoTest {
 
     @Test
     void testReadOrderListDao() {
-        List<OrderForAdmin> orderLists = orderDao.readOrderListForAdminDao();
+        List<OrderForAdminDTO> orderLists = orderDao.readOrderListForAdminDTODao();
         Assertions.assertEquals(1, orderLists.size());
     }
 
 
     @Test
     void testReadOrderForClientByClientIdDao() {
-        List<OrderForClient> orderForClients = orderDao.readOrderForClientByClientIdDao(authUser.getClient().getId());
+        List<OrderForClientDTO> orderForClients = orderDao.readOrderForClientDTOByClientIdDao(authUser.getClient().getId());
         Assertions.assertEquals(1, orderForClients.size());
     }
 
@@ -83,37 +83,37 @@ class OrderDaoTest {
 
     @Test
     void testUpdateOrderListDao() {
-        List<OrderForAdmin> orderLists = orderDao.readOrderListForAdminDao();
+        List<OrderForAdminDTO> orderLists = orderDao.readOrderListForAdminDTODao();
         orderDao.updateOrderListDao(orderLists.iterator().next().getId(), Condition.APPROVED);
         sessionFactory.getCurrentSession().flush();
-        List<OrderForClient> orderForClients = orderDao.readOrderForClientByClientIdDao(authUser.getClient().getId());
+        List<OrderForClientDTO> orderForClients = orderDao.readOrderForClientDTOByClientIdDao(authUser.getClient().getId());
         Assertions.assertEquals(Condition.APPROVED, orderForClients.iterator().next().getCondition());
     }
 
     @Test
     void testReadPriceForRoomByOrderIdDao() {
-        List<OrderForAdmin> orderLists = orderDao.readOrderListForAdminDao();
+        List<OrderForAdminDTO> orderLists = orderDao.readOrderListForAdminDTODao();
         int price = orderDao.readPriceForRoomByOrderIdDao(orderLists.iterator().next().getId());
         Assertions.assertEquals(100, price);
     }
 
     @Test
     void testDeleteOrderByOrderIdDao() {
-        List<OrderForAdmin> orderLists = orderDao.readOrderListForAdminDao();
+        List<OrderForAdminDTO> orderLists = orderDao.readOrderListForAdminDTODao();
         boolean res = orderDao.deleteOrderByOrderIdDao(orderLists.iterator().next().getId());
         Assertions.assertTrue(res);
     }
 
     @Test
     void testCheckIdOrderByClientOrderDao() {
-        List<OrderForAdmin> orderLists = orderDao.readOrderListForAdminDao();
+        List<OrderForAdminDTO> orderLists = orderDao.readOrderListForAdminDTODao();
         int res = orderDao.checkIdOrderByClientOrderDao(orderLists.iterator().next().getId());
         Assertions.assertEquals(authUser.getClient().getId(), res);
     }
 
     @Test
     void testReadConditionByOrderIdDao() {
-        List<OrderForAdmin> orderLists = orderDao.readOrderListForAdminDao();
+        List<OrderForAdminDTO> orderLists = orderDao.readOrderListForAdminDTODao();
         Condition condition = orderDao.readConditionByOrderIdDao(orderLists.iterator().next().getId());
         Assertions.assertEquals(Condition.CONSIDERATION, condition);
     }

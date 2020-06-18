@@ -7,24 +7,23 @@
 
     <html>
     <body>
-    <h4><c:out value=" Имя пользователя: ${client.firstName} "/></h4>
+    <h4><spring:message code="label.userName"/>: ${client.firstName} </h4>
     <c:if test="${orderForClients != null}">
 
-        <h2 style="text-align: center">Список заказов</h2>
+        <h2 style="text-align: center"><spring:message code="label.orderList"/></h2>
 
 
         <table border="1" width="100%" cellpadding="5">
             <tr>
                 <th>№</th>
-
-                <th>время приезда</th>
-                <th>время отъезда</th>
-                <th>число мест</th>
-                <th>класс комнаты</th>
-                <th>состояние</th>
-                <th>Дополнительные услуги</th>
-                <th>цена</th>
-                <th>Действия над заказом</th>
+                <th><spring:message code="label.checkInTime"/></th>
+                <th><spring:message code="label.departureTime"/></th>
+                <th><spring:message code="label.numberOfPlaces"/></th>
+                <th><spring:message code="label.classOfApartments"/></th>
+                <th><spring:message code="label.state"/></th>
+                <th><spring:message code="label.additionalServices"/></th>
+                <th><spring:message code="label.price"/></th>
+                <th><spring:message code="label.orderActions"/></th>
 
 
             </tr>
@@ -52,20 +51,18 @@
                         <form action="${pageContext.request.contextPath}/toPayOrder" method="post">
                             <input id="id1" type="text" name="orderId" value="${orderForClients.id}" hidden="hidden"/>
                             <input id="status1" type="text" name="condition" value="PAID" hidden="hidden"/>
-                            <input type="submit" value="Оплатить"/>
+                            <button name="toPay"><spring:message code="button.toPay"/></button>
                         </form>
                         <form action="${pageContext.request.contextPath}/toPayOrder" method="post">
                             <input id="id2" type="text" name="orderId" value="${orderForClients.id}" hidden="hidden"/>
                             <input id="status2" type="text" name="condition" value="DELETE" hidden="hidden"/>
-                            <input type="submit" value="Удалить"/>
+                            <button name="delete"><spring:message code="button.delete"/></button>
                         </form>
                     </td>
-
 
                 </tr>
             </c:forEach>
         </table>
-
 
     </c:if>
 
@@ -75,11 +72,11 @@
     <p style="color: red">${Error}</p>
 
     <br/>
-    <form action="${pageContext.request.contextPath}/WEB-INF/view/page/personalArea.jspx" method="post">
-        <input type="submit" value="перейти в личный кабинет"/>
+    <form action="${pageContext.request.contextPath}/toPersonalAreaJspx">
+        <button name="GoToPersonalArea"><spring:message code="button.GoToPersonalArea"/></button>
     </form>
 
-    <a href="${pageContext.request.contextPath}/logout">Logout</a> <br/>
+    <a href="${pageContext.request.contextPath}/logout"><spring:message code="button.logout"/></a> <br/>
 
     </body>
     </html>

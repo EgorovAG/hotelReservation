@@ -8,11 +8,10 @@
     <html>
     <body>
 
-    <h3 style="text-align: center"><c:out value="Вы заблокированы и не можете
-     производить никаких действий, обратитесь к администратору"/></h3>
+    <h3 style="text-align: center"><spring:message code="label.youAreLockedOutAndCannotPerformAnyActions"/></h3>
 
     <br/><br/>
-    <a href="${pageContext.request.contextPath}/logout">Logout</a> <br/>
+    <a href="${pageContext.request.contextPath}/logout"><spring:message code="button.logout"/></a> <br/>
 
     </body>
     </html>

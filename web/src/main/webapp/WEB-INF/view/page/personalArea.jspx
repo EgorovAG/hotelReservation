@@ -9,53 +9,62 @@
     <body>
 
     <c:if test="${authUser.login != 'admin'}">
-        <h4><c:out value=" Имя пользователя: ${client.firstName} "/></h4>
-        <h1 style="text-align: center"><c:out value=" Личный кабинет "/></h1>
+        <h4><spring:message code="label.userName"/>: ${client.firstName}</h4>
+        <h1 style="text-align: center"><spring:message code="text.personalArea"/></h1>
 
         <fieldset>
             <form action="${pageContext.request.contextPath}/toClientOrderJsp">
-                <input type="submit" value="Сделать заказ"/>
+                <button name="makeAnOrder"><spring:message code="button.makeAnOrder"/></button>
             </form>
         </fieldset>
 
         <fieldset>
             <form action="${pageContext.request.contextPath}/statusOrder">
-                <input type="submit" value="Просмотр заказов"/>
+                <button name="viewOrders"><spring:message code="button.viewOrders"/></button>
             </form>
         </fieldset>
 
         <br/>
         <br/>
         <br/>
-        <a href="${pageContext.request.contextPath}/logout">Logout</a>
+        <a href="${pageContext.request.contextPath}/logout"><spring:message code="button.logout"/></a>
     </c:if>
 
     <c:if test="${authUser.login == 'admin'}">
-        <h4><c:out value=" АДМИНИСТРАТОР "/></h4>
-        <h1 style="text-align: center"><c:out value=" Личный кабинет "/></h1>
+        <h4><spring:message code="label.admin"/></h4>
+        <h1 style="text-align: center"><spring:message code="text.personalArea"/></h1>
 
         <fieldset>
+            <!--            <form action="${pageContext.request.contextPath}/orderList">-->
+            <!--                <input type="submit" value="Просмотр заказов"/>-->
+            <!--            </form>-->
+
             <form action="${pageContext.request.contextPath}/orderList">
-                <input type="submit" value="Просмотр заказов"/>
+                <button name="viewOrders"><spring:message code="button.viewOrders"/></button>
             </form>
         </fieldset>
 
         <fieldset>
-
+            <!--            <form action="${pageContext.request.contextPath}/paginationRegistratedUsers">-->
+            <!--                <input type="submit" value="Просмотр зарегистрированных пользователей"/>-->
+            <!--            </form>-->
             <form action="${pageContext.request.contextPath}/paginationRegistratedUsers">
-                <input type="submit" value="Просмотр зарегистрированных пользователей"/>
+                <button name="viewingRegisteredUsers"><spring:message code="button.viewingRegisteredUsers"/></button>
             </form>
         </fieldset>
 
         <fieldset>
+            <!--            <form action="${pageContext.request.contextPath}/blackListUsers">-->
+            <!--                <input type="submit" value="Список заблокированных пользователей"/>-->
+            <!--            </form>-->
             <form action="${pageContext.request.contextPath}/blackListUsers">
-                <input type="submit" value="Список заблокированных пользователей"/>
+                <button name="blockedUsersList"><spring:message code="button.blockedUsersList"/></button>
             </form>
         </fieldset>
         <br/>
         <br/>
         <br/>
-        <a href="${pageContext.request.contextPath}/logout">Logout</a>
+        <a href="${pageContext.request.contextPath}/logout"><spring:message code="button.logout"/></a>
 
     </c:if>
 

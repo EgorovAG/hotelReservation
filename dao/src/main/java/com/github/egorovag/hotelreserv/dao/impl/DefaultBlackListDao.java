@@ -5,7 +5,7 @@ import com.github.egorovag.hotelreserv.dao.entity.AuthUserEntity;
 import com.github.egorovag.hotelreserv.dao.entity.BlackListEntity;
 import com.github.egorovag.hotelreserv.dao.repository.AuthUserJpaRepository;
 import com.github.egorovag.hotelreserv.dao.repository.BlackListJpaRepository;
-import com.github.egorovag.hotelreserv.model.dto.BlackListUsers;
+import com.github.egorovag.hotelreserv.model.dto.BlackListUsersDTO;
 import org.hibernate.HibernateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,9 +28,9 @@ public class DefaultBlackListDao implements BlackListDao {
 
     //Spring Data
     @Override
-    public List<BlackListUsers> readBlackListUsersListsDao() {
+    public List<BlackListUsersDTO> readBlackListUsersDTODao() {
         try {
-            List<BlackListUsers> listBL = blackListJpaRepository.readBlackListUsersListsDaoSD();
+            List<BlackListUsersDTO> listBL = blackListJpaRepository.readBlackListUsersListsDaoSD();
             log.info("List<AuthUser> readed:{}", listBL);
             return listBL;
         } catch (HibernateException e) {

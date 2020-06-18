@@ -1,14 +1,24 @@
 package com.github.egorovag.hotelreserv.model;
 
 
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
 public class Client {
 
     private Integer id;
+    @Pattern(regexp = "[A-Za-zА-Яа-я]{1,50}", message = "Имя должно содержать не больше 50 символов и состоять только из букв")
     private String firstName;
+    @Pattern(regexp = "[A-Za-zА-Яа-я]{1,50}", message = "Фамилия должно содержать не больше 50 символов и состоять только из букв")
     private String secondName;
+    @Pattern(regexp = "^([a-z0-9_-]+\\.)*[a-z0-9_-]+@[a-z0-9_-]+(\\.[a-z0-9_-]+)*\\.[a-z]{2,6}$", message = "Формат email должен быть такой nick@mail.com")
     private String email;
+    @Pattern(regexp = "^\\+\\d{12}", message = "Формат номера телефона должен быть такой: +375291111111")
     private String phone;
     private Integer userId;
+
+    public Client() {
+    }
 
     public Client(Integer id, String firstName, String secondName, String email, String phone) {
         this.id = id;

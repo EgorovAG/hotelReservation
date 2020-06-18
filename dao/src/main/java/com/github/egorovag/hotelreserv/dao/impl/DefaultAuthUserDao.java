@@ -7,15 +7,13 @@ import com.github.egorovag.hotelreserv.dao.entity.AuthUserEntity;
 import com.github.egorovag.hotelreserv.dao.entity.ClientEntity;
 import com.github.egorovag.hotelreserv.dao.repository.AuthUserJpaRepository;
 import com.github.egorovag.hotelreserv.model.AuthUser;
-import com.github.egorovag.hotelreserv.model.dto.AuthUserWithClient;
+import com.github.egorovag.hotelreserv.model.dto.AuthUserWithClientDTO;
 import com.github.egorovag.hotelreserv.model.Client;
 import org.hibernate.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import javax.persistence.NoResultException;
@@ -96,9 +94,9 @@ public class DefaultAuthUserDao implements AuthUserDao {
 
     //Spring Data
     @Override
-    public List<AuthUserWithClient> readListAuthUserWithClientDao() {
+    public List<AuthUserWithClientDTO> readListAuthUserWithClientDTODao() {
         try {
-            List<AuthUserWithClient> listAU = authUserJpaRepository.readListAuthUserWithClientDaoSD();
+            List<AuthUserWithClientDTO> listAU = authUserJpaRepository.readListAuthUserWithClientDaoSD();
             log.info("List<AuthUserWithClient> readed: {}", listAU);
             return listAU;
         } catch (HibernateException e) {
@@ -131,9 +129,9 @@ public class DefaultAuthUserDao implements AuthUserDao {
 //    }
 
     @Override
-    public List<AuthUserWithClient> readListAuthUserWithClientPaginationDao(int currentPage, int maxResultsPage) {
+    public List<AuthUserWithClientDTO> readListAuthUserWithClientDTOPaginationDao(int currentPage, int maxResultsPage) {
         try {
-            List<AuthUserWithClient> listRes = authUserJpaRepository
+            List<AuthUserWithClientDTO> listRes = authUserJpaRepository
                     .readListAuthUserWithClientPaginationDaoSD(PageRequest.of(currentPage-1, maxResultsPage,
                             Sort.Direction.ASC, "id"));
             log.info("List<AuthUserWithClient> readed size: {}", listRes.size());

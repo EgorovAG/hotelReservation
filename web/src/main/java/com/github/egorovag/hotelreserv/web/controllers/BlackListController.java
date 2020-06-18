@@ -1,7 +1,7 @@
 package com.github.egorovag.hotelreserv.web.controllers;
 
 
-import com.github.egorovag.hotelreserv.model.dto.BlackListUsers;
+import com.github.egorovag.hotelreserv.model.dto.BlackListUsersDTO;
 import com.github.egorovag.hotelreserv.service.BlackListService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,17 +16,17 @@ import java.util.List;
 
 @Controller
 @RequestMapping
-public class BlackListServlet {
-    private static final Logger log = LoggerFactory.getLogger(BlackListServlet.class);
+public class BlackListController {
+    private static final Logger log = LoggerFactory.getLogger(BlackListController.class);
     private final BlackListService blackListService;
 
-    public BlackListServlet(BlackListService blackListService) {
+    public BlackListController(BlackListService blackListService) {
         this.blackListService = blackListService;
     }
 
     @GetMapping("/blackListUsers")
-    public String doGet(ModelMap map) {
-        List<BlackListUsers> blackListUsers = blackListService.readBlackListUsersLists();
+    public String get(ModelMap map) {
+        List<BlackListUsersDTO> blackListUsers = blackListService.readBlackListUsersDTO();
         if (blackListUsers == null || blackListUsers.isEmpty()) {
             map.put("blackListUsers", null);
         } else {
@@ -36,15 +36,29 @@ public class BlackListServlet {
     }
 
     @PostMapping("/blackListUsers")
-    public String doPost(HttpServletRequest req, ModelMap map) {
+    public String delete(HttpServletRequest req) {
         int id = Integer.parseInt(req.getParameter("id"));
+        log.info("blackList with Client id:{} deleted", id);
         blackListService.deleteBlackListById(id);
         return "redirect:/blackListUsers";
     }
 
+    @PostMapping("/blockUser")
+    public String check(HttpServletRequest req) {
+        int id = Integer.parseInt(req.getParameter("id"));
+        if (blackListService.checkBlackListByUserId(id)) {
+            req.setAttribute("error", "Такой пользователь уже заблокирован!");
+            return "registratedUsers";
+        } else {
+            blackListService.saveBlackListByAuthUserId(id);
+        }
+        req.setAttribute("error", "Выбранный пользователь заблокирован!");
+        return "registratedUsers";
+    }
+
     @GetMapping("/toPersonalAreaJspx")
     public String doGet(){
-        return "personalArea.jspx";
+        return "personalArea";
     }
 
 }

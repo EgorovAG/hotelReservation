@@ -10,14 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping
-public class LogoutServlet {
-    private static final Logger log = LoggerFactory.getLogger(LoginServlet.class);
+public class LogoutController {
+//    private static final Logger log = LoggerFactory.getLogger(LoginServlet.class);
 
     @GetMapping("/logout")
     public String doGet(HttpServletRequest req) {
         req.getSession().invalidate();
-
-//        resp.sendRedirect("/hotel/index.jspx");
         return "index";
     }
 }

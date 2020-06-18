@@ -2,15 +2,22 @@ package com.github.egorovag.hotelreserv.model;
 
 import com.github.egorovag.hotelreserv.model.enums.Role;
 
+import javax.validation.constraints.Pattern;
+
 
 public class AuthUser {
 
     private Integer id;
+    @Pattern(regexp = "[A-Za-zА-Яа-я0-9]{1,50}", message = "логин должен содержать не больше 50 символов и состоять только из букв и цифр")
     private String login;
+    @Pattern(regexp = "[A-Za-zА-Яа-я0-9]{1,50}", message = "пароль должен содержать не больше 50 символов и состоять только из букв и цифр")
     private String password;
     private Role role;
 
     private Client client;
+
+    public AuthUser() {
+    }
 
     public AuthUser(Integer id, String login, String password, Role role) {
         this.id = id;

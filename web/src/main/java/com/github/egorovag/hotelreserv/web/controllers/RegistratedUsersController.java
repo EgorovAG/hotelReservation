@@ -1,6 +1,6 @@
 package com.github.egorovag.hotelreserv.web.controllers;
 
-import com.github.egorovag.hotelreserv.model.dto.AuthUserWithClient;
+import com.github.egorovag.hotelreserv.model.dto.AuthUserWithClientDTO;
 import com.github.egorovag.hotelreserv.service.AuthUserService;
 import com.github.egorovag.hotelreserv.service.ClientService;
 import org.slf4j.Logger;
@@ -15,9 +15,9 @@ import java.util.List;
 
 @Controller
 @RequestMapping
-public class RegisteredUsersServlet {
+public class RegistratedUsersController {
 
-    private static final Logger log = LoggerFactory.getLogger(RegisteredUsersServlet.class);
+    private static final Logger log = LoggerFactory.getLogger(RegistratedUsersController.class);
 
     private AuthUserService authUserService;
     private ClientService clientService;
@@ -25,19 +25,19 @@ public class RegisteredUsersServlet {
 //    private OrderService orderService;
 
 
-    public RegisteredUsersServlet(AuthUserService authUserService, ClientService clientService) {
+    public RegistratedUsersController(AuthUserService authUserService, ClientService clientService) {
         this.authUserService = authUserService;
         this.clientService = clientService;
     }
 
-    // Есть пагинация, теперь это ВСЕ не надо
-    @GetMapping("/registratedUsers")
-    public String doGet(HttpServletRequest req){
-
-        List<AuthUserWithClient> authUserWithClients = authUserService.readListAuthUserWithClient();
-        req.setAttribute("authUserWithClients", authUserWithClients);
-        return "registratedUsers";
-    }
+//    // Есть пагинация, теперь это ВСЕ не надо
+//    @GetMapping("/registratedUsers")
+//    public String doGet(HttpServletRequest req){
+//
+//        List<AuthUserWithClientDTO> authUserWithClients = authUserService.readListAuthUserWithClientDTO();
+//        req.getSession().setAttribute("authUserWithClients", authUserWithClients);
+//        return "forward:/registratedUsers.jsp";
+//    }
 
     @PostMapping("/registratedUsers")
     public String doPost(HttpServletRequest req) {

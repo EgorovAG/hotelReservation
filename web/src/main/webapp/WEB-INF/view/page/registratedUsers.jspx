@@ -7,18 +7,18 @@
 
     <html>
     <body>
-    <h2 style="text-align: center">Список зарегистрированных пользователей</h2>
+    <h2 style="text-align: center"><spring:message code="text.listOfRegisteredUsers"/></h2>
 
     <table border="1" width="100%" cellpadding="5">
         <tr>
             <th>№</th>
-            <th>логин</th>
-            <th>пароль</th>
-            <th>имя</th>
-            <th>фамилия</th>
+            <th><spring:message code="button.login"/></th>
+            <th><spring:message code="button.password"/></th>
+            <th><spring:message code="label.nameClient"/></th>
+            <th><spring:message code="label.surname"/></th>
             <th>email</th>
-            <th>phone</th>
-            <th>Действия над списком заказчиков</th>
+            <th><spring:message code="label.phone"/></th>
+            <th><spring:message code="text.customerActions"/></th>
         </tr>
 
         <c:set var="x" value="${maxResultsPage*(currentPage-1)+1}"/>
@@ -35,12 +35,12 @@
                 <td>
 
                     <form action="${pageContext.request.contextPath}/registratedUsers" method="post">
-                        <input id="id1" type="text" name="id" value="${authUserWithClients.clientId}" hidden="hidden">
-                        <input type="submit" value="Удалить"/>
+                        <input id="id1" type="text" name="id" value="${authUserWithClients.clientId}" hidden="hidden"/>
+                        <button name="delete"><spring:message code="button.delete"/></button>
                     </form>
                     <form action="${pageContext.request.contextPath}/blockUser" method="post">
-                        <input id="id2" type="text" name="id" value="${authUserWithClients.userId}" hidden="hidden">
-                        <input type="submit" value="Заблокировать"/>
+                        <input id="id2" type="text" name="id" value="${authUserWithClients.userId}" hidden="hidden"/>
+                        <button name="toBlock"><spring:message code="button.toBlock"/></button>
                     </form>
                 </td>
             </tr>
@@ -75,11 +75,11 @@
     </c:if>
 
     <br/>
-    <form action="${pageContext.request.contextPath}personalArea.jspx" method="post">
-        <input type="submit" value="перейти в личный кабинет"/>
+    <form action="${pageContext.request.contextPath}/toPersonalAreaJspx">
+        <button name="GoToPersonalArea"><spring:message code="button.GoToPersonalArea"/></button>
     </form>
 
-    <a href="${pageContext.request.contextPath}/logout">Logout</a> <br/>
+    <a href="${pageContext.request.contextPath}/logout"><spring:message code="button.logout"/></a> <br/>
 
     <p style="color: red">${error}</p>
 

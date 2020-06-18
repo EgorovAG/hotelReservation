@@ -10,20 +10,9 @@
 
     <header class="clearfix">
 
-        <h1 style="text-align: center"><c:out value="Заказ гостиницы"/></h1>
-        <h2><spring:message code="page.title"/></h2>
+        <h1 style="text-align: center"><spring:message code="label.appName"/></h1>
         <a href="${requestScope['javax.servlet.forward.request_uri']}?locale=ru" style="padding: 5px">RU</a>
         <a href="${requestScope['javax.servlet.forward.request_uri']}?locale=en" style="padding: 5px">EN</a>
-
-
-<!--        <span style="float: right">-->
-<!--    <a href="?lang=en">en</a>-->
-<!--    |-->
-<!--    <a href="?lang=de">ru</a>-->
-<!--</span>-->
-        <p><spring:message code="label.registration"/></p>
-        <p><spring:message code="label.login"/></p>
-
 
     </header>
 

@@ -3,7 +3,7 @@ package com.github.egorovag.hotelreserv.service;
 import com.github.egorovag.hotelreserv.dao.ClientDao;
 import com.github.egorovag.hotelreserv.model.AuthUser;
 import com.github.egorovag.hotelreserv.model.Client;
-import com.github.egorovag.hotelreserv.model.dto.AuthUserWithClient;
+import com.github.egorovag.hotelreserv.model.dto.AuthUserWithClientDTO;
 import com.github.egorovag.hotelreserv.model.enums.Role;
 import com.github.egorovag.hotelreserv.service.impl.DefaultClientService;
 import org.junit.jupiter.api.Assertions;
@@ -26,7 +26,7 @@ class ClientServiceTest {
 
     private AuthUser authUser = new AuthUser(10, "alex", "pass", Role.USER);
     private Client client = new Client(11, "Alex", "Alexandrov", "alex@tut.by", "55555");
-    AuthUserWithClient authUserWithClient = new AuthUserWithClient(10,11,"alex","pass","Alex",
+    AuthUserWithClientDTO authUserWithClient = new AuthUserWithClientDTO(10,11,"alex","pass","Alex",
             "Alexandrov", "alex@tut.by", "55555");
 
 

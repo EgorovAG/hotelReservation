@@ -2,7 +2,7 @@ package com.github.egorovag.hotelreserv.service.impl;
 
 import com.github.egorovag.hotelreserv.dao.AuthUserDao;
 import com.github.egorovag.hotelreserv.model.AuthUser;
-import com.github.egorovag.hotelreserv.model.dto.AuthUserWithClient;
+import com.github.egorovag.hotelreserv.model.dto.AuthUserWithClientDTO;
 import com.github.egorovag.hotelreserv.model.Client;
 import com.github.egorovag.hotelreserv.service.AuthUserService;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,14 +45,14 @@ public class DefaultAuthUserService implements AuthUserService {
 
     @Override
     @Transactional
-    public List<AuthUserWithClient> readListAuthUserWithClient() {
-        return authUserDao.readListAuthUserWithClientDao();
+    public List<AuthUserWithClientDTO> readListAuthUserWithClientDTO() {
+        return authUserDao.readListAuthUserWithClientDTODao();
     }
 
     @Override
     @Transactional
-    public List<AuthUserWithClient> readListAuthUserWithClientPagination(int currentPage, int maxResultsPage) {
-        return authUserDao.readListAuthUserWithClientPaginationDao(currentPage, maxResultsPage);
+    public List<AuthUserWithClientDTO> readListAuthUserWithClientDTOPagination(int currentPage, int maxResultsPage) {
+        return authUserDao.readListAuthUserWithClientDTOPaginationDao(currentPage, maxResultsPage);
     }
 
     @Override

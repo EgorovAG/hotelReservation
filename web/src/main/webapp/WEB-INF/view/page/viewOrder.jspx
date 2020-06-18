@@ -8,31 +8,31 @@
     <html>
     <body style="background-color: aliceblue">
 
-    <h4><c:out value=" Имя пользователя: ${client.firstName} "/></h4>
-    <h1 style="text-align: center"><c:out value="Ваш заказ принят, дождитесь проверки администратора"/></h1>
-
+    <h4><spring:message code="label.userName"/>: ${client.firstName}</h4>
+    <h1 style="text-align: center"><spring:message
+            code="text.YourOrderHasBeenAcceptedWaitForAdministratorVerification"/></h1>
 
     <table>
         <tr>
-            <td><c:out value="число мест"/></td>
+            <td><spring:message code="label.numberOfPlaces"/></td>
             <td><c:out value="${room.numOfSeats}"/></td>
         </tr>
         <tr>
-            <td><c:out value="класс апартаментов"/></td>
+            <td><spring:message code="label.classOfApartments"/></td>
             <td><c:out value="${room.classOfAp}"/></td>
         </tr>
         <tr>
-            <td><c:out value="дата приезда"/></td>
+            <td><spring:message code="label.checkInTime"/></td>
             <td><c:out value="${order.startDate}"/></td>
         </tr>
 
         <tr>
-            <td><c:out value="дата отъезда"/></td>
+            <td><spring:message code="label.departureTime"/></td>
             <td><c:out value="${order.endDate}"/></td>
         </tr>
 
         <tr>
-            <td><c:out value="дополнительные услуги"/></td>
+            <td><spring:message code="label.additionalServices"/></td>
             <td><c:out value="${serviceList}"/></td>
         </tr>
 
@@ -40,20 +40,17 @@
     <br/>
 
     <form action="${pageContext.request.contextPath}/toPersonalAreaJspx">
-        <input type="submit" value="Перейти в личный кабинет"/>
+        <button name="GoToPersonalArea"><spring:message code="button.GoToPersonalArea"/></button>
     </form>
-
 
     <form action="${pageContext.request.contextPath}/statusOrder">
-        <input type="submit" value="Проверить статус заказа"/>
+        <button name="checkOrderStatus"><spring:message code="button.checkOrderStatus"/></button>
     </form>
 
-
     <br/>
     <br/>
     <br/>
-    <a href="${pageContext.request.contextPath}/logout">Logout</a>
-
+    <a href="${pageContext.request.contextPath}/logout"><spring:message code="button.logout"/></a>
 
     </body>
     </html>

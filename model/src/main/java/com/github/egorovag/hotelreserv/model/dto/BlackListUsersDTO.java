@@ -1,18 +1,17 @@
 package com.github.egorovag.hotelreserv.model.dto;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.Objects;
 
 
-public class BlackListUsers {
+public class BlackListUsersDTO {
     private Integer id;
     private Integer userId;
     private String firstName;
     private String secondName;
     private LocalDate dateBlock;
 
-    public BlackListUsers(Integer id, int userId, String firstName, String secondName, LocalDate dateBlock) {
+    public BlackListUsersDTO(Integer id, int userId, String firstName, String secondName, LocalDate dateBlock) {
         this.id = id;
         this.userId = userId;
         this.firstName = firstName;
@@ -20,14 +19,14 @@ public class BlackListUsers {
         this.dateBlock = dateBlock;
     }
 
-    public BlackListUsers(Integer id, Integer userId, String firstName, String secondName) {
+    public BlackListUsersDTO(Integer id, Integer userId, String firstName, String secondName) {
         this.id = id;
         this.userId = userId;
         this.firstName = firstName;
         this.secondName = secondName;
     }
 
-    public BlackListUsers() {
+    public BlackListUsersDTO() {
     }
 
     public Integer getId() {
@@ -85,7 +84,7 @@ public class BlackListUsers {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        BlackListUsers that = (BlackListUsers) o;
+        BlackListUsersDTO that = (BlackListUsersDTO) o;
         return Objects.equals(id, that.id);
     }
 

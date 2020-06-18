@@ -10,8 +10,8 @@ import com.github.egorovag.hotelreserv.dao.entity.RoomEntity;
 import com.github.egorovag.hotelreserv.model.Client;
 import com.github.egorovag.hotelreserv.model.OrderClient;
 import com.github.egorovag.hotelreserv.model.Room;
-import com.github.egorovag.hotelreserv.model.dto.OrderForAdmin;
-import com.github.egorovag.hotelreserv.model.dto.OrderForClient;
+import com.github.egorovag.hotelreserv.model.dto.OrderForAdminDTO;
+import com.github.egorovag.hotelreserv.model.dto.OrderForClientDTO;
 import com.github.egorovag.hotelreserv.model.enums.Condition;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -55,7 +55,7 @@ public class DefaultOrderDao implements OrderDao {
     }
 
     @Override
-    public List<OrderForAdmin> readOrderListForAdminDao() {
+    public List<OrderForAdminDTO> readOrderListForAdminDTODao() {
         Properties params = new Properties();
         params.put("enumClass", "com.github.egorovag.hotelreserv.model.enums.Condition");
         params.put("useNamed", true);
@@ -63,7 +63,7 @@ public class DefaultOrderDao implements OrderDao {
         Type myEnumType = new TypeLocatorImpl(new TypeResolver(typeConfiguration, new TypeFactory(typeConfiguration))).custom(EnumType.class, params);
         try {
             final Session session = sessionFactory.getCurrentSession();
-            List<OrderForAdmin> orderForAdmins = session.createNativeQuery("select oC.order_id as id, c.firstName, " +
+            List<OrderForAdminDTO> orderForAdmins = session.createNativeQuery("select oC.order_id as id, c.firstName, " +
                     "c.secondName, c.email, c.phone, oC.client_id as clientId, oC.startDate, oC.endDate, oC.conditions as 'condition' " +
                     "from client c join orderClient oC on c.id = oC.client_id")
                     .addScalar("id", StandardBasicTypes.INTEGER)
@@ -75,7 +75,7 @@ public class DefaultOrderDao implements OrderDao {
                     .addScalar("startDate", LocalDateType.INSTANCE)
                     .addScalar("endDate", LocalDateType.INSTANCE)
                     .addScalar("condition", myEnumType)
-                    .setResultTransformer(Transformers.aliasToBean(OrderForAdmin.class))
+                    .setResultTransformer(Transformers.aliasToBean(OrderForAdminDTO.class))
                     .list();
             log.info("List<OrderForAdmin> readed");
             return orderForAdmins;
@@ -86,7 +86,7 @@ public class DefaultOrderDao implements OrderDao {
     }
 
     @Override
-    public List<OrderForClient> readOrderForClientByClientIdDao(int id) {
+    public List<OrderForClientDTO> readOrderForClientDTOByClientIdDao(int id) {
         Properties params = new Properties();
         params.put("enumClass", "com.github.egorovag.hotelreserv.model.enums.Condition");
         params.put("useNamed", true);
@@ -101,7 +101,7 @@ public class DefaultOrderDao implements OrderDao {
                 new TypeFactory(typeConfiguration2))).custom(EnumType.class, params2);
         try {
             final Session session = sessionFactory.getCurrentSession();
-            List<OrderForClient> orderForClients = session.createNativeQuery("select oc.order_id as id, oc.startDate, oc.endDate, r.numOfSeats, r.classOfAp, r.price, oc.conditions as 'condition' from orderclient as oc join room r on oc.room_id = r.id where oc.client_id= :clientId")
+            List<OrderForClientDTO> orderForClients = session.createNativeQuery("select oc.order_id as id, oc.startDate, oc.endDate, r.numOfSeats, r.classOfAp, r.price, oc.conditions as 'condition' from orderclient as oc join room r on oc.room_id = r.id where oc.client_id= :clientId")
                     .setParameter("clientId", id)
                     .addScalar("id", StandardBasicTypes.INTEGER)
                     .addScalar("startDate", LocalDateType.INSTANCE)
@@ -110,7 +110,7 @@ public class DefaultOrderDao implements OrderDao {
                     .addScalar("classOfAp", myEnumType2)
                     .addScalar("price", StandardBasicTypes.INTEGER)
                     .addScalar("condition", myEnumType)
-                    .setResultTransformer(Transformers.aliasToBean(OrderForClient.class))
+                    .setResultTransformer(Transformers.aliasToBean(OrderForClientDTO.class))
                     .list();
             log.info("OrderForClient with id: {} readed", id);
             return orderForClients;

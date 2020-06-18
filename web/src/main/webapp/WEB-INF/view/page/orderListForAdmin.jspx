@@ -9,21 +9,21 @@
     <body>
     <c:if test="${orderForAdmins !=null}">
 
-        <h2 style="text-align: center">Список заказов</h2>
+        <h2 style="text-align: center"><spring:message code="label.orderList"/></h2>
 
 
         <table border="1" width="100%" cellpadding="5">
             <tr>
                 <th>№</th>
-                <th>Имя</th>
-                <th>Фамилия</th>
+                <th><spring:message code="label.nameClient"/></th>
+                <th><spring:message code="label.surname"/></th>
                 <th>email</th>
-                <th>phone</th>
-                <th>дата заезда</th>
-                <th>дата отъезда</th>
-                <th>состояние</th>
-                <th>Дополнительные услуги</th>
-                <th>Действие над заказом</th>
+                <th><spring:message code="label.phone"/></th>
+                <th><spring:message code="label.checkInTime"/></th>
+                <th><spring:message code="label.departureTime"/></th>
+                <th><spring:message code="label.state"/></th>
+                <th><spring:message code="label.additionalServices"/></th>
+                <th><spring:message code="label.orderActions"/></th>
             </tr>
 
             <c:set var="x" value="1"/>
@@ -51,17 +51,20 @@
                         <form action="${pageContext.request.contextPath}/orderList" method="post">
                             <input id="id1" type="text" name="orderId" value="${orderForAdmins.id}" hidden="hidden"/>
                             <input id="status1" type="text" name="condition" value="APPROVED" hidden="hidden"/>
-                            <input type="submit" value="Одобрить"/>
+                            <button name="toApprove"><spring:message code="button.toApprove"/></button>
+                            <!--                                                        <input type="submit" value="Одобрить"/>-->
                         </form>
                         <form action="${pageContext.request.contextPath}/orderList" method="post">
                             <input id="id2" type="text" name="orderId" value="${orderForAdmins.id}" hidden="hidden"/>
                             <input id="status2" type="text" name="condition" value="REJECTED" hidden="hidden"/>
-                            <input type="submit" value="Отказать"/>
+                            <button name="toRefuse"><spring:message code="button.toRefuse"/></button>
+                            <!--                                                        <input type="submit" value="Отказать"/>-->
                         </form>
                         <form action="${pageContext.request.contextPath}/orderList" method="post">
                             <input id="id3" type="text" name="orderId" value="${orderForAdmins.id}" hidden="hidden"/>
                             <input id="status3" type="text" name="condition" value="DELETE" hidden="hidden"/>
-                            <input type="submit" value="Удалить"/>
+                            <button name="delete"><spring:message code="button.delete"/></button>
+                            <!--                            <input type="submit" value="Удалить"/>-->
                         </form>
                     </td>
                 </tr>
@@ -71,17 +74,17 @@
     </c:if>
 
     <c:if test="${orderForAdmins == null}">
-        <h2><c:out value="Заказов нет"/></h2>
+        <h2><spring:message code="text.noOrders"/></h2>
     </c:if>
 
     <p style="color: red">${error}</p>
 
     <br/>
     <form action="${pageContext.request.contextPath}/toPersonalAreaJspx">
-        <input type="submit" value="перейти в личный кабинет"/>
+        <button name="GoToPersonalArea"><spring:message code="button.GoToPersonalArea"/></button>
     </form>
 
-    <a href="${pageContext.request.contextPath}/logout">Logout</a> <br/>
+    <a href="${pageContext.request.contextPath}/logout"><spring:message code="button.logout"/></a> <br/>
 
     </body>
     </html>

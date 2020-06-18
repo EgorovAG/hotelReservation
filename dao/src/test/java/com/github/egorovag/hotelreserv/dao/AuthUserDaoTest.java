@@ -1,14 +1,10 @@
 package com.github.egorovag.hotelreserv.dao;
 
 import com.github.egorovag.hotelreserv.dao.config.DaoConfig;
-import com.github.egorovag.hotelreserv.dao.impl.DefaultAuthUserDao;
-import com.github.egorovag.hotelreserv.dao.impl.DefaultClientDao;
 import com.github.egorovag.hotelreserv.model.AuthUser;
-import com.github.egorovag.hotelreserv.model.dto.AuthUserWithClient;
+import com.github.egorovag.hotelreserv.model.dto.AuthUserWithClientDTO;
 import com.github.egorovag.hotelreserv.model.Client;
 import com.github.egorovag.hotelreserv.model.enums.Role;
-import org.hibernate.SessionFactory;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -59,7 +55,7 @@ class AuthUserDaoTest {
 
     @Test
     void testReadListClientDao() {
-        List<AuthUserWithClient> authUserListsRes = authUserDao.readListAuthUserWithClientDao();
+        List<AuthUserWithClientDTO> authUserListsRes = authUserDao.readListAuthUserWithClientDTODao();
         Assertions.assertEquals(1, authUserListsRes.size());
     }
 
@@ -67,7 +63,7 @@ class AuthUserDaoTest {
     void testReadListAuthUserWithClientPaginationDao() {
         int firstResultPage = 1;
         int maxResultsPage = 3;
-        List<AuthUserWithClient> authUserListsRes = authUserDao.readListAuthUserWithClientPaginationDao(firstResultPage, maxResultsPage);
+        List<AuthUserWithClientDTO> authUserListsRes = authUserDao.readListAuthUserWithClientDTOPaginationDao(firstResultPage, maxResultsPage);
         Assertions.assertEquals(1, authUserListsRes.size());
     }
 

@@ -1,6 +1,6 @@
 package com.github.egorovag.hotelreserv.web.controllers;
 
-import com.github.egorovag.hotelreserv.model.dto.AuthUserWithClient;
+import com.github.egorovag.hotelreserv.model.dto.AuthUserWithClientDTO;
 import com.github.egorovag.hotelreserv.service.AuthUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +16,7 @@ import java.util.List;
 @RequestMapping
 public class PaginationRegistratedUsers  {
 
-    private static final Logger log = LoggerFactory.getLogger(PaginationRegistratedUsers.class);
+//    private static final Logger log = LoggerFactory.getLogger(PaginationRegistratedUsers.class);
 
     private AuthUserService authUserService;
 
@@ -32,7 +32,7 @@ public class PaginationRegistratedUsers  {
         if (req.getParameter("page") != null) {
             page = Integer.parseInt(req.getParameter("page"));
         }
-        List<AuthUserWithClient> authUserWithClients = authUserService.readListAuthUserWithClientPagination(page,
+        List<AuthUserWithClientDTO> authUserWithClients = authUserService.readListAuthUserWithClientDTOPagination(page,
                 maxResultsPage);
         int countResult = authUserService.countAuthUserWithClient();
         int noOfPages = (int) Math.ceil((countResult * 1.0) / maxResultsPage);

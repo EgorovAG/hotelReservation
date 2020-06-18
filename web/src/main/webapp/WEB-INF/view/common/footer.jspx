@@ -5,8 +5,8 @@
 
     <footer class="newFooter">
         <div class="footer">
-            FOOTER
-            <spring:message code="page.footer"/>
+
+Footer
         </div>
     </footer>
 

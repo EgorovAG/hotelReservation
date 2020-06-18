@@ -6,7 +6,7 @@ import com.github.egorovag.hotelreserv.model.enums.Condition;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class OrderForClient {
+public class OrderForClientDTO {
 
     private Integer id;
     private LocalDate startDate;
@@ -17,7 +17,7 @@ public class OrderForClient {
     private Condition condition;
 
 
-    public OrderForClient(Integer id, LocalDate startDate, LocalDate endDate, Integer numOfSeats, ClassRoom classOfAp, Integer price, Condition condition) {
+    public OrderForClientDTO(Integer id, LocalDate startDate, LocalDate endDate, Integer numOfSeats, ClassRoom classOfAp, Integer price, Condition condition) {
         this.id = id;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -27,7 +27,7 @@ public class OrderForClient {
         this.condition = condition;
     }
 
-    public OrderForClient() {
+    public OrderForClientDTO() {
     }
 
     public Integer getId() {
@@ -75,7 +75,7 @@ public class OrderForClient {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        OrderForClient that = (OrderForClient) o;
+        OrderForClientDTO that = (OrderForClientDTO) o;
         return Objects.equals(id, that.id);
     }
 

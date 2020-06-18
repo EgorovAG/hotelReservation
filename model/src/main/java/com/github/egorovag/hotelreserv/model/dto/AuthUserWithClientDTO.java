@@ -2,7 +2,7 @@ package com.github.egorovag.hotelreserv.model.dto;
 
 import java.util.Objects;
 
-public class AuthUserWithClient {
+public class AuthUserWithClientDTO {
 
     private Integer clientId;
     private Integer userId;
@@ -13,8 +13,8 @@ public class AuthUserWithClient {
     private String email;
     private String phone;
 
-    public AuthUserWithClient(Integer clientId, Integer userId, String login, String password, String firstName,
-                              String secondName, String email, String phone) {
+    public AuthUserWithClientDTO(Integer clientId, Integer userId, String login, String password, String firstName,
+                                 String secondName, String email, String phone) {
         this.clientId = clientId;
         this.userId = userId;
         this.login = login;
@@ -25,7 +25,7 @@ public class AuthUserWithClient {
         this.phone = phone;
     }
 
-    public AuthUserWithClient() {
+    public AuthUserWithClientDTO() {
     }
 
     public Integer getClientId() {
@@ -107,7 +107,7 @@ public class AuthUserWithClient {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AuthUserWithClient that = (AuthUserWithClient) o;
+        AuthUserWithClientDTO that = (AuthUserWithClientDTO) o;
         return Objects.equals(clientId, that.clientId);
     }
 

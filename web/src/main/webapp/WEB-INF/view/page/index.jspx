@@ -8,19 +8,15 @@
     <html>
     <body>
 
-
-
     <fieldset>
         <form action="${pageContext.request.contextPath}/login">
-            <!--            <h4><c:out value="Войти"/></h4>-->
-            <input type="submit" value="Войти"/>
+            <button name="enter"><spring:message code="button.logIn"/></button>
         </form>
     </fieldset>
 
     <fieldset>
         <form action="${pageContext.request.contextPath}/toRegistrationJspx">
-            <!--            <h4><c:out value="Регистрация"/></h4>-->
-            <input type="submit" value="Регистрация"/>
+            <button name="registration"><spring:message code="button.registration"/></button>
         </form>
     </fieldset>
 

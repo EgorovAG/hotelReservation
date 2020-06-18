@@ -2,7 +2,7 @@ package com.github.egorovag.hotelreserv.dao;
 
 import com.github.egorovag.hotelreserv.dao.config.DaoConfig;
 import com.github.egorovag.hotelreserv.model.AuthUser;
-import com.github.egorovag.hotelreserv.model.dto.BlackListUsers;
+import com.github.egorovag.hotelreserv.model.dto.BlackListUsersDTO;
 import com.github.egorovag.hotelreserv.model.Client;
 import com.github.egorovag.hotelreserv.model.enums.Role;
 import org.hibernate.SessionFactory;
@@ -41,15 +41,15 @@ class BlackListDaoTest {
     @Test
     void testReadBlackListUsersListsDao() {
         blackListUsersDao.saveBlackListByAuthUserIdDao(authUser.getId());
-        List<BlackListUsers> listBL = blackListUsersDao.readBlackListUsersListsDao();
+        List<BlackListUsersDTO> listBL = blackListUsersDao.readBlackListUsersDTODao();
         Assertions.assertEquals(1, listBL.size());
     }
 
     @Test
     void testDeleteBlackListByIdDao() {
         blackListUsersDao.saveBlackListByAuthUserIdDao(authUser.getId());
-        List<BlackListUsers> listBL = blackListUsersDao.readBlackListUsersListsDao();
-        BlackListUsers blackListUsers = listBL.get(0);
+        List<BlackListUsersDTO> listBL = blackListUsersDao.readBlackListUsersDTODao();
+        BlackListUsersDTO blackListUsers = listBL.get(0);
         int id = blackListUsers.getId();
         boolean res = blackListUsersDao.deleteBlackListByIdDao(id);
         Assertions.assertTrue(res);

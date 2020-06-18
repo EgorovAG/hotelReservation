@@ -29,40 +29,40 @@ public class WebConfig {
         return new Start();
     }
     @Bean
-    public BlackListServlet blackListServlet() {
-        return new BlackListServlet(serviceConfig.blackListService());
+    public BlackListController blackListServlet() {
+        return new BlackListController(serviceConfig.blackListService());
     }
 
-    @Bean
-    public BlockUserServlet blockUserServlet() {
-        return new BlockUserServlet(serviceConfig.blackListService());
-    }
+//    @Bean
+//    public BlockUserServlet blockUserServlet() {
+//        return new BlockUserServlet(serviceConfig.blackListService());
+//    }
+//
+//    @Bean
+//    public CheckPayServlet checkPayServlet() {
+//        return new CheckPayServlet(serviceConfig.orderService());
+//    }
 
     @Bean
-    public CheckPayServlet checkPayServlet() {
-        return new CheckPayServlet(serviceConfig.orderService());
-    }
-
-    @Bean
-    public ClientOrderServlet clientOrderServlet() {
-        return new ClientOrderServlet(serviceConfig.orderService(), serviceConfig.roomService(),
+    public OrderController clientOrderServlet() {
+        return new OrderController(serviceConfig.orderService(), serviceConfig.roomService(),
                 serviceConfig.serviceHotelService());
     }
 
     @Bean
-    public LoginServlet loginServlet() {
-        return new LoginServlet(serviceConfig.authUserService(), serviceConfig.blackListService(), serviceConfig.clientService());
+    public LoginController loginServlet() {
+        return new LoginController(serviceConfig.authUserService(), serviceConfig.blackListService(), serviceConfig.clientService());
     }
 
     @Bean
-    public LogoutServlet logoutServlet() {
-        return new LogoutServlet();
+    public LogoutController logoutServlet() {
+        return new LogoutController();
     }
 
-    @Bean
-    public OrderListServlet orderListServlet() {
-        return new OrderListServlet(serviceConfig.orderService());
-    }
+//    @Bean
+//    public OrderListServlet orderListServlet() {
+//        return new OrderListServlet(serviceConfig.orderService());
+//    }
 
     @Bean
     public PaginationRegistratedUsers paginationRegistratedUsers() {
@@ -70,23 +70,23 @@ public class WebConfig {
     }
 
     @Bean
-    public RegisteredUsersServlet registeredUsersServlet() {
-        return new RegisteredUsersServlet(serviceConfig.authUserService(), serviceConfig.clientService());
+    public RegistratedUsersController registratedUsersController() {
+        return new RegistratedUsersController(serviceConfig.authUserService(), serviceConfig.clientService());
     }
 
     @Bean
-    public RegistrationServlet registrationServlet() {
-        return new RegistrationServlet(serviceConfig.authUserService());
+    public RegistrationController registrationServlet() {
+        return new RegistrationController(serviceConfig.authUserService());
     }
 
-    @Bean
-    public StatusOrder statusOrder() {
-        return new StatusOrder(serviceConfig.orderService());
-    }
+//    @Bean
+//    public StatusOrder statusOrder() {
+//        return new StatusOrder(serviceConfig.orderService());
+//    }
 
     @Bean
-    public ToPayOrderServlet toPayOrderServlet() {
-        return new ToPayOrderServlet(serviceConfig.orderService());
+    public ToPayOrderController toPayOrderServlet() {
+        return new ToPayOrderController(serviceConfig.orderService());
     }
 
     @Bean

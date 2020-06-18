@@ -4,8 +4,8 @@ import com.github.egorovag.hotelreserv.dao.OrderDao;
 import com.github.egorovag.hotelreserv.model.Client;
 import com.github.egorovag.hotelreserv.model.OrderClient;
 import com.github.egorovag.hotelreserv.model.Room;
-import com.github.egorovag.hotelreserv.model.dto.OrderForAdmin;
-import com.github.egorovag.hotelreserv.model.dto.OrderForClient;
+import com.github.egorovag.hotelreserv.model.dto.OrderForAdminDTO;
+import com.github.egorovag.hotelreserv.model.dto.OrderForClientDTO;
 import com.github.egorovag.hotelreserv.model.enums.ClassRoom;
 import com.github.egorovag.hotelreserv.model.enums.Condition;
 import com.github.egorovag.hotelreserv.service.impl.DefaultOrderService;
@@ -47,9 +47,9 @@ class OrderServiceTest {
 
     @Test
     void testReadOrderList() {
-        List<OrderForAdmin> orderForAdmins = new ArrayList<>();
-        when(orderDao.readOrderListForAdminDao()).thenReturn(orderForAdmins);
-        List<OrderForAdmin> orderForAdminsRes = defaultOrderService.readOrderListForAdmin();
+        List<OrderForAdminDTO> orderForAdmins = new ArrayList<>();
+        when(orderDao.readOrderListForAdminDTODao()).thenReturn(orderForAdmins);
+        List<OrderForAdminDTO> orderForAdminsRes = defaultOrderService.readOrderListForAdminDTO();
         Assertions.assertEquals(orderForAdmins, orderForAdminsRes);
     }
 
@@ -69,9 +69,9 @@ class OrderServiceTest {
 
     @Test
     void testReadOrderForClientByClientId() {
-        List<OrderForClient> orderForClients = new ArrayList<>();
-        when(orderDao.readOrderForClientByClientIdDao(orderClient.getClientId())).thenReturn(orderForClients);
-        List<OrderForClient> orderForClientsRes = defaultOrderService.readOrderForClientByClientId(orderClient.getClientId());
+        List<OrderForClientDTO> orderForClients = new ArrayList<>();
+        when(orderDao.readOrderForClientDTOByClientIdDao(orderClient.getClientId())).thenReturn(orderForClients);
+        List<OrderForClientDTO> orderForClientsRes = defaultOrderService.readOrderForClientDTOByClientId(orderClient.getClientId());
         Assertions.assertEquals(orderForClients, orderForClientsRes);
     }
 

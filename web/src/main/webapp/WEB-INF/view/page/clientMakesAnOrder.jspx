@@ -1,0 +1,74 @@
+<jsp:root xmlns="http://www.w3.org/1999/xhtml"
+          xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:s="http://www.springframework.org/tags/form"
+          xmlns:spring="http://www.springframework.org/tags"
+          xmlns:c="http://java.sun.com/jsp/jstl/core"
+          version="2.0">
+
+    <html>
+    <body>
+
+    <c:if test="${authUser.login != 'admin'}">
+        <h4><spring:message code="label.userName"/>: ${client.firstName}</h4>
+        <h3 style="text-align: center"><spring:message code="label.chooseUsername"/></h3>
+
+        <form style="text-align: center" action="${pageContext.request.contextPath}/clientOrder" method="post">
+
+            <p><b><spring:message code="label.numberOfPlaces"/>:</b><br/>
+                <input type="radio" name="numOfSeats" value="1" checked=""/><spring:message code="label.single"/><br/>
+                <input type="radio" name="numOfSeats" value="2"/><spring:message code="label.double"/><br/>
+                <input type="radio" name="numOfSeats" value="3"/><spring:message code="label.triple"/><br/>
+
+            </p>
+            <br/>
+
+            <p><b><spring:message code="label.classOfApartments"/>:</b><br/>
+                <input type="radio" name="classOfAp" value="ECONOM" checked=""/><spring:message code="label.econom"/><br/>
+                <input type="radio" name="classOfAp" value="STANDART"/><spring:message code="label.standard"/>т<br/>
+                <input type="radio" name="classOfAp" value="BUSINESS"/><spring:message code="label.business"/><br/>
+            </p>
+
+            <p><b><spring:message code="label.additionalServices"/>:</b><br/>
+                <input type="radio" name="typeOfService1" value="pool"/><spring:message code="label.pool"/><br/>
+                <input type="radio" name="typeOfService2" value="wifi"/><spring:message code="label.wifi"/><br/>
+                <input type="radio" name="typeOfService3" value="breakfast"/><spring:message code="label.breakfast"/><br/>
+                <input type="radio" name="typeOfService4" value="lunch"/><spring:message code="label.lunch"/><br/>
+                <input type="radio" name="typeOfService5" value="dinner"/><spring:message code="label.dinner"/><br/>
+                <input type="radio" name="typeOfService6" value="bar"/><spring:message code="label.bar"/><br/>
+                <input type="radio" name="typeOfService7" value="gym"/><spring:message code="label.gym"/><br/>
+            </p>
+            <br/>
+
+            <input type="date" name="startDate" required=""/>
+            <spring:message code="label.checkInTime"/>:
+            <br/>
+            <input type="date" name="endDate" required=""/>
+            <spring:message code="label.departureTime"/>:
+            <br/>
+
+            <input type="submit"/>
+        </form>
+        <br/>
+        <br/>
+        <br/>
+        <a href="${pageContext.request.contextPath}/logout"><spring:message code="button.logout"/></a>
+    </c:if>
+
+    </body>
+    </html>
+
+</jsp:root>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
