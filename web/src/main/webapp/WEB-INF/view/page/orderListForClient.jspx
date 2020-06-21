@@ -46,11 +46,22 @@
                             </c:if>
                         </c:forEach>
                     </td>
-                    <td>${orderForClients.price}</td>
+                    <td>
+                        <c:set var="allPrice" value="${orderForClients.price}" />
+                        <c:forEach var="orderClients" items="${orderClients}">
+                            <c:if test="${orderForClients.id == orderClients.orderId}">
+                                <c:forEach var="orderClientsServHot" items="${orderClients.serviceHotels}">
+                                    <c:set var="allPrice" value="${allPrice + orderClientsServHot.price}" />
+                                </c:forEach>
+                            </c:if>
+                        </c:forEach>
+                        <c:out value="${allPrice}" />
+                    </td>
                     <td>
                         <form action="${pageContext.request.contextPath}/toPayOrder" method="post">
                             <input id="id1" type="text" name="orderId" value="${orderForClients.id}" hidden="hidden"/>
                             <input id="status1" type="text" name="condition" value="PAID" hidden="hidden"/>
+                            <input id="price" type="text" name="price" value="${allPrice}" hidden="hidden"/>
                             <button name="toPay"><spring:message code="button.toPay"/></button>
                         </form>
                         <form action="${pageContext.request.contextPath}/toPayOrder" method="post">

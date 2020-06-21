@@ -8,9 +8,9 @@ import javax.validation.constraints.Pattern;
 public class AuthUser {
 
     private Integer id;
-    @Pattern(regexp = "[A-Za-zА-Яа-я0-9]{1,50}", message = "логин должен содержать не больше 50 символов и состоять только из букв и цифр")
+//    @Pattern(regexp = "[A-Za-zА-Яа-я0-9]{1,50}", message = "логин должен содержать не больше 50 символов и состоять только из букв и цифр")
     private String login;
-    @Pattern(regexp = "[A-Za-zА-Яа-я0-9]{1,50}", message = "пароль должен содержать не больше 50 символов и состоять только из букв и цифр")
+//    @Pattern(regexp = "[A-Za-zА-Яа-я0-9]{1,50}", message = "пароль должен содержать не больше 50 символов и состоять только из букв и цифр")
     private String password;
     private Role role;
 

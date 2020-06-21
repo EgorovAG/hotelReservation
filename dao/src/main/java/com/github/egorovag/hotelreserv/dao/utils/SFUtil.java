@@ -1,10 +1,10 @@
 package com.github.egorovag.hotelreserv.dao.utils;
 
 import com.github.egorovag.hotelreserv.model.*;
-import com.github.egorovag.hotelreserv.model.dto.AuthUserWithClient;
-import com.github.egorovag.hotelreserv.model.dto.BlackListUsers;
-import com.github.egorovag.hotelreserv.model.dto.OrderForAdmin;
-import com.github.egorovag.hotelreserv.model.dto.OrderForClient;
+import com.github.egorovag.hotelreserv.model.dto.AuthUserWithClientDTO;
+import com.github.egorovag.hotelreserv.model.dto.BlackListUsersDTO;
+import com.github.egorovag.hotelreserv.model.dto.OrderForAdminDTO;
+import com.github.egorovag.hotelreserv.model.dto.OrderForClientDTO;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;
@@ -60,10 +60,10 @@ public class SFUtil {
         sources.addAnnotatedClass(Room.class);
         sources.addAnnotatedClass(BlackList.class);
         sources.addAnnotatedClass(ServiceHotel.class);
-        sources.addAnnotatedClass(AuthUserWithClient.class);
-        sources.addAnnotatedClass(BlackListUsers.class);
-        sources.addAnnotatedClass(OrderForAdmin.class);
-        sources.addAnnotatedClass(OrderForClient.class);
+        sources.addAnnotatedClass(AuthUserWithClientDTO.class);
+        sources.addAnnotatedClass(BlackListUsersDTO.class);
+        sources.addAnnotatedClass(OrderForAdminDTO.class);
+        sources.addAnnotatedClass(OrderForClientDTO.class);
         // Create Metadata
         Metadata metadata = sources.getMetadataBuilder().build();
         // Create SessionFactory

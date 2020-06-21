@@ -73,7 +73,8 @@ public class ToPayOrderController {
                     req.setAttribute("Error", "Заказ еще не одобрен администратором");
                     return "orderListForClient";
                 case APPROVED:
-                    int price = orderService.readPriceForRoomByOrderId(orderId);
+//                    int price = orderService.readPriceForRoomByOrderId(orderId);
+                    int price = Integer.parseInt(req.getParameter("price"));
                     req.getSession().setAttribute("price", price);
                     req.getSession().setAttribute("orderId", orderId);
                     return "orderPayment";

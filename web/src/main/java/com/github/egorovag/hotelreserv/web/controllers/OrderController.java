@@ -113,7 +113,6 @@ public class OrderController {
             orderService.updateOrderList(orderId, Condition.PAID);
             log.info("orderClient with orderId:{} updated", orderId);
             return "successfulPayment";
-
         } else {
             req.setAttribute("Error", "Вы ввели неверную сумму, попробуйте еще раз");
             return "orderPayment";
