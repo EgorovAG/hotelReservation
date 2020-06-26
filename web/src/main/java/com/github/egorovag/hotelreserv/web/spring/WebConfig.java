@@ -6,6 +6,7 @@ import com.github.egorovag.hotelreserv.web.controllers.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
@@ -25,9 +26,10 @@ public class WebConfig {
     }
 
     @Bean
-    public Start start(){
+    public Start start() {
         return new Start();
     }
+
     @Bean
     public BlackListController blackListServlet() {
         return new BlackListController(serviceConfig.blackListService());
@@ -75,14 +77,26 @@ public class WebConfig {
     }
 
     @Bean
-    public RegistrationController registrationServlet() {
-        return new RegistrationController(serviceConfig.authUserService());
+    public FileController fileController() {
+        return new FileController();
     }
+
+//    @Bean
+//    public RegistrationController registrationServlet() {
+//        return new RegistrationController(serviceConfig.authUserService());
+//    }
 
 //    @Bean
 //    public StatusOrder statusOrder() {
 //        return new StatusOrder(serviceConfig.orderService());
 //    }
+
+    @Bean
+    public CommonsMultipartResolver multipartResolver() {
+        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+        multipartResolver.setMaxUploadSize(5000000);
+        return new CommonsMultipartResolver();
+    }
 
     @Bean
     public ToPayOrderController toPayOrderServlet() {
@@ -108,7 +122,6 @@ public class WebConfig {
         ReloadableResourceBundleMessageSource source = new ReloadableResourceBundleMessageSource();
         source.setBasename("classpath:i18n/messages");
         source.setDefaultEncoding("UTF-8");
-
         return source;
     }
 

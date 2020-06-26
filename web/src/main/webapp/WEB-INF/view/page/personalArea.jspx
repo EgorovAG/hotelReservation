@@ -3,12 +3,13 @@
           xmlns:s="http://www.springframework.org/tags/form"
           xmlns:spring="http://www.springframework.org/tags"
           xmlns:c="http://java.sun.com/jsp/jstl/core"
-          version="2.0">
+          version="2.0" xmlns:sec="http://www.springframework.org/security/tags">
 
     <html>
     <body>
 
-    <c:if test="${authUser.login != 'admin'}">
+    <sec:authorize access="hasRole('ROLE_USER')">
+        <!--    <c:if test="${authUser.login != 'admin'}">-->
         <h4><spring:message code="label.userName"/>: ${client.firstName}</h4>
         <h1 style="text-align: center"><spring:message code="text.personalArea"/></h1>
 
@@ -24,13 +25,27 @@
             </form>
         </fieldset>
 
+        <s:form id="uploadForm" action="upload" enctype="multipart/form-data">
+<!--            <img alt="Copy of customer passport" src="download/image?name=Client_${authUser.login}.jpg" height="200" width="200"/>-->
+            <table>
+                <tr>
+                    <th><label><spring:message code="label.copyPassport"/></label></th>
+                    <td><input name="avatar" type="file"/></td>
+                    <td><input id="uploadButton" type="submit" value="Upload image"/></td>
+                </tr>
+            </table>
+        </s:form>
+
         <br/>
         <br/>
         <br/>
         <a href="${pageContext.request.contextPath}/logout"><spring:message code="button.logout"/></a>
-    </c:if>
+        <!--    </c:if>-->
+    </sec:authorize>
 
-    <c:if test="${authUser.login == 'admin'}">
+
+    <sec:authorize access="hasRole('ROLE_ADMIN')">
+        <!--    <c:if test="${authUser.login == 'admin'}">-->
         <h4><spring:message code="label.admin"/></h4>
         <h1 style="text-align: center"><spring:message code="text.personalArea"/></h1>
 
@@ -66,7 +81,8 @@
         <br/>
         <a href="${pageContext.request.contextPath}/logout"><spring:message code="button.logout"/></a>
 
-    </c:if>
+        <!--    </c:if>-->
+    </sec:authorize>
 
     </body>
     </html>

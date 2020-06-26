@@ -16,9 +16,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/","/login","/registration","/toRegistrationJspx").permitAll()
-                .antMatchers("/blackListUsers", "/blockUser","/orderList","/paginationRegistratedUsers").hasRole("ADMIN")
-                .antMatchers("/clientOrder","/checkPay","/statusOrder","/toPayOrder","toClientOrderJsp").hasRole("USER")
+                .antMatchers("/", "/login", "/registration", "/toRegistrationJspx").permitAll()
+                .antMatchers("/blackListUsers", "/blockUser", "/orderList", "/paginationRegistratedUsers").hasRole("ADMIN")
+                .antMatchers("/clientOrder", "/checkPay", "/statusOrder", "/toPayOrder", "toClientOrderJsp").hasRole("USER")
                 .anyRequest().authenticated();
     }
 }

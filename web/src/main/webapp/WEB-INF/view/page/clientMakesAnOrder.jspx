@@ -23,7 +23,8 @@
             <br/>
 
             <p><b><spring:message code="label.classOfApartments"/>:</b><br/>
-                <input type="radio" name="classOfAp" value="ECONOM" checked=""/><spring:message code="label.econom"/><br/>
+                <input type="radio" name="classOfAp" value="ECONOM" checked=""/><spring:message
+                        code="label.econom"/><br/>
                 <input type="radio" name="classOfAp" value="STANDART"/><spring:message code="label.standard"/>т<br/>
                 <input type="radio" name="classOfAp" value="BUSINESS"/><spring:message code="label.business"/><br/>
             </p>
@@ -31,7 +32,8 @@
             <p><b><spring:message code="label.additionalServices"/>:</b><br/>
                 <input type="radio" name="typeOfService1" value="pool"/><spring:message code="label.pool"/><br/>
                 <input type="radio" name="typeOfService2" value="wifi"/><spring:message code="label.wifi"/><br/>
-                <input type="radio" name="typeOfService3" value="breakfast"/><spring:message code="label.breakfast"/><br/>
+                <input type="radio" name="typeOfService3" value="breakfast"/><spring:message
+                        code="label.breakfast"/><br/>
                 <input type="radio" name="typeOfService4" value="lunch"/><spring:message code="label.lunch"/><br/>
                 <input type="radio" name="typeOfService5" value="dinner"/><spring:message code="label.dinner"/><br/>
                 <input type="radio" name="typeOfService6" value="bar"/><spring:message code="label.bar"/><br/>
@@ -48,6 +50,11 @@
 
             <input type="submit"/>
         </form>
+
+        <form action="${pageContext.request.contextPath}/toPersonalAreaJspx">
+            <button name="GoToPersonalArea"><spring:message code="button.GoToPersonalArea"/></button>
+        </form>
+
         <br/>
         <br/>
         <br/>
