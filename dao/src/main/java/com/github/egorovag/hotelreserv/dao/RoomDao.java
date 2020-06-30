@@ -8,9 +8,4 @@ import java.sql.SQLException;
 public interface RoomDao {
 
     Room readRoomByNumOfSeatsAndClassOfApDao(int numOfSeats, ClassRoom classOfAp);
-
-
-//    Room readRoomByIdDao(int id);
-//    int readRoomIdDao(int numOfSeats, ClassRoom classOfApp);
-//    Room getRoomDao();
 }

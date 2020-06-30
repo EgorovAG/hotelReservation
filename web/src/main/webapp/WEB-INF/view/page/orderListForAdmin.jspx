@@ -46,7 +46,7 @@
                     </c:forEach>
                     </td>
 
-
+                    <c:if test="${orderForAdmins.condition != 'PAID'}">
                     <td>
                         <form action="${pageContext.request.contextPath}/orderList" method="post">
                             <input id="id1" type="text" name="orderId" value="${orderForAdmins.id}" hidden="hidden"/>
@@ -67,6 +67,20 @@
                             <!--                            <input type="submit" value="Удалить"/>-->
                         </form>
                     </td>
+                    </c:if>
+
+                    <c:if test="${orderForAdmins.condition == 'PAID'}">
+                        <td>
+
+                            <form action="${pageContext.request.contextPath}/orderList" method="post">
+                                <input id="id4" type="text" name="orderId" value="${orderForAdmins.id}" hidden="hidden"/>
+                                <input id="status4" type="text" name="condition" value="DELETE" hidden="hidden"/>
+                                <button name="delete"><spring:message code="button.delete"/></button>
+                                <!--                            <input type="submit" value="Удалить"/>-->
+                            </form>
+                        </td>
+                    </c:if>
+
                 </tr>
             </c:forEach>
         </table>

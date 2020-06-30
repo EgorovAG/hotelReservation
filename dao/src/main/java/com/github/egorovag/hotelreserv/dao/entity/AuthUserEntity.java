@@ -20,31 +20,6 @@ public class AuthUserEntity {
     private ClientEntity clientEntity;
     private BlackListEntity blackListEntity;
 
-
-    public AuthUserEntity(Integer id, String login, String password, Role role) {
-        this.id = id;
-        this.login = login;
-        this.password = password;
-        this.role = role;
-    }
-
-    public AuthUserEntity(String login, String password, Role role) {
-        this.login = login;
-        this.password = password;
-        this.role = role;
-    }
-
-//    public AuthUserEntity(Integer id, String login, String password, Role role, ClientEntity clientEntity, BlackListEntity blackListEntity) {
-//        this.id = id;
-//        this.login = login;
-//        this.password = password;
-//        this.role = role;
-//        this.clientEntity = clientEntity;
-//        this.blackListEntity = blackListEntity;
-//    }
-
-
-
     public AuthUserEntity() {
     }
 

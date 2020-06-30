@@ -8,12 +8,12 @@
     <html>
     <body>
 
-    <h3 style="text-align: center"><spring:message code="label.youAreLockedOutAndCannotPerformAnyActions"/></h3>
+    <img alt="Copy of customer passport" src="download/image?name=Client_${login}.jpg" height="200" width="200"/>
 
-    <br/><br/>
-    <a href="${pageContext.request.contextPath}/logout"><spring:message code="button.logout"/></a> <br/>
+    <form action="${pageContext.request.contextPath}/paginationRegistratedUsers">
+        <button name="GoToRegistratedUsers"><spring:message code="button.GoToRegistratedUsers"/></button>
+    </form>
 
     </body>
     </html>
-
 </jsp:root>

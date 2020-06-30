@@ -1,5 +1,5 @@
 package com.github.egorovag.hotelreserv.model.enums;
 
-public enum  Role {
+public enum Role {
     ADMIN, USER
 }

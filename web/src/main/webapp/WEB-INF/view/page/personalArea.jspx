@@ -26,7 +26,6 @@
         </fieldset>
 
         <s:form id="uploadForm" action="upload" enctype="multipart/form-data">
-<!--            <img alt="Copy of customer passport" src="download/image?name=Client_${authUser.login}.jpg" height="200" width="200"/>-->
             <table>
                 <tr>
                     <th><label><spring:message code="label.copyPassport"/></label></th>
@@ -50,9 +49,6 @@
         <h1 style="text-align: center"><spring:message code="text.personalArea"/></h1>
 
         <fieldset>
-            <!--            <form action="${pageContext.request.contextPath}/orderList">-->
-            <!--                <input type="submit" value="Просмотр заказов"/>-->
-            <!--            </form>-->
 
             <form action="${pageContext.request.contextPath}/orderList">
                 <button name="viewOrders"><spring:message code="button.viewOrders"/></button>
@@ -60,18 +56,12 @@
         </fieldset>
 
         <fieldset>
-            <!--            <form action="${pageContext.request.contextPath}/paginationRegistratedUsers">-->
-            <!--                <input type="submit" value="Просмотр зарегистрированных пользователей"/>-->
-            <!--            </form>-->
             <form action="${pageContext.request.contextPath}/paginationRegistratedUsers">
                 <button name="viewingRegisteredUsers"><spring:message code="button.viewingRegisteredUsers"/></button>
             </form>
         </fieldset>
 
         <fieldset>
-            <!--            <form action="${pageContext.request.contextPath}/blackListUsers">-->
-            <!--                <input type="submit" value="Список заблокированных пользователей"/>-->
-            <!--            </form>-->
             <form action="${pageContext.request.contextPath}/blackListUsers">
                 <button name="blockedUsersList"><spring:message code="button.blockedUsersList"/></button>
             </form>

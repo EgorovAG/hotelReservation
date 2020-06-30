@@ -21,15 +21,9 @@ import java.util.Optional;
 public class DefaultClientDao implements ClientDao {
     private static final Logger log = LoggerFactory.getLogger(DefaultClientDao.class);
 
-    //    private final SessionFactory sessionFactory;
-//
-//    public DefaultClientDao(SessionFactory sessionFactory) {
-//        this.sessionFactory = sessionFactory;
-//    }
     @Autowired
     ClientCrudRepository clientCrudRepository;
 
-    //Spring Data
     @Override
     public boolean deleteAuthUserAndClientByClientIdDao(Integer clientId) {
         try {
@@ -42,23 +36,7 @@ public class DefaultClientDao implements ClientDao {
         }
     }
 
-//    @Override
-//    public boolean deleteAuthUserAndClientByUserIdDao(Integer userId) {
-//        try {
-//            final Session session = sessionFactory.getCurrentSession();
-//            AuthUserEntity authUserEntity = session.get(AuthUserEntity.class, userId);
-//            session.delete(authUserEntity);
-//            log.info("AuthUser with : {} userId and Client deleted", userId);
-//            return true;
-//        } catch (HibernateException e) {
-//            log.error("Fail to delete AuthUser with : {} userId and Client ", userId, e);
-//            return false;
-//        }
-//    }
-
-
-    //Spring Data
-    @Override //criteria
+    @Override
     public Client readClientByClientIdDao(Integer id) {
         try {
             ClientEntity clientEntityRes = clientCrudRepository.findById(id).orElse(null);
@@ -69,21 +47,4 @@ public class DefaultClientDao implements ClientDao {
             return null;
         }
     }
-
-//    @Override //criteria
-//    public Client readClientByAuthUserIdDao(Integer id) {
-//        try {
-//            final Session session = sessionFactory.getCurrentSession();
-//            CriteriaBuilder cb = session.getCriteriaBuilder();
-//            CriteriaQuery<AuthUserEntity> criteria = cb.createQuery(AuthUserEntity.class);
-//            Root<AuthUserEntity> authUserEntityRoot = criteria.from(AuthUserEntity.class);
-//            criteria.select(authUserEntityRoot).where(cb.equal(authUserEntityRoot.get("id"), id));
-//            AuthUserEntity authUserEntityRes = session.createQuery(criteria).getSingleResult();
-//            log.info("Client with authUserID:{} readed", id);
-//            return ClientConverter.fromEntity(authUserEntityRes.getClientEntity());
-//        } catch (HibernateError e) {
-//            log.error("Fail to read client with authUserID:{}", id, e);
-//            return null;
-//        }
-//    }
 }

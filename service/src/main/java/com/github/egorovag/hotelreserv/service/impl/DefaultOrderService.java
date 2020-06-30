@@ -87,18 +87,3 @@ public class DefaultOrderService implements OrderService {
         return orderDao.readConditionByOrderIdDao(orderId);
     }
 }
-
-
-//    @Override
-//    public boolean deleteOrderByClientId(int id) {
-//        if (orderDao.deleteOrderByClientIdDao(id)) {
-//            return true;
-//        }
-//        return false;
-//    }
-
-
-//    @Override
-//    public List<OrderClient> readOrderByAuthUserIdService(int id) {
-//        return iOrderDao.readOrderByAuthUserIdDao(id);
-//    }

@@ -45,8 +45,6 @@ class AuthUserServiceTest {
         Assertions.assertEquals(authUser, result);
     }
 
-
-
     @Test
     void testReadListClient() {
         List<AuthUserWithClientDTO> authUserList = new ArrayList<>();
@@ -59,48 +57,21 @@ class AuthUserServiceTest {
     void testReadListAuthUserWithClientPagination() {
         List<AuthUserWithClientDTO> authUserList = new ArrayList<>();
         when(authUserDao.readListAuthUserWithClientDTOPaginationDao(1, 2)).thenReturn(authUserList);
-        List<AuthUserWithClientDTO> authUserListRes = defaultAuthUserService.readListAuthUserWithClientDTOPagination(1,2);
+        List<AuthUserWithClientDTO> authUserListRes = defaultAuthUserService.readListAuthUserWithClientDTOPagination(1, 2);
         Assertions.assertEquals(authUserList, authUserListRes);
     }
 
     @Test
-    void testCountAuthUserWithClient(){
+    void testCountAuthUserWithClient() {
         when(authUserDao.countAuthUserWithClientDao()).thenReturn(10);
         int res = defaultAuthUserService.countAuthUserWithClient();
         Assertions.assertEquals(10, res);
     }
+
     @Test
     void testSaveAuthUserAndClient() {
-        when(authUserDao.saveAuthUserAndClientDao(authUser,client)).thenReturn(authUser);
-        AuthUser authUserRes = defaultAuthUserService.saveAuthUserAndClient(authUser,client);
+        when(authUserDao.saveAuthUserAndClientDao(authUser, client)).thenReturn(authUser);
+        AuthUser authUserRes = defaultAuthUserService.saveAuthUserAndClient(authUser, client);
         Assertions.assertEquals(authUser, authUserRes);
     }
-
-
-
-//
-//    @Test
-//    @Deprecated
-//    void testReadClientByLoginService() {
-//        Client client = new Client("Alexey","Petrov","qwe@qew.by","55555",10);
-//        when(authUserDao.readClientByLoginDao("alex")).thenReturn(client);
-//        Client result = authUserService.readClientByLoginService("alex");
-//        Assertions.assertEquals(client,result);
-//    }
-//
-//    @Test
-//    void readListClient() {
-//        when(authUserDao.readListClientDao()).thenReturn(null);
-//        List<AuthUserWithClient> authUserList = authUserService.readListClient();
-//        Assertions.assertNull(authUserList);
-//    }
-
-    //    @Test
-//    void testSaveAuthUser() {
-//        AuthUser authUser = new AuthUser(10,"alex","pass",Role.USER);
-//        Client client = new Client(null, "Alex","Alexandrov","alex@tut.by","55555",authUser);
-//        when(clientDao.saveAuthUserAndClientDao(authUser, client).thenReturn(authUser);
-//        AuthUser result = authUserService.saveAuthUser("alex","pass",Role.USER);
-//        Assertions.assertEquals(authUser, result);
-//    }
 }

@@ -36,10 +36,6 @@ public class DefaultBlackListService implements BlackListService {
     @Override
     @Transactional
     public boolean checkBlackListByUserId(int id) {
-        if (blackListDao.checkBlackUserByIdDao(id) != null) {
-            return true;
-        } else {
-            return false;
-        }
+        return blackListDao.checkBlackUserByIdDao(id) != null;
     }
 }

@@ -22,37 +22,9 @@ public class OrderClientEntity {
     private Integer clientId;
     private Condition condition;
 
-
     private RoomEntity roomEntity;
     private ClientEntity clientEntity;
     private List<ServiceHotelEntity> serviceHotelEntities = new ArrayList<>();
-
-
-    public OrderClientEntity(Integer orderId, LocalDate startDate, LocalDate endDate, Integer roomId, Integer clientId,
-                             Condition condition, RoomEntity roomEntity, ClientEntity clientEntity,
-                             List<ServiceHotelEntity> serviceHotelEntities) {
-        this.orderId = orderId;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.roomId = roomId;
-        this.clientId = clientId;
-        this.condition = condition;
-        this.roomEntity = roomEntity;
-        this.clientEntity = clientEntity;
-        this.serviceHotelEntities = serviceHotelEntities;
-    }
-
-    public OrderClientEntity(Integer orderId, LocalDate startDate, LocalDate endDate, Integer roomId, Integer clientId,
-                             Condition condition, RoomEntity room, ClientEntity client) {
-        this.orderId = orderId;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.roomId = roomId;
-        this.clientId = clientId;
-        this.condition = condition;
-        this.roomEntity = room;
-        this.clientEntity = client;
-    }
 
     public OrderClientEntity() {
     }
@@ -126,7 +98,7 @@ public class OrderClientEntity {
         this.roomEntity = room;
     }
 
-    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER )
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JoinTable(name = "orderclient_servicehotel", joinColumns = {@JoinColumn(name = "order_id")},
             inverseJoinColumns = {@JoinColumn(name = "service_id")}
     )

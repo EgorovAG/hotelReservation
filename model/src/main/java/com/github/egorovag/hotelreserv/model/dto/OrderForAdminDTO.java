@@ -19,20 +19,6 @@ public class OrderForAdminDTO {
     private Condition condition;
     private ServiceHotel services;
 
-    public OrderForAdminDTO(Integer id, String firstName, String secondName, String email, String phone, Integer clientId,
-                            LocalDate startDate, LocalDate endDate, Condition condition, ServiceHotel services) {
-        this.id = id;
-        this.firstName = firstName;
-        this.secondName = secondName;
-        this.email = email;
-        this.phone = phone;
-        this.clientId = clientId;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.condition = condition;
-        this.services = services;
-    }
-
     public OrderForAdminDTO() {
     }
 

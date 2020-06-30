@@ -5,7 +5,6 @@ import com.github.egorovag.hotelreserv.model.Room;
 import com.github.egorovag.hotelreserv.model.enums.ClassRoom;
 import com.github.egorovag.hotelreserv.service.impl.DefaultRoomService;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -23,20 +22,12 @@ class RoomServiceTest {
     @InjectMocks
     DefaultRoomService defaultRoomService;
 
-    private Room room = new Room(1,1,ClassRoom.ECONOM);
+    private Room room = new Room(1, 1, ClassRoom.ECONOM);
 
     @Test
     void testReadRoomByNumOfSeatsAndClassOfApDao() {
-        when(roomDao.readRoomByNumOfSeatsAndClassOfApDao(room.getId(),room.getClassOfAp())).thenReturn(room);
-        Room roomRes  = defaultRoomService.readRoomByNumOfSeatsAndClassOfAp(room.getId(), room.getClassOfAp());
+        when(roomDao.readRoomByNumOfSeatsAndClassOfApDao(room.getId(), room.getClassOfAp())).thenReturn(room);
+        Room roomRes = defaultRoomService.readRoomByNumOfSeatsAndClassOfAp(room.getId(), room.getClassOfAp());
         Assertions.assertEquals(room, roomRes);
     }
-
-
-//    @Test
-//    void testReadRoomById() {
-//        when(roomDao.readRoomByIdDao(1)).thenReturn(room);
-//        Room result = roomService.readRoomById(1);
-//        Assertions.assertEquals(room,result);
-//    }
 }

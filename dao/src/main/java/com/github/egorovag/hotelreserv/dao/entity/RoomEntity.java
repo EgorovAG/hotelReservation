@@ -18,27 +18,6 @@ public class RoomEntity {
 
     private OrderClientEntity orderClientEntity;
 
-    public RoomEntity(Integer id, Integer numOfSeats, ClassRoom classOfAp) {
-        this.id = id;
-        this.numOfSeats = numOfSeats;
-        this.classOfAp = classOfAp;
-    }
-
-    public RoomEntity(Integer id, Integer numOfSeats, ClassRoom classOfAp, Integer price, OrderClientEntity orderClientEntity) {
-        this.id = id;
-        this.numOfSeats = numOfSeats;
-        this.classOfAp = classOfAp;
-        this.price = price;
-        this.orderClientEntity = orderClientEntity;
-    }
-
-    public RoomEntity(Integer id, Integer numOfSeats, ClassRoom classOfAp, OrderClientEntity orderClientEntity) {
-        this.id = id;
-        this.numOfSeats = numOfSeats;
-        this.classOfAp = classOfAp;
-        this.orderClientEntity = orderClientEntity;
-    }
-
     public RoomEntity() {
     }
 

@@ -21,17 +21,6 @@ public class BlackListEntity {
     public BlackListEntity() {
     }
 
-    public BlackListEntity(Integer id, Integer userId, LocalDate dateBlock) {
-        this.id = id;
-        this.userId = userId;
-        this.dateBlock = dateBlock;
-    }
-
-    public BlackListEntity(Integer userId, LocalDate dateBlock) {
-        this.userId = userId;
-        this.dateBlock = dateBlock;
-    }
-
     public BlackListEntity(Integer userId, LocalDate dateBlock, AuthUserEntity authUser) {
         this.userId = userId;
         this.dateBlock = dateBlock;

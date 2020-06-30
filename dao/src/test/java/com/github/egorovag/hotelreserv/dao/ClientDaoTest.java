@@ -26,7 +26,6 @@ class ClientDaoTest {
     @Autowired
     ClientDao clientDao;
 
-
     AuthUser authUser;
     private Client client;
 

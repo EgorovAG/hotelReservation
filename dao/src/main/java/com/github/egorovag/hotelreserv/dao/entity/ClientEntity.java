@@ -23,28 +23,8 @@ public class ClientEntity {
     private AuthUserEntity authUserEntity;
     private List<OrderClientEntity> orderClientEntities = new ArrayList<>();
 
-    public ClientEntity(Integer id, String firstName, String secondName, String email, String phone,
-                        AuthUserEntity authUser) {
-        this.id = id;
-        this.firstName = firstName;
-        this.secondName = secondName;
-        this.email = email;
-        this.phone = phone;
-        this.authUserEntity = authUser;
-    }
-
-    public ClientEntity(Integer id, String firstName, String secondName, String email, String phone, Integer userId) {
-        this.id = id;
-        this.firstName = firstName;
-        this.secondName = secondName;
-        this.email = email;
-        this.phone = phone;
-        this.userId = userId;
-    }
-
     public ClientEntity() {
     }
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -120,7 +100,6 @@ public class ClientEntity {
     public void setOrderClientEntities(List<OrderClientEntity> orderClientEntities) {
         this.orderClientEntities = orderClientEntities;
     }
-
 
 
     @Override

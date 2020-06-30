@@ -34,13 +34,17 @@
                 <td>${authUserWithClients.phone}</td>
                 <td>
 
-                    <form action="${pageContext.request.contextPath}/registratedUsers" method="post">
-                        <input id="id1" type="text" name="id" value="${authUserWithClients.clientId}" hidden="hidden"/>
+                    <form action="${pageContext.request.contextPath}/deleteUsers" method="post">
+                        <input id="id1" type="text" name="id" value="${authUserWithClients.clientId}" hidden="hidden" />
                         <button name="delete"><spring:message code="button.delete"/></button>
                     </form>
                     <form action="${pageContext.request.contextPath}/blockUser" method="post">
-                        <input id="id2" type="text" name="id" value="${authUserWithClients.userId}" hidden="hidden"/>
+                        <input id="id2" type="text" name="id" value="${authUserWithClients.userId}" hidden="hidden" />
                         <button name="toBlock"><spring:message code="button.toBlock"/></button>
+                    </form>
+                    <form action="${pageContext.request.contextPath}/showCopyPass">
+                        <input id="" type="text" name="login" value="${authUserWithClients.login}" hidden="hidden" />
+                        <button name="showPass"><spring:message code="button.showCopyPassport"/></button>
                     </form>
                 </td>
             </tr>

@@ -11,8 +11,6 @@ import java.util.List;
 
 public interface OrderDao {
 
-//    OrderClient saveOrderDao(OrderClient orderClient);
-
     OrderClient saveOrderDao(OrderClient orderClient, Room room, Client client);
 
     List<OrderForAdminDTO> readOrderListForAdminDTODao();
@@ -32,11 +30,4 @@ public interface OrderDao {
     Condition readConditionByOrderIdDao(int orderId);
 
     int readPriceForRoomByOrderIdDao(int orderId);
-
-
-
-//    List<OrderClient> readOrderByAuthUserIdDao(int id);
-//    boolean deleteOrderByClientIdDao(int id);
-
-
 }

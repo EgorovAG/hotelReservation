@@ -17,31 +17,7 @@ public class ServiceHotelEntity {
     private String typeOfService;
     private Integer price;
 
-
     private List<OrderClientEntity> orderClientEntities = new ArrayList<>();
-
-    public ServiceHotelEntity(String typeOfService) {
-        this.typeOfService = typeOfService;
-    }
-
-    public ServiceHotelEntity(Integer serviceId, String typeOfService, Integer price) {
-        this.serviceHotelId = serviceId;
-        this.typeOfService = typeOfService;
-        this.price = price;
-    }
-
-    public ServiceHotelEntity(Integer serviceId, String typeOfService, List<OrderClientEntity> orderClientEntities) {
-        this.serviceHotelId = serviceId;
-        this.typeOfService = typeOfService;
-        this.orderClientEntities = orderClientEntities;
-    }
-
-    public ServiceHotelEntity(Integer serviceId, String typeOfService, Integer price, List<OrderClientEntity> orderClientEntities) {
-        this.serviceHotelId = serviceId;
-        this.typeOfService = typeOfService;
-        this.price = price;
-        this.orderClientEntities = orderClientEntities;
-    }
 
     public ServiceHotelEntity() {
     }

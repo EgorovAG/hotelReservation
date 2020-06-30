@@ -66,5 +66,9 @@
         <put-attribute name="body" value="/WEB-INF/view/page/clientMakesAnOrder.jspx"/>
     </definition>
 
+    <definition name="showCopyPass" extends="default">
+        <put-attribute name="body" value="/WEB-INF/view/page/showCopyPass.jspx"/>
+    </definition>
+
 </tiles-definitions>
 

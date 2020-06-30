@@ -25,8 +25,6 @@ public class DefaultBlackListDao implements BlackListDao {
 
     private static final Logger log = LoggerFactory.getLogger(DefaultBlackListDao.class);
 
-
-    //Spring Data
     @Override
     public List<BlackListUsersDTO> readBlackListUsersDTODao() {
         try {
@@ -38,29 +36,7 @@ public class DefaultBlackListDao implements BlackListDao {
             return null;
         }
     }
-//    @Override
-//    public List<BlackListUsers> readBlackListUsersListsDao() {
-//        try {
-//            final Session session = sessionFactory.getCurrentSession();
-//            List<BlackListUsers> listBL = session.createNativeQuery("select  bl.id, bl.user_id as userId, " +
-//                    "c.firstName ,c.secondName, bl.date_block as dateBlock  from blacklist bl join client c " +
-//                    "on bl.user_id = c.user_id")
-//                    .addScalar("id", StandardBasicTypes.INTEGER)
-//                    .addScalar("userId", StandardBasicTypes.INTEGER)
-//                    .addScalar("firstName", StandardBasicTypes.STRING)
-//                    .addScalar("secondName", StandardBasicTypes.STRING)
-//                    .addScalar("dateBlock", LocalDateType.INSTANCE)
-//                    .setResultTransformer(Transformers.aliasToBean(BlackListUsers.class))
-//                    .list();
-//            log.info("List<AuthUser> readed:{}", listBL);
-//            return listBL;
-//        } catch (HibernateException e) {
-//            log.error("Fail to read List<BlackListUsers>", e);
-//            return null;
-//        }
-//    }
 
-    //Spring Data
     @Override
     public boolean deleteBlackListByIdDao(int id) {
         try {
@@ -73,22 +49,6 @@ public class DefaultBlackListDao implements BlackListDao {
         }
     }
 
-
-//    @Override
-//    public boolean deleteBlackListUserByIdDao(int id) {
-//        try {
-//            final Session session = sessionFactory.getCurrentSession();
-//            BlackListEntity blackListEntity = session.get(BlackListEntity.class, id);
-//            session.delete(blackListEntity);
-//                log.info("User from blackList with id:{} deleted", id);
-//            return true;
-//        } catch (HibernateException e) {
-//            log.error("Fail to delete user from blackList with id:{}", id);
-//            return false;
-//        }
-//    }
-
-    //Spring Data
     @Override
     public boolean saveBlackListByAuthUserIdDao(int userId) {
         try {
@@ -105,25 +65,6 @@ public class DefaultBlackListDao implements BlackListDao {
         }
     }
 
-//    @Override
-//    public boolean saveBlackListUserByIdDao(int userId) {
-//        try {
-//            final Session session = sessionFactory.getCurrentSession();
-//            AuthUserEntity authUserEntity = session.get(AuthUserEntity.class, userId);
-//            BlackListEntity blackListEntity = new BlackListEntity(userId, LocalDate.now(), authUserEntity);
-//            authUserEntity.setBlackListEntity(blackListEntity);
-//            session.saveOrUpdate(blackListEntity);
-//            session.saveOrUpdate(authUserEntity);
-//
-//            log.info("Client with id:{} saved in blackList", userId);
-//            return true;
-//        } catch (HibernateException e) {
-//            log.error("Fail to save client:{} in blackList", userId, e);
-//            return false;
-//        }
-//    }
-
-    //Spring Data
     @Override
     public Integer checkBlackUserByIdDao(int id) {
         try {
@@ -140,19 +81,4 @@ public class DefaultBlackListDao implements BlackListDao {
         }
         return null;
     }
-
-//    @Override
-//    public Integer checkBlackUserByUserIdDao(int id) {
-//        try {
-//            final Session session = sessionFactory.getCurrentSession();
-//            AuthUserEntity authUserEntity = session.get(AuthUserEntity.class, id);
-//            log.info("AuthUser with id:{} readed in blackList", id);
-//            if (authUserEntity.getBlackListEntity() != null) {
-//                return authUserEntity.getBlackListEntity().getId();
-//            }
-//        } catch (HibernateException e) {
-//            log.error("Fail to readed AuthUSer:{} in blackList", id, e);
-//        }
-//        return null;
-//    }
 }

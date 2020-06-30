@@ -18,7 +18,6 @@ public class DefaultAuthUserService implements AuthUserService {
         this.authUserDao = authUserDao;
     }
 
-
     @Override
     @Transactional
     public boolean checkLogin(String login) {
@@ -40,8 +39,6 @@ public class DefaultAuthUserService implements AuthUserService {
             }
         }
     }
-
-
 
     @Override
     @Transactional
@@ -66,23 +63,4 @@ public class DefaultAuthUserService implements AuthUserService {
     public AuthUser saveAuthUserAndClient(AuthUser authUser, Client client) {
         return authUserDao.saveAuthUserAndClientDao(authUser, client);
     }
-
-
-
-
-    //    @Override
-//    public AuthUser saveAuthUser(String login, String password, Role role) {
-//        return checkAuthUserDao.saveUserDao(login, password, role);
-//    }
-
-
-//    @Override
-//    public boolean deleteUserById(int id) {
-//        if (checkAuthUserDao.deleteUserByIdDao(id)) {
-//            return true;
-//        }
-//        return false;
-//    }
-
-
 }

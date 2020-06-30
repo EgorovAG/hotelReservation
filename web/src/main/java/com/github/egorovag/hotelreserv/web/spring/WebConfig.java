@@ -35,16 +35,6 @@ public class WebConfig {
         return new BlackListController(serviceConfig.blackListService());
     }
 
-//    @Bean
-//    public BlockUserServlet blockUserServlet() {
-//        return new BlockUserServlet(serviceConfig.blackListService());
-//    }
-//
-//    @Bean
-//    public CheckPayServlet checkPayServlet() {
-//        return new CheckPayServlet(serviceConfig.orderService());
-//    }
-
     @Bean
     public OrderController clientOrderServlet() {
         return new OrderController(serviceConfig.orderService(), serviceConfig.roomService(),
@@ -61,19 +51,14 @@ public class WebConfig {
         return new LogoutController();
     }
 
-//    @Bean
-//    public OrderListServlet orderListServlet() {
-//        return new OrderListServlet(serviceConfig.orderService());
-//    }
-
     @Bean
     public PaginationRegistratedUsers paginationRegistratedUsers() {
         return new PaginationRegistratedUsers(serviceConfig.authUserService());
     }
 
     @Bean
-    public RegistratedUsersController registratedUsersController() {
-        return new RegistratedUsersController(serviceConfig.authUserService(), serviceConfig.clientService());
+    public RegistrationUsersController registratedUsersController() {
+        return new RegistrationUsersController(serviceConfig.authUserService(), serviceConfig.clientService());
     }
 
     @Bean
@@ -81,15 +66,10 @@ public class WebConfig {
         return new FileController();
     }
 
-//    @Bean
-//    public RegistrationController registrationServlet() {
-//        return new RegistrationController(serviceConfig.authUserService());
-//    }
-
-//    @Bean
-//    public StatusOrder statusOrder() {
-//        return new StatusOrder(serviceConfig.orderService());
-//    }
+    @Bean
+    public ShowCopyPassport showCopyPassport() {
+        return new ShowCopyPassport();
+    }
 
     @Bean
     public CommonsMultipartResolver multipartResolver() {

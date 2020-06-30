@@ -25,7 +25,6 @@ class AuthUserDaoTest {
     @Autowired
     ClientDao clientDao;
 
-
     private AuthUser authUser;
     private Client client;
 
@@ -34,7 +33,6 @@ class AuthUserDaoTest {
         authUser = new AuthUser("alex", "pass", Role.USER);
         client = new Client(null, "Alex", "Alexandrov", "alex@tut.by", "55555");
         authUser = authUserDao.saveAuthUserAndClientDao(authUser, client);
-
     }
 
     @Test
@@ -43,15 +41,12 @@ class AuthUserDaoTest {
         Assertions.assertEquals("alex", login);
     }
 
-
     @Test
     void testReadUserByLoginDao() {
         AuthUser authUserResult = authUserDao.readUserByLoginDao("alex");
         Assertions.assertEquals("alex", authUserResult.getLogin());
         Assertions.assertEquals("pass", authUserResult.getPassword());
-
     }
-
 
     @Test
     void testReadListClientDao() {
@@ -79,34 +74,3 @@ class AuthUserDaoTest {
         Assertions.assertNotNull(authUser);
     }
 }
-
-
-//
-//    @Test
-//   void testDeleteUserByLoginDao() {
-//        AuthUser authUser = authUserDao.saveUserDao("mike", "pass", Role.USER);
-//        boolean res = authUserDao.deleteUserByLoginDao(authUser.getLogin());
-//        Assertions.assertTrue(res);
-//    }
-//
-//    @Test
-//    void testDeleteUserByIdDao() {
-//        AuthUser authUser = authUserDao.saveUserDao("mike", "pass", Role.USER);
-//        boolean res = authUserDao.deleteUserByIdDao(authUser.getId());
-//        Assertions.assertTrue(res);
-//    }
-//}
-
-//    @Test
-//    void testSaveUserDao() {
-//        Assertions.assertEquals("alex", authUser.getLogin());
-//    }
-
-
-// не надо
-//@Test
-//    void testReadPasswordByLoginDao() {
-//        String login = icheckAuthUserDao.checkLoginDao(authUser.getLogin());
-//        String password = icheckAuthUserDao.readPasswordByLoginDao(login);
-//        Assertions.assertEquals("pass", password);
-//    }

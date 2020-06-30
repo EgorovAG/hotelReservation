@@ -41,11 +41,12 @@
             </p>
             <br/>
 
-            <input type="date" name="startDate" required=""/>
             <spring:message code="label.checkInTime"/>:
+            <input type="date" name="startDate" required=""/>
             <br/>
-            <input type="date" name="endDate" required=""/>
+
             <spring:message code="label.departureTime"/>:
+            <input type="date" name="endDate" required=""/>
             <br/>
 
             <input type="submit"/>
@@ -65,17 +66,3 @@
     </html>
 
 </jsp:root>
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -30,7 +30,6 @@ class BlackListDaoTest {
 
     private AuthUser authUser;
 
-
     @BeforeEach
     void saveUserAndNewClient() {
         authUser = new AuthUser("alex", "pass", Role.USER);

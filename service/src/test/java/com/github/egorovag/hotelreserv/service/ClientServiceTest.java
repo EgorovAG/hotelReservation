@@ -29,8 +29,6 @@ class ClientServiceTest {
     AuthUserWithClientDTO authUserWithClient = new AuthUserWithClientDTO(10,11,"alex","pass","Alex",
             "Alexandrov", "alex@tut.by", "55555");
 
-
-
     @Test
     void testDeleteAuthUserAndClientByClientIdDao() {
         when(clientDao.deleteAuthUserAndClientByClientIdDao(authUserWithClient.getClientId())).thenReturn(true);

@@ -33,10 +33,4 @@ public interface OrderService {
     boolean deleteOrderByOrderId(int orderId);
 
     Condition readConditionByOrderId(int orderId);
-
-
-//    boolean deleteOrderByClientId(int id);
-//    List<OrderClient> readOrderByAuthUserIdService(int id);
-
-
 }

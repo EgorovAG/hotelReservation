@@ -12,7 +12,6 @@
 
         <h2 style="text-align: center"><spring:message code="label.orderList"/></h2>
 
-
         <table border="1" width="100%" cellpadding="5">
             <tr>
                 <th>№</th>
@@ -24,8 +23,6 @@
                 <th><spring:message code="label.additionalServices"/></th>
                 <th><spring:message code="label.price"/></th>
                 <th><spring:message code="label.orderActions"/></th>
-
-
             </tr>
 
             <c:set var="x" value="1"/>
@@ -47,15 +44,15 @@
                         </c:forEach>
                     </td>
                     <td>
-                        <c:set var="allPrice" value="${orderForClients.price}" />
+                        <c:set var="allPrice" value="${orderForClients.price}"/>
                         <c:forEach var="orderClients" items="${orderClients}">
                             <c:if test="${orderForClients.id == orderClients.orderId}">
                                 <c:forEach var="orderClientsServHot" items="${orderClients.serviceHotels}">
-                                    <c:set var="allPrice" value="${allPrice + orderClientsServHot.price}" />
+                                    <c:set var="allPrice" value="${allPrice + orderClientsServHot.price}"/>
                                 </c:forEach>
                             </c:if>
                         </c:forEach>
-                        <c:out value="${allPrice}" />
+                        <c:out value="${allPrice*(orderForClients.daysBetween)}"/>
                     </td>
                     <td>
                         <form action="${pageContext.request.contextPath}/toPayOrder" method="post">

@@ -6,6 +6,8 @@ import com.github.egorovag.hotelreserv.model.enums.Condition;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import static java.time.temporal.ChronoUnit.DAYS;
+
 public class OrderForClientDTO {
 
     private Integer id;
@@ -16,18 +18,13 @@ public class OrderForClientDTO {
     private Integer price;
     private Condition condition;
 
-
-    public OrderForClientDTO(Integer id, LocalDate startDate, LocalDate endDate, Integer numOfSeats, ClassRoom classOfAp, Integer price, Condition condition) {
-        this.id = id;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.numOfSeats = numOfSeats;
-        this.classOfAp = classOfAp;
-        this.price = price;
-        this.condition = condition;
+    public OrderForClientDTO() {
     }
 
-    public OrderForClientDTO() {
+    private Integer daysBetween;
+
+    public long getDaysBetween() {
+        return DAYS.between(startDate, endDate);
     }
 
     public Integer getId() {

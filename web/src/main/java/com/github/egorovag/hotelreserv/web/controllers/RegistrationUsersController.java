@@ -24,44 +24,26 @@ import java.util.List;
 
 @Controller
 @RequestMapping
-public class RegistratedUsersController {
+public class RegistrationUsersController {
 
-    private static final Logger log = LoggerFactory.getLogger(RegistratedUsersController.class);
+    private static final Logger log = LoggerFactory.getLogger(RegistrationUsersController.class);
 
     private AuthUserService authUserService;
     private ClientService clientService;
 
-
-
-    public RegistratedUsersController(AuthUserService authUserService, ClientService clientService) {
+    public RegistrationUsersController(AuthUserService authUserService, ClientService clientService) {
         this.authUserService = authUserService;
         this.clientService = clientService;
     }
 
-//    // Есть пагинация, теперь это ВСЕ не надо
-//    @GetMapping("/registratedUsers")
-//    public String doGet(HttpServletRequest req){
-//
-//        List<AuthUserWithClientDTO> authUserWithClients = authUserService.readListAuthUserWithClientDTO();
-//        req.getSession().setAttribute("authUserWithClients", authUserWithClients);
-//        return "forward:/registratedUsers.jsp";
-//    }
 
-    @PostMapping("/registratedUsers")
+    @PostMapping("/deleteUsers")
     public String doPost(HttpServletRequest req) {
 
 
         int id = Integer.parseInt(req.getParameter("id"));
-//        orderService.deleteOrderByClientId(id); уже не надо с 1к1
-//        blackListUsersService.deleteBlackListUserById(id); уже не надо с 1к1
         clientService.deleteAuthUserAndClientByClientId(id);
-//        сlientService.deleteClientById(id); // из-за hiber уже не надо
-//        checkUserService.deleteUserById(id);  // из-за hiber уже не надо
-//        List<AuthUserWithClient> authUserWithClients = checkUserService.readListAuthUserWithClient();
-//        req.getSession().setAttribute("authUserWithClients", authUserWithClients);
-//        req.getRequestDispatcher("/paginationRegistratedUsers").forward(req,resp);
         return "redirect:/paginationRegistratedUsers";
-//        resp.sendRedirect("/hotel/paginationRegistratedUsers");
     }
 
     @PostMapping("/registration")

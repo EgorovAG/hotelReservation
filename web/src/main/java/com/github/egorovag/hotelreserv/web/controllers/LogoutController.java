@@ -25,9 +25,4 @@ public class LogoutController {
         }
         return "index";
     }
-//    @GetMapping("/logout")
-//    public String doGet(HttpServletRequest req) {
-//        req.getSession().invalidate();
-//        return "index";
-//    }
 }

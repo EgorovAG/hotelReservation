@@ -38,7 +38,6 @@ class OrderDaoTest {
     private Client client;
     private Room room;
 
-
     @BeforeEach
     void saveAuthUserAndClientAndOrder() {
         authUser = new AuthUser("alex", "pass", Role.USER);
@@ -61,7 +60,6 @@ class OrderDaoTest {
         List<OrderForAdminDTO> orderLists = orderDao.readOrderListForAdminDTODao();
         Assertions.assertEquals(1, orderLists.size());
     }
-
 
     @Test
     void testReadOrderForClientByClientIdDao() {
@@ -117,50 +115,4 @@ class OrderDaoTest {
         Condition condition = orderDao.readConditionByOrderIdDao(orderLists.iterator().next().getId());
         Assertions.assertEquals(Condition.CONSIDERATION, condition);
     }
-
-//    @Test
-//    void testCashL2(){
-//        List<OrderForAdmin> orderLists = orderDao.readOrderListDao();
-//        Condition condition = orderDao.readConditionByOrderIdDao(orderLists.get(0).getId());
-//        Condition condition1 = orderDao.readConditionByOrderIdDao(orderLists.get(0).getId());
-//        Condition condition2 = orderDao.readConditionByOrderIdDao(orderLists.get(0).getId());
-//        Condition condition3 = orderDao.readConditionByOrderIdDao(orderLists.get(0).getId());
-//
-//        int size = CacheManager.ALL_CACHE_MANAGERS.get(0)
-//                .getCache("com.github.egorovag.hotelreserv.model.OrderClient").getSize();
-//        Assertions.assertTrue(size>0);
-//    }
 }
-
-
-//    @Test
-//    void testSaveOrderDao() {
-//        authUser = new AuthUser("alex", "pass", Role.USER);
-//        client = new Client(null, "Alex","Alexandrov","alex@tut.by","55555",authUser);
-//        AuthUser authUserRes = clientDao.saveAuthUserAndClientDao(authUser,client);
-//        Room room = new Room(1,1,ClassRoom.ECONOM);
-//        client = new Client(authUserRes.getClient().getId(), "Alex","Alexandrov","alex@tut.by","55555",authUser );
-//        Service service1 = serviceHotelDao.readServiceByTypeOfService("pool");
-//        ArrayList<Service> serviceList = new ArrayList<>();
-//        serviceList.add(service1);
-//        OrderClient orderClient = new OrderClient(null, "2020-10-05", "2020-10-10", room.getId(), client.getId(),
-//                Condition.CONSIDERATION, room, client);
-//        boolean res = orderDao.saveOrderDao(orderClient, serviceList);
-//        Assertions.assertTrue(res);
-//        clientDao.deleteAuthUserAndClientByUserIdDao(authUserRes.getId());
-//    }
-
-
-//    @Test
-//    void  testDeleteOrderByClientIdDao(){
-//        boolean res = orderDao.deleteOrderByClientIdDao(clientId);
-//        Assertions.assertTrue(res);
-//        orderDao.saveOrderDao(orderWithoutId, clientId);
-//    }
-
-
-//@Test
-//    void testReadOrderByAuthUserIdDao() {
-//        List<OrderClient> orderClients = orderDao.readOrderByAuthUserIdDao(authUser.getId());
-//        Assertions.assertEquals(1,orderClients.size());
-//    }
