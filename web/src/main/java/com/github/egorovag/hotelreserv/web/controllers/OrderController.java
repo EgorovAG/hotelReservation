@@ -9,11 +9,15 @@ import com.github.egorovag.hotelreserv.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -104,45 +108,46 @@ public class OrderController {
     }
 
     @PostMapping("/checkPay")
-    public String updateOrderList(HttpServletRequest req) {
-        int price = (int) req.getSession().getAttribute("price");
-        int sum = Integer.parseInt(req.getParameter("sum"));
+    public String updateOrderList(@RequestParam(value = "sum") int sum, HttpSession session, Model model) {
+        int price = (int) session.getAttribute("price");
+//        int sum = Integer.parseInt(req.getParameter("sum"));
 
         if (sum == price) {
-            int orderId = (int) req.getSession().getAttribute("orderId");
+            int orderId = (int) session.getAttribute("orderId");
             orderService.updateOrderList(orderId, Condition.PAID);
             log.info("orderClient with orderId:{} updated", orderId);
             return "successfulPayment";
         } else {
-            req.setAttribute("Error", "Вы ввели неверную сумму, попробуйте еще раз");
+            model.addAttribute("Error", "Вы ввели неверную сумму, попробуйте еще раз");
             return "orderPayment";
         }
     }
 
     @GetMapping("/orderList")
-    public String readOrderForAdmin(HttpServletRequest req) {
+    public String readOrderForAdmin(Model model) {
         List<OrderForAdminDTO> orderForAdmins = orderService.readOrderListForAdminDTO();
         List<OrderClient> orderClients = orderService.readOrderClientList();
         if (orderForAdmins == null || orderForAdmins.isEmpty()) {
-            req.setAttribute("orderForAdmins", null);
+            model.addAttribute("orderForAdmins", null);
         } else {
-            req.setAttribute("orderForAdmins", orderForAdmins);
-            req.setAttribute("orderClients", orderClients);
+            model.addAttribute("orderForAdmins", orderForAdmins);
+            model.addAttribute("orderClients", orderClients);
         }
         return "orderListForAdmin";
     }
 
     @PostMapping("/orderList")
-    public String deleteOrUpdateOrderList(HttpServletRequest req) {
-        int orderId = Integer.parseInt(req.getParameter("orderId"));
-        String cond = req.getParameter("condition");
+    public String deleteOrUpdateOrderList(@RequestParam(value = "orderId") int orderId,
+                                          @RequestParam(value = "condition") String cond, Model model ) {
+//        int orderId = Integer.parseInt(req.getParameter("orderId"));
+//        String cond = req.getParameter("condition");
         if (cond.equals("DELETE")) {
             orderService.deleteOrderByOrderId(orderId);
             log.info("orderClient with orderId:{} deleted", orderId);
         } else {
             Condition condition = Condition.valueOf(cond);
             if (orderService.readConditionByOrderId(orderId) == Condition.PAID) {
-                req.setAttribute("error", "Заказ уже был оплачен после одобрения");
+                model.addAttribute("error", "Заказ уже был оплачен после одобрения");
             } else {
                 orderService.updateOrderList(orderId, condition);
                 log.info("orderClient with orderId:{} updated", orderId);
@@ -150,21 +155,21 @@ public class OrderController {
         }
         List<OrderForAdminDTO> orderForAdmins = orderService.readOrderListForAdminDTO();
         List<OrderClient> orderClients = orderService.readOrderClientList();
-        req.setAttribute("orderForAdmins", orderForAdmins);
-        req.setAttribute("orderClients", orderClients);
+        model.addAttribute("orderForAdmins", orderForAdmins);
+        model.addAttribute("orderClients", orderClients);
         return "redirect:/orderList";
     }
 
     @GetMapping("/statusOrder")
-    public String readOrderForClient(HttpServletRequest req) {
-        AuthUser authUser = (AuthUser) req.getSession().getAttribute("authUser");
+    public String readOrderForClient(HttpSession session, Model model) {
+        AuthUser authUser = (AuthUser) session.getAttribute("authUser");
         List<OrderForClientDTO> orderForClients = orderService.readOrderForClientDTOByClientId(authUser.getClient().getId());
         List<OrderClient> orderClients = orderService.readOrderClientListByClientId(authUser.getClient().getId());
         if (orderForClients == null || orderForClients.isEmpty()) {
-            req.setAttribute("orderForClients", null);
+            model.addAttribute("orderForClients", null);
         } else {
-            req.setAttribute("orderForClients", orderForClients);
-            req.setAttribute("orderClients", orderClients);
+            model.addAttribute("orderForClients", orderForClients);
+            model.addAttribute("orderClients", orderClients);
         }
         return "orderListForClient";
     }

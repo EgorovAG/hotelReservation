@@ -1,13 +1,11 @@
 package com.github.egorovag.hotelreserv.web.controllers;
 
 import com.github.egorovag.hotelreserv.model.AuthUser;
-import com.github.egorovag.hotelreserv.model.Client;
 import org.apache.commons.io.FileUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -21,14 +19,13 @@ import java.io.IOException;
 @RequestMapping
 public class FileController {
 
-        private String rootPath = "c:\\Program Files\\Apache Software Foundation\\Tomcat 9.0\\temp\\files\\"; //absolute path
-
+    private String rootPath = "c:\\Program Files\\Apache Software Foundation\\Tomcat 9.0\\temp\\files\\"; //absolute path
 
     @PostMapping(value = "/upload")
     public String processFile(@RequestParam(value = "avatar", required = false) MultipartFile image,
                               ModelMap map) {
         AuthUser authUser = (AuthUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        processImage(image, "Client_"+ authUser.getLogin());
+        processImage(image, "Client_" + authUser.getLogin());
         return "personalArea";
     }
 

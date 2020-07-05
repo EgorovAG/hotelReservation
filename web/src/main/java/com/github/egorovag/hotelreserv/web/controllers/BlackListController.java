@@ -6,12 +6,12 @@ import com.github.egorovag.hotelreserv.service.BlackListService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -25,35 +25,33 @@ public class BlackListController {
     }
 
     @GetMapping("/blackListUsers")
-    public String get(ModelMap map) {
+    public String get(Model model) {
         List<BlackListUsersDTO> blackListUsers = blackListService.readBlackListUsersDTO();
         if (blackListUsers == null || blackListUsers.isEmpty()) {
-            map.put("blackListUsers", null);
+            model.addAttribute("blackListUsers", null);
         } else {
-            map.put("blackListUsers", blackListUsers);
+            model.addAttribute("blackListUsers", blackListUsers);
         }
         return "blackListUsers";
     }
 
     @PostMapping("/blackListUsers")
-    public String delete(HttpServletRequest req) {
-        int id = Integer.parseInt(req.getParameter("id"));
+    public String delete(@RequestParam(value = "id") int id) {
         log.info("blackList with Client id:{} deleted", id);
         blackListService.deleteBlackListById(id);
         return "redirect:/blackListUsers";
     }
 
     @PostMapping("/blockUser")
-    public String check(HttpServletRequest req) {
-        int id = Integer.parseInt(req.getParameter("id"));
+    public String check(@RequestParam(value = "id") int id, Model model) {
         if (blackListService.checkBlackListByUserId(id)) {
-            req.setAttribute("error", "Такой пользователь уже заблокирован!");
-            return "registratedUsers";
+            model.addAttribute("error", "Такой пользователь уже заблокирован!");
+            return "registeredUsers";
         } else {
             blackListService.saveBlackListByAuthUserId(id);
         }
-        req.setAttribute("error", "Выбранный пользователь заблокирован!");
-        return "registratedUsers";
+        model.addAttribute("error", "Выбранный пользователь заблокирован!");
+        return "registeredUsers";
     }
 
     @GetMapping("/toPersonalAreaJspx")

@@ -14,19 +14,18 @@ import java.util.List;
 
 @Controller
 @RequestMapping
-public class PaginationRegistratedUsers  {
+public class PaginationRegisteredUsers  {
 
-//    private static final Logger log = LoggerFactory.getLogger(PaginationRegistratedUsers.class);
+//    private static final Logger log = LoggerFactory.getLogger(PaginationRegisteredUsers.class);
 
     private AuthUserService authUserService;
 
-    public PaginationRegistratedUsers(AuthUserService authUserService) {
+    public PaginationRegisteredUsers(AuthUserService authUserService) {
         this.authUserService = authUserService;
     }
 
-    @GetMapping("/paginationRegistratedUsers")
-    public String doGet(HttpServletRequest req) {
-        HttpSession session = req.getSession();
+    @GetMapping("/paginationRegisteredUsers")
+    public String doGet(HttpServletRequest req, HttpSession session) {
         int page = 1;
         int maxResultsPage = 4;
         if (req.getParameter("page") != null) {
@@ -42,6 +41,6 @@ public class PaginationRegistratedUsers  {
         session.setAttribute("currentPage", page);
         session.setAttribute("maxResultsPage", maxResultsPage);
 
-        return "registratedUsers";
+        return "registeredUsers";
     }
 }

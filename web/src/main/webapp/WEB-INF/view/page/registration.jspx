@@ -1,4 +1,4 @@
-<jsp:root xmlns="http://www.w3.org/1999/xhtml"
+    <jsp:root xmlns="http://www.w3.org/1999/xhtml"
           xmlns:jsp="http://java.sun.com/JSP/Page"
           xmlns:s="http://www.springframework.org/tags/form"
           xmlns:spring="http://www.springframework.org/tags"
@@ -13,7 +13,6 @@
 
     <h3><spring:message code="label.userRegistration"/></h3>
     <form action="${pageContext.request.contextPath}/registration" method="post">
-
 
         <input id="login" type="text" name="login" pattern="[A-Za-zА-Яа-я0-9]{1,50}" required=""/>
         <label for="login"><spring:message code="button.login"/></label> <br/>

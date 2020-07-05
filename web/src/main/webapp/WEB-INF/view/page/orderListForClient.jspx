@@ -75,7 +75,7 @@
     </c:if>
 
     <c:if test="${orderForClients == null}">
-        <h2><c:out value="У Вас нет заказов"/></h2>
+        <h2><spring:message code="text.youHaveNoOrders"/></h2>
     </c:if>
     <p style="color: red">${Error}</p>
 

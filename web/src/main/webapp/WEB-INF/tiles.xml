@@ -18,8 +18,8 @@
         <put-attribute name="body" value="/WEB-INF/view/page/blackListUsers.jspx"/>
     </definition>
 
-    <definition name="registratedUsers" extends="default">
-        <put-attribute name="body" value="/WEB-INF/view/page/registratedUsers.jspx"/>
+    <definition name="registeredUsers" extends="default">
+        <put-attribute name="body" value="/WEB-INF/view/page/registeredUsers.jspx"/>
     </definition>
 
     <definition name="successfulPayment" extends="default">

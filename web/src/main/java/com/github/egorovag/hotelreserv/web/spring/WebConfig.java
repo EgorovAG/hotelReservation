@@ -52,12 +52,12 @@ public class WebConfig {
     }
 
     @Bean
-    public PaginationRegistratedUsers paginationRegistratedUsers() {
-        return new PaginationRegistratedUsers(serviceConfig.authUserService());
+    public PaginationRegisteredUsers paginationRegisteredUsers() {
+        return new PaginationRegisteredUsers(serviceConfig.authUserService());
     }
 
     @Bean
-    public RegistrationUsersController registratedUsersController() {
+    public RegistrationUsersController registrationUsersController() {
         return new RegistrationUsersController(serviceConfig.authUserService(), serviceConfig.clientService());
     }
 

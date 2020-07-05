@@ -12,11 +12,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.Arrays;
 import java.util.List;
 
@@ -36,8 +38,8 @@ public class LoginController {
     }
 
     @GetMapping("/login")
-    public String doGet(HttpServletRequest req) {
-        AuthUser authUser = (AuthUser) req.getSession().getAttribute("authUser");
+    public String doGet(HttpSession session) {
+        AuthUser authUser = (AuthUser) session.getAttribute("authUser");
         if (authUser == null) {
             return "login";
         }
@@ -45,16 +47,17 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String doPost(HttpServletRequest req) {
-        String login = req.getParameter("login");
-        String password = req.getParameter("password");
+    public String doPost(@RequestParam(value = "login") String login, @RequestParam(value = "password") String password,
+                         Model model, HttpSession session) {
+//        String login = req.getParameter("login");
+//        String password = req.getParameter("password");
         authUser = authUserService.checkUser(login, password);
         if (authUser == null) {
-            req.setAttribute("error", "Вы ввели неверное имя или пароль либо Вам необходимо зарегистрироваться");
+            model.addAttribute("error", "Вы ввели неверное имя или пароль либо Вам необходимо зарегистрироваться");
             return "login";
         } else {
             if (authUser.getLogin().equals("admin")) {
-                req.getSession().setAttribute("authUser", authUser);
+                session.setAttribute("authUser", authUser);
                 log.info("user {} logged", authUser.getLogin());
                 Authentication auth = new UsernamePasswordAuthenticationToken(authUser, null, getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(auth);
@@ -65,10 +68,10 @@ public class LoginController {
                     log.info("user {} logged", authUser.getLogin());
                     return "youAreBlockClient";
                 } else {
-                    req.getSession().setAttribute("authUser", authUser);
+                    session.setAttribute("authUser", authUser);
                     Client client = clientService.readClientByClientId(authUser.getClient().getId());
                     if (client != null) {
-                        req.getSession().setAttribute("client", client);
+                        session.setAttribute("client", client);
                     }
                     log.info("user {} logged", authUser.getLogin());
                     Authentication auth = new UsernamePasswordAuthenticationToken(authUser, null, getAuthorities());

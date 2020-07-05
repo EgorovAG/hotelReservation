@@ -9,10 +9,13 @@ import com.github.egorovag.hotelreserv.service.OrderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -33,10 +36,13 @@ public class ToPayOrderController {
 //    }
 
     @PostMapping("/toPayOrder")
-    public String doPost(HttpServletRequest req) {
-        int orderId = Integer.parseInt(req.getParameter("orderId"));
-        String condition = req.getParameter("condition");
-        Client client = (Client) req.getSession().getAttribute("client");
+    public String doPost(@RequestParam(value = "orderId") int orderId,
+                         @RequestParam(value = "condition") String condition,
+                         @RequestParam(value = "price", defaultValue = "0") int price,
+                         Model model, HttpSession session) {
+//        int orderId = Integer.parseInt(req.getParameter("orderId"));
+//        String condition = req.getParameter("condition");
+        Client client = (Client) session.getAttribute("client");
         int clientId = client.getId();
 
         List<OrderForClientDTO> orderForClients;
@@ -45,44 +51,44 @@ public class ToPayOrderController {
         if (condition.equals("DELETE")) {
             if (orderService.checkIdOrderByClientOrder(orderId, clientId)) {
                 orderService.deleteOrderByOrderId(orderId);
-                authUser = (AuthUser) req.getSession().getAttribute("authUser");
+                authUser = (AuthUser) session.getAttribute("authUser");
                 orderForClients = orderService.readOrderForClientDTOByClientId(clientId);
                 orderClients = orderService.readOrderClientListByClientId(authUser.getClient().getId());
-                req.setAttribute("orderForClients", orderForClients);
-                req.setAttribute("orderClients", orderClients);
-                req.setAttribute("Error", "Заказ удален!");
+                model.addAttribute("orderForClients", orderForClients);
+                model.addAttribute("orderClients", orderClients);
+                model.addAttribute("Error", "Заказ удален!");
                 return "orderListForClient";
             } else {
-                req.setAttribute("Error", "Заказа с таким id у Вас нет!");
+                model.addAttribute("Error", "Заказа с таким id у Вас нет!");
                 orderForClients = orderService.readOrderForClientDTOByClientId(clientId);
-                req.setAttribute("orderForClients", orderForClients);
+                model.addAttribute("orderForClients", orderForClients);
 
                 return "orderListForClient";
             }
 
         } else {
             Condition cond = orderService.readConditionByOrderId(orderId);
-            authUser = (AuthUser) req.getSession().getAttribute("authUser");
+            authUser = (AuthUser) session.getAttribute("authUser");
             orderForClients = orderService.readOrderForClientDTOByClientId(clientId);
-            req.setAttribute("orderForClients", orderForClients);
+            model.addAttribute("orderForClients", orderForClients);
             orderClients = orderService.readOrderClientListByClientId(authUser.getClient().getId());
-            req.setAttribute("orderClients", orderClients);
+            model.addAttribute("orderClients", orderClients);
 
             switch (cond) {
                 case CONSIDERATION:
-                    req.setAttribute("Error", "Заказ еще не одобрен администратором");
+                    model.addAttribute("Error", "Заказ еще не одобрен администратором");
                     return "orderListForClient";
                 case APPROVED:
 //                    int price = orderService.readPriceForRoomByOrderId(orderId);
-                    int price = Integer.parseInt(req.getParameter("price"));
-                    req.getSession().setAttribute("price", price);
-                    req.getSession().setAttribute("orderId", orderId);
+//                    int price = Integer.parseInt(price);
+                    session.setAttribute("price", price);
+                    session.setAttribute("orderId", orderId);
                     return "orderPayment";
                 case REJECTED:
-                    req.setAttribute("Error", "Ваш заказ отклонен администратором!");
+                    model.addAttribute("Error", "Ваш заказ отклонен администратором!");
                     return "orderListForClient";
                 default:
-                    req.setAttribute("Error", "Заказ уже оплачен, ждем Вас в нашей гостинице!");
+                    model.addAttribute("Error", "Заказ уже оплачен, ждем Вас в нашей гостинице!");
                     return "orderListForClient";
             }
         }

@@ -1,8 +1,10 @@
 package com.github.egorovag.hotelreserv.web.controllers;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,8 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 public class ShowCopyPassport {
 
     @GetMapping("/showCopyPass")
-    public String showPass(HttpServletRequest request) {
-        request.setAttribute("login", request.getParameter("login"));
+    public String showPass(@RequestParam(value = "login") String login, Model model) {
+        model.addAttribute("login", login);
         return "showCopyPass";
     }
 }

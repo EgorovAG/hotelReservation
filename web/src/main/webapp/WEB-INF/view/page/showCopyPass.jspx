@@ -10,8 +10,8 @@
 
     <img alt="Copy of customer passport" src="download/image?name=Client_${login}.jpg" height="200" width="200"/>
 
-    <form action="${pageContext.request.contextPath}/paginationRegistratedUsers">
-        <button name="GoToRegistratedUsers"><spring:message code="button.GoToRegistratedUsers"/></button>
+    <form action="${pageContext.request.contextPath}/paginationRegisteredUsers">
+        <button name="GoToRegistratedUsers"><spring:message code="button.GoToRegisteredUsers"/></button>
     </form>
 
     </body>

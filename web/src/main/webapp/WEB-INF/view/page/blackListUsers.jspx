@@ -7,33 +7,41 @@
 
     <html>
     <body>
-    <h2 style="text-align: center"><spring:message code="button.blockedUsersList"/></h2>
+    <c:if test="${blackListUsers !=null}">
+        <h2 style="text-align: center"><spring:message code="button.blockedUsersList"/></h2>
 
-    <table border="1" width="100%" cellpadding="5">
-        <tr>
-            <th>№</th>
-            <th><spring:message code="table.name"/></th>
-            <th><spring:message code="table.surname"/></th>
-            <th><spring:message code="table.dateBlock"/></th>
-            <th><spring:message code="table.removeBlackList"/></th>
-        </tr>
-
-        <c:set var="x" value="1"/>
-        <c:forEach var="blackListUsers" items="${blackListUsers}">
+        <table border="1" width="100%" cellpadding="5">
             <tr>
-                <td><c:out value="${x}"/>
-                    <c:set var="x" value="${x+1}"/></td>
-                <td>${blackListUsers.firstName}</td>
-                <td>${blackListUsers.secondName}</td>
-                <td>${blackListUsers.dateBlock}</td>
-                <td>
-                    <form action="${pageContext.request.contextPath}/blackListUsers" method="post">
-                        <button name="id" value="${blackListUsers.id}"><spring:message code="button.delete"/></button>
-                    </form>
-                </td>
+                <th>№</th>
+                <th><spring:message code="table.name"/></th>
+                <th><spring:message code="table.surname"/></th>
+                <th><spring:message code="table.dateBlock"/></th>
+                <th><spring:message code="table.removeBlackList"/></th>
             </tr>
-        </c:forEach>
-    </table>
+
+            <c:set var="x" value="1"/>
+            <c:forEach var="blackListUsers" items="${blackListUsers}">
+                <tr>
+                    <td><c:out value="${x}"/>
+                        <c:set var="x" value="${x+1}"/></td>
+                    <td>${blackListUsers.firstName}</td>
+                    <td>${blackListUsers.secondName}</td>
+                    <td>${blackListUsers.dateBlock}</td>
+                    <td>
+                        <form action="${pageContext.request.contextPath}/blackListUsers" method="post">
+                            <button name="id" value="${blackListUsers.id}"><spring:message code="button.delete"/>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            </c:forEach>
+        </table>
+    </c:if>
+
+    <c:if test="${blackListUsers ==null}">
+        <h2><spring:message code="text.noBlackListUsers"/></h2>
+    </c:if>
+
 
     <form action="${pageContext.request.contextPath}/toPersonalAreaJspx">
         <button name="GoToPersonalArea"><spring:message code="button.GoToPersonalArea"/></button>

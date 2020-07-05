@@ -56,7 +56,7 @@
         </fieldset>
 
         <fieldset>
-            <form action="${pageContext.request.contextPath}/paginationRegistratedUsers">
+            <form action="${pageContext.request.contextPath}/paginationRegisteredUsers">
                 <button name="viewingRegisteredUsers"><spring:message code="button.viewingRegisteredUsers"/></button>
             </form>
         </fieldset>
