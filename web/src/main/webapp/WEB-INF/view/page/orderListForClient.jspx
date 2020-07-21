@@ -5,8 +5,6 @@
           xmlns:c="http://java.sun.com/jsp/jstl/core"
           version="2.0">
 
-    <html>
-    <body>
     <h4><spring:message code="label.userName"/>: ${client.firstName} </h4>
     <c:if test="${orderForClients != null}">
 
@@ -53,12 +51,13 @@
                             </c:if>
                         </c:forEach>
                         <c:out value="${allPrice*(orderForClients.daysBetween)}"/>
+                        <c:set var="priceForOrder" value="${allPrice*(orderForClients.daysBetween)}"/>
                     </td>
                     <td>
                         <form action="${pageContext.request.contextPath}/toPayOrder" method="post">
                             <input id="id1" type="text" name="orderId" value="${orderForClients.id}" hidden="hidden"/>
                             <input id="status1" type="text" name="condition" value="PAID" hidden="hidden"/>
-                            <input id="price" type="text" name="price" value="${allPrice}" hidden="hidden"/>
+                            <input id="price" type="text" name="price" value="${priceForOrder}" hidden="hidden"/>
                             <button name="toPay"><spring:message code="button.toPay"/></button>
                         </form>
                         <form action="${pageContext.request.contextPath}/toPayOrder" method="post">
@@ -77,7 +76,9 @@
     <c:if test="${orderForClients == null}">
         <h2><spring:message code="text.youHaveNoOrders"/></h2>
     </c:if>
-    <p style="color: red">${Error}</p>
+    <c:if test="${error!=null}">
+        <p style="color: red"><spring:message code="${error}"/></p>
+    </c:if>
 
     <br/>
     <form action="${pageContext.request.contextPath}/toPersonalAreaJspx">
@@ -86,6 +87,4 @@
 
     <a href="${pageContext.request.contextPath}/logout"><spring:message code="button.logout"/></a> <br/>
 
-    </body>
-    </html>
 </jsp:root>

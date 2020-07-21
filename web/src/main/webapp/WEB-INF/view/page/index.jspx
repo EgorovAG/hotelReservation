@@ -5,11 +5,9 @@
           xmlns:c="http://java.sun.com/jsp/jstl/core"
           version="2.0">
 
-    <html>
-    <body>
-<br/>
-<br/>
-<br/>
+    <br/>
+    <br/>
+    <br/>
     <fieldset>
         <form action="${pageContext.request.contextPath}/login">
             <button name="enter"><spring:message code="button.logIn"/></button>
@@ -21,8 +19,5 @@
             <button name="registration"><spring:message code="button.registration"/></button>
         </form>
     </fieldset>
-
-    </body>
-    </html>
 
 </jsp:root>

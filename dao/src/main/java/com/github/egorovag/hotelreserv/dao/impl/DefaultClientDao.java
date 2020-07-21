@@ -22,7 +22,7 @@ public class DefaultClientDao implements ClientDao {
     private static final Logger log = LoggerFactory.getLogger(DefaultClientDao.class);
 
     @Autowired
-    ClientCrudRepository clientCrudRepository;
+    private ClientCrudRepository clientCrudRepository;
 
     @Override
     public boolean deleteAuthUserAndClientByClientIdDao(Integer clientId) {

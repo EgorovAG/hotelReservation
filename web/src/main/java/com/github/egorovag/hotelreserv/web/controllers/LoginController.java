@@ -49,11 +49,9 @@ public class LoginController {
     @PostMapping("/login")
     public String doPost(@RequestParam(value = "login") String login, @RequestParam(value = "password") String password,
                          Model model, HttpSession session) {
-//        String login = req.getParameter("login");
-//        String password = req.getParameter("password");
         authUser = authUserService.checkUser(login, password);
         if (authUser == null) {
-            model.addAttribute("error", "Вы ввели неверное имя или пароль либо Вам необходимо зарегистрироваться");
+            model.addAttribute("error", "error.login");
             return "login";
         } else {
             if (authUser.getLogin().equals("admin")) {

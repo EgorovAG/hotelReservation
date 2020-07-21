@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 @RequestMapping
 public class LogoutController {
-//    private static final Logger log = LoggerFactory.getLogger(LoginServlet.class);
 
     @GetMapping("/logout")
     public String doGet(HttpServletRequest rq) {

@@ -5,9 +5,6 @@
           xmlns:c="http://java.sun.com/jsp/jstl/core"
           version="2.0">
 
-    <html>
-    <body>
-
     <h4><spring:message code="label.userName"/>: ${client.firstName}</h4>
     <h3 style="text-align: center"><spring:message code="label.orderPayment"/></h3>
     <br/>
@@ -19,7 +16,9 @@
     </form>
     <br/><br/>
 
-    <p style="color: red">${Error}</p>
+    <c:if test="${error!=null}">
+        <p style="color: red"><spring:message code="${error}"/></p>
+    </c:if>
 
     <br/>
     <form action="${pageContext.request.contextPath}/toPersonalAreaJspx">
@@ -27,7 +26,5 @@
     </form>
 
     <a href="${pageContext.request.contextPath}/logout"><spring:message code="button.logout"/></a> <br/>
-    </body>
-    </html>
 
 </jsp:root>

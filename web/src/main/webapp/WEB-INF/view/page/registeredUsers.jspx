@@ -5,8 +5,6 @@
           xmlns:c="http://java.sun.com/jsp/jstl/core"
           version="2.0">
 
-    <html>
-    <body>
     <c:if test="${authUserWithClients !=null}">
         <h2 style="text-align: center"><spring:message code="text.listOfRegisteredUsers"/></h2>
 
@@ -95,9 +93,8 @@
 
     <a href="${pageContext.request.contextPath}/logout"><spring:message code="button.logout"/></a> <br/>
 
-    <p style="color: red">${error}</p>
-
-    </body>
-    </html>
+    <c:if test="${error!=null}">
+        <p style="color: red"><spring:message code="${error}"/></p>
+    </c:if>
 
 </jsp:root>

@@ -18,7 +18,7 @@ import java.util.List;
 public class DefaultBlackListDao implements BlackListDao {
 
     @Autowired
-    BlackListJpaRepository blackListJpaRepository;
+   private BlackListJpaRepository blackListJpaRepository;
 
     @Autowired
     AuthUserJpaRepository authUserJpaRepository;

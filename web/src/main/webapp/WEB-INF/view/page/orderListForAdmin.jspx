@@ -5,8 +5,6 @@
           xmlns:c="http://java.sun.com/jsp/jstl/core"
           version="2.0">
 
-    <html>
-    <body>
     <c:if test="${orderForAdmins !=null}">
 
         <h2 style="text-align: center"><spring:message code="label.orderList"/></h2>
@@ -47,33 +45,37 @@
                     </td>
 
                     <c:if test="${orderForAdmins.condition != 'PAID'}">
-                    <td>
-                        <form action="${pageContext.request.contextPath}/orderList" method="post">
-                            <input id="id1" type="text" name="orderId" value="${orderForAdmins.id}" hidden="hidden"/>
-                            <input id="status1" type="text" name="condition" value="APPROVED" hidden="hidden"/>
-                            <button name="toApprove"><spring:message code="button.toApprove"/></button>
-                            <!--                                                        <input type="submit" value="Одобрить"/>-->
-                        </form>
-                        <form action="${pageContext.request.contextPath}/orderList" method="post">
-                            <input id="id2" type="text" name="orderId" value="${orderForAdmins.id}" hidden="hidden"/>
-                            <input id="status2" type="text" name="condition" value="REJECTED" hidden="hidden"/>
-                            <button name="toRefuse"><spring:message code="button.toRefuse"/></button>
-                            <!--                                                        <input type="submit" value="Отказать"/>-->
-                        </form>
-                        <form action="${pageContext.request.contextPath}/orderList" method="post">
-                            <input id="id3" type="text" name="orderId" value="${orderForAdmins.id}" hidden="hidden"/>
-                            <input id="status3" type="text" name="condition" value="DELETE" hidden="hidden"/>
-                            <button name="delete"><spring:message code="button.delete"/></button>
-                            <!--                            <input type="submit" value="Удалить"/>-->
-                        </form>
-                    </td>
+                        <td>
+                            <form action="${pageContext.request.contextPath}/orderList" method="post">
+                                <input id="id1" type="text" name="orderId" value="${orderForAdmins.id}"
+                                       hidden="hidden"/>
+                                <input id="status1" type="text" name="condition" value="APPROVED" hidden="hidden"/>
+                                <button name="toApprove"><spring:message code="button.toApprove"/></button>
+                                <!--                                                        <input type="submit" value="Одобрить"/>-->
+                            </form>
+                            <form action="${pageContext.request.contextPath}/orderList" method="post">
+                                <input id="id2" type="text" name="orderId" value="${orderForAdmins.id}"
+                                       hidden="hidden"/>
+                                <input id="status2" type="text" name="condition" value="REJECTED" hidden="hidden"/>
+                                <button name="toRefuse"><spring:message code="button.toRefuse"/></button>
+                                <!--                                                        <input type="submit" value="Отказать"/>-->
+                            </form>
+                            <form action="${pageContext.request.contextPath}/orderList" method="post">
+                                <input id="id3" type="text" name="orderId" value="${orderForAdmins.id}"
+                                       hidden="hidden"/>
+                                <input id="status3" type="text" name="condition" value="DELETE" hidden="hidden"/>
+                                <button name="delete"><spring:message code="button.delete"/></button>
+                                <!--                            <input type="submit" value="Удалить"/>-->
+                            </form>
+                        </td>
                     </c:if>
 
                     <c:if test="${orderForAdmins.condition == 'PAID'}">
                         <td>
 
                             <form action="${pageContext.request.contextPath}/orderList" method="post">
-                                <input id="id4" type="text" name="orderId" value="${orderForAdmins.id}" hidden="hidden"/>
+                                <input id="id4" type="text" name="orderId" value="${orderForAdmins.id}"
+                                       hidden="hidden"/>
                                 <input id="status4" type="text" name="condition" value="DELETE" hidden="hidden"/>
                                 <button name="delete"><spring:message code="button.delete"/></button>
                                 <!--                            <input type="submit" value="Удалить"/>-->
@@ -91,7 +93,9 @@
         <h2><spring:message code="text.noOrders"/></h2>
     </c:if>
 
-    <p style="color: red">${error}</p>
+    <c:if test="${error!=null}">
+        <p style="color: red"><spring:message code="${error}"/></p>
+    </c:if>
 
     <br/>
     <form action="${pageContext.request.contextPath}/toPersonalAreaJspx">
@@ -99,8 +103,5 @@
     </form>
 
     <a href="${pageContext.request.contextPath}/logout"><spring:message code="button.logout"/></a> <br/>
-
-    </body>
-    </html>
 
 </jsp:root>

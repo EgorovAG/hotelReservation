@@ -45,12 +45,12 @@ public class BlackListController {
     @PostMapping("/blockUser")
     public String check(@RequestParam(value = "id") int id, Model model) {
         if (blackListService.checkBlackListByUserId(id)) {
-            model.addAttribute("error", "Такой пользователь уже заблокирован!");
+            model.addAttribute("error", "error.locked");
             return "registeredUsers";
         } else {
             blackListService.saveBlackListByAuthUserId(id);
         }
-        model.addAttribute("error", "Выбранный пользователь заблокирован!");
+        model.addAttribute("error", "error.userBlocked");
         return "registeredUsers";
     }
 

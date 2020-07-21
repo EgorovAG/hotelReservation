@@ -1,15 +1,13 @@
-    <jsp:root xmlns="http://www.w3.org/1999/xhtml"
+<jsp:root xmlns="http://www.w3.org/1999/xhtml"
           xmlns:jsp="http://java.sun.com/JSP/Page"
           xmlns:s="http://www.springframework.org/tags/form"
           xmlns:spring="http://www.springframework.org/tags"
           xmlns:c="http://java.sun.com/jsp/jstl/core"
           version="2.0">
 
-    <html>
     <head>
         <title>Registration</title>
     </head>
-    <body>
 
     <h3><spring:message code="label.userRegistration"/></h3>
     <form action="${pageContext.request.contextPath}/registration" method="post">
@@ -36,10 +34,9 @@
         <button name="registration"><spring:message code="button.registration"/></button>
     </form>
 
-    <p style="color: red">${errorUser}</p>
+    <c:if test="${error!=null}">
+        <p style="color: red"><spring:message code="${error}"/></p>
+    </c:if>
     <a href="${pageContext.request.contextPath}/logout"><spring:message code="button.logout"/></a>
-
-    </body>
-    </html>
 
 </jsp:root>

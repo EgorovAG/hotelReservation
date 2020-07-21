@@ -28,20 +28,11 @@ public class ToPayOrderController {
         this.orderService = orderService;
     }
 
-//    @GetMapping("/toPayOrder")
-//    public String doGet(HttpServletRequest req) {
-////        !!!!!!!!!!!!!!!!!
-////        Client client = (Client) req.getSession().getAttribute("client");
-//        return "toPayOrder";
-//    }
-
     @PostMapping("/toPayOrder")
     public String doPost(@RequestParam(value = "orderId") int orderId,
                          @RequestParam(value = "condition") String condition,
                          @RequestParam(value = "price", defaultValue = "0") int price,
                          Model model, HttpSession session) {
-//        int orderId = Integer.parseInt(req.getParameter("orderId"));
-//        String condition = req.getParameter("condition");
         Client client = (Client) session.getAttribute("client");
         int clientId = client.getId();
 
@@ -56,10 +47,10 @@ public class ToPayOrderController {
                 orderClients = orderService.readOrderClientListByClientId(authUser.getClient().getId());
                 model.addAttribute("orderForClients", orderForClients);
                 model.addAttribute("orderClients", orderClients);
-                model.addAttribute("Error", "Заказ удален!");
+                model.addAttribute("error", "error.orderDeleted");
                 return "orderListForClient";
             } else {
-                model.addAttribute("Error", "Заказа с таким id у Вас нет!");
+                model.addAttribute("error", "error.noOrderWithId");
                 orderForClients = orderService.readOrderForClientDTOByClientId(clientId);
                 model.addAttribute("orderForClients", orderForClients);
 
@@ -76,19 +67,17 @@ public class ToPayOrderController {
 
             switch (cond) {
                 case CONSIDERATION:
-                    model.addAttribute("Error", "Заказ еще не одобрен администратором");
+                    model.addAttribute("error", "error.consideration");
                     return "orderListForClient";
                 case APPROVED:
-//                    int price = orderService.readPriceForRoomByOrderId(orderId);
-//                    int price = Integer.parseInt(price);
                     session.setAttribute("price", price);
                     session.setAttribute("orderId", orderId);
                     return "orderPayment";
                 case REJECTED:
-                    model.addAttribute("Error", "Ваш заказ отклонен администратором!");
+                    model.addAttribute("error", "error.rejected");
                     return "orderListForClient";
                 default:
-                    model.addAttribute("Error", "Заказ уже оплачен, ждем Вас в нашей гостинице!");
+                    model.addAttribute("error", "error.alreadyPaid");
                     return "orderListForClient";
             }
         }

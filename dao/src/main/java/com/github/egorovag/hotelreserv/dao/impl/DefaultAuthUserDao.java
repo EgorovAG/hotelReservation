@@ -23,7 +23,7 @@ public class DefaultAuthUserDao implements AuthUserDao {
     private static final Logger log = LoggerFactory.getLogger(DefaultAuthUserDao.class);
 
     @Autowired
-    AuthUserJpaRepository authUserJpaRepository;
+    private AuthUserJpaRepository authUserJpaRepository;
 
     @Override
     public String checkLoginDao(String login) {

@@ -16,8 +16,6 @@ import java.util.List;
 @RequestMapping
 public class PaginationRegisteredUsers  {
 
-//    private static final Logger log = LoggerFactory.getLogger(PaginationRegisteredUsers.class);
-
     private AuthUserService authUserService;
 
     public PaginationRegisteredUsers(AuthUserService authUserService) {

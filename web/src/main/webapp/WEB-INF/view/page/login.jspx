@@ -5,9 +5,6 @@
           xmlns:c="http://java.sun.com/jsp/jstl/core"
           version="2.0">
 
-    <html>
-    <body>
-
     <h3><spring:message code="label.enterLoginInformation"/></h3>
     <form action="${pageContext.request.contextPath}/login" method="post">
 
@@ -22,10 +19,8 @@
     <br/><br/>
 
     <a href="${pageContext.request.contextPath}/toRegistrationJspx"><spring:message code="button.registration"/></a>
-
-    <p style="color: red">${error}</p>
-
-    </body>
-    </html>
+    <c:if test="${error!=null}">
+        <p style="color: red"><spring:message code="${error}"/></p>
+    </c:if>
 
 </jsp:root>

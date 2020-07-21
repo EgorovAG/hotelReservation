@@ -20,8 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Controller
 @RequestMapping
@@ -46,47 +45,20 @@ public class OrderController {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate startDate = LocalDate.parse(req.getParameter("startDate"), formatter);
         LocalDate endDate = LocalDate.parse(req.getParameter("endDate"), formatter);
-        String typeOfService1 = req.getParameter("typeOfService1");
-        String typeOfService2 = req.getParameter("typeOfService2");
-        String typeOfService3 = req.getParameter("typeOfService3");
-        String typeOfService4 = req.getParameter("typeOfService4");
-        String typeOfService5 = req.getParameter("typeOfService5");
-        String typeOfService6 = req.getParameter("typeOfService6");
-        String typeOfService7 = req.getParameter("typeOfService7");
+        Set<String> typeOfServiceLists = new HashSet<>();
+        typeOfServiceLists.add(req.getParameter("typeOfService1"));
+        typeOfServiceLists.add(req.getParameter("typeOfService2"));
+        typeOfServiceLists.add(req.getParameter("typeOfService3"));
+        typeOfServiceLists.add(req.getParameter("typeOfService4"));
+        typeOfServiceLists.add(req.getParameter("typeOfService5"));
+        typeOfServiceLists.add(req.getParameter("typeOfService6"));
+        typeOfServiceLists.add(req.getParameter("typeOfService7"));
 
-        if (typeOfService1 != null && !typeOfService1.isEmpty()) {
-            ServiceHotel service1 = serviceHotelService.readServiceByTypeOfService(typeOfService1);
-            serviceList.add(service1);
-        }
-
-        if (typeOfService2 != null && !typeOfService2.isEmpty()) {
-            ServiceHotel service2 = serviceHotelService.readServiceByTypeOfService(typeOfService2);
-            serviceList.add(service2);
-        }
-
-        if (typeOfService3 != null && !typeOfService3.isEmpty()) {
-            ServiceHotel service3 = serviceHotelService.readServiceByTypeOfService(typeOfService3);
-            serviceList.add(service3);
-        }
-
-        if (typeOfService4 != null && !typeOfService4.isEmpty()) {
-            ServiceHotel service4 = serviceHotelService.readServiceByTypeOfService(typeOfService4);
-            serviceList.add(service4);
-        }
-
-        if (typeOfService5 != null && !typeOfService5.isEmpty()) {
-            ServiceHotel service5 = serviceHotelService.readServiceByTypeOfService(typeOfService5);
-            serviceList.add(service5);
-        }
-
-        if (typeOfService6 != null && !typeOfService6.isEmpty()) {
-            ServiceHotel service6 = serviceHotelService.readServiceByTypeOfService(typeOfService6);
-            serviceList.add(service6);
-        }
-
-        if (typeOfService7 != null && !typeOfService7.isEmpty()) {
-            ServiceHotel service7 = serviceHotelService.readServiceByTypeOfService(typeOfService7);
-            serviceList.add(service7);
+        for (String typeOfService : typeOfServiceLists) {
+            if (typeOfService != null) {
+                ServiceHotel service = serviceHotelService.readServiceByTypeOfService(typeOfService);
+                serviceList.add(service);
+            }
         }
 
         Room room = roomService.readRoomByNumOfSeatsAndClassOfAp(numOfSeats, classOfAp);
@@ -110,7 +82,6 @@ public class OrderController {
     @PostMapping("/checkPay")
     public String updateOrderList(@RequestParam(value = "sum") int sum, HttpSession session, Model model) {
         int price = (int) session.getAttribute("price");
-//        int sum = Integer.parseInt(req.getParameter("sum"));
 
         if (sum == price) {
             int orderId = (int) session.getAttribute("orderId");
@@ -118,7 +89,7 @@ public class OrderController {
             log.info("orderClient with orderId:{} updated", orderId);
             return "successfulPayment";
         } else {
-            model.addAttribute("Error", "Вы ввели неверную сумму, попробуйте еще раз");
+            model.addAttribute("error", "error.wrongAmount");
             return "orderPayment";
         }
     }
@@ -138,16 +109,14 @@ public class OrderController {
 
     @PostMapping("/orderList")
     public String deleteOrUpdateOrderList(@RequestParam(value = "orderId") int orderId,
-                                          @RequestParam(value = "condition") String cond, Model model ) {
-//        int orderId = Integer.parseInt(req.getParameter("orderId"));
-//        String cond = req.getParameter("condition");
+                                          @RequestParam(value = "condition") String cond, Model model) {
         if (cond.equals("DELETE")) {
             orderService.deleteOrderByOrderId(orderId);
             log.info("orderClient with orderId:{} deleted", orderId);
         } else {
             Condition condition = Condition.valueOf(cond);
             if (orderService.readConditionByOrderId(orderId) == Condition.PAID) {
-                model.addAttribute("error", "Заказ уже был оплачен после одобрения");
+                model.addAttribute("error", "error.orderPaid");
             } else {
                 orderService.updateOrderList(orderId, condition);
                 log.info("orderClient with orderId:{} updated", orderId);
@@ -178,14 +147,4 @@ public class OrderController {
     public String toClientOrderJsp() {
         return "clientMakesAnOrder";
     }
-
-
-//    @Override
-//    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        client = (Client) req.getSession().getAttribute("client");
-//        int clientId = client.getId();
-//        List<OrderForClient> orderForClients = orderService.readOrderForClientByClientId(clientId);
-//        req.setAttribute("orderForClients", orderForClients);
-//        req.getRequestDispatcher("/hotel/statusOrder").forward(req, resp);
-//    }
 }
