@@ -27,7 +27,7 @@
         <hibernate-core_ehcache.version>5.4.17.Final</hibernate-core_ehcache.version>
         <h2.version>1.4.200</h2.version>
         <lombok.version>1.18.12</lombok.version>
-        <spring.version>5.2.5.RELEASE</spring.version>
+        <spring.version>5.2.11.RELEASE</spring.version>
         <tiles.version>3.0.8</tiles.version>
         <spring-data-jpa.version>2.3.0.RELEASE</spring-data-jpa.version>
         <slf4j-api.version>1.7.26</slf4j-api.version>
