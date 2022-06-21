@@ -35,7 +35,7 @@
         <taglibs-standart.version>1.1.2</taglibs-standart.version>
         <commons-io.version>2.7</commons-io.version>
         <commons-fileupload.version>1.4</commons-fileupload.version>
-        <mysql-connector-java.version>8.0.20</mysql-connector-java.version>
+        <mysql-connector-java.version>8.0.28</mysql-connector-java.version>
         <HikariCP.version>3.4.5</HikariCP.version>
     </properties>
 
